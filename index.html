@@ -66,7 +66,7 @@
         <div class="bg-gradient-to-r from-slate-800 to-indigo-950 p-6 md:p-8 text-white text-center relative">
           <h1 class="text-2xl md:text-3xl font-extrabold tracking-wider">SPI3 模擬テスト</h1>
           <p class="text-indigo-200 text-xs md:text-sm mt-2">適応型学習アルゴリズム搭載（正解率に応じて難易度が変化します）</p>
-          <div class="absolute top-4 right-4 bg-indigo-600/50 text-xs px-2.5 py-1 rounded-full border border-indigo-400">Ver 1.8</div>
+          <div class="absolute top-4 right-4 bg-indigo-600/50 text-xs px-2.5 py-1 rounded-full border border-indigo-400">Ver 1.9</div>
         </div>
 
         <div class="p-6 md:p-8 space-y-6">
@@ -229,34 +229,35 @@
       <!-- 右ペイン: 回答選択・状況 -->
       <div class="w-full md:w-1/2 bg-sky-50/50 p-5 md:p-8 flex flex-col justify-between overflow-visible md:overflow-y-auto relative flex-shrink-0 md:flex-shrink">
         
-        <div class="flex justify-between items-start mb-6">
+        <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="text-slate-500 text-xs font-bold tracking-wider uppercase">選択肢</h3>
             <p class="text-xs text-slate-400 mt-1">最も適当なものを1つ選んでください。</p>
           </div>
           
           <div class="relative flex flex-col items-center">
-            <div class="w-20 h-20 relative">
+            <div class="w-16 h-16 relative">
               <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path class="text-slate-200" stroke-width="3" stroke="currentColor" fill="transparent" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path id="progress-circle-correct" class="text-emerald-500 transition-all duration-500" stroke-width="3" stroke-dasharray="0, 100" stroke="currentColor" fill="transparent" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 <path id="progress-circle-incorrect" class="text-rose-400 transition-all duration-500" stroke-width="3" stroke-dasharray="0, 100" stroke="currentColor" fill="transparent" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span class="text-[9px] text-slate-400 font-bold leading-none">回答状況</span>
+                <span class="text-[8px] text-slate-400 font-bold leading-none">回答状況</span>
                 <span class="text-xs font-extrabold text-indigo-950 mt-0.5" id="progress-text">0/60</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="space-y-3 my-auto" id="choices-container">
+        <!-- 選択肢リスト（最大9択のA〜Iでも、PCやモバイルで縦にはみ出さず一覧できるよう、コンパクトな2列グリッド表示にします） -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-auto" id="choices-container">
           <!-- JSから動的に出力 -->
         </div>
 
-        <div id="answer-feedback" class="hidden mt-6 p-4 rounded-xl flex items-center justify-between border transition duration-300">
+        <div id="answer-feedback" class="hidden mt-4 p-3 rounded-xl flex items-center justify-between border transition duration-300">
           <div class="flex items-center gap-3">
-            <span id="feedback-icon-container" class="p-2 rounded-full"></span>
+            <span id="feedback-icon-container" class="p-1.5 rounded-full"></span>
             <div>
               <h4 id="feedback-title" class="font-bold text-sm">正解！</h4>
               <p id="feedback-desc" class="text-xs text-slate-600 mt-0.5">その調子です！次の問題へ進みましょう。</p>
@@ -310,9 +311,6 @@
       <div class="bg-white rounded-2xl shadow-xl max-w-4xl mx-auto overflow-hidden border border-slate-200">
         
         <div class="bg-indigo-950 p-8 text-white text-center">
-          <div class="inline-block p-3 bg-indigo-900 rounded-full mb-3">
-            <i data-lucide="trophy" class="w-10 h-10 text-amber-400 fill-current"></i>
-          </div>
           <h2 class="text-2xl md:text-3xl font-extrabold tracking-wider">テスト結果発表</h2>
           <p class="text-indigo-200 text-xs md:text-sm mt-1">解答お疲れ様でした。あなたの現在の推定SPI偏差値はこちらです。</p>
         </div>
@@ -349,20 +347,6 @@
                 <span class="text-lg font-extrabold text-indigo-950" id="res-nonverbal-score">0 / 0</span>
                 <span class="text-xs text-slate-400 block" id="res-nonverbal-percent">0%</span>
               </div>
-            </div>
-          </div>
-
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-            <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
-              <i data-lucide="line-chart" class="w-4 h-4 text-indigo-500"></i> 難易度変動推移グラフ（適応履歴）
-            </h4>
-            <div class="h-28 flex items-end justify-between px-4 pt-4 pb-2 border-b border-slate-300" id="difficulty-chart">
-              <!-- JSで描画 -->
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-400 px-2 font-bold">
-              <span>第1問</span>
-              <span>適応プロセス</span>
-              <span id="chart-end-lbl">最終問</span>
             </div>
           </div>
 
@@ -611,6 +595,7 @@
       updateUnitOptions();
     }
 
+    // 分岐でセレクト単元を設定
     function updateUnitOptions() {
       const unitSelect = document.getElementById("select-unit");
       if (!unitSelect) return;
@@ -727,7 +712,7 @@
       } else {
         gameMode.totalTime = 2100; // 35分
         gameMode.questionTime = 45; 
-        gameMode.maxQuestions = Math.min(60, quizDatabase.length); // 問題数が上限を下回る場合は自動調整
+        gameMode.maxQuestions = Math.min(60, quizDatabase.length); 
         selectedUnit = "すべて";
 
         badgeDifficulty.classList.add("hidden");
@@ -758,7 +743,6 @@
 
       let currentField = selectedField;
       if (selectedTestMode === "exam") {
-        // 全体の3分の2(模擬：40問)を言語、残りを非言語に自動振り分け
         let border = Math.floor(gameMode.maxQuestions * 0.66);
         currentField = (quizState.currentIndex < border) ? "言語" : "非言語";
       }
@@ -831,19 +815,20 @@
 
       Object.entries(q.choices).forEach(([key, val]) => {
         const choiceBtn = document.createElement("div");
-        choiceBtn.className = "choice-item flex items-center justify-between bg-white p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 cursor-pointer transition-all shadow-sm select-none";
+        // ボタン内の余白(縦のパディング)を大幅にスリム化 (p-2.5 px-3)
+        choiceBtn.className = "choice-item flex items-center justify-between bg-white p-2.5 px-3 rounded-xl border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 cursor-pointer transition-all shadow-sm select-none";
         choiceBtn.setAttribute("data-key", key);
         choiceBtn.onclick = () => selectChoice(key);
 
         choiceBtn.innerHTML = `
-          <div class="flex items-center gap-4 flex-1">
-            <span class="w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0" id="bullet-${key}">
+          <div class="flex items-center gap-2.5 flex-1 min-w-0">
+            <span class="w-7 h-7 text-xs rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0" id="bullet-${key}">
               ${key}
             </span>
-            <span class="font-bold text-slate-700 text-sm md:text-base pr-2">${val}</span>
+            <span class="font-bold text-slate-700 text-xs md:text-sm pr-1 truncate break-all">${val}</span>
           </div>
-          <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0" id="radio-${key}">
-            <div class="w-2.5 h-2.5 rounded-full bg-transparent transition-colors" id="radio-inner-${key}"></div>
+          <div class="w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0" id="radio-${key}">
+            <div class="w-2 h-2 rounded-full bg-transparent transition-colors" id="radio-inner-${key}"></div>
           </div>
         `;
         container.appendChild(choiceBtn);
@@ -861,18 +846,18 @@
 
       const items = document.querySelectorAll(".choice-item");
       items.forEach(el => {
-        el.className = "choice-item flex items-center justify-between bg-white p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 cursor-pointer transition-all shadow-sm select-none";
+        el.className = "choice-item flex items-center justify-between bg-white p-2.5 px-3 rounded-xl border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 cursor-pointer transition-all shadow-sm select-none";
         const k = el.getAttribute("data-key");
-        document.getElementById(`bullet-${k}`).className = "w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0";
-        document.getElementById(`radio-${k}`).className = "w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0";
-        document.getElementById(`radio-inner-${k}`).className = "w-2.5 h-2.5 rounded-full bg-transparent transition-colors";
+        document.getElementById(`bullet-${k}`).className = "w-7 h-7 text-xs rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0";
+        document.getElementById(`radio-${k}`).className = "w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0";
+        document.getElementById(`radio-inner-${k}`).className = "w-2 h-2 rounded-full bg-transparent transition-colors";
       });
 
       const targetEl = document.querySelector(`[data-key="${key}"]`);
-      targetEl.className = "choice-item flex items-center justify-between bg-indigo-50 p-4 rounded-xl border-2 border-indigo-500 hover:border-indigo-500 cursor-pointer transition-all shadow-md select-none";
-      document.getElementById(`bullet-${key}`).className = "w-8 h-8 rounded-full border-2 border-indigo-500 flex items-center justify-center font-bold text-white bg-indigo-600 transition-colors duration-200 flex-shrink-0";
-      document.getElementById(`radio-${key}`).className = "w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center transition-colors flex-shrink-0";
-      document.getElementById(`radio-inner-${key}`).className = "w-2.5 h-2.5 rounded-full bg-indigo-600 transition-colors";
+      targetEl.className = "choice-item flex items-center justify-between bg-indigo-50 p-2.5 px-3 border-2 border-indigo-500 hover:border-indigo-500 cursor-pointer transition-all shadow-md select-none";
+      document.getElementById(`bullet-${key}`).className = "w-7 h-7 text-xs rounded-full border-2 border-indigo-500 flex items-center justify-center font-bold text-white bg-indigo-600 transition-colors duration-200 flex-shrink-0";
+      document.getElementById(`radio-${key}`).className = "w-4 h-4 rounded-full border-2 border-indigo-500 flex items-center justify-center transition-colors flex-shrink-0";
+      document.getElementById(`radio-inner-${key}`).className = "w-2 h-2 rounded-full bg-indigo-600 transition-colors";
     }
 
     function submitAnswer() {
@@ -926,9 +911,9 @@
 
       let trendText = "難易度: 維持";
       if (isCorrect) {
-        feedback.className = "mt-6 p-4 rounded-xl flex items-center justify-between border bg-emerald-50 border-emerald-200 text-emerald-800 transition duration-300 animate-bounce";
-        fbIcon.className = "p-2 rounded-full bg-emerald-100 text-emerald-600";
-        fbIcon.innerHTML = `<i data-lucide="check-circle" class="w-6 h-6"></i>`;
+        feedback.className = "mt-4 p-3 rounded-xl flex items-center justify-between border bg-emerald-50 border-emerald-200 text-emerald-800 transition duration-300 animate-bounce";
+        fbIcon.className = "p-1.5 rounded-full bg-emerald-100 text-emerald-600";
+        fbIcon.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i>`;
         fbTitle.textContent = "正解です！";
         fbDesc.textContent = `正解は [${q.correct}] でした。`;
 
@@ -939,9 +924,9 @@
           diffChangeBadge.classList.remove("hidden");
         }
       } else {
-        feedback.className = "mt-6 p-4 rounded-xl flex items-center justify-between border bg-rose-50 border-rose-200 text-rose-800 transition duration-300";
-        fbIcon.className = "p-2 rounded-full bg-rose-100 text-rose-600";
-        fbIcon.innerHTML = `<i data-lucide="x-circle" class="w-6 h-6"></i>`;
+        feedback.className = "mt-4 p-3 rounded-xl flex items-center justify-between border bg-rose-50 border-rose-200 text-rose-800 transition duration-300";
+        fbIcon.className = "p-1.5 rounded-full bg-rose-100 text-rose-600";
+        fbIcon.innerHTML = `<i data-lucide="x-circle" class="w-5 h-5"></i>`;
         fbTitle.textContent = "不正解...";
         fbDesc.textContent = `正解は [${q.correct}] です。`;
 
@@ -958,11 +943,11 @@
       Object.keys(q.choices).forEach(key => {
         const item = document.querySelector(`[data-key="${key}"]`);
         if (key === q.correct) {
-          item.className = "choice-item flex items-center justify-between bg-emerald-50 p-4 rounded-xl border-2 border-emerald-500 shadow-sm select-none pointer-events-none";
+          item.className = "choice-item flex items-center justify-between bg-emerald-50 p-2.5 px-3 rounded-xl border-2 border-emerald-500 shadow-sm select-none pointer-events-none";
         } else if (key === tempSelectedKey) {
-          item.className = "choice-item flex items-center justify-between bg-rose-50 p-4 rounded-xl border-2 border-rose-500 shadow-sm select-none pointer-events-none";
+          item.className = "choice-item flex items-center justify-between bg-rose-50 p-2.5 px-3 rounded-xl border-2 border-rose-500 shadow-sm select-none pointer-events-none";
         } else {
-          item.className = "choice-item flex items-center justify-between bg-slate-100 p-4 rounded-xl border border-slate-200 opacity-60 select-none pointer-events-none";
+          item.className = "choice-item flex items-center justify-between bg-slate-100 p-2.5 px-3 rounded-xl border border-slate-200 opacity-60 select-none pointer-events-none";
         }
       });
 
@@ -1007,9 +992,9 @@
       const diffTrend = document.getElementById("difficulty-trend");
 
       feedback.classList.remove("hidden");
-      feedback.className = "mt-6 p-4 rounded-xl flex items-center justify-between border bg-amber-50 border-amber-200 text-amber-800 transition duration-300";
-      fbIcon.className = "p-2 rounded-full bg-amber-100 text-amber-600";
-      fbIcon.innerHTML = `<i data-lucide="clock" class="w-6 h-6"></i>`;
+      feedback.className = "mt-4 p-3 rounded-xl flex items-center justify-between border bg-amber-50 border-amber-200 text-amber-800 transition duration-300";
+      fbIcon.className = "p-1.5 rounded-full bg-amber-100 text-amber-600";
+      fbIcon.innerHTML = `<i data-lucide="clock" class="w-5 h-5"></i>`;
       fbTitle.textContent = "時間切れ！";
       fbDesc.textContent = `正解は [${q.correct}] でした。`;
       diffTrend.textContent = "難易度: ダウン ↘";
@@ -1017,9 +1002,9 @@
       Object.keys(q.choices).forEach(key => {
         const item = document.querySelector(`[data-key="${key}"]`);
         if (key === q.correct) {
-          item.className = "choice-item flex items-center justify-between bg-emerald-50 p-4 rounded-xl border-2 border-emerald-400 shadow-sm select-none pointer-events-none";
+          item.className = "choice-item flex items-center justify-between bg-emerald-50 p-2.5 px-3 rounded-xl border-2 border-emerald-400 shadow-sm select-none pointer-events-none";
         } else {
-          item.className = "choice-item flex items-center justify-between bg-slate-100 p-4 rounded-xl border border-slate-200 opacity-50 select-none pointer-events-none";
+          item.className = "choice-item flex items-center justify-between bg-slate-100 p-2.5 px-3 rounded-xl border border-slate-200 opacity-50 select-none pointer-events-none";
         }
       });
 
@@ -1229,36 +1214,6 @@
         advice += "時間制限に追われてミスが起きている可能性があります。確実に取れる中～低難易度の問題を落とさない練習をしましょう。";
       }
       document.getElementById("res-advice").textContent = advice;
-
-      const chartContainer = document.getElementById("difficulty-chart");
-      chartContainer.innerHTML = "";
-      document.getElementById("chart-end-lbl").textContent = `第${total}問`;
-
-      quizState.answers.forEach((ans, idx) => {
-        const barWrapper = document.createElement("div");
-        barWrapper.className = "flex-1 flex flex-col items-center h-full relative group";
-
-        let barColor = "bg-blue-300";
-        if (ans.difficulty === 1) barColor = "bg-green-400";
-        if (ans.difficulty === 2) barColor = "bg-amber-400";
-        if (ans.difficulty === 3) barColor = "bg-rose-500";
-
-        let dotHTML = `<div class="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white mb-1 shadow-sm"></div>`;
-        if (!ans.isCorrect) {
-          dotHTML = `<div class="w-2.5 h-2.5 rounded-full bg-rose-500 border border-white mb-1 shadow-sm"></div>`;
-        }
-
-        const hPercent = (ans.difficulty / 3) * 100;
-        barWrapper.innerHTML = `
-          <div class="absolute -top-12 scale-0 group-hover:scale-100 transition-transform bg-slate-800 text-white text-[10px] rounded p-2 z-20 whitespace-nowrap shadow-lg pointer-events-none">
-            第${idx+1}問: 難易度${ans.difficulty}<br>
-            結果: ${ans.isCorrect ? '正解' : '不正解'}
-          </div>
-          ${dotHTML}
-          <div class="w-full ${barColor} rounded-t-sm" style="height: ${hPercent}%"></div>
-        `;
-        chartContainer.appendChild(barWrapper);
-      });
 
       const listBody = document.getElementById("result-list-body");
       listBody.innerHTML = "";
