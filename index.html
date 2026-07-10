@@ -178,14 +178,19 @@
       <!-- 左ペイン: 問題前提・指示 (モバイル時は自動拡張、PC時は独立スクロール) -->
       <div class="w-full md:w-1/2 bg-slate-50 p-5 md:p-8 flex flex-col justify-between overflow-visible md:overflow-y-auto border-b md:border-b-0 md:border-r border-slate-200 flex-shrink-0 md:flex-shrink">
         <div class="space-y-6">
-          <!-- 固定指示見出し -->
-          <div class="bg-slate-600 text-white px-4 py-2.5 rounded text-sm font-bold tracking-wider inline-block">
-            以下を読んで問いに答えなさい。
+          <!-- 進行状況 ＆ 指示見出しエリア (モバイルでスペースを節約するための横並び配置) -->
+          <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div id="current-question-badge" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm tracking-widest shadow-md">
+              1問目
+            </div>
+            <div class="bg-slate-600 text-white px-3.5 py-2 rounded text-xs font-bold tracking-wider">
+              以下を読んで問いに答えなさい。
+            </div>
           </div>
           
           <!-- 大まかな問題ルール説明 -->
           <div id="quiz-instruction" class="text-slate-800 font-bold leading-relaxed text-base md:text-lg">
-            太字で示された二語の関係を考え、同じ関係 of...
+            太字で示された二語の関係を考え、同じ関係の対になるよう（ ）に当てはまる言葉を1つ選びなさい。
           </div>
 
           <!-- 区切り線 -->
@@ -269,7 +274,7 @@
     <div id="footer-bar" class="hidden bg-slate-800 text-white py-4 px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-700 z-10 select-none flex-shrink-0">
       
       <!-- 残り時間エリア -->
-      <div class="w-full md:w-1/3 flex flex-col gap-2">
+      <div class="w-full md:w-1/2 flex flex-col gap-2">
         <!-- 1問制限時間バー -->
         <div>
           <div class="flex justify-between items-center text-xs mb-1">
@@ -292,15 +297,8 @@
         </div>
       </div>
 
-      <!-- 現在の問題バッジ -->
-      <div class="flex items-center justify-center">
-        <div id="current-question-badge" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold text-sm tracking-widest shadow-md">
-          1問目
-        </div>
-      </div>
-
       <!-- 進む・スキップ・途中終了ボタン -->
-      <div class="w-full md:w-1/3 flex flex-col sm:flex-row justify-end gap-2">
+      <div class="w-full md:w-1/2 flex flex-col sm:flex-row justify-end gap-2">
         <button id="btn-abort" onclick="confirmAbort()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
           <i data-lucide="log-out" class="w-4 h-4"></i> 途中で終了
         </button>
@@ -641,7 +639,7 @@
         "difficulty": 3,
         "timeLimit": 75,
         "instruction": "次の問いの答えとして正しいものを選びなさい。",
-        "premise": "A、Bの2人が1周1.2km of the pond...",
+        "premise": "A、Bの2人が1周1.2kmの池の周りを、同時に同じ場所から反対方向に出発します。",
         "question": "Aの速さを分速80m、Bの速さを分速70mとするとき、2人が最初に出会うのは出発してから何分何秒後ですか。",
         "choices": {
           "A": "7分30秒後",
@@ -968,7 +966,7 @@
         // CBT本番模擬試験用設定
         gameMode.totalTime = 2100; // 35分 ＝ 2100秒
         gameMode.questionTime = 45; 
-        gameMode.maxQuestions = 60; // 言語40問 ＋ 非言語20問
+        gameMode.maxQuestions = 60; // 言語40問 ＋ 非言語20問 ＝ 計60問
         selectedUnit = "すべて";
 
         badgeDifficulty.classList.add("hidden");
