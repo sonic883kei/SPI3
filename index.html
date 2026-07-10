@@ -48,13 +48,12 @@
       </div>
     </div>
 
-    <!-- ==================== 【新規追加】クイズ進行中専用上部ヘッダー ==================== -->
+    <!-- ==================== クイズ進行中専用上部ヘッダー ==================== -->
     <div id="quiz-header" class="hidden bg-white px-4 py-3 shadow-sm flex justify-between items-center border-b border-slate-200 select-none flex-shrink-0 z-20">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
         <span class="text-xs md:text-sm font-bold text-slate-700" id="header-mode-title">SPI3 模擬テスト進行中</span>
       </div>
-      <!-- 中断（途中で終了）ボタンを誤クリックしにくい右上ヘッダー部分に独立して配置 -->
       <button id="btn-abort-header" onclick="confirmAbort()" class="text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 transition-colors px-3 py-1.5 rounded-lg hover:bg-rose-50 border border-slate-200 hover:border-rose-200">
         <i data-lucide="log-out" class="w-3.5 h-3.5"></i> 途中で終了
       </button>
@@ -67,7 +66,7 @@
         <div class="bg-gradient-to-r from-slate-800 to-indigo-950 p-6 md:p-8 text-white text-center relative">
           <h1 class="text-2xl md:text-3xl font-extrabold tracking-wider">SPI3 模擬テスト</h1>
           <p class="text-indigo-200 text-xs md:text-sm mt-2">適応型学習アルゴリズム搭載（正解率に応じて難易度が変化します）</p>
-          <div class="absolute top-4 right-4 bg-indigo-600/50 text-xs px-2.5 py-1 rounded-full border border-indigo-400">Ver 1.7</div>
+          <div class="absolute top-4 right-4 bg-indigo-600/50 text-xs px-2.5 py-1 rounded-full border border-indigo-400">Ver 1.8</div>
         </div>
 
         <div class="p-6 md:p-8 space-y-6">
@@ -177,7 +176,7 @@
           </div>
 
           <!-- スタートボタン -->
-          <button type="button" onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-600/20 text-lg transition duration-200 flex items-center justify-center gap-2">
+          <button id="btn-start" type="button" onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-600/20 text-lg transition duration-200 flex items-center justify-center gap-2">
             テストを開始する <i data-lucide="play" class="w-5 h-5 fill-current"></i>
           </button>
         </div>
@@ -187,10 +186,9 @@
     <!-- ==================== 画面B: クイズ進行画面 (モバイル対応・最適化) ==================== -->
     <div id="screen-quiz" class="hidden flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden min-h-0">
       
-      <!-- 左ペイン: 問題前提・指示 (モバイル時は自動拡張、PC時は独立スクロール) -->
+      <!-- 左ペイン: 問題前提・指示 -->
       <div class="w-full md:w-1/2 bg-slate-50 p-5 md:p-8 flex flex-col justify-between overflow-visible md:overflow-y-auto border-b md:border-b-0 md:border-r border-slate-200 flex-shrink-0 md:flex-shrink">
         <div class="space-y-6">
-          <!-- 進行状況 ＆ 指示見出しエリア (モバイルでスペースを節約するための横並び配置) -->
           <div class="flex items-center justify-between gap-3 flex-wrap">
             <div id="current-question-badge" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm tracking-widest shadow-md">
               1問目
@@ -200,32 +198,27 @@
             </div>
           </div>
           
-          <!-- 大まかな問題ルール説明 -->
           <div id="quiz-instruction" class="text-slate-800 font-bold leading-relaxed text-base md:text-lg">
-            太字で示された二語の関係を考え、同じ関係の対になるよう（ ）に当てはまる言葉を1つ選びなさい。
+            問いの答えとして最も正しいものを選びなさい。
           </div>
 
-          <!-- 区切り線 -->
           <div class="border-t border-slate-200"></div>
 
-          <!-- 問題の前提・主文 -->
           <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <div id="quiz-premise" class="text-xl md:text-2xl font-extrabold text-indigo-950 tracking-wide">
-              セキツイ動物 ： 哺乳類
+              前提文
             </div>
             <div id="quiz-question" class="text-lg md:text-xl font-bold text-slate-700 pl-4 border-l-4 border-indigo-500">
-              家電 ： （　）
+              問題文
             </div>
           </div>
         </div>
 
-        <!-- 難易度 & 単元バッジ -->
         <div class="mt-6 flex flex-wrap gap-2 items-center text-xs">
           <span class="px-2.5 py-1 bg-slate-200 text-slate-700 rounded-full font-bold" id="badge-category">言語</span>
-          <span class="px-2.5 py-1 bg-slate-200 text-slate-700 rounded-full font-bold" id="badge-unit">二語の関係</span>
-          <!-- 練習モード用 -->
+          <span class="px-2.5 py-1 bg-slate-200 text-slate-700 rounded-full font-bold" id="badge-unit">単元名</span>
           <span class="px-2.5 py-1 bg-indigo-100 text-indigo-700 rounded-full font-bold flex items-center gap-1" id="badge-difficulty">
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>難易度ランク: 中
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>難易度
           </span>
           <span id="difficulty-change-indicator" class="hidden px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold animate-pulse">
             適応調整あり
@@ -233,17 +226,15 @@
         </div>
       </div>
 
-      <!-- 右ペイン: 回答選択・状況 (モバイル時は自動拡張、PC時は独立スクロール) -->
+      <!-- 右ペイン: 回答選択・状況 -->
       <div class="w-full md:w-1/2 bg-sky-50/50 p-5 md:p-8 flex flex-col justify-between overflow-visible md:overflow-y-auto relative flex-shrink-0 md:flex-shrink">
         
-        <!-- ヘッダーエリア（円グラフ状況） -->
         <div class="flex justify-between items-start mb-6">
           <div>
             <h3 class="text-slate-500 text-xs font-bold tracking-wider uppercase">選択肢</h3>
             <p class="text-xs text-slate-400 mt-1">最も適当なものを1つ選んでください。</p>
           </div>
           
-          <!-- 円グラフ回答状況 (SVG) -->
           <div class="relative flex flex-col items-center">
             <div class="w-20 h-20 relative">
               <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
@@ -259,12 +250,10 @@
           </div>
         </div>
 
-        <!-- 選択肢リスト -->
         <div class="space-y-3 my-auto" id="choices-container">
-          <!-- JavaScriptから動的に出力 -->
+          <!-- JSから動的に出力 -->
         </div>
 
-        <!-- フィードバックモーダル/オーバーレイ (練習モード時のみ使用) -->
         <div id="answer-feedback" class="hidden mt-6 p-4 rounded-xl flex items-center justify-between border transition duration-300">
           <div class="flex items-center gap-3">
             <span id="feedback-icon-container" class="p-2 rounded-full"></span>
@@ -285,9 +274,7 @@
     <!-- ==================== 共通下部操作バー (フッター) ==================== -->
     <div id="footer-bar" class="hidden bg-slate-800 text-white py-4 px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-700 z-10 select-none flex-shrink-0">
       
-      <!-- 残り時間エリア -->
       <div class="w-full md:w-1/2 flex flex-col gap-2">
-        <!-- 1問制限時間バー -->
         <div>
           <div class="flex justify-between items-center text-xs mb-1">
             <span class="text-slate-300 font-bold text-xs">1問の残り時間</span>
@@ -297,7 +284,6 @@
             <div id="bar-question-time" class="bg-gradient-to-r from-amber-400 to-amber-500 h-full transition-all duration-100" style="width: 100%;"></div>
           </div>
         </div>
-        <!-- 全体制限時間バー -->
         <div>
           <div class="flex justify-between items-center text-[10px] mb-0.5">
             <span class="text-slate-400 font-bold">全体残り時間</span>
@@ -309,7 +295,6 @@
         </div>
       </div>
 
-      <!-- 進む・スキップ・決定ボタン（誤操作を防ぐため、「途中で終了」ボタンはヘッダーへ移動しました） -->
       <div class="w-full md:w-1/2 flex flex-col sm:flex-row justify-end gap-2">
         <button id="btn-submit" onclick="submitAnswer()" class="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-6 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
           解答決定 <i data-lucide="check-circle" class="w-4 h-4"></i>
@@ -324,7 +309,6 @@
     <div id="screen-result" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50">
       <div class="bg-white rounded-2xl shadow-xl max-w-4xl mx-auto overflow-hidden border border-slate-200">
         
-        <!-- 結果ヘッダー -->
         <div class="bg-indigo-950 p-8 text-white text-center">
           <div class="inline-block p-3 bg-indigo-900 rounded-full mb-3">
             <i data-lucide="trophy" class="w-10 h-10 text-amber-400 fill-current"></i>
@@ -334,58 +318,54 @@
         </div>
 
         <div class="p-6 md:p-8 space-y-6">
-          <!-- メインスコア -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
               <span class="text-xs text-slate-500 font-bold">正答率</span>
-              <div class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1" id="res-score">8 / 10</div>
-              <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded" id="res-percent">80% 正解</span>
+              <div class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1" id="res-score">0 / 0</div>
+              <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded" id="res-percent">0% 正解</span>
             </div>
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
               <span class="text-xs text-indigo-600 font-bold">推定SPI偏差値ランク</span>
-              <div class="text-2xl md:text-3xl font-extrabold text-indigo-950 mt-1" id="res-deviation">Aランク (58)</div>
-              <span class="text-[10px] text-indigo-700 font-bold bg-indigo-100 px-2 py-0.5 rounded" id="res-rank-lbl">上位15%以内</span>
+              <div class="text-2xl md:text-3xl font-extrabold text-indigo-950 mt-1" id="res-deviation">Cランク (50)</div>
+              <span class="text-[10px] text-indigo-700 font-bold bg-indigo-100 px-2 py-0.5 rounded" id="res-rank-lbl">偏差値推定</span>
             </div>
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
               <span class="text-xs text-slate-500 font-bold">総解答時間</span>
-              <div class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1" id="res-time">04分25秒</div>
-              <span class="text-[10px] text-slate-400 font-medium" id="res-avg-time">1問平均: 26.5秒</span>
+              <div class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1" id="res-time">00分00秒</div>
+              <span class="text-[10px] text-slate-400 font-medium" id="res-avg-time">1問平均</span>
             </div>
           </div>
 
-          <!-- 模擬試験用詳細内訳パネル -->
           <div id="exam-details" class="hidden bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider">分野別内訳</h4>
             <div class="grid grid-cols-2 gap-4">
               <div class="bg-white p-3 rounded-lg border border-slate-100">
-                <span class="text-xs text-slate-500 font-bold block">言語分野 (40問)</span>
-                <span class="text-lg font-extrabold text-indigo-950" id="res-verbal-score">0 / 40</span>
+                <span class="text-xs text-slate-500 font-bold block">言語分野</span>
+                <span class="text-lg font-extrabold text-indigo-950" id="res-verbal-score">0 / 0</span>
                 <span class="text-xs text-slate-400 block" id="res-verbal-percent">0%</span>
               </div>
               <div class="bg-white p-3 rounded-lg border border-slate-100">
-                <span class="text-xs text-slate-500 font-bold block">非言語分野 (20問)</span>
-                <span class="text-lg font-extrabold text-indigo-950" id="res-nonverbal-score">0 / 20</span>
+                <span class="text-xs text-slate-500 font-bold block">非言語分野</span>
+                <span class="text-lg font-extrabold text-indigo-950" id="res-nonverbal-score">0 / 0</span>
                 <span class="text-xs text-slate-400 block" id="res-nonverbal-percent">0%</span>
               </div>
             </div>
           </div>
 
-          <!-- 難易度の遷移グラフ -->
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
               <i data-lucide="line-chart" class="w-4 h-4 text-indigo-500"></i> 難易度変動推移グラフ（適応履歴）
             </h4>
             <div class="h-28 flex items-end justify-between px-4 pt-4 pb-2 border-b border-slate-300" id="difficulty-chart">
-              <!-- JSで棒グラフ描画 -->
+              <!-- JSで描画 -->
             </div>
             <div class="flex justify-between text-[10px] text-slate-400 px-2 font-bold">
               <span>第1問</span>
               <span>適応プロセス</span>
-              <span id="chart-end-lbl">第10問</span>
+              <span id="chart-end-lbl">最終問</span>
             </div>
           </div>
 
-          <!-- 正誤履歴の一覧 -->
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
               <i data-lucide="list-checks" class="w-4 h-4 text-indigo-500"></i> 解答履歴・正誤および難易度ポイント一覧
@@ -403,13 +383,12 @@
                   </tr>
                 </thead>
                 <tbody id="result-list-body">
-                  <!-- JSで動的に追加されます -->
+                  <!-- JSで動的に追加 -->
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- 分析結果 -->
           <div class="space-y-3">
             <h4 class="text-sm font-bold text-slate-800">学習アドバイス</h4>
             <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 text-xs md:text-sm text-slate-700 leading-relaxed" id="res-advice">
@@ -417,7 +396,6 @@
             </div>
           </div>
 
-          <!-- ボタン操作 -->
           <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
             <button onclick="restartApp()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-1.5">
               <i data-lucide="rotate-ccw" class="w-4 h-4"></i> 条件を変えて再挑戦
@@ -433,393 +411,174 @@
 
   </div>
 
-  <!-- ==================== 2. クイズ問題データベース (JSON内蔵版) ==================== -->
-  <script>
-    const DEFAULT_QUIZ_DATA = [
-      // === 言語分野 - 二語の関係 ===
-      {
-        "id": "v_relation_1",
-        "category": "言語",
-        "unit": "二語の関係",
-        "difficulty": 1,
-        "timeLimit": 30,
-        "instruction": "太字で示された二語の関係を考え、同じ関係の対になるよう（ ）に当てはまる言葉を1つ選びなさい。",
-        "premise": "セキツイ動物 ： 哺乳類",
-        "question": "家電 ： （　）",
-        "choices": {
-          "A": "BGM",
-          "B": "自動車",
-          "C": "タクシー",
-          "D": "重機械",
-          "E": "テレビ"
-        },
-        "correct": "E"
-      },
-      {
-        "id": "v_relation_2",
-        "category": "言語",
-        "unit": "二語の関係",
-        "difficulty": 2,
-        "timeLimit": 30,
-        "instruction": "太字で示された二語の関係を考え、同じ関係の対になるよう（ ）に当てはまる言葉を1つ選びなさい。",
-        "premise": "小説 ： 作家",
-        "question": "映画 ： （　）",
-        "choices": {
-          "A": "観客",
-          "B": "映画館",
-          "C": "監督",
-          "D": "俳優",
-          "E": "脚本"
-        },
-        "correct": "C"
-      },
-      {
-        "id": "v_relation_3",
-        "category": "言語",
-        "unit": "二語の関係",
-        "difficulty": 3,
-        "timeLimit": 30,
-        "instruction": "太字で示された二語の関係を考え、同じ関係の対になるよう（ ）に当てはまる言葉を1つ選びなさい。",
-        "premise": "医師 ： 執刀",
-        "question": "裁判官 ： （　）",
-        "choices": {
-          "A": "判決",
-          "B": "弁護",
-          "C": "訴訟",
-          "D": "起訴",
-          "E": "法廷"
-        },
-        "correct": "A"
-      },
-
-      // === 言語分野 - 四字熟語 ===
-      {
-        "id": "v_idiom_1",
-        "category": "言語",
-        "unit": "四字熟語",
-        "difficulty": 1,
-        "timeLimit": 25,
-        "instruction": "示された意味に最も合致する四字熟語を1つ選びなさい。",
-        "premise": "【意味】自分のした悪い行いの報いを、自分自身が受けること。",
-        "question": "該当する四字熟語 ： （　）",
-        "choices": {
-          "A": "因果応報",
-          "B": "自業自得",
-          "C": "弱肉強食",
-          "D": "一石二鳥",
-          "E": "自暴自棄"
-        },
-        "correct": "B"
-      },
-      {
-        "id": "v_idiom_2",
-        "category": "言語",
-        "unit": "四字熟語",
-        "difficulty": 2,
-        "timeLimit": 25,
-        "instruction": "示された意味に最も合致する四字熟語を1つ選びなさい。",
-        "premise": "【意味】他人の言動に調子を合わせて、主体性なく行動すること。",
-        "question": "該当する四字熟語 ： （　）",
-        "choices": {
-          "A": "付和雷同",
-          "B": "唯々諾々",
-          "C": "孤立無援",
-          "D": "優柔不安",
-          "E": "朝令暮改"
-        },
-        "correct": "A"
-      },
-      {
-        "id": "v_idiom_3",
-        "category": "言語",
-        "unit": "四字熟語",
-        "difficulty": 3,
-        "timeLimit": 25,
-        "instruction": "示された意味に最も合致する四字熟語を1つ選びなさい。",
-        "premise": "【意味】物事が非常に速く、激しく変化することのたとえ。",
-        "question": "該当する四字熟語 ： （　）",
-        "choices": {
-          "A": "疾風怒濤",
-          "B": "有為転変",
-          "C": "千変万化",
-          "D": "一進一退",
-          "E": "瞬息万変"
-        },
-        "correct": "E"
-      },
-
-      // === 言語分野 - 語句の意味 ===
-      {
-        "id": "v_meaning_1",
-        "category": "言語",
-        "unit": "語句の意味",
-        "difficulty": 1,
-        "timeLimit": 20,
-        "instruction": "示された意味に最も近い言葉を1つ選びなさい。",
-        "premise": "【意味】物事の中心となる部分、あるいは要点。",
-        "question": "該当する言葉 ： （　）",
-        "choices": {
-          "A": "革新",
-          "B": "確信",
-          "C": "核心",
-          "D": "本質",
-          "E": "骨子"
-        },
-        "correct": "C"
-      },
-      {
-        "id": "v_meaning_2",
-        "category": "言語",
-        "unit": "語句の意味",
-        "difficulty": 2,
-        "timeLimit": 20,
-        "instruction": "示された意味に最も近い言葉を1つ選びなさい。",
-        "premise": "【意味】自分の意見を頑なに主張し、他人の意見を聞き入れない様子。",
-        "question": "該当する言葉 ： （　）",
-        "choices": {
-          "A": "独善",
-          "B": "我執",
-          "C": "偏屈",
-          "D": "固執",
-          "E": "横柄"
-        },
-        "correct": "B"
-      },
-      {
-        "id": "v_meaning_3",
-        "category": "言語",
-        "unit": "語句の意味",
-        "difficulty": 3,
-        "timeLimit": 20,
-        "instruction": "示された意味に最も近い言葉を1つ選びなさい。",
-        "premise": "【意味】物事が滞りなくスムーズに進むことのたとえ。",
-        "question": "該当する言葉 ： （　）",
-        "choices": {
-          "A": "破竹の勢い",
-          "B": "順風満帆",
-          "C": "一気呵成",
-          "D": "青雲の志",
-          "E": "堂々巡り"
-        },
-        "correct": "B"
-      },
-
-      // === 非言語分野 - 計算・方程式 ===
-      {
-        "id": "nv_math_1",
-        "category": "非言語",
-        "unit": "計算・方程式",
-        "difficulty": 1,
-        "timeLimit": 50,
-        "instruction": "方程式を解いて適切な値を選びなさい。",
-        "premise": "ある商品に仕入れ値の3割の利益をのせて定価3,900円をつけました。",
-        "question": "この商品の仕入れ値はいくらですか。",
-        "choices": {
-          "A": "2,700円",
-          "B": "3,000円",
-          "C": "3,200円",
-          "D": "3,300円",
-          "E": "3,500円"
-        },
-        "correct": "B"
-      },
-      {
-        "id": "nv_math_2",
-        "category": "非言語",
-        "unit": "計算・方程式",
-        "difficulty": 2,
-        "timeLimit": 60,
-        "instruction": "次の問いの答えとして正しいものを選びなさい。",
-        "premise": "現在、父親は38歳、子供は10歳です。",
-        "question": "父親の年齢が子供の年齢の3倍になるのは何年後ですか。",
-        "choices": {
-          "A": "2年後",
-          "B": "3年後",
-          "C": "4年後",
-          "D": "5年後",
-          "E": "6年後"
-        },
-        "correct": "C"
-      },
-      {
-        "id": "nv_math_3",
-        "category": "非言語",
-        "unit": "計算・方程式",
-        "difficulty": 3,
-        "timeLimit": 75,
-        "instruction": "次の問いの答えとして正しいものを選びなさい。",
-        "premise": "A、Bの2人が1周1.2kmの池の周りを、同時に同じ場所から反対方向に出発します。",
-        "question": "Aの速さを分速80m、Bの速さを分速70mとするとき、2人が最初に出会うのは出発してから何分何秒後ですか。",
-        "choices": {
-          "A": "7分30秒後",
-          "B": "8分00秒後",
-          "C": "8分30秒後",
-          "D": "9分00秒後",
-          "E": "9分30秒後"
-        },
-        "correct": "B"
-      },
-
-      // === 非言語分野 - 推論 ===
-      {
-        "id": "nv_reason_1",
-        "category": "非言語",
-        "unit": "推論",
-        "difficulty": 1,
-        "timeLimit": 60,
-        "instruction": "提示された情報から推論して、最も正しい選択肢を選びなさい。",
-        "premise": "A, B, C, Dの4人が並んでテストを受けました。AはBより高得点、CはDより高得点、BはCより高得点でした。",
-        "question": "4人の中で最も高得点だったのは誰ですか。",
-        "choices": {
-          "A": "A",
-          "B": "B",
-          "C": "C",
-          "D": "D",
-          "E": "これだけの情報では決定できない"
-        },
-        "correct": "A"
-      },
-      {
-        "id": "nv_reason_2",
-        "category": "非言語",
-        "unit": "推論",
-        "difficulty": 2,
-        "timeLimit": 70,
-        "instruction": "提示された情報から推論して、最も正しい選択肢を選びなさい。",
-        "premise": "赤、青、黄の3つの箱があります。1つの箱には「お菓子」、もう1つには「文房具」、残りの1つは「空箱」です。「赤の箱はお菓子ではない」「黄の箱は空箱である」という発言がどちらも正しいとき、",
-        "question": "文房具が入っている箱はどれですか。",
-        "choices": {
-          "A": "赤の箱",
-          "B": "青の箱",
-          "C": "黄の箱",
-          "D": "赤または青の箱",
-          "E": "特定できない"
-        },
-        "correct": "A"
-      },
-      {
-        "id": "nv_reason_3",
-        "category": "非言語",
-        "unit": "推論",
-        "difficulty": 3,
-        "timeLimit": 80,
-        "instruction": "提示された情報から推論して、最も正しい選択肢を選びなさい。",
-        "premise": "P、Q、R、S、Tの5人が競争しました。「PはQより早かった」「RはSより遅かった」「TはPより早く、Sより遅かった」ことがわかっています。",
-        "question": "もっとも遅かった可能性があるのは誰ですか。",
-        "choices": {
-          "A": "Qのみ",
-          "B": "Rのみ",
-          "C": "QとR",
-          "D": "PとQ",
-          "E": "QとS"
-        },
-        "correct": "C"
-      },
-
-      // === 非言語分野 - 確率・場合の数 ===
-      {
-        "id": "nv_prob_1",
-        "category": "非言語",
-        "unit": "確率・場合の数",
-        "difficulty": 1,
-        "timeLimit": 55,
-        "instruction": "確率または場合の数を計算し、正しい答えを選びなさい。",
-        "premise": "大中小の3つのサイコロを同時に振ります。",
-        "question": "出た目の和が4になる確率はいくらですか。",
-        "choices": {
-          "A": "1/216",
-          "B": "1/108",
-          "C": "1/72",
-          "D": "1/54",
-          "E": "1/36"
-        },
-        "correct": "C"
-      },
-      {
-        "id": "nv_prob_2",
-        "category": "非言語",
-        "unit": "確率・場合の数",
-        "difficulty": 2,
-        "timeLimit": 65,
-        "instruction": "確率または場合の数を計算し、正しい答えを選びなさい。",
-        "premise": "男子4人、女子3人の計7人の中から、代表委員を3人選びます。",
-        "question": "代表委員の中に、少なくとも1人の女子が含まれる選び方は何通りありますか。",
-        "choices": {
-          "A": "27通り",
-          "B": "31通り",
-          "C": "35通り",
-          "D": "41通り",
-          "E": "45通り"
-        },
-        "correct": "B"
-      },
-      {
-        "id": "nv_prob_3",
-        "category": "非言語",
-        "unit": "確率・場合の数",
-        "difficulty": 3,
-        "timeLimit": 80,
-        "instruction": "確率または場合の数を計算し、正しい答えを選びなさい。",
-        "premise": "A, Bの2人が交互にコインを投げ、最初に表を出した方が勝ちとなるゲームをします。Aから投げ始めます。",
-        "question": "3回以内にゲームが終了（＝誰かが勝利）して、かつAが勝つ確率はいくらですか。",
-        "choices": {
-          "A": "1/2",
-          "B": "5/8",
-          "C": "9/16",
-          "D": "11/16",
-          "E": "3/4"
-        },
-        "correct": "B"
-      }
-    ];
-  </script>
-
-  <!-- ==================== 3. アプリケーションロジック (JavaScript) ==================== -->
+  <!-- ==================== 2. アプリケーションロジック (JavaScript) ==================== -->
   <script>
     // --- グローバルアプリケーション状態 ---
-    let quizDatabase = [...DEFAULT_QUIZ_DATA]; // 現在読み込まれている全問題
-    let selectedField = "言語"; // デフォルト選択分野
-    let selectedUnit = "すべて"; // デフォルト選択単元
-    let selectedTestMode = "practice"; // 'practice' (練習) または 'exam' (模擬試験)
+    let quizDatabase = [];
+    let selectedField = "言語";
+    let selectedUnit = "すべて";
+    let selectedTestMode = "practice";
 
     let gameMode = {
-      totalTime: 600, // 全体制限秒
-      questionTime: 45, // 1問の制限秒
-      maxQuestions: 10 // 最大問題数
+      totalTime: 600,
+      questionTime: 45,
+      maxQuestions: 10
     };
 
-    // クイズのランタイム状態
     let quizState = {
-      currentIndex: 0, // 現在の問題番号 (0ベース)
-      currentQuestion: null, // 現在の問題オブジェクト
-      currentDifficulty: 2, // 現在の難易度 (1=簡単, 2=普通, 3=難しい)
-      answers: [], // 解答履歴
-      timeOverCount: 0, // 時間切れ回数
-      
-      overallTimeLeft: 0, // 全体の残り秒数
-      questionTimeLeft: 0, // 現在の問題の残り秒数
-      overallTimerInterval: null, // 全体タイマー
-      questionTimerInterval: null, // 各問タイマー
-      startTime: null, // 開始ミリ秒時刻
-      endTime: null // 終了ミリ秒時刻
+      currentIndex: 0,
+      currentQuestion: null,
+      currentDifficulty: 2,
+      answers: [],
+      timeOverCount: 0,
+      overallTimeLeft: 0,
+      questionTimeLeft: 0,
+      overallTimerInterval: null,
+      questionTimerInterval: null,
+      startTime: null,
+      endTime: null
     };
 
-    const DIFFICULTY_PROBABILITY = 0.70; // 難易度が増減する確率
+    const DIFFICULTY_PROBABILITY = 0.70;
 
-    // --- DOMの初期化 & セットアップ ---
-    window.onload = function() {
+    window.onload = async function() {
       lucide.createIcons();
+      disableStartButton(true, "データをロード中...");
+      await loadExternalQuizData();
       updateUnitOptions();
-      console.log("SPI Quiz System initialized.");
     };
 
-    // モード選択
+    // 外部JSON読み込み＆エラー時自動デモフォールバック
+    async function loadExternalQuizData() {
+      const loading = document.getElementById("loading");
+      const loadingText = document.getElementById("loadingText");
+      
+      if (loading) {
+        loading.classList.remove("hidden");
+        loadingText.textContent = "gengo.json と higengo.json をロード中...";
+      }
+
+      try {
+        const [gengoRes, higengoRes] = await Promise.all([
+          fetch("gengo.json").then(res => {
+            if (!res.ok) throw new Error("gengo.json がありません");
+            return res.json();
+          }),
+          fetch("higengo.json").then(res => {
+            if (!res.ok) throw new Error("higengo.json がありません");
+            return res.json();
+          })
+        ]);
+
+        quizDatabase = [...gengoRes, ...higengoRes];
+        console.log("外部データ読み込み成功: ", quizDatabase.length, "問");
+        disableStartButton(false);
+      } catch (err) {
+        console.warn("外部JSONファイルが見つからないかCORSエラーが発生したため、デモモードで起動します:", err.message);
+        
+        // プレビューでもそのまま遊べるフォールバック問題データ（言語2問、非言語2問）
+        quizDatabase = [
+          {
+            "id": "demo_v_1",
+            "category": "言語",
+            "unit": "二語の関係",
+            "difficulty": 2,
+            "timeLimit": 30,
+            "instruction": "二語の関係として最も適切なものを選択してください。",
+            "premise": "本 ： 読書",
+            "question": "ペン ： （　）",
+            "choices": {
+              "A": "筆記",
+              "B": "インク",
+              "C": "勉強",
+              "D": "文房具"
+            },
+            "correct": "A"
+          },
+          {
+            "id": "demo_v_2",
+            "category": "言語",
+            "unit": "二語の関係",
+            "difficulty": 3,
+            "timeLimit": 30,
+            "instruction": "二語の関係として最も適切なものを選択してください。",
+            "premise": "温度計 ： 気温",
+            "question": "気圧計 ： （　）",
+            "choices": {
+              "A": "空気",
+              "B": "気圧",
+              "C": "天気",
+              "D": "高度"
+            },
+            "correct": "B"
+          },
+          {
+            "id": "demo_nv_1",
+            "category": "非言語",
+            "unit": "確率",
+            "difficulty": 2,
+            "timeLimit": 45,
+            "instruction": "次の確率を求めなさい。",
+            "premise": "コインを2回投げます。",
+            "question": "2回とも表が出る確率はいくらか。",
+            "choices": {
+              "A": "1/2",
+              "B": "1/4",
+              "C": "1/8",
+              "D": "3/4"
+            },
+            "correct": "B"
+          },
+          {
+            "id": "demo_nv_2",
+            "category": "非言語",
+            "unit": "代数の計算",
+            "difficulty": 1,
+            "timeLimit": 45,
+            "instruction": "次の等式から未知数を求めなさい。",
+            "premise": "x + 5 = 12",
+            "question": "xの値を求めなさい。",
+            "choices": {
+              "A": "5",
+              "B": "6",
+              "C": "7",
+              "D": "8"
+            },
+            "correct": "C"
+          }
+        ];
+        
+        showBasicAlert(
+          "デモモードとして起動しました",
+          "gengo.json と higengo.json を検出できなかったため、仮のデモ問題でテスト画面を表示します。本番データで遊ぶには、ExcelマクロでJSONを出力して本HTMLと同じ場所に配置してください。",
+          "info"
+        );
+        disableStartButton(false);
+      } finally {
+        if (loading) {
+          loading.classList.add("hidden");
+        }
+      }
+    }
+
+    function disableStartButton(disabled, message = "") {
+      const btn = document.getElementById("btn-start");
+      if (!btn) return;
+      btn.disabled = disabled;
+      if (disabled) {
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+        btn.innerHTML = `${message} <i data-lucide="loader" class="w-5 h-5 animate-spin"></i>`;
+      } else {
+        btn.classList.remove("opacity-50", "cursor-not-allowed");
+        btn.innerHTML = `テストを開始する <i data-lucide="play" class="w-5 h-5 fill-current"></i>`;
+      }
+      lucide.createIcons();
+    }
+
     function selectMode(mode) {
       selectedTestMode = mode;
-      
       const btnPractice = document.getElementById("btn-mode-practice");
       const btnExam = document.getElementById("btn-mode-exam");
-      
       const practiceSettings = document.getElementById("practice-settings");
       const examSettings = document.getElementById("exam-settings");
 
@@ -837,10 +596,8 @@
       lucide.createIcons();
     }
 
-    // 分野選択トグル（練習モード用）
     function selectField(field) {
       selectedField = field;
-      
       const btnVerbal = document.getElementById("btn-field-verbal");
       const btnNonverbal = document.getElementById("btn-field-nonverbal");
 
@@ -851,11 +608,9 @@
         btnNonverbal.className = "py-3 px-4 rounded-xl border-2 text-center font-bold transition-all border-indigo-600 bg-indigo-50 text-indigo-800 shadow-sm";
         btnVerbal.className = "py-3 px-4 rounded-xl border-2 text-center font-bold transition-all border-slate-200 hover:border-slate-300 text-slate-600";
       }
-
       updateUnitOptions();
     }
 
-    // 分野に合わせて単元セレクトボックスを構築
     function updateUnitOptions() {
       const unitSelect = document.getElementById("select-unit");
       if (!unitSelect) return;
@@ -877,7 +632,6 @@
       });
     }
 
-    // --- カスタムアラート表示（汎用・確認用） ---
     function showBasicAlert(title, message, iconName = "alert-circle") {
       const alertBox = document.getElementById("alertBox");
       const alertTitle = document.getElementById("alertTitle");
@@ -888,10 +642,7 @@
 
       alertTitle.textContent = title;
       alertMessage.textContent = message;
-      
-      btnContainer.innerHTML = `
-        <button onclick="closeAlert()" class="px-5 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition text-sm">確認</button>
-      `;
+      btnContainer.innerHTML = `<button onclick="closeAlert()" class="px-5 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition text-sm">確認</button>`;
 
       alertModal.classList.remove("hidden");
       setTimeout(() => {
@@ -906,16 +657,13 @@
     function closeAlert() {
       const alertBox = document.getElementById("alertBox");
       const alertModal = document.getElementById("customAlert");
-
       alertBox.classList.add("scale-95", "opacity-0");
       alertBox.classList.remove("scale-100", "opacity-100");
-      
       setTimeout(() => {
         alertModal.classList.add("hidden");
       }, 200);
     }
 
-    // 途中終了の確認ダイアログ
     function confirmAbort() {
       const alertBox = document.getElementById("alertBox");
       const alertTitle = document.getElementById("alertTitle");
@@ -926,7 +674,6 @@
 
       alertTitle.textContent = "テストの途中終了";
       alertMessage.textContent = "本当にテストを途中で終了しますか？ここまでの解答データを集計して結果を出力します。";
-      
       btnContainer.innerHTML = `
         <button onclick="closeAlert()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-medium transition text-xs">テストを続ける</button>
         <button onclick="closeAlertAndAbort()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-medium transition text-xs">終了して集計する</button>
@@ -949,16 +696,20 @@
       }, 300);
     }
 
-    // --- クイズロジックの実装 ---
     function startQuiz() {
       const badgeDifficulty = document.getElementById("badge-difficulty");
       const changeIndicator = document.getElementById("difficulty-change-indicator");
       const headerModeTitle = document.getElementById("header-mode-title");
 
+      if (quizDatabase.length === 0) {
+        showBasicAlert("開始できません", "問題データが読み込まれていません。", "alert-triangle");
+        return;
+      }
+
       if (selectedTestMode === "practice") {
         gameMode.totalTime = parseInt(document.getElementById("select-total-time").value);
         gameMode.questionTime = parseInt(document.getElementById("select-question-time").value);
-        gameMode.maxQuestions = parseInt(document.getElementById("select-question-count").value);
+        gameMode.maxQuestions = Math.min(parseInt(document.getElementById("select-question-count").value), quizDatabase.length);
         selectedUnit = document.getElementById("select-unit").value;
 
         let pool = quizDatabase.filter(q => q.category === selectedField);
@@ -967,17 +718,16 @@
         }
 
         if (pool.length === 0) {
-          showBasicAlert("開始できません", `${selectedField}分野・単元「${selectedUnit}」に該当する問題が見つかりません。`, "alert-triangle");
+          showBasicAlert("開始できません", `${selectedField}分野・単元「${selectedUnit}」に問題がありません。`, "alert-triangle");
           return;
         }
 
         badgeDifficulty.classList.remove("hidden");
         headerModeTitle.textContent = `SPI3 練習モード (${selectedField}分野)`;
       } else {
-        // CBT本番模擬試験用設定
-        gameMode.totalTime = 2100; // 35分 ＝ 2100秒
+        gameMode.totalTime = 2100; // 35分
         gameMode.questionTime = 45; 
-        gameMode.maxQuestions = 60; // 言語40問 ＋ 非言語20問 ＝ 計60問
+        gameMode.maxQuestions = Math.min(60, quizDatabase.length); // 問題数が上限を下回る場合は自動調整
         selectedUnit = "すべて";
 
         badgeDifficulty.classList.add("hidden");
@@ -994,49 +744,40 @@
       document.getElementById("screen-setup").classList.add("hidden");
       document.getElementById("screen-quiz").classList.remove("hidden");
       document.getElementById("footer-bar").classList.remove("hidden");
-      document.getElementById("quiz-header").classList.remove("hidden"); // 上部ヘッダー（中断ボタン付き）を表示
+      document.getElementById("quiz-header").classList.remove("hidden");
 
       startOverallTimer();
       loadQuestion();
     }
 
-    // アダプティブ問題取得
     function loadQuestion() {
       const feedback = document.getElementById("answer-feedback");
       feedback.classList.add("hidden");
-      
       document.getElementById("btn-submit").classList.remove("hidden");
       document.getElementById("btn-next").classList.add("hidden");
 
       let currentField = selectedField;
       if (selectedTestMode === "exam") {
-        // 最初の40問が言語、以降の20問が非言語
-        currentField = (quizState.currentIndex < 40) ? "言語" : "非言語";
+        // 全体の3分の2(模擬：40問)を言語、残りを非言語に自動振り分け
+        let border = Math.floor(gameMode.maxQuestions * 0.66);
+        currentField = (quizState.currentIndex < border) ? "言語" : "非言語";
       }
 
       let pool = quizDatabase.filter(q => q.category === currentField);
-      
-      if (pool.length === 0) {
-        pool = [...quizDatabase];
-      }
+      if (pool.length === 0) pool = [...quizDatabase];
 
       if (selectedTestMode === "practice" && selectedUnit !== "すべて") {
         let unitPool = pool.filter(q => q.unit === selectedUnit);
-        if (unitPool.length > 0) {
-          pool = unitPool;
-        }
+        if (unitPool.length > 0) pool = unitPool;
       }
 
       const answeredIds = quizState.answers.map(ans => ans.questionId);
-      
       let availablePool = pool.filter(q => !answeredIds.includes(q.id));
       
       if (availablePool.length === 0) {
         const recentIds = answeredIds.slice(-5);
         availablePool = pool.filter(q => !recentIds.includes(q.id));
-        if (availablePool.length === 0) {
-          availablePool = pool;
-        }
+        if (availablePool.length === 0) availablePool = pool;
       }
 
       let difficultyTarget = quizState.currentDifficulty;
@@ -1052,10 +793,6 @@
         }
       }
 
-      if (matchedQuestions.length === 0) {
-        matchedQuestions = pool.length > 0 ? pool : [...quizDatabase];
-      }
-
       const randomIndex = Math.floor(Math.random() * matchedQuestions.length);
       quizState.currentQuestion = matchedQuestions[randomIndex];
 
@@ -1063,12 +800,10 @@
       startQuestionTimer();
     }
 
-    // 画面に問題データをレンダリング
     function renderQuestionUI() {
       const q = quizState.currentQuestion;
-      
       if (!q) {
-        showBasicAlert("データエラー", "問題データの読み込みに失敗しました。開始画面に戻ります。", "alert-triangle");
+        showBasicAlert("データエラー", "問題データの読み込みに失敗しました。再起動します。", "alert-triangle");
         restartApp();
         return;
       }
@@ -1101,13 +836,13 @@
         choiceBtn.onclick = () => selectChoice(key);
 
         choiceBtn.innerHTML = `
-          <div class="flex items-center gap-4">
-            <span class="w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200" id="bullet-${key}">
+          <div class="flex items-center gap-4 flex-1">
+            <span class="w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0" id="bullet-${key}">
               ${key}
             </span>
-            <span class="font-bold text-slate-700 text-sm md:text-base">${val}</span>
+            <span class="font-bold text-slate-700 text-sm md:text-base pr-2">${val}</span>
           </div>
-          <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors" id="radio-${key}">
+          <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0" id="radio-${key}">
             <div class="w-2.5 h-2.5 rounded-full bg-transparent transition-colors" id="radio-inner-${key}"></div>
           </div>
         `;
@@ -1115,49 +850,41 @@
       });
 
       document.getElementById("current-question-badge").textContent = `${quizState.currentIndex + 1} 問目`;
-
       updateProgressCircle();
       lucide.createIcons();
     }
 
-    // 選択肢クリック時
     let tempSelectedKey = null;
     function selectChoice(key) {
-      if (document.getElementById("btn-submit").classList.contains("hidden")) {
-        return;
-      }
-
+      if (document.getElementById("btn-submit").classList.contains("hidden")) return;
       tempSelectedKey = key;
 
       const items = document.querySelectorAll(".choice-item");
       items.forEach(el => {
         el.className = "choice-item flex items-center justify-between bg-white p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 cursor-pointer transition-all shadow-sm select-none";
         const k = el.getAttribute("data-key");
-        document.getElementById(`bullet-${k}`).className = "w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200";
-        document.getElementById(`radio-${k}`).className = "w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors";
+        document.getElementById(`bullet-${k}`).className = "w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0";
+        document.getElementById(`radio-${k}`).className = "w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0";
         document.getElementById(`radio-inner-${k}`).className = "w-2.5 h-2.5 rounded-full bg-transparent transition-colors";
       });
 
       const targetEl = document.querySelector(`[data-key="${key}"]`);
       targetEl.className = "choice-item flex items-center justify-between bg-indigo-50 p-4 rounded-xl border-2 border-indigo-500 hover:border-indigo-500 cursor-pointer transition-all shadow-md select-none";
-      document.getElementById(`bullet-${key}`).className = "w-8 h-8 rounded-full border-2 border-indigo-500 flex items-center justify-center font-bold text-white bg-indigo-600 transition-colors duration-200";
-      document.getElementById(`radio-${key}`).className = "w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center transition-colors";
+      document.getElementById(`bullet-${key}`).className = "w-8 h-8 rounded-full border-2 border-indigo-500 flex items-center justify-center font-bold text-white bg-indigo-600 transition-colors duration-200 flex-shrink-0";
+      document.getElementById(`radio-${key}`).className = "w-5 h-5 rounded-full border-2 border-indigo-500 flex items-center justify-center transition-colors flex-shrink-0";
       document.getElementById(`radio-inner-${key}`).className = "w-2.5 h-2.5 rounded-full bg-indigo-600 transition-colors";
     }
 
-    // 解答を送信決定
     function submitAnswer() {
       if (!tempSelectedKey) {
-        showBasicAlert("選択されていません", "解答を選択肢から1つ選んでから決定を押してください。", "alert-circle");
+        showBasicAlert("選択されていません", "解答を選んでから決定を押してください。", "alert-circle");
         return;
       }
 
       clearInterval(quizState.questionTimerInterval);
-
       const q = quizState.currentQuestion;
       const isCorrect = (tempSelectedKey === q.correct);
 
-      // 解答履歴を記録
       quizState.answers.push({
         questionId: q.id,
         selected: tempSelectedKey,
@@ -1169,19 +896,17 @@
         correctAns: q.correct
       });
 
-      // 難易度の増減計算
       let oldDifficulty = quizState.currentDifficulty;
       if (isCorrect) {
-        if (Math.random() < DIFFICULTY_PROBABILITY) {
-          if (quizState.currentDifficulty < 3) quizState.currentDifficulty++;
+        if (Math.random() < DIFFICULTY_PROBABILITY && quizState.currentDifficulty < 3) {
+          quizState.currentDifficulty++;
         }
       } else {
-        if (Math.random() < DIFFICULTY_PROBABILITY) {
-          if (quizState.currentDifficulty > 1) quizState.currentDifficulty--;
+        if (Math.random() < DIFFICULTY_PROBABILITY && quizState.currentDifficulty > 1) {
+          quizState.currentDifficulty--;
         }
       }
 
-      // 【模擬試験モード】の場合は、正誤判定を見せずに即次の問題へ移行
       if (selectedTestMode === "exam") {
         tempSelectedKey = null;
         updateProgressCircle();
@@ -1189,7 +914,6 @@
         return;
       }
 
-      // 【練習モード】の場合は、正誤判定フィードバックを表示する
       const feedback = document.getElementById("answer-feedback");
       const fbIcon = document.getElementById("feedback-icon-container");
       const fbTitle = document.getElementById("feedback-title");
@@ -1249,13 +973,11 @@
       lucide.createIcons();
     }
 
-    // 時間切れ時の自動無解答処理
     function handleTimeOver() {
       clearInterval(quizState.questionTimerInterval);
       quizState.timeOverCount++;
 
       const q = quizState.currentQuestion;
-      
       quizState.answers.push({
         questionId: q.id,
         selected: null,
@@ -1278,7 +1000,6 @@
         return;
       }
 
-      // 練習モード時は確認画面を表示
       const feedback = document.getElementById("answer-feedback");
       const fbIcon = document.getElementById("feedback-icon-container");
       const fbTitle = document.getElementById("feedback-title");
@@ -1290,7 +1011,7 @@
       fbIcon.className = "p-2 rounded-full bg-amber-100 text-amber-600";
       fbIcon.innerHTML = `<i data-lucide="clock" class="w-6 h-6"></i>`;
       fbTitle.textContent = "時間切れ！";
-      fbDesc.textContent = `制限時間をオーバーしました。正解は [${q.correct}] でした。`;
+      fbDesc.textContent = `正解は [${q.correct}] でした。`;
       diffTrend.textContent = "難易度: ダウン ↘";
 
       Object.keys(q.choices).forEach(key => {
@@ -1309,7 +1030,6 @@
       lucide.createIcons();
     }
 
-    // 次の問題へ
     function nextQuestion() {
       tempSelectedKey = null;
       quizState.currentIndex++;
@@ -1321,11 +1041,9 @@
       }
     }
 
-    // 回答状況円グラフの描画更新
     function updateProgressCircle() {
       const total = gameMode.maxQuestions;
       const current = quizState.answers.length;
-      
       const correctCount = quizState.answers.filter(a => a.isCorrect).length;
       const incorrectCount = current - correctCount;
 
@@ -1342,8 +1060,6 @@
       document.getElementById("progress-text").textContent = `${current}/${total}`;
     }
 
-    // --- タイマー機構の実装 ---
-    // 全体タイマー
     function startOverallTimer() {
       if (gameMode.totalTime <= 0) {
         document.getElementById("lbl-total-time").textContent = "時間無制限";
@@ -1361,7 +1077,7 @@
 
         if (quizState.overallTimeLeft <= 0) {
           clearInterval(quizState.overallTimerInterval);
-          showBasicAlert("時間切れ", "全体制限時間に達したため、テストを強制終了します。", "clock");
+          showBasicAlert("時間切れ", "制限時間に達したため終了します。", "clock");
           finishQuiz();
         }
       }, 1000);
@@ -1370,15 +1086,11 @@
     function updateOverallTimerUI() {
       const minutes = Math.floor(quizState.overallTimeLeft / 60);
       const seconds = quizState.overallTimeLeft % 60;
-      const displayStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      document.getElementById("lbl-total-time").textContent = displayStr;
-      
+      document.getElementById("lbl-total-time").textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       const percent = (quizState.overallTimeLeft / gameMode.totalTime) * 100;
       document.getElementById("bar-total-time").style.width = `${percent}%`;
     }
 
-    // 問題個別タイマー
     function startQuestionTimer() {
       let currentLimit = gameMode.questionTime;
       if (quizState.currentQuestion && typeof quizState.currentQuestion.timeLimit === 'number') {
@@ -1396,8 +1108,7 @@
       document.getElementById("bar-question-time").style.width = "100%";
 
       clearInterval(quizState.questionTimerInterval);
-      
-      const tickRate = 100; // ms
+      const tickRate = 100;
       const totalTicks = currentLimit * 10;
       let ticksLeft = totalTicks;
 
@@ -1426,16 +1137,14 @@
       }, tickRate);
     }
 
-    // --- 結果画面処理 ---
     function finishQuiz() {
       clearInterval(quizState.overallTimerInterval);
       clearInterval(quizState.questionTimerInterval);
-
       quizState.endTime = Date.now();
 
       document.getElementById("screen-quiz").classList.add("hidden");
       document.getElementById("footer-bar").classList.add("hidden");
-      document.getElementById("quiz-header").classList.add("hidden"); // 上部ヘッダー（中断ボタン付き）を隠す
+      document.getElementById("quiz-header").classList.add("hidden");
       document.getElementById("screen-result").classList.remove("hidden");
 
       calculateResult();
@@ -1444,11 +1153,10 @@
     function calculateResult() {
       const total = quizState.answers.length;
       if (total === 0) {
-        // 解答が1問もない場合
         document.getElementById("res-score").textContent = "0 / 0";
         document.getElementById("res-percent").textContent = "0% 正解";
         document.getElementById("res-deviation").textContent = "判定不可";
-        document.getElementById("res-advice").textContent = "解答が送信されなかったため、SPI偏差値の推計ができませんでした。開始画面から再度テストを始めてください。";
+        document.getElementById("res-advice").textContent = "解答が確認できませんでした。";
         return;
       }
 
@@ -1470,7 +1178,6 @@
       const examDetails = document.getElementById("exam-details");
       if (selectedTestMode === "exam") {
         examDetails.classList.remove("hidden");
-        
         const verbalAns = quizState.answers.filter(a => a.category === "言語");
         const verbalCorrect = verbalAns.filter(a => a.isCorrect).length;
         const verbalTotal = verbalAns.length;
@@ -1486,14 +1193,12 @@
         examDetails.classList.add("hidden");
       }
 
-      // 偏差値算出 (問題数60問に基づいた調整)
       let baseDeviation = 40 + (rate * 25);
       const avgDifficulty = quizState.answers.reduce((acc, curr) => acc + curr.difficulty, 0) / total;
       baseDeviation += (avgDifficulty - 2) * 8;
       baseDeviation -= (quizState.timeOverCount * 1.5);
 
       const finalDeviation = Math.round(Math.min(Math.max(baseDeviation, 35), 72));
-
       let rank = "C";
       let rankColor = "text-slate-600 bg-slate-100";
 
@@ -1515,20 +1220,18 @@
       document.getElementById("res-rank-lbl").textContent = `偏差値推定: ${finalDeviation}`;
       document.getElementById("res-rank-lbl").className = `text-[10px] font-bold px-2 py-0.5 rounded ${rankColor}`;
 
-      let advice = `あなたは${selectedTestMode === "exam" ? "CBT模擬試験（60問）" : selectedField + "分野"}を軸にテストを行いました。平均解答時間は${avgSec}秒です。\n`;
+      let advice = `平均解答時間は${avgSec}秒です。\n`;
       if (rate >= 0.8) {
         advice += "全体を通して非常に正確で素早い判断ができています。アダプティブエンジンが高難易度問題を出題しましたが、しっかり正解を確保できています。本番での時間配分も問題ありません。";
       } else if (rate >= 0.5) {
-        advice += "基礎知識はしっかりと定着していますが、後半に難易度上がった際に誤答が見られます。難易度が高い「推論」「確率」や「熟語」の応用問題に慣れることで、偏差値60の壁を突破できます。";
+        advice += "基礎知識はしっかりと定着していますが、難易度が上がった際に誤答が見られます。苦手ジャンルの応用問題に慣れることで、さらにスコアを伸ばせます。";
       } else {
-        advice += "制限時間に追われて判断ミスを起こしている可能性があります。SPIは「素早く正確に捨てる」技術も大切です。苦手な問題を見極めて、確実に取れる中難易度の問題を落とさない練習をしましょう。";
+        advice += "時間制限に追われてミスが起きている可能性があります。確実に取れる中～低難易度の問題を落とさない練習をしましょう。";
       }
       document.getElementById("res-advice").textContent = advice;
 
-      // 1. 難易度の遷移グラフ描画
       const chartContainer = document.getElementById("difficulty-chart");
       chartContainer.innerHTML = "";
-      
       document.getElementById("chart-end-lbl").textContent = `第${total}問`;
 
       quizState.answers.forEach((ans, idx) => {
@@ -1546,11 +1249,10 @@
         }
 
         const hPercent = (ans.difficulty / 3) * 100;
-
         barWrapper.innerHTML = `
           <div class="absolute -top-12 scale-0 group-hover:scale-100 transition-transform bg-slate-800 text-white text-[10px] rounded p-2 z-20 whitespace-nowrap shadow-lg pointer-events-none">
             第${idx+1}問: 難易度${ans.difficulty}<br>
-            結果: ${ans.isCorrect ? '正解' : '不正解・時間切れ'}
+            結果: ${ans.isCorrect ? '正解' : '不正解'}
           </div>
           ${dotHTML}
           <div class="w-full ${barColor} rounded-t-sm" style="height: ${hPercent}%"></div>
@@ -1558,7 +1260,6 @@
         chartContainer.appendChild(barWrapper);
       });
 
-      // 2. 正誤一覧リスト・難易度変動ポイントの生成
       const listBody = document.getElementById("result-list-body");
       listBody.innerHTML = "";
 
@@ -1604,7 +1305,6 @@
 
     function restartApp() {
       document.getElementById("screen-result").classList.add("hidden");
-      document.getElementById("quiz-header").classList.add("hidden"); // 上部ヘッダー（中断ボタン付き）を隠す
       document.getElementById("screen-setup").classList.remove("hidden");
     }
 
@@ -1616,9 +1316,8 @@
       const copyText = `【SPI3 適応型模擬テスト 結果】\n` +
                        `■ モード: ${selectedTestMode === "exam" ? "CBT本番模擬試験" : "練習カスタム"}\n` +
                        `■ 正解数: ${corrects} / ${total}問 (${rate}%)\n` +
-                       `■ 時間切れ: ${quizState.timeOverCount}回\n` +
                        `■ 終了難易度: ${quizState.currentDifficulty}/3\n` +
-                       `SPI対策アプリであなたの強みと課題を効率的に分析しましょう！`;
+                       `SPI対策アプリで弱点と適応履歴をしっかり分析しましょう！`;
 
       const textArea = document.createElement("textarea");
       textArea.value = copyText;
@@ -1628,7 +1327,7 @@
         document.execCommand('copy');
         showBasicAlert("コピー完了", "結果テキストをクリップボードにコピーしました！", "check-circle");
       } catch (err) {
-        showBasicAlert("エラー", "コピーに失敗しました。直接画面上の数値をご記録ください。", "alert-circle");
+        showBasicAlert("エラー", "コピーに失敗しました。", "alert-circle");
       }
       document.body.removeChild(textArea);
     }
