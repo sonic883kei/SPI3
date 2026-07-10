@@ -26,7 +26,7 @@
     <div id="loading" class="hidden fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center">
       <div class="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent mb-4"></div>
-        <p class="text-slate-700 font-bold" id="loadingText">JSONデータをロード中...</p>
+        <p class="text-slate-700 font-bold" id="loadingText">データをロード中...</p>
       </div>
     </div>
 
@@ -162,22 +162,6 @@
               <li>問題ごとに個別の解答時間が適用され、時間切れになると即座に次の問題へスキップされます。</li>
               <li class="text-indigo-600 font-bold">試験中は1問ごとの正誤判定、難易度の表示は非公開となり、終了後に全問題の一覧と難易度推移ポイントが表示されます。</li>
             </ul>
-          </div>
-
-          <!-- JSONデータ読み込み元 -->
-          <div class="border-t border-slate-100 pt-5 space-y-3">
-            <div class="flex items-center justify-between">
-              <label class="block text-sm font-bold text-slate-700">問題データのロード設定 (GitHub/外部対応)</label>
-              <span class="text-xs text-indigo-600 font-semibold bg-indigo-50 px-2 py-0.5 rounded">オプション</span>
-            </div>
-            <div class="flex gap-2">
-              <input type="text" id="json-url-input" placeholder="https://raw.githubusercontent.com/... (空欄時は内蔵問題を使用)" 
-                     class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-slate-600">
-              <button type="button" onclick="loadExternalJson()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl transition">
-                ロード
-              </button>
-            </div>
-            <p class="text-[10px] text-slate-400">※JSONにキー <code>"timeLimit": 45</code> (各問の解答制限時間/秒数) を含めることで、問題ごとに個別時間を設定可能です。空欄時は内蔵のSPI問題(個別解答時間データ付き)から開始します。</p>
           </div>
 
           <!-- スタートボタン -->
@@ -398,7 +382,7 @@
             </div>
           </div>
 
-          <!-- 正誤履歴の一覧 (模擬試験モード＆練習モード共通、終了後に表示) -->
+          <!-- 正誤履歴の一覧 -->
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
               <i data-lucide="list-checks" class="w-4 h-4 text-indigo-500"></i> 解答履歴・正誤および難易度ポイント一覧
@@ -806,7 +790,7 @@
       currentIndex: 0, // 現在の問題番号 (0ベース)
       currentQuestion: null, // 現在の問題オブジェクト
       currentDifficulty: 2, // 現在の難易度 (1=簡単, 2=普通, 3=難しい)
-      answers: [], // 解答履歴: {questionId, selected, isCorrect, difficulty, category, unit, questionText, correctAns}
+      answers: [], // 解答履歴
       timeOverCount: 0, // 時間切れ回数
       
       overallTimeLeft: 0, // 全体の残り秒数
@@ -890,65 +874,6 @@
       });
     }
 
-    // --- JSONの外部ファイルロード処理 ---
-    function showLoading(show, text = "ロード中...") {
-      const loader = document.getElementById("loading");
-      const loaderText = document.getElementById("loadingText");
-      if (show) {
-        loaderText.textContent = text;
-        loader.classList.remove("hidden");
-      } else {
-        loader.classList.add("hidden");
-      }
-    }
-
-    async function loadExternalJson() {
-      const urlInput = document.getElementById("json-url-input").value.trim();
-      if (!urlInput) {
-        showBasicAlert("エラー", "GitHub上のRawURLや、正しいJSONファイルのWebリンクを入力してください。", "alert-circle");
-        return;
-      }
-
-      showLoading(true, "外部データを検証・ロード中...");
-      
-      let success = false;
-      let fetchedData = null;
-      let delay = 1000;
-
-      for (let attempt = 1; attempt <= 5; attempt++) {
-        try {
-          const response = await fetch(urlInput);
-          if (response.ok) {
-            fetchedData = await response.json();
-            success = true;
-            break;
-          }
-        } catch (e) {}
-        if (attempt < 5) {
-          await new Promise(resolve => setTimeout(resolve, delay));
-          delay *= 2;
-        }
-      }
-
-      showLoading(false);
-
-      if (success && Array.isArray(fetchedData)) {
-        const isValid = fetchedData.every(item => 
-          item.id && item.category && item.unit && item.difficulty && item.choices && item.correct
-        );
-
-        if (isValid) {
-          quizDatabase = fetchedData;
-          showBasicAlert("完了", `外部問題データ (${fetchedData.length}問) の読み込みに成功しました！`, "check");
-          updateUnitOptions();
-        } else {
-          showBasicAlert("読み込みエラー", "JSONの構造が不正です。 id, category, unit, difficulty, choices, correct の各キーを持つ配列にしてください。", "alert-circle");
-        }
-      } else {
-        showBasicAlert("接続エラー", "ファイルの取得に失敗しました。URLが正しいこと、CORS（外部読み込み）が許可されているかご確認ください。", "alert-circle");
-      }
-    }
-
     // --- カスタムアラート表示（汎用・確認用） ---
     function showBasicAlert(title, message, iconName = "alert-circle") {
       const alertBox = document.getElementById("alertBox");
@@ -961,7 +886,6 @@
       alertTitle.textContent = title;
       alertMessage.textContent = message;
       
-      // シンプルな閉じるボタンのみ設定
       btnContainer.innerHTML = `
         <button onclick="closeAlert()" class="px-5 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition text-sm">確認</button>
       `;
@@ -1044,7 +968,6 @@
           return;
         }
 
-        // 練習モード時は難易度バッジ類を表示する
         badgeDifficulty.classList.remove("hidden");
       } else {
         gameMode.totalTime = 4200; // 70分 = 4200秒
@@ -1052,7 +975,6 @@
         gameMode.maxQuestions = 70; 
         selectedUnit = "すべて";
 
-        // 模擬試験モード時は難易度バッジ・変動表示を非表示にする
         badgeDifficulty.classList.add("hidden");
         changeIndicator.classList.add("hidden");
       }
@@ -1084,10 +1006,8 @@
         currentField = (quizState.currentIndex < 40) ? "言語" : "非言語";
       }
 
-      // 出題対象分野の問題群（プール）をフィルタリング
       let pool = quizDatabase.filter(q => q.category === currentField);
       
-      // フォールバック: 指定されたカテゴリの問題が存在しない場合は、データベースの全問題をプールにする
       if (pool.length === 0) {
         pool = [...quizDatabase];
       }
@@ -1101,10 +1021,8 @@
 
       const answeredIds = quizState.answers.map(ans => ans.questionId);
       
-      // 未回答のものを優先して抽出
       let availablePool = pool.filter(q => !answeredIds.includes(q.id));
       
-      // すべての問題に回答しきった場合は、重複を許容する (ただし、直近に解答した5問のみ避けるようにする)
       if (availablePool.length === 0) {
         const recentIds = answeredIds.slice(-5);
         availablePool = pool.filter(q => !recentIds.includes(q.id));
@@ -1113,11 +1031,9 @@
         }
       }
 
-      // 難易度調整
       let difficultyTarget = quizState.currentDifficulty;
       let matchedQuestions = availablePool.filter(q => q.difficulty === difficultyTarget);
 
-      // 指定された難易度がない場合は、最も近い難易度を選択
       if (matchedQuestions.length === 0) {
         let diffs = availablePool.map(q => q.difficulty);
         if (diffs.length > 0) {
@@ -1128,7 +1044,6 @@
         }
       }
 
-      // 最終ガード: 何らかの理由でmatchedQuestionsが空になった場合は、プール全体から引っ張る
       if (matchedQuestions.length === 0) {
         matchedQuestions = pool.length > 0 ? pool : [...quizDatabase];
       }
@@ -1144,7 +1059,6 @@
     function renderQuestionUI() {
       const q = quizState.currentQuestion;
       
-      // 万が一currentQuestionがロードできなかった場合の例外対策
       if (!q) {
         showBasicAlert("データエラー", "問題データの読み込みに失敗しました。開始画面に戻ります。", "alert-triangle");
         restartApp();
