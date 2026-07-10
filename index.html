@@ -48,6 +48,18 @@
       </div>
     </div>
 
+    <!-- ==================== 【新規追加】クイズ進行中専用上部ヘッダー ==================== -->
+    <div id="quiz-header" class="hidden bg-white px-4 py-3 shadow-sm flex justify-between items-center border-b border-slate-200 select-none flex-shrink-0 z-20">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+        <span class="text-xs md:text-sm font-bold text-slate-700" id="header-mode-title">SPI3 模擬テスト進行中</span>
+      </div>
+      <!-- 中断（途中で終了）ボタンを誤クリックしにくい右上ヘッダー部分に独立して配置 -->
+      <button id="btn-abort-header" onclick="confirmAbort()" class="text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 transition-colors px-3 py-1.5 rounded-lg hover:bg-rose-50 border border-slate-200 hover:border-rose-200">
+        <i data-lucide="log-out" class="w-3.5 h-3.5"></i> 途中で終了
+      </button>
+    </div>
+
     <!-- ==================== 画面A: セットアップ・開始画面 ==================== -->
     <div id="screen-setup" class="flex-1 overflow-y-auto flex items-center justify-center p-4 md:p-8">
       <div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full overflow-hidden border border-slate-200">
@@ -297,11 +309,8 @@
         </div>
       </div>
 
-      <!-- 進む・スキップ・途中終了ボタン -->
+      <!-- 進む・スキップ・決定ボタン（誤操作を防ぐため、「途中で終了」ボタンはヘッダーへ移動しました） -->
       <div class="w-full md:w-1/2 flex flex-col sm:flex-row justify-end gap-2">
-        <button id="btn-abort" onclick="confirmAbort()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
-          <i data-lucide="log-out" class="w-4 h-4"></i> 途中で終了
-        </button>
         <button id="btn-submit" onclick="submitAnswer()" class="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-6 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-xs">
           解答決定 <i data-lucide="check-circle" class="w-4 h-4"></i>
         </button>
@@ -944,6 +953,7 @@
     function startQuiz() {
       const badgeDifficulty = document.getElementById("badge-difficulty");
       const changeIndicator = document.getElementById("difficulty-change-indicator");
+      const headerModeTitle = document.getElementById("header-mode-title");
 
       if (selectedTestMode === "practice") {
         gameMode.totalTime = parseInt(document.getElementById("select-total-time").value);
@@ -962,6 +972,7 @@
         }
 
         badgeDifficulty.classList.remove("hidden");
+        headerModeTitle.textContent = `SPI3 練習モード (${selectedField}分野)`;
       } else {
         // CBT本番模擬試験用設定
         gameMode.totalTime = 2100; // 35分 ＝ 2100秒
@@ -971,6 +982,7 @@
 
         badgeDifficulty.classList.add("hidden");
         changeIndicator.classList.add("hidden");
+        headerModeTitle.textContent = "SPI3 CBT本番模擬試験";
       }
 
       quizState.currentIndex = 0;
@@ -982,6 +994,7 @@
       document.getElementById("screen-setup").classList.add("hidden");
       document.getElementById("screen-quiz").classList.remove("hidden");
       document.getElementById("footer-bar").classList.remove("hidden");
+      document.getElementById("quiz-header").classList.remove("hidden"); // 上部ヘッダー（中断ボタン付き）を表示
 
       startOverallTimer();
       loadQuestion();
@@ -1422,6 +1435,7 @@
 
       document.getElementById("screen-quiz").classList.add("hidden");
       document.getElementById("footer-bar").classList.add("hidden");
+      document.getElementById("quiz-header").classList.add("hidden"); // 上部ヘッダー（中断ボタン付き）を隠す
       document.getElementById("screen-result").classList.remove("hidden");
 
       calculateResult();
@@ -1590,6 +1604,7 @@
 
     function restartApp() {
       document.getElementById("screen-result").classList.add("hidden");
+      document.getElementById("quiz-header").classList.add("hidden"); // 上部ヘッダー（中断ボタン付き）を隠す
       document.getElementById("screen-setup").classList.remove("hidden");
     }
 
