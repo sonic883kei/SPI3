@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <!-- ==================== クイズ進行中専用上部ヘッダー（タイマー統合版） ==================== -->
+    <!-- ==================== クイズ進行中専用上部ヘッダー（タイマー数値非表示版） ==================== -->
     <div id="quiz-header" class="hidden bg-white px-4 py-2 shadow-sm flex flex-col border-b border-slate-200 select-none flex-shrink-0 z-20">
       <!-- 上段：タイトルと中断ボタン -->
       <div class="flex justify-between items-center w-full">
@@ -61,21 +61,25 @@
         </button>
       </div>
       
-      <!-- 下段：1問残り時間と全体残り時間を横並びでヘッダーに配置（画面の邪魔をしない超コンパクト設計） -->
+      <!-- 下段：1問残り時間と全体残り時間を横並びでヘッダーに配置（数値は完全に非表示に修正） -->
       <div class="grid grid-cols-2 gap-3 mt-1.5 pt-1.5 border-t border-slate-100 text-[10px]">
         <!-- 1問の制限時間ゲージ -->
         <div class="flex items-center gap-2">
-          <span class="text-slate-500 font-bold flex-shrink-0">1問残り: <span id="lbl-question-time" class="text-amber-600 font-extrabold">45s</span></span>
+          <span class="text-slate-500 font-bold flex-shrink-0">1問残り</span>
           <div class="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden shadow-inner">
             <div id="bar-question-time" class="bg-gradient-to-r from-amber-400 to-amber-500 h-full transition-all duration-100" style="width: 100%;"></div>
           </div>
+          <!-- JSのエラーを防ぐため、存在させつつ画面上は非表示にします -->
+          <span id="lbl-question-time" class="hidden">45s</span>
         </div>
         <!-- 全体の制限時間ゲージ -->
         <div class="flex items-center gap-2">
-          <span class="text-slate-500 font-bold flex-shrink-0">全体残り: <span id="lbl-total-time" class="text-indigo-600 font-extrabold">35:00</span></span>
-          <div class="flex-1 bg-slate-100 h-1 rounded-full overflow-hidden shadow-inner">
+          <span class="text-slate-500 font-bold flex-shrink-0">全体残り</span>
+          <div class="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden shadow-inner">
             <div id="bar-total-time" class="bg-gradient-to-r from-indigo-400 to-indigo-500 h-full transition-all duration-1000" style="width: 100%;"></div>
           </div>
+          <!-- JSのエラーを防ぐため、存在させつつ画面上は非表示にします -->
+          <span id="lbl-total-time" class="hidden">35:00</span>
         </div>
       </div>
     </div>
@@ -844,14 +848,14 @@
         const k = el.getAttribute("data-key");
         document.getElementById(`bullet-${k}`).className = "w-7 h-7 text-xs rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-slate-500 bg-slate-50 transition-colors duration-200 flex-shrink-0";
         document.getElementById(`radio-${k}`).className = "w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center transition-colors flex-shrink-0";
-        document.getElementById(`radio-inner-${k}`).className = "w-2.5 h-2.5 rounded-full bg-transparent transition-colors";
+        document.getElementById(`radio-inner-${k}`).className = "w-2 h-2 rounded-full bg-transparent transition-colors";
       });
 
       const targetEl = document.querySelector(`[data-key="${key}"]`);
       targetEl.className = "choice-item flex items-center justify-between bg-indigo-50 p-2.5 px-3 border-2 border-indigo-500 hover:border-indigo-500 cursor-pointer transition-all shadow-md select-none";
       document.getElementById(`bullet-${key}`).className = "w-7 h-7 text-xs rounded-full border-2 border-indigo-500 flex items-center justify-center font-bold text-white bg-indigo-600 transition-colors duration-200 flex-shrink-0";
       document.getElementById(`radio-${key}`).className = "w-4 h-4 rounded-full border-2 border-indigo-500 flex items-center justify-center transition-colors flex-shrink-0";
-      document.getElementById(`radio-inner-${key}`).className = "w-2.5 h-2.5 rounded-full bg-indigo-600 transition-colors";
+      document.getElementById(`radio-inner-${key}`).className = "w-2 h-2 rounded-full bg-indigo-600 transition-colors";
     }
 
     function submitAnswer() {
@@ -1070,6 +1074,7 @@
       document.getElementById("bar-total-time").style.width = `${percent}%`;
     }
 
+    // 問題個別タイマー（バーのみを更新し、数値は非表示）
     function startQuestionTimer() {
       let currentLimit = gameMode.questionTime;
       if (quizState.currentQuestion && typeof quizState.currentQuestion.timeLimit === 'number') {
