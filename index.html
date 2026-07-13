@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPI模擬テスト - 適応型クイズシステム</title>
+  <title>SPI対策適応型クイズ</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons for modern UI -->
@@ -90,7 +90,7 @@
         <!-- ヘッダー -->
         <div class="bg-gradient-to-r from-slate-800 to-indigo-950 p-6 md:p-8 text-white text-center relative">
           <h1 class="text-2xl md:text-3xl font-extrabold tracking-wider">SPI3 模擬テスト</h1>
-          <p class="text-indigo-200 text-xs md:text-sm mt-2">適応型学習アルゴリズム搭載（正解率に応じて難易度が変化します）</p>
+          <p class="text-indigo-200 text-xs md:text-sm mt-2">正解率に応じて難易度が変化します</p>
           <div class="absolute top-4 right-4 bg-indigo-600/50 text-xs px-2.5 py-1 rounded-full border border-indigo-400">Ver 2.0</div>
         </div>
 
@@ -105,7 +105,7 @@
                   <span class="p-1.5 bg-indigo-100 text-indigo-700 rounded-lg"><i data-lucide="award" class="w-4 h-4"></i></span>
                   <span class="font-extrabold text-indigo-950">練習モード</span>
                 </div>
-                <p class="text-xs text-slate-500 leading-relaxed">分野や制限時間を自由にカスタムして弱点克服</p>
+                <p class="text-xs text-slate-500 leading-relaxed">分野や制限時間を自由にカスタムできます</p>
               </button>
               <!-- 模擬試験モード -->
               <button type="button" onclick="selectMode('exam')" id="btn-mode-exam" class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 text-slate-600">
@@ -113,7 +113,7 @@
                   <span class="p-1.5 bg-slate-100 text-slate-600 rounded-lg" id="icon-badge-exam"><i data-lucide="file-text" class="w-4 h-4"></i></span>
                   <span class="font-extrabold text-slate-700" id="title-text-exam">CBT本番模擬試験モード</span>
                 </div>
-                <p class="text-xs text-slate-500 leading-relaxed">言語40問＋非言語20問＝計60問 (35分間ノンストップ)</p>
+                <p class="text-xs text-slate-500 leading-relaxed">ノンストップ</p>
               </button>
             </div>
           </div>
@@ -171,7 +171,7 @@
                 </select>
               </div>
             </div>
-            <p class="text-xs text-slate-400">※各問の時間は、問題データに個別の解答時間（timeLimit）が定義されている場合はそちらが優先されます。</p>
+            <p class="text-xs text-slate-400">※問題データに個別の解答時間が設定されている場合はそちらが優先されます。</p>
           </div>
 
           <!-- 模擬試験モード専用の説明パネル (CBT準拠) -->
@@ -194,9 +194,9 @@
               </div>
             </div>
             <ul class="text-xs text-slate-500 leading-relaxed list-disc list-inside space-y-1 bg-white p-3.5 rounded-lg border border-slate-200">
-              <li>本番同様に言語分野から40問を出題した後、非言語分野から20問が連続して出題されます。</li>
+              <li>本番同様に言語分野、非言語分野が連続して出題されます。</li>
               <li>問題ごとに個別の解答時間が適用され、時間切れになると即座に次の問題へスキップされます。</li>
-              <li class="text-indigo-600 font-bold">試験中は1問ごとの正誤判定、難易度の表示は非公開となり、終了後に全問題の一覧と難易度推移ポイントが表示されます。</li>
+              <li class="text-indigo-600 font-bold">試験中は1問ごとの正誤判定、難易度の表示は非公開です。</li>
             </ul>
           </div>
 
@@ -311,7 +311,7 @@
         
         <div class="bg-indigo-950 p-8 text-white text-center">
           <h2 class="text-2xl md:text-3xl font-extrabold tracking-wider">テスト結果発表</h2>
-          <p class="text-indigo-200 text-xs md:text-sm mt-1">解答お疲れ様でした。あなたの現在の推定SPI偏差値はこちらです。</p>
+          <p class="text-indigo-200 text-xs md:text-sm mt-1">解答お疲れ様でした。あなたの現在の推定偏差値はこちらです。</p>
         </div>
 
         <div class="p-6 md:p-8 space-y-6">
@@ -322,7 +322,7 @@
               <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded" id="res-percent">0% 正解</span>
             </div>
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
-              <span class="text-xs text-indigo-600 font-bold">推定SPI偏差値ランク</span>
+              <span class="text-xs text-indigo-600 font-bold">推定SPIランク</span>
               <div class="text-2xl md:text-3xl font-extrabold text-indigo-950 mt-1" id="res-deviation">Cランク (50)</div>
               <span class="text-[10px] text-indigo-700 font-bold bg-indigo-100 px-2 py-0.5 rounded" id="res-rank-lbl">偏差値推定</span>
             </div>
@@ -351,17 +351,17 @@
 
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
-              <i data-lucide="list-checks" class="w-4 h-4 text-indigo-500"></i> 解答履歴・正誤および難易度ポイント一覧
+              <i data-lucide="list-checks" class="w-4 h-4 text-indigo-500"></i> 解答履歴
             </h4>
             <div class="overflow-x-auto max-h-72 border border-slate-200 rounded-lg">
               <table class="w-full text-xs text-left text-slate-600 border-collapse bg-white">
                 <thead>
                   <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 sticky top-0 z-10">
                     <th class="p-3">問</th>
-                    <th class="p-3">分野/単元</th>
-                    <th class="p-3 text-center">出題難易度</th>
+                    <th class="p-3">単元</th>
+                    <th class="p-3 text-center">難易度</th>
                     <th class="p-3 text-center">あなたの解答</th>
-                    <th class="p-3 text-center">正しい答え</th>
+                    <th class="p-3 text-center">正答</th>
                     <th class="p-3 text-center">判定</th>
                   </tr>
                 </thead>
@@ -917,7 +917,7 @@
 
         if (quizState.currentDifficulty > oldDifficulty) {
           trendText = "難易度: アップ ↗";
-          diffChangeBadge.textContent = "難易度アップ！";
+          diffChangeBadge.textContent = "難易度アップ↑";
           diffChangeBadge.className = "px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold animate-pulse";
           diffChangeBadge.classList.remove("hidden");
         }
@@ -930,7 +930,7 @@
 
         if (quizState.currentDifficulty < oldDifficulty) {
           trendText = "難易度: ダウン ↘";
-          diffChangeBadge.textContent = "難易度緩和";
+          diffChangeBadge.textContent = "難易度ダウン↓";
           diffChangeBadge.className = "px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full font-bold animate-pulse";
           diffChangeBadge.classList.remove("hidden");
         }
@@ -995,7 +995,7 @@
       fbIcon.innerHTML = `<i data-lucide="clock" class="w-5 h-5"></i>`;
       fbTitle.textContent = "時間切れ！";
       fbDesc.textContent = `正解は [${q.correct}] でした。`;
-      diffTrend.textContent = "難易度: ダウン ↘";
+      diffTrend.textContent = "難易度: ダウン ↓";
 
       Object.keys(q.choices).forEach(key => {
         const item = document.querySelector(`[data-key="${key}"]`);
@@ -1206,7 +1206,7 @@
 
       let advice = `平均解答時間は${avgSec}秒です。\n`;
       if (rate >= 0.8) {
-        advice += "全体を通して非常に正確で素早い判断ができています。アダプティブエンジンが高難易度問題を出題しましたが、しっかり正解を確保できています。本番での時間配分も問題ありません。";
+        advice += "全体を通して非常に正確で素早い判断ができています。高難易度問題を出題しましたが、しっかり正解を確保できています。本番での時間配分も問題ありません。";
       } else if (rate >= 0.5) {
         advice += "基礎知識はしっかりと定着していますが、難易度が上がった際に誤答が見られます。苦手ジャンルの応用問題に慣れることで、さらにスコアを伸ばせます。";
       } else {
