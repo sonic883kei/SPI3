@@ -486,7 +486,7 @@
         }
 
         // ==========================================
-        // CHOICE GENERATOR (A-F) - Fixed Loop Bug
+        // CHOICE GENERATOR (A-F)
         // ==========================================
         function generateChoices(q) {
             const correctVal = q.correctAnswer;
@@ -505,7 +505,6 @@
                     distractorVals.add(correctVal);
                 }
 
-                // Safe loop with attempt limits and dynamic offset search
                 let attempts = 0;
                 while (distractorVals.size < 5 && attempts < 100) {
                     attempts++;
@@ -516,7 +515,6 @@
                     }
                 }
 
-                // Fallback guarantee to ensure exactly 5 numerical options
                 let offsetMultiplier = 1;
                 while (distractorVals.size < 5) {
                     let candidate = correctVal + (offsetMultiplier * step);
@@ -801,55 +799,113 @@
             };
         }
 
+        // ==========================================
+        // 分割払い (Fraction / Ratio based SPI Style)
+        // ==========================================
         function genInstallment1() {
-            const totalPrice = getRandomInt(12, 30) * 10000;
-            const downPayment = getRandomInt(2, 6) * 10000;
-            const months = 10;
+            const denoms = [6, 8, 10, 12];
+            const d = denoms[Math.floor(Math.random() * denoms.length)];
+            
+            const baseTotal = 4 * d;
+            const headPaid = baseTotal / 4;
+            const remTotal = baseTotal - headPaid;
+            const eachPay = remTotal / d;
+            
+            function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+            const g = gcd(eachPay, baseTotal);
+            const numFinal = eachPay / g;
+            const denFinal = baseTotal / g;
+            const correctAnsText = `${numFinal}/${denFinal}`;
 
-            const remaining = totalPrice - downPayment;
-            const monthlyPayment = remaining / months;
+            const distractors = [
+                `1/${denFinal - 2}`,
+                `1/${denFinal + 2}`,
+                `3/${denFinal}`,
+                `1/${denFinal * 2}`,
+                `2/${denFinal}`
+            ].filter(s => s !== correctAnsText);
 
             return {
                 unit: '分割払い',
                 level: 1,
                 badge: 'Lv.1 基本',
-                title: '頭金と均等分割',
-                text: `定価 ${formatYen(totalPrice)} の家電製品を購入するにあたり、頭金として ${formatYen(downPayment)} を現金で支払い、残金を ${months}回の均等分割払い で支払うことにした（手数料無料）。`,
-                prompt: '月々の分割支払額はいくらか。',
-                correctAnswer: monthlyPayment,
-                unitSuffix: '円',
-                step: 1000,
+                title: '頭金と残り均等払い',
+                text: `商品を買い、代金は ${d}回に分けて均等に支払うことにした。ただし、初回（1回目）に代金の 1/4 を頭金として支払い、残りの金額を分割で支払った。`,
+                prompt: `2回目の支払額は代金のどれだけにあたるか。`,
+                correctAnswer: correctAnsText,
+                distractors: distractors,
+                unitSuffix: '',
                 steps: [
-                    `ステップ1：全体金額から頭金を差し引いて残金を計算する。<br><strong>${formatYen(totalPrice)} - ${formatYen(downPayment)} = ${formatYen(remaining)}</strong>`,
-                    `ステップ2：残金を分割回数 (${months}回) で割る。<br><strong>${formatYen(remaining)} ÷ ${months} = ${formatYen(monthlyPayment)}</strong>`
+                    `ステップ1：総額を ${baseTotal}円 とおく。`,
+                    `ステップ2：1回目に支払う頭金は、${baseTotal} × 1/4 = ${headPaid}円。残りは ${remTotal}円。`,
+                    `ステップ3：残り ${remTotal}円 を ${d}回に分けると、1回あたり ${remTotal} ÷ ${d} = ${eachPay}円。`,
+                    `ステップ4：代金全体に対する割合は ${eachPay}/${baseTotal} = <strong>${correctAnsText}</strong> となる。`
                 ]
             };
         }
 
         function genInstallment2() {
-            const totalPrice = getRandomInt(10, 25) * 10000;
-            const feePercent = 10;
-            const totalWithFee = totalPrice * 1.1;
-            const downPayment = getRandomInt(2, 5) * 10000;
-            const months = 12;
-
-            const remaining = totalWithFee - downPayment;
-            const monthlyPayment = remaining / months;
+            const itemNames = ['バイク', 'パソコン', '高級家具', '電動自転車'];
+            const item = itemNames[Math.floor(Math.random() * itemNames.length)];
+            
+            const totalUnits = 16;
+            const firstPay = totalUnits / 4;
+            const thirdPay = totalUnits / 4;
+            const rem = totalUnits - (firstPay + thirdPay);
+            const remainingMonths = 8;
+            const eachMonthPay = rem / remainingMonths;
+            
+            const correctAnsText = `1/16`;
+            const distractors = ['1/8', '1/15', '1/14', '1/12', '3/16'];
 
             return {
                 unit: '分割払い',
                 level: 2,
                 badge: 'Lv.2 応用',
-                title: '手数料付き分割払い',
-                text: `商品価格 ${formatYen(totalPrice)} のパソコンを分割払いで購入する。分割手数料として商品価格の ${feePercent}% が加算される。頭金として ${formatYen(downPayment)} を支払い、残額を ${months}回の均等払い で支払う。`,
-                prompt: '1回あたりの分割支払額はいくらか。',
-                correctAnswer: monthlyPayment,
-                unitSuffix: '円',
-                step: 1000,
+                title: 'ボーナス月と分数分割',
+                text: `${item}を購入し、代金は 10回に分けて支払うことにした。1回目に代金の 1/4 を支払い、3回目の支払いはボーナス月だったので代金の 1/4 を支払った。それ以外の月はすべて均等に支払った。`,
+                prompt: `2回目の支払額は代金のどれだけにあたるか。`,
+                correctAnswer: correctAnsText,
+                distractors: distractors,
+                unitSuffix: '',
                 steps: [
-                    `ステップ1：手数料を含む支払い総額を求める。<br><strong>${formatYen(totalPrice)} × 1.10 = ${formatYen(totalWithFee)}</strong>`,
-                    `ステップ2：支払い総額から頭金を差し引いて分割対象額を求める。<br><strong>${formatYen(totalWithFee)} - ${formatYen(downPayment)} = ${formatYen(remaining)}</strong>`,
-                    `ステップ3：分割対象額を支払回数 (${months}回) で割る。<br><strong>${formatYen(remaining)} ÷ ${months} = ${formatYen(monthlyPayment)}</strong>`
+                    `ステップ1：分数計算をしやすくするため、代金総額を分母の最小公倍数に合わせた <strong>16円</strong> とおく。`,
+                    `ステップ2：1回目は 16 × 1/4 = <strong>4円</strong>、3回目も 16 × 1/4 = <strong>4円</strong> を支払う。<br>ここまでの合計は 4 + 4 = 8円 で、残りは 16 - 8 = <strong>8円</strong>。`,
+                    `ステップ3：残りの8円を、2回目および4〜10回目の計 <strong>8回</strong> で均等に支払う。<br>2回目の支払額は 8円 ÷ 8回 = <strong>1円</strong>。`,
+                    `ステップ4：代金総額(16円)に対する割合は 1/16 となり、正解は <strong>1/16</strong>。`
+                ]
+            };
+        }
+
+        function genInstallment3() {
+            const itemNames = ['高級腕時計', 'リフォーム工事', '音響セット'];
+            const item = itemNames[Math.floor(Math.random() * itemNames.length)];
+            
+            const totalUnits = 24;
+            const firstPay = totalUnits / 3;
+            const midPay = totalUnits / 6;
+            const rem = totalUnits - (firstPay + midPay);
+            const remainingMonths = 4;
+            const eachPay = rem / remainingMonths;
+            
+            const correctAnsText = `1/8`;
+            const distractors = ['1/6', '1/12', '3/16', '1/9', '5/24'];
+
+            return {
+                unit: '分割払い',
+                level: 3,
+                badge: 'Lv.3 高難易度',
+                title: '複数回の分数指定と残り均等',
+                text: `${item}を分割払いで購入し、代金全額を 6回に分けて支払う。1回目に全体の 1/3 を支払い、2回目に全体の 1/6 を支払った。残りの金額は、3〜6回目の 4回で均等に支払う。`,
+                prompt: `3回目の支払額は代金のどれだけにあたるか。`,
+                correctAnswer: correctAnsText,
+                distractors: distractors,
+                unitSuffix: '',
+                steps: [
+                    `ステップ1：分母（3と6）の最小公倍数から、代金総額を <strong>24円</strong> とおく。`,
+                    `ステップ2：1回目は 24 × 1/3 = 8円、2回目は 24 × 1/6 = 4円。<br>これまでの支払合計は 8 + 4 = 12円 で、残額は 24 - 12 = <strong>12円</strong>。`,
+                    `ステップ3：残り12円を 3〜6回目の <strong>4回</strong> で均等に分ける。<br>3回目（残り回のうちの1回）の支払額は 12円 ÷ 4回 = <strong>3円</strong>。`,
+                    `ステップ4：代金総額(24円)に対する割合は 3/24 = <strong>1/8</strong>。`
                 ]
             };
         }
@@ -975,7 +1031,7 @@
             const setPool = [genSet1, genSet2, genSet3];
             const settlementPool = [genSettlement1, genSettlement2, genSettlement3];
             const discountPool = [genDiscount1, genDiscount2];
-            const installmentPool = [genInstallment1, genInstallment2];
+            const installmentPool = [genInstallment1, genInstallment2, genInstallment3];
             const allPool = [...setPool, ...settlementPool, ...discountPool, ...installmentPool];
 
             let candidates = allPool.map(fn => fn()).filter(q => q.level === cbtCurrentLevel);
@@ -1116,7 +1172,7 @@
                     btn.classList.add('bg-teal-600', 'hover:bg-teal-500');
                 }, 2000);
             } catch (err) {
-                alert('コピーに失敗しました。');
+                // Ignore clipboard failure in restricted iframes
             }
             document.body.removeChild(textArea);
         }
@@ -1164,7 +1220,7 @@
             const setPool = [genSet1, genSet2, genSet3];
             const settlementPool = [genSettlement1, genSettlement2, genSettlement3];
             const discountPool = [genDiscount1, genDiscount2];
-            const installmentPool = [genInstallment1, genInstallment2];
+            const installmentPool = [genInstallment1, genInstallment2, genInstallment3];
 
             if (currentUnit === 'set') pool = setPool;
             else if (currentUnit === 'settlement') pool = settlementPool;
