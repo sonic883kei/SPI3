@@ -705,32 +705,39 @@
             const onlyA = getRandomInt(10, 20);
             const onlyB = getRandomInt(10, 20);
             const onlyC = getRandomInt(10, 20);
-            const ab = getRandomInt(5, 10);
-            const bc = getRandomInt(5, 10);
-            const ca = getRandomInt(5, 10);
+            const ab = getRandomInt(4, 8);
+            const bc = getRandomInt(4, 8);
+            const ca = getRandomInt(4, 8);
             const abc = getRandomInt(3, 8);
-            const none = getRandomInt(10, 15);
+            const none = getRandomInt(8, 15);
 
             const total = onlyA + onlyB + onlyC + ab + bc + ca + abc + none;
             const readA = onlyA + ab + ca + abc;
             const readB = onlyB + ab + bc + abc;
+            const readC = onlyC + bc + ca + abc;
 
-            const readAorB = readA + readB - (ab + abc);
+            const abTotal = ab + abc;
+            const bcTotal = bc + abc;
+            const caTotal = ca + abc;
+
+            const atLeastOne = total - none;
+            const sumSingleMinusPairs = (readA + readB + readC) - (abTotal + bcTotal + caTotal);
 
             return {
                 unit: '集合',
                 level: 3,
                 badge: 'Lv.3 高難易度',
-                title: '3集合ベン図',
-                text: `${total}人の購読者に新聞A, B, Cの購読状況を調査した。<br>新聞Aを読んでいる人は ${readA}人、新聞Bを読んでいる人は ${readB}人であった。<br>AとBの両方を読んでいる人は ${ab + abc}人、どの新聞も読んでいない人は ${none}人であった。`,
-                prompt: '新聞Aと新聞Bの「少なくとも一方」を購読している人は何人か。',
-                correctAnswer: readAorB,
+                title: '3集合ベン図（包除原理）',
+                text: `${total}人の学生に新聞A, B, Cの購読状況を調査した。<br>・新聞Aの購読者：${readA}人、新聞Bの購読者：${readB}人、新聞Cの購読者：${readC}人<br>・AとBの両方：${abTotal}人、BとCの両方：${bcTotal}人、CとAの両方：${caTotal}人<br>・どの新聞も購読していない人：${none}人`,
+                prompt: '新聞A, B, Cの3つすべてを購読している人は何人か。',
+                correctAnswer: abc,
                 unitSuffix: '人',
-                step: 5,
+                step: 2,
                 steps: [
-                    `ステップ1：集合の公式 P(A ∪ B) = P(A) + P(B) - P(A ∩ B) を適用する。`,
-                    `ステップ2：Aの読者 (${readA}人) + Bの読者 (${readB}人) = ${readA + readB}人。`,
-                    `ステップ3：ここから重複しているA・B両方の読者 (${ab + abc}人) を差し引く。<br><strong>${readA} + ${readB} - ${ab + abc} = ${readAorB}人</strong>`
+                    `ステップ1：全体 (${total}人) からどれも購読していない (${none}人) を引き、少なくとも1つ購読している人数を求める。<br><strong>${total} - ${none} = ${atLeastOne}人</strong>`,
+                    `ステップ2：3集合の包除原理の公式を利用する。<br><strong>P(A∪B∪C) = P(A) + P(B) + P(C) - P(A∩B) - P(B∩C) - P(C∩A) + P(A∩B∩C)</strong>`,
+                    `ステップ3：公式に各数値を代入する。<br><strong>${atLeastOne} = (${readA} + ${readB} + ${readC}) - (${abTotal} + ${bcTotal} + ${caTotal}) + (3つすべて)</strong><br><strong>${atLeastOne} = ${readA + readB + readC} - ${abTotal + bcTotal + caTotal} + (3つすべて)</strong><br><strong>${atLeastOne} = ${sumSingleMinusPairs} + (3つすべて)</strong>`,
+                    `ステップ4：3つすべてを購読している人数を算出する。<br><strong>${atLeastOne} - ${sumSingleMinusPairs} = ${abc}人</strong>`
                 ]
             };
         }
@@ -876,24 +883,27 @@
             const denoms = [6, 8, 10, 12];
             const d = denoms[Math.floor(Math.random() * denoms.length)];
             
-            const baseTotal = 4 * d;
-            const headPaid = baseTotal / 4;
-            const remTotal = baseTotal - headPaid;
-            const remainingCount = d - 1;
-            const eachPay = remTotal / remainingCount;
+            const baseTotal = 24; // 代金を24円に固定（問題文と一致させる）
+            const headPaid = baseTotal / 4; // 24 * 1/4 = 6円
+            const remTotal = baseTotal - headPaid; // 24 - 6 = 18円
+            const remainingCount = 5; // 5回に分けて支払う
+            const eachPay = remTotal / remainingCount; // 18 / 5 = 3.6円だが整数の場合は分数の約分形式で処理
             
+            // 正確な分数（18/5 / 24 = 3/20）を算出
             function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-            const g = gcd(eachPay, baseTotal);
-            const numFinal = eachPay / g;
-            const denFinal = baseTotal / g;
-            const correctAnsText = `${numFinal}/${denFinal}`;
+            const num = 18;
+            const den = 5 * baseTotal; // 5 * 24 = 120
+            const g = gcd(num, den);
+            const numFinal = num / g; // 18 / 6 = 3
+            const denFinal = den / g; // 120 / 6 = 20
+            const correctAnsText = `${numFinal}/${denFinal}`; // "3/20"
 
             const distractors = [
                 `1/${denFinal - 2}`,
-                `1/${denFinal + 2}`,
-                `3/${denFinal}`,
-                `1/${denFinal * 2}`,
-                `2/${denFinal}`
+                `2/${denFinal}`,
+                `3/${denFinal - 5}`,
+                `4/${denFinal}`,
+                `2/${denFinal + 4}`
             ].filter(s => s !== correctAnsText);
 
             return {
@@ -909,8 +919,8 @@
                 steps: [
                     `ステップ1：代金全体の総額を ${baseTotal}円 とする。`,
                     `ステップ2：1回目に支払う頭金は、${baseTotal} × 1/4 = ${headPaid}円。残りの金額は ${baseTotal} - ${headPaid} = ${remTotal}円。`,
-                    `ステップ3：残りの ${remTotal}円 を ${remainingCount}回 に均等に分けると、1回あたり ${remTotal} ÷ ${remainingCount} = ${eachPay}円。`,
-                    `ステップ4：代金全体に対する割合は ${eachPay}/${baseTotal} を約分して <strong>${correctAnsText}</strong> となる。`
+                    `ステップ3：残りの ${remTotal}円 を ${remainingCount}回 に均等に分けると、1回あたり ${remTotal} ÷ ${remainingCount} = ${remTotal/remainingCount}円。`,
+                    `ステップ4：代金全体に対する割合は ${remTotal/remainingCount}/${baseTotal} を約分して <strong>${correctAnsText}</strong> となる。`
                 ]
             };
         }
