@@ -2,9 +2,6 @@
 <html lang="ja">
 <head>
     <!-- Chosen Palette: Slate Dark Harmony -->
-    <!-- Application Structure Plan: SPI非言語問題演習およびCBT模擬試験機能を提供する単一画面SPA。通常練習モードとCBT模擬試験モードをシームレスに切替可能。選択肢自動生成ロジックの無限ループバグを修正し、複数回の連続模擬試験実行でも安定して稼働する設計。 -->
-    <!-- Visualization & Content Choices: CBT模擬試験の難易度推移を動的HTML/CSSバーチャートで可視化。グラフライブラリ不要で軽量かつレスポンシブ。NO SVG, NO Mermaid JS。 -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPI非言語分野 問題演習 - CBT模擬試験 & 無限問題演習</title>
@@ -288,7 +285,7 @@
         <!-- Question Display Card -->
         <section id="question-card" class="bg-[#141a2e] rounded-2xl p-6 md:p-8 shadow-md border border-slate-800/80 mb-6 transition overflow-hidden relative">
             <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden mb-5">
-                <div id="timer-bar" class="bg-indigo-500 h-full w-full transition-all duration-300 linear"></div>
+                <div id="timer-bar" class="bg-indigo-500 h-full w-full transition-all duration-100 linear"></div>
             </div>
 
             <!-- Header Badge -->
@@ -437,6 +434,8 @@
         let questionTimerInterval = null;
         let maxQuestionTime = 90;
         let remainingQuestionTime = 90;
+        let timerStartTime = 0;
+        let timerDurationMs = 90000;
 
         // CBT Mode State
         let isCBTMode = false;
@@ -532,7 +531,6 @@
             `).join('');
         }
 
-        // Helper Utilities
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
@@ -541,9 +539,6 @@
             return val.toLocaleString() + '円';
         }
 
-        // ==========================================
-        // LANDING & NAVIGATION CONTROLS
-        // ==========================================
         function enterPracticeMode() {
             document.getElementById('landing-view').classList.add('hidden');
             if (!currentQuestion) {
@@ -558,7 +553,6 @@
             if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
             if (cbtCountdownInterval) clearInterval(cbtCountdownInterval);
 
-            // Exit CBT if active
             if (isCBTMode) {
                 exitCBTMode();
             }
@@ -570,9 +564,6 @@
             openCBTModal();
         }
 
-        // ==========================================
-        // CHOICE GENERATOR (A-F)
-        // ==========================================
         function generateChoices(q) {
             const correctVal = q.correctAnswer;
             const unitSuffix = q.unitSuffix || '';
@@ -654,9 +645,6 @@
             return choiceList;
         }
 
-        // ==========================================
-        // PROBLEM GENERATORS
-        // ==========================================
         function genSet1() {
             const total = getRandomInt(6, 12) * 10;
             const neither = getRandomInt(1, 3) * 5;
@@ -884,9 +872,6 @@
             };
         }
 
-        // ==========================================
-        // 分割払い (Fraction / Ratio based SPI Style)
-        // ==========================================
         function genInstallment1() {
             const denoms = [6, 8, 10, 12];
             const d = denoms[Math.floor(Math.random() * denoms.length)];
@@ -894,7 +879,8 @@
             const baseTotal = 4 * d;
             const headPaid = baseTotal / 4;
             const remTotal = baseTotal - headPaid;
-            const eachPay = remTotal / d;
+            const remainingCount = d - 1;
+            const eachPay = remTotal / remainingCount;
             
             function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
             const g = gcd(eachPay, baseTotal);
@@ -915,16 +901,16 @@
                 level: 1,
                 badge: 'Lv.1 基本',
                 title: '頭金と残り均等払い',
-                text: `商品を買い、代金は ${d}回に分けて均等に支払うことにした。ただし、初回（1回目）に代金の 1/4 を頭金として支払い、残りの金額を分割で支払った。`,
-                prompt: `2回目の支払額は代金のどれだけにあたるか。`,
+                text: `代金が ${baseTotal}円 の商品を買い、初回に代金の 1/4 を頭金として支払い、残りの金額を ${remainingCount}回 に分けて毎月同額ずつ支払うことにした。`,
+                prompt: `毎月の支払額は、代金全体のどれだけにあたるか。`,
                 correctAnswer: correctAnsText,
                 distractors: distractors,
                 unitSuffix: '',
                 steps: [
-                    `ステップ1：総額を ${baseTotal}円 とおく。`,
-                    `ステップ2：1回目に支払う頭金は、${baseTotal} × 1/4 = ${headPaid}円。残りは ${remTotal}円。`,
-                    `ステップ3：残り ${remTotal}円 を ${d}回に分けると、1回あたり ${remTotal} ÷ ${d} = ${eachPay}円。`,
-                    `ステップ4：代金全体に対する割合は ${eachPay}/${baseTotal} = <strong>${correctAnsText}</strong> となる。`
+                    `ステップ1：代金全体の総額を ${baseTotal}円 とする。`,
+                    `ステップ2：1回目に支払う頭金は、${baseTotal} × 1/4 = ${headPaid}円。残りの金額は ${baseTotal} - ${headPaid} = ${remTotal}円。`,
+                    `ステップ3：残りの ${remTotal}円 を ${remainingCount}回 に均等に分けると、1回あたり ${remTotal} ÷ ${remainingCount} = ${eachPay}円。`,
+                    `ステップ4：代金全体に対する割合は ${eachPay}/${baseTotal} を約分して <strong>${correctAnsText}</strong> となる。`
                 ]
             };
         }
@@ -995,9 +981,6 @@
             };
         }
 
-        // ==========================================
-        // UI & EVENT HANDLERS
-        // ==========================================
         function openCBTModal() {
             document.getElementById('cbt-modal').classList.remove('hidden');
         }
@@ -1048,7 +1031,6 @@
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
 
-            // Hide landing modal / view if open
             document.getElementById('landing-view').classList.add('hidden');
             document.getElementById('cbt-countdown-modal').classList.add('hidden');
 
@@ -1258,9 +1240,7 @@
                     btn.classList.remove('bg-emerald-600');
                     btn.classList.add('bg-teal-600', 'hover:bg-teal-500');
                 }, 2000);
-            } catch (err) {
-                // Ignore clipboard failure in restricted iframes
-            }
+            } catch (err) {}
             document.body.removeChild(textArea);
         }
 
@@ -1367,33 +1347,41 @@
             else if (level === 3) maxQuestionTime = 180;
             else maxQuestionTime = 90;
 
+            timerDurationMs = maxQuestionTime * 1000;
+            timerStartTime = Date.now();
             remainingQuestionTime = maxQuestionTime;
-            updateTimerBar();
+            
+            updateTimerBarSmooth();
 
             questionTimerInterval = setInterval(() => {
-                remainingQuestionTime--;
-                updateTimerBar();
+                const elapsed = Date.now() - timerStartTime;
+                remainingQuestionTime = Math.max(0, (timerDurationMs - elapsed) / 1000);
 
                 if (remainingQuestionTime <= 0) {
                     clearInterval(questionTimerInterval);
                     handleTimeOut();
                 }
-            }, 1000);
+            }, 50);
         }
 
-        function updateTimerBar() {
+        function updateTimerBarSmooth() {
             const timerBar = document.getElementById('timer-bar');
             if (!timerBar) return;
 
-            const percentage = Math.max(0, (remainingQuestionTime / maxQuestionTime) * 100);
+            const elapsed = Date.now() - timerStartTime;
+            const percentage = Math.max(0, ((timerDurationMs - elapsed) / timerDurationMs) * 100);
             timerBar.style.width = `${percentage}%`;
 
             if (percentage > 50) {
-                timerBar.className = 'bg-indigo-500 h-full transition-all duration-300 ease-linear';
+                timerBar.className = 'bg-indigo-500 h-full transition-all duration-75 ease-linear';
             } else if (percentage > 20) {
-                timerBar.className = 'bg-amber-500 h-full transition-all duration-300 ease-linear';
+                timerBar.className = 'bg-amber-500 h-full transition-all duration-75 ease-linear';
             } else {
-                timerBar.className = 'bg-rose-500 h-full transition-all duration-300 ease-linear';
+                timerBar.className = 'bg-rose-500 h-full transition-all duration-75 ease-linear';
+            }
+
+            if (!isAnswered && questionTimerInterval) {
+                requestAnimationFrame(updateTimerBarSmooth);
             }
         }
 
@@ -1577,7 +1565,6 @@
 
         window.onload = function() {
             loadGlobalHistory();
-            // Do not auto-start question timer immediately; landing view is displayed.
         };
     </script>
 </body>
