@@ -235,8 +235,8 @@
                     <div id="timer-bar" class="bg-indigo-500 h-full w-full transition-all duration-100 linear"></div>
                 </div>
 
-                <!-- Meta Header -->
-                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 text-xs">
+                <!-- Meta Header (Hidden in CBT Mode) -->
+                <div id="q-meta-header" class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 text-xs">
                     <div class="flex items-center space-x-2">
                         <span id="unit-badge" class="px-2.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-200 border border-slate-700">
                             単元
@@ -960,6 +960,14 @@
             isAnswered = false;
             document.getElementById('explanation-card').classList.add('hidden');
 
+            // CBTモード時は単元名・レベル・小単元名を非表示にする
+            const metaHeader = document.getElementById('q-meta-header');
+            if (isCBTMode) {
+                metaHeader.classList.add('hidden');
+            } else {
+                metaHeader.classList.remove('hidden');
+            }
+
             document.getElementById('unit-badge').innerText = currentQuestion.unit;
             document.getElementById('q-badge').innerText = currentQuestion.badge;
             document.getElementById('q-pattern-title').innerText = currentQuestion.title;
@@ -991,7 +999,8 @@
 
         function startQuestionTimer(level) {
             if (questionTimerInterval) clearInterval(questionTimerInterval);
-            maxQuestionTime = level === 1 ? 90 : (level === 2 ? 120 : 180);
+            // レベル3の制限時間を120秒に変更しました
+            maxQuestionTime = level === 1 ? 75 : (level === 2 ? 100 : 120);
             timerDurationMs = maxQuestionTime * 1000;
             timerStartTime = Date.now();
             remainingQuestionTime = maxQuestionTime;
@@ -1004,7 +1013,7 @@
                     clearInterval(questionTimerInterval);
                     handleTimeOut();
                 }
-            }, 50);
+            }, 100);
         }
 
         function updateTimerBarSmooth() {
@@ -1014,11 +1023,11 @@
             const percentage = Math.max(0, ((timerDurationMs - elapsed) / timerDurationMs) * 100);
             timerBar.style.width = `${percentage}%`;
 
-            if (percentage > 50) timerBar.className = 'bg-indigo-500 h-full transition-all duration-75 ease-linear';
-            else if (percentage > 20) timerBar.className = 'bg-amber-500 h-full transition-all duration-75 ease-linear';
-            else timerBar.className = 'bg-rose-500 h-full transition-all duration-75 ease-linear';
+            if (percentage > 50) timerBar.className = 'bg-indigo-500 h-full transition-all duration-100 linear';
+            else if (percentage > 20) timerBar.className = 'bg-amber-500 h-full transition-all duration-100 linear';
+            else timerBar.className = 'bg-rose-500 h-full transition-all duration-100 linear';
 
-            if (!isAnswered && questionTimerInterval) {
+            if (!isAnswered && remainingQuestionTime > 0) {
                 requestAnimationFrame(updateTimerBarSmooth);
             }
         }
@@ -1254,12 +1263,17 @@
         function exitCBTMode() {
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             isCBTMode = false;
+            // CBT終了時にメタヘータ表示を元に戻せるようにしておく
+            const metaHeader = document.getElementById('q-meta-header');
+            if (metaHeader) metaHeader.classList.remove('hidden');
             goToLanding();
         }
 
         function finishCBTMode() {
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             hideAllViews();
+            const metaHeader = document.getElementById('q-meta-header');
+            if (metaHeader) metaHeader.classList.remove('hidden');
             const score = cbtHistory.filter(h => h.isCorrect).length;
             const accuracy = Math.round((score / cbtTotalQuestions) * 100);
 
