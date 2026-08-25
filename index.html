@@ -44,16 +44,23 @@
                     <i class="fa-solid fa-sliders text-indigo-400"></i>
                     <span>単元・レベル変更</span>
                 </button>
+
+                <!-- Review Button (Moved next to top/nav buttons) -->
+                <button onclick="openReviewModal()" class="text-xs bg-indigo-950/80 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/60 py-1.5 px-3 rounded-xl transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-list-check text-indigo-400"></i>
+                    <span>回答振り返り</span>
+                </button>
             </div>
             <div class="flex items-center space-x-3">
-                <div class="text-right">
-                    <span class="text-[10px] text-slate-400 block -mb-1">正解率</span>
-                    <span class="text-xs md:text-sm font-bold text-teal-400" id="stat-accuracy">0 % (0/0)</span>
-                </div>
-                <button onclick="openHistoryModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-1.5 px-2.5 rounded-xl transition flex items-center space-x-1">
-                    <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
-                    <span class="hidden sm:inline">履歴</span>
-                </button>
+            <div class="text-right">
+                <span class="text-[10px] text-slate-400 block -mb-1">正解率</span>
+                <span class="text-xs md:text-sm font-bold text-teal-400" id="stat-accuracy">0 % (0/0)</span>
+            </div>
+            <button onclick="openHistoryModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-1.5 px-2.5 rounded-xl transition flex items-center space-x-1">
+                <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
+                <span class="hidden sm:inline">履歴</span>
+            </button>
+        </div>
             </div>
         </div>
     </header>
@@ -323,26 +330,40 @@
                 </div>
             </div>
 
-            <div class="mb-6 bg-[#0b0f19] p-4 rounded-2xl border border-slate-800">
-                <h3 class="text-xs font-bold text-slate-300 mb-3 flex items-center">
-                    <i class="fa-solid fa-chart-line text-teal-400 mr-1.5"></i>難易度レベル推移
-                </h3>
-                <div class="h-24 flex items-end justify-between gap-1 pt-3 border-b border-slate-800" id="cbt-level-chart"></div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-2.5">
-                <button onclick="openCBTModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-5 rounded-xl text-xs transition">
-                    もう一度模擬試験を受ける
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="openReviewModal()" class="w-full py-3.5 rounded-2xl bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 font-bold transition text-xs shadow-lg flex items-center justify-center space-x-1.5">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>回答振り返り</span>
                 </button>
-                <button onclick="exitCBTMode()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-5 rounded-xl text-xs transition border border-slate-700">
-                    通常演習に戻る
+                <button onclick="goToLanding()" class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition text-xs shadow-lg">
+                    トップ画面に戻る
                 </button>
             </div>
         </section>
 
     </main>
 
-    <!-- Modals (History & CBT Mode Select) -->
+    <!-- Modals (History & CBT Mode Select & Review Modal) -->
+    <div id="review-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-[#141a2e] rounded-3xl max-w-lg w-full p-5 shadow-2xl border border-slate-700 max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-list-check text-indigo-400 mr-2"></i>回答振り返り (今回のセッション)
+                </h3>
+                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto space-y-3 flex-grow pr-1" id="session-review-list"></div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                <span class="text-xs text-slate-400" id="review-count-info">全 0 問</span>
+                <button onclick="closeReviewModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 px-5 rounded-xl transition shadow-md">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="history-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
         <div class="bg-[#141a2e] rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-700 max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
@@ -422,6 +443,7 @@
 
         // Global History
         let globalHistory = [];
+        let sessionAnswers = []; // 今回のセッションでの回答履歴詳細
 
         // View Navigation System
         function hideAllViews() {
@@ -502,6 +524,7 @@
         function startPracticeWithConfig() {
             hideAllViews();
             updateActiveConfigBadge();
+            sessionAnswers = []; // セッション開始時にリセット
             document.getElementById('practice-config-banner').classList.remove('hidden');
             document.getElementById('view-practice').classList.remove('hidden');
             document.getElementById('nav-change-config-btn').classList.remove('hidden');
@@ -563,9 +586,9 @@
 
         // --- ② 代金清算 (Settlement Generators) ---
         function genSettlement1() {
-            const priceA = getRandomInt(500, 1500);
-            const priceB = getRandomInt(300, 900);
-            const countA = getRandomInt(3, 6);
+            const priceA = getRandomInt(5, 15) * 100; // 500〜1500円の100円単位
+            const priceB = getRandomInt(3, 9) * 100;   // 300〜900円の100円単位
+            const countA = getRandomInt(2, 5);
             const countB = getRandomInt(2, 5);
             const total = priceA * countA + priceB * countB;
             const perPerson = Math.round(total / 4);
@@ -583,17 +606,20 @@
 
         // --- ③ 料金割引 (Discount Generators) ---
         function genDiscount1() {
-            const original = getRandomInt(2000, 8000);
-            const rate = [10, 15, 20, 25][getRandomInt(0, 3)];
+            const rate = [10, 20, 25, 30, 40, 50][getRandomInt(0, 5)];
+            // 定価が100円単位で、かつ割引後の価格も必ず整数（円）になるようにする
+            // 割引後の価格 = original * (1 - rate/100) が整数になるため、originalは 100 の倍数にする
+            const original = getRandomInt(20, 90) * 100;
             const discounted = Math.round(original * (1 - rate / 100));
+            const discountAmount = original - discounted;
 
             return {
                 unit: '料金割引', level: 1, badge: 'Lv.1 基本', title: '定価の割引計算',
                 text: `定価 ${original.toLocaleString()}円 の商品が、セールで ${rate}% 引きで販売されている。`,
                 prompt: '割引後の販売価格はいくらか。', correctAnswer: discounted, unitSuffix: '円', step: 100,
                 steps: [
-                    `ステップ1：割引額を求める。<br><strong>${original.toLocaleString()} × ${rate / 100} = ${(original * rate / 100).toLocaleString()}円</strong>`,
-                    `ステップ2：定価から割引額を引く。<br><strong>${original.toLocaleString()} - ${(original * rate / 100).toLocaleString()} = ${discounted.toLocaleString()}円</strong>`
+                    `ステップ1：割引額を求める。<br><strong>${original.toLocaleString()} × ${rate / 100} = ${discountAmount.toLocaleString()}円</strong>`,
+                    `ステップ2：定価から割引額を引く。<br><strong>${original.toLocaleString()} - ${discountAmount.toLocaleString()} = ${discounted.toLocaleString()}円</strong>`
                 ]
             };
         }
@@ -1001,6 +1027,20 @@
             if (isAnswered) return;
             isAnswered = true;
 
+            const correctChoiceObj = currentQuestion.choices.find(c => c.isCorrect);
+            sessionAnswers.unshift({
+                question: currentQuestion.text,
+                prompt: currentQuestion.prompt,
+                unit: currentQuestion.unit,
+                badge: currentQuestion.badge,
+                selectedLabel: '時間切れ',
+                selectedText: '未回答（タイムアウト）',
+                correctLabel: correctChoiceObj.label,
+                correctText: correctChoiceObj.htmlText,
+                isCorrect: false,
+                steps: currentQuestion.steps
+            });
+
             if (isCBTMode) {
                 cbtHistory.push({ question: currentQuestion, selectedChoice: null, isCorrect: false, level: cbtCurrentLevel });
                 cbtCurrentLevel = Math.max(1, cbtCurrentLevel - 1);
@@ -1035,6 +1075,20 @@
 
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             const isCorrect = choice.isCorrect;
+            const correctChoiceObj = currentQuestion.choices.find(c => c.isCorrect);
+
+            sessionAnswers.unshift({
+                question: currentQuestion.text,
+                prompt: currentQuestion.prompt,
+                unit: currentQuestion.unit,
+                badge: currentQuestion.badge,
+                selectedLabel: choice.label,
+                selectedText: choice.htmlText,
+                correctLabel: correctChoiceObj.label,
+                correctText: correctChoiceObj.htmlText,
+                isCorrect: isCorrect,
+                steps: currentQuestion.steps
+            });
 
             if (isCBTMode) {
                 cbtHistory.push({ question: currentQuestion, selectedChoice: choice, isCorrect: isCorrect, level: cbtCurrentLevel });
@@ -1087,48 +1141,54 @@
             document.getElementById('explanation-content').innerHTML = currentQuestion.steps
                 .map(step => `<div class="bg-[#1b233a] border-l-4 border-indigo-500 p-3 rounded-r-xl text-slate-200">${step}</div>`)
                 .join('');
-
             expCard.classList.remove('hidden');
-            expCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function updateStats() {
-            const accuracy = totalCount === 0 ? 0 : Math.round((correctCount / totalCount) * 100);
-            document.getElementById('stat-accuracy').innerText = `${accuracy} % (${correctCount}/${totalCount})`;
-        }
-
-        function resetStats() {
-            totalCount = 0;
-            correctCount = 0;
-            updateStats();
-        }
-
-        function loadGlobalHistory() {
-            try {
-                const saved = localStorage.getItem('spi_global_history');
-                if (saved) globalHistory = JSON.parse(saved);
-            } catch(e) { globalHistory = []; }
-        }
-
-        function saveGlobalHistory() {
-            try {
-                localStorage.setItem('spi_global_history', JSON.stringify(globalHistory));
-            } catch(e) {}
-        }
-
-        function recordPracticeSessionToGlobal() {
-            const accuracy = totalCount === 0 ? 0 : Math.round((correctCount / totalCount) * 100);
-            if (globalHistory.length > 0 && globalHistory[0].type === '通常練習モード') {
-                globalHistory[0].scoreText = `正解数: ${correctCount} / ${totalCount}問`;
-                globalHistory[0].accuracy = accuracy;
+        function openReviewModal() {
+            const listEl = document.getElementById('session-review-list');
+            document.getElementById('review-count-info').innerText = `全 ${sessionAnswers.length} 問の履歴`;
+            if (sessionAnswers.length === 0) {
+                listEl.innerHTML = `<div class="text-center py-10 text-slate-500 text-xs">まだ今回の演習で解答した問題はありません</div>`;
             } else {
-                globalHistory.unshift({
-                    date: new Date().toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
-                    type: '通常練習モード', scoreText: `正解数: ${correctCount} / ${totalCount}問`, accuracy: accuracy, detail: `単元: ${configUnit}, 難易度: ${configLevel}`
-                });
-                if (globalHistory.length > 10) globalHistory = globalHistory.slice(0, 10);
+                listEl.innerHTML = sessionAnswers.map((item, idx) => `
+                    <div class="bg-[#1b233a] border ${item.isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40'} rounded-2xl p-4 text-xs">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.isCorrect ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
+                                    ${item.isCorrect ? '正解' : '不正解'}
+                                </span>
+                                <span class="text-slate-400 text-[10px]">${item.unit} / ${item.badge}</span>
+                            </div>
+                            <span class="text-slate-500 text-[10px]">#${sessionAnswers.length - idx}</span>
+                        </div>
+                        <p class="text-slate-200 font-medium mb-2 leading-relaxed">${item.question}</p>
+                        <div class="bg-[#1c243c] border-l-4 border-indigo-500 p-2.5 rounded-r-xl mb-3 text-indigo-200 font-bold text-xs">
+                            ${item.prompt}
+                        </div>
+                        <div class="bg-[#111827] p-2.5 rounded-xl space-y-1 text-[11px] mb-2 border border-slate-800">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">あなたの解答:</span>
+                                <span class="font-bold ${item.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${item.selectedLabel}: ${item.selectedText}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">正解:</span>
+                                <span class="font-bold text-emerald-400">${item.correctLabel}: ${item.correctText}</span>
+                            </div>
+                        </div>
+                        <details class="text-[11px] text-indigo-300 cursor-pointer">
+                            <summary class="font-bold hover:text-indigo-200">解説・ステップを表示</summary>
+                            <div class="mt-2 space-y-1.5 text-slate-300 pt-2 border-t border-slate-800">
+                                ${item.steps.map(s => `<div class="bg-[#141a2e] p-2 rounded border-l-2 border-indigo-500">${s}</div>`).join('')}
+                            </div>
+                        </details>
+                    </div>
+                `).join('');
             }
-            saveGlobalHistory();
+            document.getElementById('review-modal').classList.remove('hidden');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('review-modal').classList.add('hidden');
         }
 
         function openHistoryModal() {
@@ -1172,8 +1232,9 @@
             cbtTotalQuestions = type === 'mini' ? 10 : 20;
             cbtMaxOverallTime = type === 'mini' ? 900 : 1800;
             cbtQuestionIndex = 0;
-            cbtCurrentLevel = 1; // 模擬試験はLv.1からスタート
+            cbtCurrentLevel = 1;
             cbtHistory = [];
+            sessionAnswers = [];
 
             document.getElementById('practice-config-banner').classList.add('hidden');
             document.getElementById('cbt-status-bar').classList.remove('hidden');
@@ -1187,7 +1248,6 @@
                 return;
             }
             document.getElementById('cbt-progress-text').innerText = `第 ${cbtQuestionIndex + 1} / ${cbtTotalQuestions} 問 (現在 Lv.${cbtCurrentLevel})`;
-            // CBTモードでは単元・レベル設定に関わらず、全分野からランダム＋適応型レベル調整を行う
             generateNewQuestion();
         }
 
@@ -1198,6 +1258,7 @@
         }
 
         function finishCBTMode() {
+            if (questionTimerInterval) clearInterval(questionTimerInterval);
             hideAllViews();
             const score = cbtHistory.filter(h => h.isCorrect).length;
             const accuracy = Math.round((score / cbtTotalQuestions) * 100);
@@ -1205,7 +1266,79 @@
             document.getElementById('cbt-res-score').innerText = `${score} / ${cbtTotalQuestions}`;
             document.getElementById('cbt-res-accuracy').innerText = `${accuracy} %`;
             document.getElementById('cbt-res-final-lvl').innerText = `Lv.${cbtCurrentLevel}`;
+            
+            globalHistory.unshift({
+                type: cbtModeType === 'mini' ? 'CBT ミニテスト (10問)' : 'CBT フル模擬試験 (20問)',
+                scoreText: `${score} / ${cbtTotalQuestions}問正解`,
+                accuracy: accuracy,
+                date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            });
+            if (globalHistory.length > 10) globalHistory.pop();
+            saveGlobalHistory();
+
             document.getElementById('cbt-result-card').classList.remove('hidden');
+        }
+
+        function updateStats() {
+            const accEl = document.getElementById('stat-accuracy');
+            if (accEl) {
+                const acc = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+                accEl.innerText = `${acc} % (${correctCount}/${totalCount})`;
+            }
+        }
+
+        function resetStats() {
+            totalCount = 0;
+            correctCount = 0;
+            updateStats();
+            sessionAnswers = [];
+            globalHistory = [];
+            saveGlobalHistory();
+        }
+
+        function recordPracticeSessionToGlobal() {
+            if (totalCount > 0 && totalCount % 5 === 0) {
+                const acc = Math.round((correctCount / totalCount) * 100);
+                // Avoid duplicating the exact same count record
+                const existingIndex = globalHistory.findIndex(h => h.type.includes('通常問題演習') && h.date.includes(new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' })));
+                const record = {
+                    type: '通常問題演習',
+                    scoreText: `${correctCount} / ${totalCount}問正解`,
+                    accuracy: acc,
+                    date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                };
+                if (existingIndex !== -1) {
+                    globalHistory[existingIndex] = record;
+                } else {
+                    globalHistory.unshift(record);
+                }
+                if (globalHistory.length > 10) globalHistory.pop();
+                saveGlobalHistory();
+            }
+        }
+
+        function saveGlobalHistory() {
+            try {
+                localStorage.setItem('spi_global_history', JSON.stringify(globalHistory));
+                localStorage.setItem('spi_total_count', totalCount);
+                localStorage.setItem('spi_correct_count', correctCount);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function loadGlobalHistory() {
+            try {
+                const saved = localStorage.getItem('spi_global_history');
+                if (saved) globalHistory = JSON.parse(saved);
+                const tCount = localStorage.getItem('spi_total_count');
+                const cCount = localStorage.getItem('spi_correct_count');
+                if (tCount !== null) totalCount = parseInt(tCount);
+                if (cCount !== null) correctCount = parseInt(cCount);
+                updateStats();
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         window.onload = function() {
