@@ -207,8 +207,8 @@
         <!-- 3. PRACTICE VIEW (問題演習専用画面) -->
         <section id="view-practice" class="hidden w-full animate-fade-in max-w-2xl mx-auto my-auto">
             
-            <!-- Current Status Banner -->
-            <div class="mb-4 bg-[#141a2e] rounded-xl px-4 py-2.5 border border-slate-800 flex justify-between items-center text-xs">
+            <!-- Current Status Banner (Hide in CBT Mode) -->
+            <div id="practice-config-banner" class="mb-4 bg-[#141a2e] rounded-xl px-4 py-2.5 border border-slate-800 flex justify-between items-center text-xs">
                 <div class="flex items-center space-x-2">
                     <span class="text-slate-400">現在の設定:</span>
                     <span id="active-config-badge" class="px-2.5 py-0.5 rounded-md bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/50">
@@ -502,6 +502,7 @@
         function startPracticeWithConfig() {
             hideAllViews();
             updateActiveConfigBadge();
+            document.getElementById('practice-config-banner').classList.remove('hidden');
             document.getElementById('view-practice').classList.remove('hidden');
             document.getElementById('nav-change-config-btn').classList.remove('hidden');
             generateNewQuestion();
@@ -908,18 +909,22 @@
             const probabilityPool = [genProbability1, genProbability2, genProbability3, genProbability4, genProbability5, genProbability6];
             
             let pool = [];
-            if (configUnit === 'all') pool = [...setPool, ...settlementPool, ...discountPool, ...installmentPool, ...speedPool, ...profitPool, ...probabilityPool];
-            else if (configUnit === 'set') pool = setPool;
-            else if (configUnit === 'settlement') pool = settlementPool;
-            else if (configUnit === 'discount') pool = discountPool;
-            else if (configUnit === 'installment') pool = installmentPool;
-            else if (configUnit === 'speed') pool = speedPool;
-            else if (configUnit === 'profit') pool = profitPool;
-            else if (configUnit === 'probability') pool = probabilityPool;
+            // CBTモードの場合は強制的に全分野からランダム出題
+            const activeUnit = isCBTMode ? 'all' : configUnit;
+            const activeLevel = isCBTMode ? String(cbtCurrentLevel) : configLevel;
+
+            if (activeUnit === 'all') pool = [...setPool, ...settlementPool, ...discountPool, ...installmentPool, ...speedPool, ...profitPool, ...probabilityPool];
+            else if (activeUnit === 'set') pool = setPool;
+            else if (activeUnit === 'settlement') pool = settlementPool;
+            else if (activeUnit === 'discount') pool = discountPool;
+            else if (activeUnit === 'installment') pool = installmentPool;
+            else if (activeUnit === 'speed') pool = speedPool;
+            else if (activeUnit === 'profit') pool = profitPool;
+            else if (activeUnit === 'probability') pool = probabilityPool;
 
             let candidates = pool.map(fn => fn());
-            if (configLevel !== 'all') {
-                candidates = candidates.filter(q => q.level === parseInt(configLevel));
+            if (activeLevel !== 'all') {
+                candidates = candidates.filter(q => q.level === parseInt(activeLevel));
             }
             if (candidates.length === 0) candidates = pool.map(fn => fn());
 
@@ -1167,9 +1172,10 @@
             cbtTotalQuestions = type === 'mini' ? 10 : 20;
             cbtMaxOverallTime = type === 'mini' ? 900 : 1800;
             cbtQuestionIndex = 0;
-            cbtCurrentLevel = 1;
+            cbtCurrentLevel = 1; // 模擬試験はLv.1からスタート
             cbtHistory = [];
 
+            document.getElementById('practice-config-banner').classList.add('hidden');
             document.getElementById('cbt-status-bar').classList.remove('hidden');
             document.getElementById('view-practice').classList.remove('hidden');
             generateCBTQuestion();
@@ -1180,9 +1186,8 @@
                 finishCBTMode();
                 return;
             }
-            document.getElementById('cbt-progress-text').innerText = `第 ${cbtQuestionIndex + 1} / ${cbtTotalQuestions} 問`;
-            configUnit = 'all';
-            configLevel = String(cbtCurrentLevel);
+            document.getElementById('cbt-progress-text').innerText = `第 ${cbtQuestionIndex + 1} / ${cbtTotalQuestions} 問 (現在 Lv.${cbtCurrentLevel})`;
+            // CBTモードでは単元・レベル設定に関わらず、全分野からランダム＋適応型レベル調整を行う
             generateNewQuestion();
         }
 
