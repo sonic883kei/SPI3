@@ -559,6 +559,133 @@
                 ]
             };
         }
+
+        // --- ② 代金清算 (Settlement Generators) ---
+        function genSettlement1() {
+            const priceA = getRandomInt(500, 1500);
+            const priceB = getRandomInt(300, 900);
+            const countA = getRandomInt(3, 6);
+            const countB = getRandomInt(2, 5);
+            const total = priceA * countA + priceB * countB;
+            const perPerson = Math.round(total / 4);
+
+            return {
+                unit: '代金清算', level: 1, badge: 'Lv.1 基本', title: '割り勘の基本計算',
+                text: `4人で食事に行き、Aが ${priceA.toLocaleString()}円 の料理を ${countA}皿、Bが ${priceB.toLocaleString()}円 の料理を ${countB}皿 注文し、全員で均等に割り勘することにした。`,
+                prompt: '1人あたりいくら支払うか。', correctAnswer: perPerson, unitSuffix: '円', step: 100,
+                steps: [
+                    `ステップ1：全体の代金を計算する。<br><strong>(${priceA.toLocaleString()} × ${countA}) + (${priceB.toLocaleString()} × ${countB}) = ${total.toLocaleString()}円</strong>`,
+                    `ステップ2：4人で均等に割る。<br><strong>${total.toLocaleString()} ÷ 4 = ${perPerson.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
+        // --- ③ 料金割引 (Discount Generators) ---
+        function genDiscount1() {
+            const original = getRandomInt(2000, 8000);
+            const rate = [10, 15, 20, 25][getRandomInt(0, 3)];
+            const discounted = Math.round(original * (1 - rate / 100));
+
+            return {
+                unit: '料金割引', level: 1, badge: 'Lv.1 基本', title: '定価の割引計算',
+                text: `定価 ${original.toLocaleString()}円 の商品が、セールで ${rate}% 引きで販売されている。`,
+                prompt: '割引後の販売価格はいくらか。', correctAnswer: discounted, unitSuffix: '円', step: 100,
+                steps: [
+                    `ステップ1：割引額を求める。<br><strong>${original.toLocaleString()} × ${rate / 100} = ${(original * rate / 100).toLocaleString()}円</strong>`,
+                    `ステップ2：定価から割引額を引く。<br><strong>${original.toLocaleString()} - ${(original * rate / 100).toLocaleString()} = ${discounted.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
+        // --- ④ 分割払い (Installment Generators) ---
+        function genInstallment1() {
+            const total = getRandomInt(60000, 150000);
+            const first = Math.round(total * 0.3 / 1000) * 1000;
+            const months = [6, 10, 12][getRandomInt(0, 2)];
+            const rest = total - first;
+            const monthly = Math.round(rest / months);
+
+            return {
+                unit: '分割払い', level: 2, badge: 'Lv.2 応用', title: '頭金とボーナス・月賦払い',
+                text: `総額 ${total.toLocaleString()}円 の商品を購入する際、最初に頭金として ${first.toLocaleString()}円 を支払い、残りを ${months}ヶ月 で均等に分割して支払うことになった。`,
+                prompt: '毎月の支払額はいくらか。', correctAnswer: monthly, unitSuffix: '円', step: 500,
+                steps: [
+                    `ステップ1：分割払いの総額を求める。<br><strong>${total.toLocaleString()} - ${first.toLocaleString()} = ${rest.toLocaleString()}円</strong>`,
+                    `ステップ2：${months}ヶ月で割る。<br><strong>${rest.toLocaleString()} ÷ ${months} = ${monthly.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
+        // --- ⑤ 速さ (Speed Generators) ---
+        function genSpeed1() {
+            const speedA = getRandomInt(60, 90);
+            const speedB = getRandomInt(40, 60);
+            const distance = getRandomInt(300, 600);
+            const time = (distance / (speedA + speedB)).toFixed(1);
+
+            return {
+                unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '出会い算の基本',
+                text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
+                prompt: '2人が出会うのは出発してから何時間後か。', correctAnswer: parseFloat(time), unitSuffix: '時間後', step: 0.5,
+                steps: [
+                    `ステップ1：2人の合算の速さを求める。<br><strong>${speedA} + ${speedB} = ${speedA + speedB} km/h</strong>`,
+                    `ステップ2：距離を合算の速さで割る。<br><strong>${distance} ÷ ${speedA + speedB} = ${time} 時間後</strong>`
+                ]
+            };
+        }
+
+        // --- ⑥ 損益算 (Profit Generators) ---
+        function genProfit1() {
+            const cost = getRandomInt(1000, 5000);
+            const markup = [20, 25, 30, 40][getRandomInt(0, 3)];
+            const price = Math.round(cost * (1 + markup / 100));
+
+            return {
+                unit: '損益算', level: 1, badge: 'Lv.1 基本', title: '原価と定価・利益',
+                text: `ある品物に原価の ${markup}% の利益を見込んで定価をつけたところ、定価は ${price.toLocaleString()}円 になった。`,
+                prompt: 'この品物の原価はいくらか。', correctAnswer: cost, unitSuffix: '円', step: 100,
+                steps: [
+                    `ステップ1：定価は原価を「1 + ${markup/100}」倍したものと表せる。<br><strong>原価 × ${(1 + markup/100)} = ${price.toLocaleString()}円</strong>`,
+                    `ステップ2：原価を算出する。<br><strong>${price.toLocaleString()} ÷ ${(1 + markup/100)} = ${cost.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
+        function genProfit2() {
+            const cost = getRandomInt(2000, 6000);
+            const listPrice = Math.round(cost * 1.4 / 100) * 100;
+            const discountRate = 20;
+            const sellingPrice = Math.round(listPrice * (1 - discountRate / 100));
+            const profit = sellingPrice - cost;
+
+            return {
+                unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価からの値引きと実際の利益',
+                text: `原価 ${cost.toLocaleString()}円 の品物に 40% の利益を見込んで定価をつけたが、売れないため定価の ${discountRate}% 引きで販売した。`,
+                prompt: 'この品物1個あたりの実際の利益はいくらか。', correctAnswer: profit, unitSuffix: '円', step: 100,
+                steps: [
+                    `ステップ1：定価を求める。<br><strong>${cost.toLocaleString()} × 1.4 = ${listPrice.toLocaleString()}円</strong>`,
+                    `ステップ2：売値を求める。<br><strong>${listPrice.toLocaleString()} × (1 - 0.2) = ${sellingPrice.toLocaleString()}円</strong>`,
+                    `ステップ3：売値から原価を引いて利益を求める。<br><strong>${sellingPrice.toLocaleString()} - ${cost.toLocaleString()} = ${profit.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
+        function genProfit3() {
+            const totalCost = getRandomInt(20000, 50000);
+            const lossRate = 10;
+            const sellingPrice = Math.round(totalCost * (1 - lossRate / 100));
+            const loss = totalCost - sellingPrice;
+
+            return {
+                unit: '損益算', level: 1, badge: 'Lv.1 基本', title: '原価割れ（損失）の計算',
+                text: `仕入れた総額 ${totalCost.toLocaleString()}円 の商品が傷んだため、原価の ${lossRate}% 引き（損失）で全て売り払った。`,
+                prompt: 'このときの損失額はいくらか。', correctAnswer: loss, unitSuffix: '円', step: 100,
+                steps: [
+                    `ステップ1：損失の割合（${lossRate}%）を総額にかける。<br><strong>${totalCost.toLocaleString()} × 0.1 = ${loss.toLocaleString()}円</strong>`
+                ]
+            };
+        }
+
         // --- ⑦ 場合の数・確率 (Counting & Probability Generators) ---
         function genProbability1() {
             // レベル1 場合の数・基本形
