@@ -1,1311 +1,1433 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPI非言語分野 問題演習 - スマホ最適化版</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Noto Sans JP', 'Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Noto Sans JP', sans-serif; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.25s ease-out forwards;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPI3 適応型演習＆模擬テスト</title>
+  
+  <!-- Chosen Palette: Indigo Harmony (Warm Neutrals & Slate Backgrounds with Deep Indigo and Emerald Accents) -->
+  <!-- Application Structure Plan: 
+       Designed as a dynamic Single Page Application (SPA) structured into three distinct states:
+       1. Setup Screen: Mode choice (Practice vs CBT Mock Exam vs 10-Min Mini Test), domain/unit selection, difficulty selection, timer configs. Fetches gengo.json dynamically.
+       2. Quiz Execution Interface: Split layout (Problem premise/question on left, interactive choice cards on right with dynamic options) with visual time bars and instant feedback.
+       3. Results & Analytics Dashboard: Simplified score & total time metrics, along with a detailed review table with problem texts, choices, and explanations (Dev ranks & charts removed as requested).
+  -->
+  <!-- Visualization & Content Choices: 
+       - External JSON Integration: Asynchronous fetch of ./gengo.json for Verbal questions. Converts A-D choice objects to structured arrays.
+       - Question generation: Pure JS procedural engine for Non-verbal questions (A-F choices with F='いずれでもない') combined with loaded Verbal JSON.
+       - Timers: requestAnimationFrame smooth progress bars for both question and total timers.
+       - Presentation: Clean interactive DOM elements, fully responsive with zero SVG/Mermaid.
+  -->
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
 </head>
-<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col justify-between">
+<body class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col justify-between">
 
-    <header class="bg-[#111827]/90 backdrop-blur-md text-white border-b border-slate-800/80 sticky top-0 z-40">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <button onclick="goToLanding()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 py-1.5 px-3 rounded-xl text-xs transition flex items-center space-x-1.5">
-                    <i class="fa-solid fa-house text-indigo-400"></i>
-                    <span class="hidden sm:inline">トップ</span>
-                </button>
-                
-                <!-- Practice view back button -->
-                <button id="nav-change-config-btn" onclick="goToSelectScreen()" class="hidden bg-indigo-950/80 hover:bg-indigo-900/80 text-indigo-200 border border-indigo-700/60 py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
-                    <i class="fa-solid fa-sliders text-indigo-400"></i>
-                    <span>単元・レベル変更</span>
-                </button>
-
-                <!-- Review Button (Moved next to top/nav buttons) -->
-                <button onclick="openReviewModal()" class="text-xs bg-indigo-950/80 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/60 py-1.5 px-3 rounded-xl transition flex items-center space-x-1.5">
-                    <i class="fa-solid fa-list-check text-indigo-400"></i>
-                    <span>回答振り返り</span>
-                </button>
-            </div>
-            <div class="flex items-center space-x-3">
-            <div class="text-right">
-                <span class="text-[10px] text-slate-400 block -mb-1">正解率</span>
-                <span class="text-xs md:text-sm font-bold text-teal-400" id="stat-accuracy">0 % (0/0)</span>
-            </div>
-            <button onclick="openHistoryModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-1.5 px-2.5 rounded-xl transition flex items-center space-x-1">
-                <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
-                <span class="hidden sm:inline">履歴</span>
-            </button>
-        </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-3xl mx-auto w-full px-4 py-6 flex-grow flex flex-col justify-center">
-
-        <!-- 1. LANDING VIEW (トップ画面) -->
-        <section id="view-landing" class="w-full animate-fade-in my-auto">
-            <div class="bg-[#141a2e] rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-800 text-center max-w-lg mx-auto">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 mb-4 border border-indigo-500/20">
-                    <i class="fa-solid fa-graduation-cap text-3xl"></i>
-                </div>
-                <h1 class="text-2xl font-extrabold text-white mb-2">SPI非言語問題 演習アプリ</h1>
-                <p class="text-xs md:text-sm text-slate-400 mb-8 leading-relaxed">
-                    スマホ表示に最適化！単元とレベルを自由に組み合わせてじっくり演習するか、CBT模擬試験に挑戦できます。
-                </p>
-
-                <div class="space-y-4">
-                    <button onclick="goToSelectScreen()" class="w-full p-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold transition flex items-center justify-between group shadow-lg shadow-indigo-950/50">
-                        <div class="flex items-center space-x-3 text-left">
-                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg shrink-0">
-                                <i class="fa-solid fa-book-open"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm md:text-base font-bold">通常 問題演習モード</h3>
-                                <p class="text-[11px] text-indigo-200 font-normal">単元とレベルを選んで集中演習</p>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-indigo-200 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-
-                    <button onclick="openCBTModal()" class="w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition flex items-center justify-between group shadow-lg shadow-emerald-950/50">
-                        <div class="flex items-center space-x-3 text-left">
-                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg shrink-0">
-                                <i class="fa-solid fa-laptop-code"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm md:text-base font-bold">CBT 模擬試験モード</h3>
-                                <p class="text-[11px] text-emerald-200 font-normal">本番形式のスピード判定テスト</p>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-emerald-200 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                </div>
-
-                <div class="mt-8 pt-5 border-t border-slate-800 flex justify-center items-center space-x-3">
-                    <button onclick="openHistoryModal()" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
-                        <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
-                        <span>学習履歴 (直近10回)</span>
-                    </button>
-                    <button onclick="resetStats()" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
-                        <i class="fa-solid fa-rotate-right"></i>
-                        <span>成績クリア</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. UNIT & LEVEL SELECT VIEW (単元・レベル選択専用画面) -->
-        <section id="view-select" class="hidden w-full animate-fade-in max-w-xl mx-auto">
-            <div class="bg-[#141a2e] rounded-3xl p-6 shadow-xl border border-slate-800">
-                <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
-                    <h2 class="text-lg font-extrabold text-white flex items-center">
-                        <i class="fa-solid fa-sliders text-indigo-400 mr-2"></i>単元・レベルの選択
-                    </h2>
-                    <span class="text-xs text-slate-400">ステップ 1/2</span>
-                </div>
-
-                <!-- Unit Choice Cards -->
-                <div class="mb-6">
-                    <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">演習する単元</label>
-                    <div class="grid grid-cols-2 gap-2" id="unit-selection-grid">
-                        <button onclick="selectConfigUnit('all')" data-unit="all" class="cfg-unit-btn p-3.5 rounded-2xl border text-left transition flex items-center space-x-3 bg-indigo-600 border-indigo-400 text-white font-bold">
-                            <i class="fa-solid fa-layer-group text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">全単元 混合</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('set')" data-unit="set" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-diagram-project text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">① 集合</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('settlement')" data-unit="settlement" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-calculator text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">② 代金清算</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('discount')" data-unit="discount" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-tags text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">③ 料金割引</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('installment')" data-unit="installment" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-credit-card text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">④ 分割払い</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('speed')" data-unit="speed" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-gauge-high text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">⑤ 速さ</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('profit')" data-unit="profit" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-coins text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">⑥ 損益算</div>
-                            </div>
-                        </button>
-                        <button onclick="selectConfigUnit('probability')" data-unit="probability" class="cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600">
-                            <i class="fa-solid fa-dice text-indigo-400 text-lg"></i>
-                            <div>
-                                <div class="text-xs font-bold">⑦ 場合の数・確率</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Level Choice Options -->
-                <div class="mb-8">
-                    <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">難易度（レベル）</label>
-                    <div class="grid grid-cols-4 gap-2" id="level-selection-grid">
-                        <button onclick="selectConfigLevel('all')" data-level="all" class="cfg-lvl-btn p-2.5 rounded-xl border border-indigo-400 bg-indigo-600 text-white text-xs font-bold text-center">
-                            全レベル
-                        </button>
-                        <button onclick="selectConfigLevel('1')" data-level="1" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
-                            Lv.1 基本
-                        </button>
-                        <button onclick="selectConfigLevel('2')" data-level="2" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
-                            Lv.2 応用
-                        </button>
-                        <button onclick="selectConfigLevel('3')" data-level="3" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
-                            Lv.3 高難度
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Submit Button to Start Practice -->
-                <button onclick="startPracticeWithConfig()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-sm shadow-lg shadow-indigo-950/60 transition flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-play"></i>
-                    <span>この条件で演習を始める</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- 3. PRACTICE VIEW (問題演習専用画面) -->
-        <section id="view-practice" class="hidden w-full animate-fade-in max-w-2xl mx-auto my-auto">
-            
-            <!-- Current Status Banner (Hide in CBT Mode) -->
-            <div id="practice-config-banner" class="mb-4 bg-[#141a2e] rounded-xl px-4 py-2.5 border border-slate-800 flex justify-between items-center text-xs">
-                <div class="flex items-center space-x-2">
-                    <span class="text-slate-400">現在の設定:</span>
-                    <span id="active-config-badge" class="px-2.5 py-0.5 rounded-md bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/50">
-                        全単元 / 全レベル
-                    </span>
-                </div>
-                <button onclick="goToSelectScreen()" class="text-indigo-400 hover:text-indigo-300 font-bold flex items-center space-x-1">
-                    <i class="fa-solid fa-pen-to-square text-[10px]"></i>
-                    <span>変更</span>
-                </button>
-            </div>
-
-            <!-- Question Card -->
-            <div id="question-card" class="bg-[#141a2e] rounded-3xl p-5 md:p-7 shadow-xl border border-slate-800 relative overflow-hidden mb-5">
-                <!-- Smooth Timer Bar -->
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-4">
-                    <div id="timer-bar" class="bg-indigo-500 h-full w-full transition-all duration-100 linear"></div>
-                </div>
-
-                <!-- Meta Header (Hidden in CBT Mode) -->
-                <div id="q-meta-header" class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 text-xs">
-                    <div class="flex items-center space-x-2">
-                        <span id="unit-badge" class="px-2.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-200 border border-slate-700">
-                            単元
-                        </span>
-                        <span id="q-badge" class="px-2.5 py-0.5 rounded-full font-bold bg-indigo-950 text-indigo-300 border border-indigo-800/50">
-                            Lv.1
-                        </span>
-                    </div>
-                    <span id="q-pattern-title" class="text-slate-400 font-medium truncate max-w-[180px]">
-                        パターン名
-                    </span>
-                </div>
-
-                <!-- Problem Text -->
-                <div class="text-slate-100 text-sm md:text-base leading-relaxed font-medium mb-5" id="q-text">
-                    問題を取得しています...
-                </div>
-
-                <!-- Prompt Highlight Box -->
-                <div class="bg-[#1c243c] border-l-4 border-indigo-500 p-3.5 rounded-r-xl mb-5">
-                    <p class="font-bold text-indigo-200 text-xs md:text-sm" id="q-prompt">
-                        ---
-                    </p>
-                </div>
-
-                <!-- Choices Container -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5" id="choices-container">
-                    <!-- Choice Buttons dynamically rendered -->
-                </div>
-            </div>
-
-            <!-- Explanation Card (Appears after answer) -->
-            <div id="explanation-card" class="hidden bg-[#141a2e] rounded-3xl p-5 md:p-7 shadow-xl border border-slate-800 animate-fade-in mb-5">
-                <div id="result-banner" class="rounded-2xl p-4 mb-5 flex items-center space-x-3">
-                    <!-- Correct/Incorrect alert -->
-                </div>
-
-                <h3 class="text-base font-bold text-slate-100 mb-3 flex items-center">
-                    <i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>解法・解説ステップ
-                </h3>
-
-                <div class="space-y-3 text-xs md:text-sm text-slate-300 leading-relaxed mb-6" id="explanation-content">
-                    <!-- Steps -->
-                </div>
-
-                <div class="pt-3 border-t border-slate-800 flex justify-end">
-                    <button onclick="generateNewQuestion()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center space-x-2 shadow-md shadow-indigo-950/50">
-                        <span>次の問題に進む</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. CBT MOCK EXAM STATUS & RESULT VIEWS -->
-        <section id="cbt-status-bar" class="hidden mb-4 bg-[#141a2e] text-white rounded-2xl p-4 shadow-lg border border-slate-800 max-w-2xl mx-auto w-full">
-            <div class="flex items-center justify-between mb-2">
-                <span id="cbt-mode-badge" class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-bold">
-                    <i class="fa-solid fa-laptop-code mr-1"></i> ミニテスト
-                </span>
-                <span id="cbt-progress-text" class="text-xs font-bold text-slate-200">第 1 / 10 問</span>
-                <button onclick="exitCBTMode()" class="text-xs text-slate-400 hover:text-rose-400 transition">
-                    中断
-                </button>
-            </div>
-            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="cbt-overall-timer-bar" class="bg-teal-400 h-full w-full transition-all duration-1000 linear"></div>
-            </div>
-        </section>
-
-        <section id="cbt-result-card" class="hidden bg-[#141a2e] rounded-3xl p-6 md:p-8 shadow-xl border border-slate-800 max-w-2xl mx-auto w-full animate-fade-in">
-            <div class="text-center pb-5 border-b border-slate-800 mb-6">
-                <span class="px-3 py-1 bg-emerald-950/80 text-emerald-400 border border-emerald-800/50 rounded-full text-xs font-bold">
-                    CBT TEST RESULT
-                </span>
-                <h2 class="text-2xl font-extrabold text-white mt-2">CBT模擬試験 結果</h2>
-            </div>
-
-            <div class="grid grid-cols-3 gap-3 mb-6">
-                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">正解数</span>
-                    <p class="text-xl font-black text-indigo-400" id="cbt-res-score">0 / 10</p>
-                </div>
-                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">正解率</span>
-                    <p class="text-xl font-black text-emerald-400" id="cbt-res-accuracy">0 %</p>
-                </div>
-                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
-                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">到達レベル</span>
-                    <p class="text-xl font-black text-purple-400" id="cbt-res-final-lvl">Lv.1</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="openReviewModal()" class="w-full py-3.5 rounded-2xl bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 font-bold transition text-xs shadow-lg flex items-center justify-center space-x-1.5">
-                    <i class="fa-solid fa-list-check"></i>
-                    <span>回答振り返り</span>
-                </button>
-                <button onclick="goToLanding()" class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition text-xs shadow-lg">
-                    トップ画面に戻る
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Modals (History & CBT Mode Select & Review Modal) -->
-    <div id="review-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
-        <div class="bg-[#141a2e] rounded-3xl max-w-lg w-full p-5 shadow-2xl border border-slate-700 max-h-[85vh] flex flex-col">
-            <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
-                <h3 class="text-base font-extrabold text-white flex items-center">
-                    <i class="fa-solid fa-list-check text-indigo-400 mr-2"></i>回答振り返り (今回のセッション)
-                </h3>
-                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-slate-200 p-1">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-            </div>
-            <div class="overflow-y-auto space-y-3 flex-grow pr-1" id="session-review-list"></div>
-            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
-                <span class="text-xs text-slate-400" id="review-count-info">全 0 問</span>
-                <button onclick="closeReviewModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 px-5 rounded-xl transition shadow-md">
-                    閉じる
-                </button>
-            </div>
-        </div>
+  <!-- 読み込み中表示 -->
+  <div id="loading" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center transition-opacity duration-300">
+    <div class="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent mb-4"></div>
+      <p class="text-slate-700 font-bold" id="loadingText">問題データ (gengo.json) を読み込んでいます...</p>
     </div>
+  </div>
 
-    <div id="history-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
-        <div class="bg-[#141a2e] rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-700 max-h-[80vh] flex flex-col">
-            <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
-                <h3 class="text-base font-extrabold text-white flex items-center">
-                    <i class="fa-solid fa-clock-rotate-left text-teal-400 mr-2"></i>直近10回の履歴
-                </h3>
-                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-200 p-1">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-            </div>
-            <div class="overflow-y-auto space-y-2 flex-grow pr-1" id="global-history-list"></div>
-            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
-                <button onclick="clearGlobalHistory()" class="text-xs text-rose-400 hover:text-rose-300">
-                    <i class="fa-solid fa-trash mr-1"></i>全消去
-                </button>
-                <button onclick="closeHistoryModal()" class="bg-slate-800 text-white text-xs font-bold py-2 px-4 rounded-xl border border-slate-700">
-                    閉じる
-                </button>
-            </div>
+  <!-- カスタムメッセージモーダル -->
+  <div id="customAlert" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all scale-95 opacity-0 duration-300" id="alertBox">
+      <div class="p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span id="alertIcon" class="p-2 bg-indigo-100 text-indigo-600 rounded-full">
+            <i data-lucide="info" class="w-6 h-6"></i>
+          </span>
+          <h3 class="text-lg font-bold text-slate-900" id="alertTitle">確認</h3>
         </div>
-    </div>
-
-    <div id="cbt-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
-        <div class="bg-[#141a2e] rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-700">
-            <div class="flex justify-between items-center mb-3">
-                <h3 class="text-base font-extrabold text-white flex items-center">
-                    <i class="fa-solid fa-laptop-code text-emerald-400 mr-2"></i>CBT模擬試験の選択
-                </h3>
-                <button onclick="closeCBTModal()" class="text-slate-400 hover:text-slate-200 p-1">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
-            </div>
-            <div class="space-y-3 mt-4">
-                <button onclick="startCBTMode('mini')" class="w-full text-left p-3.5 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/40 transition">
-                    <h4 class="font-bold text-white text-xs">ミニテスト (10問 / 15分)</h4>
-                    <p class="text-[10px] text-slate-400 mt-0.5">短時間で実戦力をチェック</p>
-                </button>
-                <button onclick="startCBTMode('full')" class="w-full text-left p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] transition">
-                    <h4 class="font-bold text-white text-xs">フル模擬試験 (20問 / 30分)</h4>
-                    <p class="text-[10px] text-slate-400 mt-0.5">本番さながらの総合テスト</p>
-                </button>
-            </div>
+        <p class="text-slate-600 mb-6 text-sm leading-relaxed" id="alertMessage">メッセージがここに入ります。</p>
+        <div class="flex justify-end gap-3" id="alertButtonContainer">
         </div>
+      </div>
     </div>
+  </div>
 
-    <footer class="bg-[#0b0f19] border-t border-slate-800/80 py-3 text-center text-[11px] text-slate-500">
-        <p>SPI非言語演習 - 画面分離スマホ最適化版</p>
-    </footer>
+  <!-- ==================== クイズ進行中専用ヘッダー ==================== -->
+  <header id="quiz-header" class="hidden bg-white px-4 py-2.5 shadow-sm flex flex-col border-b border-slate-200 flex-shrink-0 z-20">
+    <div class="flex justify-between items-center w-full max-w-6xl mx-auto">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
+        <span class="text-xs md:text-sm font-bold text-slate-800" id="header-mode-title">SPI3 演習進行中</span>
+      </div>
+      <button id="btn-abort-header" onclick="confirmAbort()" class="text-[11px] md:text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 transition-colors px-3 py-1 rounded-md hover:bg-rose-50 border border-slate-200 hover:border-rose-200">
+        <i data-lucide="log-out" class="w-3.5 h-3.5"></i> 中断して終了
+      </button>
+    </div>
+    
+    <!-- 時間制限ゲージ（シームレスバーのみ） -->
+    <div class="grid grid-cols-2 gap-4 mt-2 pt-2 border-t border-slate-100 text-[10px] max-w-6xl mx-auto w-full">
+      <div class="flex items-center gap-2">
+        <span class="text-slate-500 font-bold flex-shrink-0">1問制限</span>
+        <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden shadow-inner">
+          <div id="bar-question-time" class="bg-gradient-to-r from-amber-400 to-amber-500 h-full ease-linear" style="width: 100%;"></div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-slate-500 font-bold flex-shrink-0">全体制限</span>
+        <div class="flex-1 bg-slate-100 h-2 rounded-full overflow-hidden shadow-inner">
+          <div id="bar-total-time" class="bg-gradient-to-r from-indigo-400 to-indigo-600 h-full ease-linear" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <script>
-        // Selected configuration state
-        let configUnit = 'all';
-        let configLevel = 'all';
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 flex flex-col justify-center">
 
-        // Current Question State
-        let currentQuestion = null;
-        let isAnswered = false;
-        let totalCount = 0;
-        let correctCount = 0;
+    <!-- ==================== 画面A: セットアップ・開始画面 ==================== -->
+    <section id="screen-setup" class="flex-1 overflow-y-auto flex items-center justify-center p-4 md:p-8">
+      <div class="bg-white rounded-2xl shadow-xl max-w-4xl w-full overflow-hidden border border-slate-200 my-auto">
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-8 text-white text-center relative">
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-wider">SPI3 適応型演習 &amp; CBT模擬テスト</h1>
+        </div>
+
+        <div class="p-6 md:p-8 space-y-6">
+          <!-- 0. テストモード選択 -->
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">0. テストモードを選択</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- 練習モード -->
+              <button type="button" onclick="selectMode('practice')" id="btn-mode-practice" class="p-4 rounded-xl border-2 text-left transition-all border-indigo-600 bg-indigo-50/60 shadow-sm">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="p-1.5 bg-indigo-100 text-indigo-700 rounded-lg"><i data-lucide="award" class="w-4 h-4"></i></span>
+                  <span class="font-extrabold text-indigo-950">練習モード</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">分野・単元・難易度・時間・問題数を自由に設定して個別特訓</p>
+              </button>
+
+              <!-- 10分ミニテストモード -->
+              <button type="button" onclick="selectMode('mini')" id="btn-mode-mini" class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 text-slate-600">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="p-1.5 bg-slate-100 text-slate-600 rounded-lg" id="icon-badge-mini"><i data-lucide="zap" class="w-4 h-4"></i></span>
+                  <span class="font-extrabold text-slate-700" id="title-text-mini">10分ミニテスト</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">言語・非言語からバランスよく総合出題（全12問）</p>
+              </button>
+
+              <!-- 模擬試験モード -->
+              <button type="button" onclick="selectMode('exam')" id="btn-mode-exam" class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 text-slate-600">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="p-1.5 bg-slate-100 text-slate-600 rounded-lg" id="icon-badge-exam"><i data-lucide="file-text" class="w-4 h-4"></i></span>
+                  <span class="font-extrabold text-slate-700" id="title-text-exam">CBT本番模擬試験</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">言語・非言語の実践テスト（35分通し・20問・適応型出題）</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- 練習モード専用の設定パネル -->
+          <div id="practice-settings" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">1. 出題分野を選択</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" onclick="selectField('言語')" id="btn-field-verbal" class="py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-indigo-600 bg-indigo-50 text-indigo-800 shadow-sm">
+                    <i data-lucide="book-open" class="inline w-3.5 h-3.5 mr-1 -mt-0.5"></i>言語分野
+                  </button>
+                  <button type="button" onclick="selectField('非言語')" id="btn-field-nonverbal" class="py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-slate-200 hover:border-slate-300 text-slate-600">
+                    <i data-lucide="calculator" class="inline w-3.5 h-3.5 mr-1 -mt-0.5"></i>非言語分野
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">2. 出題単元を選択</label>
+                <select id="select-unit" class="w-full bg-slate-50 border border-slate-300 text-slate-700 rounded-xl px-3 py-3 font-medium text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                  <!-- JSで動的に初期化 -->
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">3. 難易度を選択</label>
+                <select id="select-difficulty-mode" class="w-full bg-slate-50 border border-slate-300 text-slate-700 rounded-xl px-3 py-3 font-medium text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                  <option value="auto" selected>自動調整（適応型出題）</option>
+                  <option value="1">Easy (初級)</option>
+                  <option value="2">Normal (中級)</option>
+                  <option value="3">Hard (上級)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 時間・問題数設定 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1">全体制限時間</label>
+                <select id="select-total-time" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700">
+                  <option value="300">5分間 (短期集中)</option>
+                  <option value="600" selected>10分間 (標準)</option>
+                  <option value="900">15分間 (本格的)</option>
+                  <option value="0">時間制限なし</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1">1問あたりの時間制限</label>
+                <select id="select-question-time" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700">
+                  <option value="20">20秒 (高速)</option>
+                  <option value="30">30秒 (標準)</option>
+                  <option value="45" selected>45秒 (じっくり)</option>
+                  <option value="90">90秒 (計算重視)</option>
+                  <option value="0">時間制限なし</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 mb-1">総出題問数</label>
+                <select id="select-question-count" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700">
+                  <option value="5">5問</option>
+                  <option value="10" selected>10問</option>
+                  <option value="15">15問</option>
+                  <option value="20">20問</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10分ミニテストモード説明 -->
+          <div id="mini-settings" class="hidden bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+            <h4 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="zap" class="w-4 h-4 text-indigo-600"></i> 10分ミニテストモードの構成
+            </h4>
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">合計制限時間</span>
+                <span class="text-base font-extrabold text-indigo-950">10分間</span>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">1問あたり制限</span>
+                <span class="text-xs font-extrabold text-indigo-950">言語:20~45秒 / 非言語:45~120秒</span>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">総出題数</span>
+                <span class="text-base font-extrabold text-indigo-950">12問</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 模擬試験モード説明 -->
+          <div id="exam-settings" class="hidden bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+            <h4 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-indigo-600"></i> CBT模擬試験モードの構成
+            </h4>
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">合計制限時間</span>
+                <span class="text-base font-extrabold text-indigo-950">35分間</span>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">1問あたり制限</span>
+                <span class="text-xs font-extrabold text-indigo-950">言語:20~45秒 / 非言語:45~120秒</span>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                <span class="text-[10px] text-slate-400 font-bold block">総出題数</span>
+                <span class="text-base font-extrabold text-indigo-950">20問 (言語+非言語)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- スタートボタン -->
+          <button id="btn-start" type="button" onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-600/20 text-lg transition duration-200 flex items-center justify-center gap-2">
+            テストを開始する <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 画面B: クイズ進行画面 ==================== -->
+    <section id="screen-quiz" class="hidden flex-1 flex flex-col md:flex-row overflow-y-auto min-h-0 max-w-6xl w-full mx-auto p-4 md:p-6 gap-6">
+      
+      <!-- 左ペイン: 問題本文・前提 -->
+      <div class="w-full md:w-1/2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between overflow-y-auto">
+        <div class="space-y-4">
+          <!-- メタ情報バッジ -->
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="current-question-badge" class="bg-indigo-600 text-white px-3 py-1 rounded-md font-bold text-xs tracking-wider shadow-sm">
+              第 1 問
+            </div>
+            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md font-bold text-xs border border-slate-200" id="badge-category">非言語分野</span>
+            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md font-bold text-xs border border-slate-200" id="badge-unit">単元名</span>
+            <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md font-bold text-xs border border-indigo-200 flex items-center gap-1" id="badge-difficulty">
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-indigo-500 text-indigo-500"></i><span id="text-difficulty">難易度: Normal</span>
+            </span>
+          </div>
+          
+          <div id="quiz-instruction" class="text-slate-600 font-bold text-xs md:text-sm bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200">
+            問いの答えとして最も適切なものを1つ選択してください。
+          </div>
+
+          <hr class="border-slate-100">
+
+          <!-- 問題主文エリア -->
+          <div class="space-y-3">
+            <div id="quiz-premise" class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed bg-slate-50/70 p-4 rounded-xl border border-slate-100 whitespace-pre-line hidden">
+              前提文がここに入ります。
+            </div>
+            <div id="quiz-question" class="text-base md:text-lg font-bold text-slate-900 pl-4 border-l-4 border-indigo-600 leading-relaxed py-1 whitespace-pre-line">
+              問題文がここに入ります。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右ペイン: 選択肢・フィードバック -->
+      <div class="w-full md:w-1/2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between overflow-y-auto">
         
-        let questionTimerInterval = null;
-        let maxQuestionTime = 90;
-        let remainingQuestionTime = 90;
-        let timerStartTime = 0;
-        let timerDurationMs = 90000;
-
-        // CBT Mode State
-        let isCBTMode = false;
-        let cbtModeType = 'mini';
-        let cbtTotalQuestions = 10;
-        let cbtMaxOverallTime = 900;
-        let cbtQuestionIndex = 0;
-        let cbtCurrentLevel = 1;
-        let cbtOverallTimerInterval = null;
-        let cbtOverallRemainingTime = 900;
-        let cbtHistory = [];
-
-        // Global History
-        let globalHistory = [];
-        let sessionAnswers = []; // 今回のセッションでの回答履歴詳細
-
-        // View Navigation System
-        function hideAllViews() {
-            document.getElementById('view-landing').classList.add('hidden');
-            document.getElementById('view-select').classList.add('hidden');
-            document.getElementById('view-practice').classList.add('hidden');
-            document.getElementById('cbt-status-bar').classList.add('hidden');
-            document.getElementById('cbt-result-card').classList.add('hidden');
-            document.getElementById('nav-change-config-btn').classList.add('hidden');
-        }
-
-        function goToLanding() {
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
-            isCBTMode = false;
-            hideAllViews();
-            document.getElementById('view-landing').classList.remove('hidden');
-        }
-
-        function goToSelectScreen() {
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
-            isCBTMode = false;
-            hideAllViews();
-            document.getElementById('view-select').classList.remove('hidden');
-        }
-
-        function selectConfigUnit(unit) {
-            configUnit = unit;
-            document.querySelectorAll('.cfg-unit-btn').forEach(btn => {
-                if (btn.getAttribute('data-unit') === unit) {
-                    btn.className = 'cfg-unit-btn p-3.5 rounded-2xl border text-left transition flex items-center space-x-3 bg-indigo-600 border-indigo-400 text-white font-bold' + (btn.classList.contains('col-span-2') ? ' col-span-2' : '');
-                    const icon = btn.querySelector('i');
-                    if (icon) icon.className = icon.className.replace('text-indigo-400', 'text-white');
-                } else {
-                    btn.className = 'cfg-unit-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-3 hover:border-slate-600' + (btn.classList.contains('col-span-2') ? ' col-span-2' : '');
-                    const icon = btn.querySelector('i');
-                    if (icon && !icon.className.includes('text-indigo-400')) icon.className += ' text-indigo-400';
-                }
-            });
-        }
-
-        function selectConfigLevel(level) {
-            configLevel = level;
-            document.querySelectorAll('.cfg-lvl-btn').forEach(btn => {
-                if (btn.getAttribute('data-level') === level) {
-                    btn.className = 'cfg-lvl-btn p-2.5 rounded-xl border border-indigo-400 bg-indigo-600 text-white text-xs font-bold text-center';
-                } else {
-                    btn.className = 'cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600';
-                }
-            });
-        }
-
-        function updateActiveConfigBadge() {
-            const unitNames = {
-                'all': '全単元',
-                'set': '①集合',
-                'settlement': '②代金清算',
-                'discount': '③料金割引',
-                'installment': '④分割払い',
-                'speed': '⑤速さ',
-                'profit': '⑥損益算',
-                'probability': '⑦場合の数・確率'
-            };
-            const levelNames = {
-                'all': '全レベル',
-                '1': 'Lv.1',
-                '2': 'Lv.2',
-                '3': 'Lv.3'
-            };
-
-            const badge = document.getElementById('active-config-badge');
-            if (badge) {
-                badge.innerText = `${unitNames[configUnit] || '全単元'} / ${levelNames[configLevel] || '全レベル'}`;
-            }
-        }
-
-        function startPracticeWithConfig() {
-            hideAllViews();
-            updateActiveConfigBadge();
-            sessionAnswers = []; // セッション開始時にリセット
-            document.getElementById('practice-config-banner').classList.remove('hidden');
-            document.getElementById('view-practice').classList.remove('hidden');
-            document.getElementById('nav-change-config-btn').classList.remove('hidden');
-            generateNewQuestion();
-        }
-
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function formatYen(val) {
-            return val.toLocaleString() + '円';
-        }
-
-        // --- Question Generators ---
-        function genSet1() {
-            const total = getRandomInt(40, 80);
-            const neither = getRandomInt(5, 15);
-            const atLeastOne = total - neither;
-            const both = getRandomInt(5, Math.floor(atLeastOne / 2));
-            const englishOnly = getRandomInt(10, Math.max(11, atLeastOne - both - 5));
-            const mathOnly = Math.max(1, atLeastOne - both - englishOnly);
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">選択肢</h3>
+              <p class="text-xs text-slate-500 font-medium">正しいと思われる選択肢をクリックしてください。</p>
+            </div>
             
-            const passEnglish = englishOnly + both;
-            const passMath = mathOnly + both;
+            <!-- 進捗カウンター -->
+            <div class="bg-indigo-50 text-indigo-900 px-3 py-1.5 rounded-xl font-extrabold text-xs border border-indigo-100">
+              進捗: <span id="progress-text" class="text-indigo-600">1 / 10</span>
+            </div>
+          </div>
 
-            return {
-                unit: '集合', level: 1, badge: 'Lv.1 基本', title: '2集合のベン図基本',
-                text: `あるクラス ${total}人に英語と数学の試験を行ったところ、英語の合格者は ${passEnglish}人、数学の合格者は ${passMath}人 であった。また、両方とも不合格だった人は ${neither}人 であった。`,
-                prompt: '両方とも合格した人は何人か。', correctAnswer: both, unitSuffix: '人', step: 1,
-                steps: [
-                    `ステップ1：全体 (${total}人) から両方不合格者 (${neither}人) を引いて、少なくとも1方に合格した人数を求める。<br><strong>${total} - ${neither} = ${atLeastOne}人</strong>`,
-                    `ステップ2：(英語合格者) + (数学合格者) の合計を求める。<br><strong>${passEnglish} + ${passMath} = ${passEnglish + passMath}人</strong>`,
-                    `ステップ3：両方の和から少なくとも一方の合格者を引いて、重複している両方合格者を求める。<br><strong>${passEnglish + passMath} - ${atLeastOne} = ${both}人</strong>`
-                ]
-            };
+          <!-- 選択肢グリッド -->
+          <div class="grid grid-cols-1 gap-2.5 max-h-[50vh] overflow-y-auto pr-1" id="choices-container">
+          </div>
+        </div>
+
+        <!-- 解答フィードバック＆解説エリア (練習モード用) -->
+        <div id="answer-feedback" class="hidden mt-4 p-4 rounded-xl border transition duration-300 text-xs space-y-3 bg-slate-50 border-slate-200">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span id="feedback-icon-container" class="p-1.5 rounded-full"></span>
+              <div>
+                <h4 id="feedback-title" class="font-bold text-sm">判定</h4>
+                <p id="feedback-desc" class="text-xs text-slate-500">解説を確認してください。</p>
+              </div>
+            </div>
+          </div>
+          <!-- 解答解説表示 -->
+          <div id="feedback-explanation" class="pt-3 border-t border-slate-200 text-slate-700 leading-relaxed bg-white p-3 rounded-lg text-xs max-h-40 overflow-y-auto whitespace-pre-line">
+          </div>
+        </div>
+
+        <div class="h-2"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 共通下部操作バー ==================== -->
+  <footer id="footer-bar" class="hidden bg-slate-900 text-white py-3.5 px-4 md:px-8 border-t border-slate-800 z-10 select-none flex-shrink-0">
+    <div class="max-w-6xl mx-auto flex justify-between items-center w-full">
+      <div class="text-xs text-slate-400 font-medium hidden sm:block">
+        <span id="footer-tip">選択肢をクリックすると即時判定されます</span>
+      </div>
+      <div class="flex gap-3 w-full sm:w-auto justify-end">
+        <button id="btn-next" onclick="nextQuestion()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md">
+          次の問題へ <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 画面C: 結果画面（シンプル設計） ==================== -->
+  <section id="screen-result" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-slate-100">
+    <div class="bg-white rounded-2xl shadow-xl max-w-5xl mx-auto overflow-hidden border border-slate-200 my-auto">
+      
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-8 text-white text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-wider">テスト結果レポート</h2>
+        <p class="text-indigo-200 text-xs md:text-sm mt-1">お疲れ様でした！演習結果と解答内容の振り返りです。</p>
+      </div>
+
+      <div class="p-6 md:p-8 space-y-8">
+        <!-- メトリクスカード（正答率 & 所要時間に集約） -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+          <div class="bg-indigo-50/60 p-5 rounded-xl border border-indigo-100 flex flex-col justify-center items-center">
+            <span class="text-xs text-indigo-700 font-bold uppercase tracking-wider block">総合正答率</span>
+            <div class="text-3xl md:text-4xl font-black text-indigo-950 mt-1" id="res-score">0 / 0</div>
+            <span class="text-xs text-emerald-700 font-extrabold bg-emerald-100 px-3 py-1 rounded-full border border-emerald-200 inline-block mt-2" id="res-percent">0% 正解</span>
+          </div>
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 flex flex-col justify-center items-center">
+            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block">総所要時間</span>
+            <div class="text-3xl md:text-4xl font-black text-slate-900 mt-1" id="res-time">00分00秒</div>
+            <span class="text-xs text-slate-500 font-semibold block mt-2" id="res-avg-time">1問平均: 0秒</span>
+          </div>
+        </div>
+
+        <!-- 解答履歴ログ（問題文つき振り返り機能） -->
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="list-checks" class="w-4 h-4 text-indigo-600"></i> 問題ごとの振り返り・正誤・詳細解説
+          </h4>
+          <div class="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-sm">
+            <table class="w-full text-xs text-left text-slate-600 border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                  <th class="p-3 w-10 text-center">問</th>
+                  <th class="p-3 w-28">分野 / 単元</th>
+                  <th class="p-3 text-center w-16">難易度</th>
+                  <th class="p-3">問題内容 &amp; 回答選択</th>
+                  <th class="p-3 text-center w-16">判定</th>
+                  <th class="p-3 w-64">解説</th>
+                </tr>
+              </thead>
+              <tbody id="result-list-body" class="divide-y divide-slate-100">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- フィードバックアドバイス -->
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i> SPI対策アドバイス
+          </h4>
+          <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200/80 text-xs md:text-sm text-slate-700 leading-relaxed whitespace-pre-line" id="res-advice">
+            分析中...
+          </div>
+        </div>
+
+        <!-- ボタンアクション -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+          <button onclick="restartApp()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> トップに戻って再挑戦
+          </button>
+          <button onclick="copyResultText()" class="sm:w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3.5 px-6 rounded-xl transition flex items-center justify-center gap-2">
+            <i data-lucide="copy" class="w-4 h-4"></i> 成績をコピー
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // 保持データ・状態管理
+    let loadedVerbalQuestions = [];
+    let verbalUnits = [];
+
+    // 非言語分野の指定全7単元
+    const nonVerbalUnits = [
+      "集合",
+      "代金清算",
+      "料金割引",
+      "分割払い",
+      "速さ",
+      "損益算",
+      "場合の数・確率"
+    ];
+
+    // 非言語用：選択肢 A〜F（Fは「いずれでもない」固定）の構築ヘルパー
+    function buildNonVerbalChoices(correctVal, dummyArr, formatFn) {
+      const isFCorrect = Math.random() < 0.20;
+      
+      const uniqueDummies = Array.from(new Set(dummyArr.filter(d => d !== correctVal)));
+      uniqueDummies.sort(() => Math.random() - 0.5);
+
+      let choicesAtoE = [];
+      let correctIndex = -1;
+
+      if (isFCorrect) {
+        choicesAtoE = uniqueDummies.slice(0, 5).map(formatFn);
+        correctIndex = 5;
+      } else {
+        const candidateDummies = uniqueDummies.slice(0, 4).map(formatFn);
+        const correctFormatted = formatFn(correctVal);
+        
+        const pos = Math.floor(Math.random() * 5);
+        candidateDummies.splice(pos, 0, correctFormatted);
+        choicesAtoE = candidateDummies;
+        correctIndex = pos;
+      }
+
+      const choices = [...choicesAtoE, "いずれでもない"];
+      return { choices, correctIndex, isFCorrect };
+    }
+
+    // 非言語分野の自動生成エンジン（全単元 選択肢 A〜F）
+    const nonVerbalGenerator = {
+      "集合": (diff) => {
+        const total = 40 + Math.floor(Math.random() * 20);
+        const likeA = 20 + Math.floor(Math.random() * 15);
+        const likeB = 15 + Math.floor(Math.random() * 15);
+        const bothMin = Math.max(1, (likeA + likeB) - total + 2);
+        const both = bothMin + Math.floor(Math.random() * 5);
+        const neither = total - (likeA + likeB - both);
+
+        const correctVal = neither;
+        const dummyArr = [
+          correctVal + 2, Math.max(0, correctVal - 2),
+          correctVal + 4, Math.max(0, correctVal - 3),
+          correctVal + 5, Math.max(0, correctVal - 1),
+          correctVal + 6, correctVal + 8
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctVal, dummyArr, v => `${v}人`
+        );
+
+        let exp = `全体 ${total}人。\n少なくとも一方を持っている人数 = ${likeA} + ${likeB} - ${both} = ${likeA + likeB - both}人。\nどちらも持っていない人数 = ${total} - ${likeA + likeB - both} = ${correctVal}人。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の数値（${correctVal}人）が含まれないため、F「いずれでもない」が正解となります。`;
         }
 
-        function genSet2() {
-            const total = 100;
-            const bothPct = getRandomInt(3, 6) * 5;
-            const pcOnlyPct = getRandomInt(4, 7) * 5;
-            const phoneOnlyPct = getRandomInt(5, 8) * 5;
-            const neitherPct = total - (bothPct + pcOnlyPct + phoneOnlyPct);
-            const hasPc = pcOnlyPct + bothPct;
-            const hasPhone = phoneOnlyPct + bothPct;
-
-            return {
-                unit: '集合', level: 2, badge: 'Lv.2 応用', title: '割合を含む2集合',
-                text: `100人の学生に調査をしたところ、PCを所持している人は全体の ${hasPc}%、スマホを所持している人は全体の ${hasPhone}% であった。どちらも所持していない人は ${neitherPct}人 であった。`,
-                prompt: 'スマホのみを所持している学生は何人か。', correctAnswer: phoneOnlyPct, unitSuffix: '人', step: 5,
-                steps: [
-                    `ステップ1：どちらか一方を所持している割合：<strong>100% - ${neitherPct}% = ${100 - neitherPct}%</strong>`,
-                    `ステップ2：両方所持者の割合：<strong>(${hasPc}% + ${hasPhone}%) - ${100 - neitherPct}% = ${bothPct}%</strong>`,
-                    `ステップ3：スマホのみの人数：<strong>${hasPhone}% - ${bothPct}% = ${phoneOnlyPct}% (${phoneOnlyPct}人)</strong>`
-                ]
-            };
-        }
-
-        // --- ② 代金清算 (Settlement Generators) ---
-        function genSettlement1() {
-            const priceA = getRandomInt(5, 15) * 100; // 500〜1500円の100円単位
-            const priceB = getRandomInt(3, 9) * 100;   // 300〜900円の100円単位
-            const countA = getRandomInt(2, 5);
-            const countB = getRandomInt(2, 5);
-            const total = priceA * countA + priceB * countB;
-            const perPerson = Math.round(total / 4);
-
-            return {
-                unit: '代金清算', level: 1, badge: 'Lv.1 基本', title: '割り勘の基本計算',
-                text: `4人で食事に行き、Aが ${priceA.toLocaleString()}円 の料理を ${countA}皿、Bが ${priceB.toLocaleString()}円 の料理を ${countB}皿 注文し、全員で均等に割り勘することにした。`,
-                prompt: '1人あたりいくら支払うか。', correctAnswer: perPerson, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：全体の代金を計算する。<br><strong>(${priceA.toLocaleString()} × ${countA}) + (${priceB.toLocaleString()} × ${countB}) = ${total.toLocaleString()}円</strong>`,
-                    `ステップ2：4人で均等に割る。<br><strong>${total.toLocaleString()} ÷ 4 = ${perPerson.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        // --- ③ 料金割引 (Discount Generators) ---
-        function genDiscount1() {
-            const rate = [10, 20, 25, 30, 40, 50][getRandomInt(0, 5)];
-            // 定価が100円単位で、かつ割引後の価格も必ず整数（円）になるようにする
-            // 割引後の価格 = original * (1 - rate/100) が整数になるため、originalは 100 の倍数にする
-            const original = getRandomInt(20, 90) * 100;
-            const discounted = Math.round(original * (1 - rate / 100));
-            const discountAmount = original - discounted;
-
-            return {
-                unit: '料金割引', level: 1, badge: 'Lv.1 基本', title: '定価の割引計算',
-                text: `定価 ${original.toLocaleString()}円 の商品が、セールで ${rate}% 引きで販売されている。`,
-                prompt: '割引後の販売価格はいくらか。', correctAnswer: discounted, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：割引額を求める。<br><strong>${original.toLocaleString()} × ${rate / 100} = ${discountAmount.toLocaleString()}円</strong>`,
-                    `ステップ2：定価から割引額を引く。<br><strong>${original.toLocaleString()} - ${discountAmount.toLocaleString()} = ${discounted.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        // --- ④ 分割払い (Installment Generators) ---
-        function genInstallment1() {
-            const total = getRandomInt(60000, 150000);
-            const first = Math.round(total * 0.3 / 1000) * 1000;
-            const months = [6, 10, 12][getRandomInt(0, 2)];
-            const rest = total - first;
-            const monthly = Math.round(rest / months);
-
-            return {
-                unit: '分割払い', level: 2, badge: 'Lv.2 応用', title: '頭金とボーナス・月賦払い',
-                text: `総額 ${total.toLocaleString()}円 の商品を購入する際、最初に頭金として ${first.toLocaleString()}円 を支払い、残りを ${months}ヶ月 で均等に分割して支払うことになった。`,
-                prompt: '毎月の支払額はいくらか。', correctAnswer: monthly, unitSuffix: '円', step: 500,
-                steps: [
-                    `ステップ1：分割払いの総額を求める。<br><strong>${total.toLocaleString()} - ${first.toLocaleString()} = ${rest.toLocaleString()}円</strong>`,
-                    `ステップ2：${months}ヶ月で割る。<br><strong>${rest.toLocaleString()} ÷ ${months} = ${monthly.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        // --- ⑤ 速さ (Speed Generators) ---
-        function genSpeed1() {
-            const speedA = getRandomInt(60, 90);
-            const speedB = getRandomInt(40, 60);
-            const distance = getRandomInt(300, 600);
-            const time = (distance / (speedA + speedB)).toFixed(1);
-
-            return {
-                unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '出会い算の基本',
-                text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
-                prompt: '2人が出会うのは出発してから何時間後か。', correctAnswer: parseFloat(time), unitSuffix: '時間後', step: 0.5,
-                steps: [
-                    `ステップ1：2人の合算の速さを求める。<br><strong>${speedA} + ${speedB} = ${speedA + speedB} km/h</strong>`,
-                    `ステップ2：距離を合算の速さで割る。<br><strong>${distance} ÷ ${speedA + speedB} = ${time} 時間後</strong>`
-                ]
-            };
-        }
-
-        // --- ⑥ 損益算 (Profit Generators) ---
-        function genProfit1() {
-            const cost = getRandomInt(1000, 5000);
-            const markup = [20, 25, 30, 40][getRandomInt(0, 3)];
-            const price = Math.round(cost * (1 + markup / 100));
-
-            return {
-                unit: '損益算', level: 1, badge: 'Lv.1 基本', title: '原価と定価・利益',
-                text: `ある品物に原価の ${markup}% の利益を見込んで定価をつけたところ、定価は ${price.toLocaleString()}円 になった。`,
-                prompt: 'この品物の原価はいくらか。', correctAnswer: cost, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：定価は原価を「1 + ${markup/100}」倍したものと表せる。<br><strong>原価 × ${(1 + markup/100)} = ${price.toLocaleString()}円</strong>`,
-                    `ステップ2：原価を算出する。<br><strong>${price.toLocaleString()} ÷ ${(1 + markup/100)} = ${cost.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        function genProfit2() {
-            const cost = getRandomInt(2000, 6000);
-            const listPrice = Math.round(cost * 1.4 / 100) * 100;
-            const discountRate = 20;
-            const sellingPrice = Math.round(listPrice * (1 - discountRate / 100));
-            const profit = sellingPrice - cost;
-
-            return {
-                unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価からの値引きと実際の利益',
-                text: `原価 ${cost.toLocaleString()}円 の品物に 40% の利益を見込んで定価をつけたが、売れないため定価の ${discountRate}% 引きで販売した。`,
-                prompt: 'この品物1個あたりの実際の利益はいくらか。', correctAnswer: profit, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：定価を求める。<br><strong>${cost.toLocaleString()} × 1.4 = ${listPrice.toLocaleString()}円</strong>`,
-                    `ステップ2：売値を求める。<br><strong>${listPrice.toLocaleString()} × (1 - 0.2) = ${sellingPrice.toLocaleString()}円</strong>`,
-                    `ステップ3：売値から原価を引いて利益を求める。<br><strong>${sellingPrice.toLocaleString()} - ${cost.toLocaleString()} = ${profit.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        function genProfit3() {
-            const totalCost = getRandomInt(20000, 50000);
-            const lossRate = 10;
-            const sellingPrice = Math.round(totalCost * (1 - lossRate / 100));
-            const loss = totalCost - sellingPrice;
-
-            return {
-                unit: '損益算', level: 1, badge: 'Lv.1 基本', title: '原価割れ（損失）の計算',
-                text: `仕入れた総額 ${totalCost.toLocaleString()}円 の商品が傷んだため、原価の ${lossRate}% 引き（損失）で全て売り払った。`,
-                prompt: 'このときの損失額はいくらか。', correctAnswer: loss, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：損失の割合（${lossRate}%）を総額にかける。<br><strong>${totalCost.toLocaleString()} × 0.1 = ${loss.toLocaleString()}円</strong>`
-                ]
-            };
-        }
-
-        // --- ⑦ 場合の数・確率 (Counting & Probability Generators) ---
-        function genProbability1() {
-            // レベル1 場合の数・基本形
-            return {
-                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '場合の数・組合せ基本',
-                text: `箱の中に異なる色の8枚のカードが入っている。この中から同時に5枚を取り出す。`,
-                prompt: 'カードの組合せは何通りか。', correctAnswer: 56, unitSuffix: '通り', step: 4,
-                steps: [
-                    `ステップ1：異なる8枚から5枚を取り出す組合せ（順番を考えない）なので、組合せの公式（$_nC_r$）を用いる。<br><strong>$_8C_5 = _8C_3$</strong>`,
-                    `ステップ2：計算する。<br><strong>(8 × 7 × 6) ÷ (3 × 2 × 1) = 56通り</strong>`
-                ]
-            };
-        }
-
-        function genProbability2() {
-            // レベル1 確率・基本形
-            return {
-                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '確率・さいころの和',
-                text: `2つのさいころを同時に投げる。`,
-                prompt: '出た目の数の和が6になる確率は？', correctAnswer: 5, unitSuffix: '/36', isFraction: true, step: 1,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/9', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '5/36', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '1/6', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '7/36', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '2/9', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：2個のさいころの目の出方は全部で <strong>6 × 6 = 36通り</strong>。`,
-                    `ステップ2：和が6になる組み合わせ（目のペア）を書き出す。<br>(1,5), (2,4), (3,3), (4,2), (5,1) の <strong>5通り</strong>。`,
-                    `ステップ3：確率は <strong>5/36</strong> となる。`
-                ]
-            };
-        }
-
-        function genProbability3() {
-            // レベル2 場合の数・余事象
-            return {
-                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '場合の数・少なくとも1人（余事象）',
-                text: `男子3人と女子2人、計5人のグループがある。この中から2人の代表を選ぶ。`,
-                prompt: '男子が少なくとも1人含まれる選び方は何通りか。', correctAnswer: 9, unitSuffix: '通り', step: 1,
-                steps: [
-                    `ステップ1：5人から2人を選ぶすべての選び方を求める。<br><strong>$_5C_2 = (5 × 2) ÷ (2 × 1) = 10通り</strong>`,
-                    `ステップ2：反対の事象（余事象：全員が女子、つまり女子2人を選ぶ選び方）を求める。<br><strong>$_2C_2 = 1通り</strong>`,
-                    `ステップ3：全体から女子だけの選び方を引く。<br><strong>10 - 1 = 9通り</strong>`
-                ]
-            };
-        }
-
-        function genProbability4() {
-            // レベル2 確率・ゲーム
-            return {
-                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '確率・リセットルール付きすごろく',
-                text: `さいころをふって、出た目の数を得点とする。ただし6の目が出た場合は、今までの得点の合計が0に戻る。3回さいころをふった。`,
-                prompt: '得点の合計が3である確率はいくらか。', correctAnswer: 13, unitSuffix: '/216', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/18', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '13/216', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '7/108', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '1/12', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '5/72', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：3回さいころを振る場合の総数は <strong>6 × 6 × 6 = 216通り</strong>。`,
-                    `ステップ2：6が出ると合計が0にリセットされるルールを考慮し、3回目の終了時点で合計が3になる出方の組み合わせを数え上げる。`,
-                    `ステップ3：条件を満たす組み合わせは全部で 13通り あり、確率は <strong>13/216</strong> となる。`
-                ]
-            };
-        }
-
-        function genProbability5() {
-            // レベル3 場合の数・仕切りで考える
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '場合の数・仕切り法（重複組合せ）',
-                text: `リンゴ、ミカン、モモがそれぞれ8個ずつある。これらの中から合計5個を選ぶ。`,
-                prompt: '合計5個を選ぶ選び方は何通りか。', correctAnswer: 21, unitSuffix: '通り', step: 1,
-                customChoices: [
-                    { label: 'A', value: 20, htmlText: '20通り', isCorrect: false },
-                    { label: 'B', value: 21, htmlText: '21通り', isCorrect: true },
-                    { label: 'C', value: 22, htmlText: '22通り', isCorrect: false },
-                    { label: 'D', value: 23, htmlText: '23通り', isCorrect: false },
-                    { label: 'E', value: 24, htmlText: '24通り', isCorrect: false },
-                    { label: 'F', value: 0, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：3種類の果物（リンゴ、ミカン、モモ）から合計5個を選ぶ重複組合せ（$_3H_5$）の問題である。`,
-                    `ステップ2：仕切り（バー）の考え方を用いる。5個の丸（○）と2本の仕切り（|）の並び替えの総数に置き換える。<br><strong>$_{3+5-1}C_5 = _7C_5 = _7C_2$</strong>`,
-                    `ステップ3：計算する。<br><strong>(7 × 6) ÷ (2 × 1) = 21通り（正解はB）</strong>`
-                ]
-            };
-        }
-
-        function genProbability6() {
-            // レベル3 確率・反復試行
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・非復元抽出の連続',
-                text: `7本のうち3本が当たりのくじがある。このくじをAとBがこの順に1本ずつ引く（引いたくじはもとに戻さない）。`,
-                prompt: '2人とも当たりを引かない確率は？', correctAnswer: 2, unitSuffix: '/7', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/7', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '2/7', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '3/14', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '4/21', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '3/7', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：総本数7本のうち当たりが3本なので、外れくじは <strong>7 - 3 = 4本</strong>。`,
-                    `ステップ2：1人目のAが外れを引く確率は <strong>4/7</strong>。`,
-                    `ステップ3：Aが外れを引いたあと、残りは6本中外れが3本なので、2人目のBが外れを引く確率は <strong>3/6 = 1/2</strong>。`,
-                    `ステップ4：2人がともに外れを引く確率は、それぞれの確率の積となる。<br><strong>4/7 × 1/2 = 4/14 = 2/7（正解はB）</strong>`
-                ]
-            };
-        }
-
-        function generateChoices(q) {
-            //            if (q.customChoices) return q.customChoices;
-            const correctVal = q.correctAnswer;
-            const unitSuffix = q.unitSuffix || '';
-            const step = q.step || 1;
-            const isFCorrect = Math.random() < 0.20;
-
-            let pool = new Set();
-            if (!isFCorrect) pool.add(correctVal);
-
-            let attempts = 0;
-            while (pool.size < 5 && attempts < 100) {
-                attempts++;
-                const offset = (getRandomInt(1, 4) * (Math.random() < 0.5 ? 1 : -1)) * step;
-                const candidate = correctVal + offset;
-                if (candidate > 0 && candidate !== correctVal) pool.add(candidate);
-            }
-            let extra = 1;
-            while (pool.size < 5) {
-                const candidate = correctVal + extra * step;
-                if (!pool.has(candidate)) pool.add(candidate);
-                extra++;
-            }
-
-            const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
-            const numChoices = Array.from(pool).sort((a, b) => a - b);
-            let choices = [];
-
-            for (let i = 0; i < 5; i++) {
-                const val = numChoices[i];
-                choices.push({
-                    label: labels[i],
-                    value: val,
-                    htmlText: unitSuffix === '円' ? formatYen(val) : `${val.toLocaleString()}${unitSuffix}`,
-                    isCorrect: !isFCorrect && val === correctVal
-                });
-            }
-            choices.push({
-                label: 'F', value: 'none', htmlText: 'いずれでもない', isCorrect: isFCorrect
-            });
-            return choices;
-        }
-
-        function generateNewQuestion() {
-            const setPool = [genSet1, genSet2];
-            const settlementPool = [genSettlement1];
-            const discountPool = [genDiscount1];
-            const installmentPool = [genInstallment1];
-            const speedPool = [genSpeed1];
-            const profitPool = [genProfit1, genProfit2, genProfit3];
-            const probabilityPool = [genProbability1, genProbability2, genProbability3, genProbability4, genProbability5, genProbability6];
-            
-            let pool = [];
-            // CBTモードの場合は強制的に全分野からランダム出題
-            const activeUnit = isCBTMode ? 'all' : configUnit;
-            const activeLevel = isCBTMode ? String(cbtCurrentLevel) : configLevel;
-
-            if (activeUnit === 'all') pool = [...setPool, ...settlementPool, ...discountPool, ...installmentPool, ...speedPool, ...profitPool, ...probabilityPool];
-            else if (activeUnit === 'set') pool = setPool;
-            else if (activeUnit === 'settlement') pool = settlementPool;
-            else if (activeUnit === 'discount') pool = discountPool;
-            else if (activeUnit === 'installment') pool = installmentPool;
-            else if (activeUnit === 'speed') pool = speedPool;
-            else if (activeUnit === 'profit') pool = profitPool;
-            else if (activeUnit === 'probability') pool = probabilityPool;
-
-            let candidates = pool.map(fn => fn());
-            if (activeLevel !== 'all') {
-                candidates = candidates.filter(q => q.level === parseInt(activeLevel));
-            }
-            if (candidates.length === 0) candidates = pool.map(fn => fn());
-
-            currentQuestion = candidates[Math.floor(Math.random() * candidates.length)];
-            currentQuestion.choices = generateChoices(currentQuestion);
-
-            isAnswered = false;
-            document.getElementById('explanation-card').classList.add('hidden');
-
-            // CBTモード時は単元名・レベル・小単元名を非表示にする
-            const metaHeader = document.getElementById('q-meta-header');
-            if (isCBTMode) {
-                metaHeader.classList.add('hidden');
-            } else {
-                metaHeader.classList.remove('hidden');
-            }
-
-            document.getElementById('unit-badge').innerText = currentQuestion.unit;
-            document.getElementById('q-badge').innerText = currentQuestion.badge;
-            document.getElementById('q-pattern-title').innerText = currentQuestion.title;
-            document.getElementById('q-text').innerHTML = currentQuestion.text;
-            document.getElementById('q-prompt').innerHTML = currentQuestion.prompt;
-
-            const choicesContainer = document.getElementById('choices-container');
-            choicesContainer.innerHTML = '';
-
-            currentQuestion.choices.forEach(c => {
-                const btn = document.createElement('button');
-                btn.className = `choice-btn w-full text-left p-3 rounded-xl border-2 transition flex items-center justify-between border-slate-700/70 hover:border-indigo-500/70 hover:bg-indigo-950/30 bg-[#1b233a]`;
-                btn.onclick = () => selectAnswer(c, btn);
-                btn.innerHTML = `
-                    <div class="flex items-center space-x-2.5">
-                        <span class="w-6 h-6 rounded-lg bg-slate-800 font-bold text-slate-300 flex items-center justify-center text-xs border border-slate-700">
-                            ${c.label}
-                        </span>
-                        <span class="font-medium text-slate-200 text-xs md:text-sm">${c.htmlText}</span>
-                    </div>
-                    <i class="fa-regular fa-circle text-slate-500 choice-icon"></i>
-                `;
-                choicesContainer.appendChild(btn);
-            });
-
-            choicesContainer.classList.remove('pointer-events-none');
-            startQuestionTimer(currentQuestion.level);
-        }
-
-        function startQuestionTimer(level) {
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            // レベル3の制限時間を120秒に変更しました
-            maxQuestionTime = level === 1 ? 75 : (level === 2 ? 100 : 120);
-            timerDurationMs = maxQuestionTime * 1000;
-            timerStartTime = Date.now();
-            remainingQuestionTime = maxQuestionTime;
-            
-            updateTimerBarSmooth();
-            questionTimerInterval = setInterval(() => {
-                const elapsed = Date.now() - timerStartTime;
-                remainingQuestionTime = Math.max(0, (timerDurationMs - elapsed) / 1000);
-                if (remainingQuestionTime <= 0) {
-                    clearInterval(questionTimerInterval);
-                    handleTimeOut();
-                }
-            }, 100);
-        }
-
-        function updateTimerBarSmooth() {
-            const timerBar = document.getElementById('timer-bar');
-            if (!timerBar) return;
-            const elapsed = Date.now() - timerStartTime;
-            const percentage = Math.max(0, ((timerDurationMs - elapsed) / timerDurationMs) * 100);
-            timerBar.style.width = `${percentage}%`;
-
-            if (percentage > 50) timerBar.className = 'bg-indigo-500 h-full transition-all duration-100 linear';
-            else if (percentage > 20) timerBar.className = 'bg-amber-500 h-full transition-all duration-100 linear';
-            else timerBar.className = 'bg-rose-500 h-full transition-all duration-100 linear';
-
-            if (!isAnswered && remainingQuestionTime > 0) {
-                requestAnimationFrame(updateTimerBarSmooth);
-            }
-        }
-
-        function handleTimeOut() {
-            if (isAnswered) return;
-            isAnswered = true;
-
-            const correctChoiceObj = currentQuestion.choices.find(c => c.isCorrect);
-            sessionAnswers.unshift({
-                question: currentQuestion.text,
-                prompt: currentQuestion.prompt,
-                unit: currentQuestion.unit,
-                badge: currentQuestion.badge,
-                selectedLabel: '時間切れ',
-                selectedText: '未回答（タイムアウト）',
-                correctLabel: correctChoiceObj.label,
-                correctText: correctChoiceObj.htmlText,
-                isCorrect: false,
-                steps: currentQuestion.steps
-            });
-
-            if (isCBTMode) {
-                cbtHistory.push({ question: currentQuestion, selectedChoice: null, isCorrect: false, level: cbtCurrentLevel });
-                cbtCurrentLevel = Math.max(1, cbtCurrentLevel - 1);
-                cbtQuestionIndex++;
-                generateCBTQuestion();
-                return;
-            }
-
-            totalCount++;
-            updateStats();
-            recordPracticeSessionToGlobal();
-
-            const choicesContainer = document.getElementById('choices-container');
-            choicesContainer.classList.add('pointer-events-none');
-
-            const choiceBtns = choicesContainer.querySelectorAll('.choice-btn');
-            currentQuestion.choices.forEach((c, idx) => {
-                const btn = choiceBtns[idx];
-                const icon = btn.querySelector('.choice-icon');
-                if (c.isCorrect) {
-                    btn.classList.add('border-emerald-500', 'bg-emerald-950/40', 'text-emerald-200');
-                    icon.className = 'fa-solid fa-circle-check text-emerald-400 text-base';
-                }
-            });
-
-            showExplanation(false, null, true);
-        }
-
-        function selectAnswer(choice, btnElement) {
-            if (isAnswered) return;
-            isAnswered = true;
-
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            const isCorrect = choice.isCorrect;
-            const correctChoiceObj = currentQuestion.choices.find(c => c.isCorrect);
-
-            sessionAnswers.unshift({
-                question: currentQuestion.text,
-                prompt: currentQuestion.prompt,
-                unit: currentQuestion.unit,
-                badge: currentQuestion.badge,
-                selectedLabel: choice.label,
-                selectedText: choice.htmlText,
-                correctLabel: correctChoiceObj.label,
-                correctText: correctChoiceObj.htmlText,
-                isCorrect: isCorrect,
-                steps: currentQuestion.steps
-            });
-
-            if (isCBTMode) {
-                cbtHistory.push({ question: currentQuestion, selectedChoice: choice, isCorrect: isCorrect, level: cbtCurrentLevel });
-                cbtCurrentLevel = isCorrect ? Math.min(3, cbtCurrentLevel + 1) : Math.max(1, cbtCurrentLevel - 1);
-                cbtQuestionIndex++;
-                generateCBTQuestion();
-                return;
-            }
-
-            totalCount++;
-            if (isCorrect) correctCount++;
-            updateStats();
-            recordPracticeSessionToGlobal();
-
-            const choicesContainer = document.getElementById('choices-container');
-            choicesContainer.classList.add('pointer-events-none');
-
-            const choiceBtns = choicesContainer.querySelectorAll('.choice-btn');
-            currentQuestion.choices.forEach((c, idx) => {
-                const btn = choiceBtns[idx];
-                const icon = btn.querySelector('.choice-icon');
-                if (c.isCorrect) {
-                    btn.classList.add('border-emerald-500', 'bg-emerald-950/40', 'text-emerald-200');
-                    icon.className = 'fa-solid fa-circle-check text-emerald-400 text-base';
-                } else if (c === choice && !isCorrect) {
-                    btn.classList.add('border-rose-500', 'bg-rose-950/40', 'text-rose-200');
-                    icon.className = 'fa-solid fa-circle-xmark text-rose-400 text-base';
-                }
-            });
-
-            showExplanation(isCorrect, choice, false);
-        }
-
-        function showExplanation(isCorrect, selectedChoice, isTimeout) {
-            const expCard = document.getElementById('explanation-card');
-            const resultBanner = document.getElementById('result-banner');
-            const correctChoiceObj = currentQuestion.choices.find(c => c.isCorrect);
-
-            if (isTimeout) {
-                resultBanner.className = 'rounded-2xl p-3.5 mb-4 flex items-center space-x-3 bg-rose-950/80 text-rose-200 border border-rose-800/60';
-                resultBanner.innerHTML = `<i class="fa-solid fa-clock text-rose-400 text-xl"></i><div><p class="font-bold text-xs md:text-sm">時間切れです</p><p class="text-[11px] text-rose-300">正解：<strong>${correctChoiceObj.label} (${correctChoiceObj.htmlText})</strong></p></div>`;
-            } else if (isCorrect) {
-                resultBanner.className = 'rounded-2xl p-3.5 mb-4 flex items-center space-x-3 bg-emerald-950/80 text-emerald-200 border border-emerald-800/60';
-                resultBanner.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i><div><p class="font-bold text-xs md:text-sm">正解です！</p><p class="text-[11px] text-emerald-300">正解：<strong>${correctChoiceObj.htmlText}</strong></p></div>`;
-            } else {
-                resultBanner.className = 'rounded-2xl p-3.5 mb-4 flex items-center space-x-3 bg-rose-950/80 text-rose-200 border border-rose-800/60';
-                resultBanner.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 text-xl"></i><div><p class="font-bold text-xs md:text-sm">不正解です</p><p class="text-[11px] text-rose-300">正解：<strong>${correctChoiceObj.label} (${correctChoiceObj.htmlText})</strong></p></div>`;
-            }
-
-            document.getElementById('explanation-content').innerHTML = currentQuestion.steps
-                .map(step => `<div class="bg-[#1b233a] border-l-4 border-indigo-500 p-3 rounded-r-xl text-slate-200">${step}</div>`)
-                .join('');
-            expCard.classList.remove('hidden');
-        }
-
-        function openReviewModal() {
-            const listEl = document.getElementById('session-review-list');
-            document.getElementById('review-count-info').innerText = `全 ${sessionAnswers.length} 問の履歴`;
-            if (sessionAnswers.length === 0) {
-                listEl.innerHTML = `<div class="text-center py-10 text-slate-500 text-xs">まだ今回の演習で解答した問題はありません</div>`;
-            } else {
-                listEl.innerHTML = sessionAnswers.map((item, idx) => `
-                    <div class="bg-[#1b233a] border ${item.isCorrect ? 'border-emerald-500/40' : 'border-rose-500/40'} rounded-2xl p-4 text-xs">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center space-x-1.5">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.isCorrect ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
-                                    ${item.isCorrect ? '正解' : '不正解'}
-                                </span>
-                                <span class="text-slate-400 text-[10px]">${item.unit} / ${item.badge}</span>
-                            </div>
-                            <span class="text-slate-500 text-[10px]">#${sessionAnswers.length - idx}</span>
-                        </div>
-                        <p class="text-slate-200 font-medium mb-2 leading-relaxed">${item.question}</p>
-                        <div class="bg-[#1c243c] border-l-4 border-indigo-500 p-2.5 rounded-r-xl mb-3 text-indigo-200 font-bold text-xs">
-                            ${item.prompt}
-                        </div>
-                        <div class="bg-[#111827] p-2.5 rounded-xl space-y-1 text-[11px] mb-2 border border-slate-800">
-                            <div class="flex justify-between">
-                                <span class="text-slate-400">あなたの解答:</span>
-                                <span class="font-bold ${item.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${item.selectedLabel}: ${item.selectedText}</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-slate-400">正解:</span>
-                                <span class="font-bold text-emerald-400">${item.correctLabel}: ${item.correctText}</span>
-                            </div>
-                        </div>
-                        <details class="text-[11px] text-indigo-300 cursor-pointer">
-                            <summary class="font-bold hover:text-indigo-200">解説・ステップを表示</summary>
-                            <div class="mt-2 space-y-1.5 text-slate-300 pt-2 border-t border-slate-800">
-                                ${item.steps.map(s => `<div class="bg-[#141a2e] p-2 rounded border-l-2 border-indigo-500">${s}</div>`).join('')}
-                            </div>
-                        </details>
-                    </div>
-                `).join('');
-            }
-            document.getElementById('review-modal').classList.remove('hidden');
-        }
-
-        function closeReviewModal() {
-            document.getElementById('review-modal').classList.add('hidden');
-        }
-
-        function openHistoryModal() {
-            const listEl = document.getElementById('global-history-list');
-            if (globalHistory.length === 0) {
-                listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">まだ履歴はありません</div>`;
-            } else {
-                listEl.innerHTML = globalHistory.map(item => `
-                    <div class="bg-[#1b233a] border border-slate-800 rounded-xl p-3 text-xs">
-                        <div class="flex justify-between text-slate-400 text-[10px] mb-1">
-                            <span>${item.type}</span><span>${item.date}</span>
-                        </div>
-                        <div class="flex justify-between font-bold text-white">
-                            <span>${item.scoreText}</span><span class="text-teal-400">${item.accuracy}%</span>
-                        </div>
-                    </div>
-                `).join('');
-            }
-            document.getElementById('history-modal').classList.remove('hidden');
-        }
-
-        function closeHistoryModal() {
-            document.getElementById('history-modal').classList.add('hidden');
-        }
-
-        function clearGlobalHistory() {
-            globalHistory = [];
-            saveGlobalHistory();
-            openHistoryModal();
-        }
-
-        // CBT Modals Functions
-        function openCBTModal() { document.getElementById('cbt-modal').classList.remove('hidden'); }
-        function closeCBTModal() { document.getElementById('cbt-modal').classList.add('hidden'); }
-
-        function startCBTMode(type) {
-            closeCBTModal();
-            hideAllViews();
-            isCBTMode = true;
-            cbtModeType = type;
-            cbtTotalQuestions = type === 'mini' ? 10 : 20;
-            cbtMaxOverallTime = type === 'mini' ? 900 : 1800;
-            cbtQuestionIndex = 0;
-            cbtCurrentLevel = 1;
-            cbtHistory = [];
-            sessionAnswers = [];
-
-            document.getElementById('practice-config-banner').classList.add('hidden');
-            document.getElementById('cbt-status-bar').classList.remove('hidden');
-            document.getElementById('view-practice').classList.remove('hidden');
-            generateCBTQuestion();
-        }
-
-        function generateCBTQuestion() {
-            if (cbtQuestionIndex >= cbtTotalQuestions) {
-                finishCBTMode();
-                return;
-            }
-            document.getElementById('cbt-progress-text').innerText = `第 ${cbtQuestionIndex + 1} / ${cbtTotalQuestions} 問 (現在 Lv.${cbtCurrentLevel})`;
-            generateNewQuestion();
-        }
-
-        function exitCBTMode() {
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            isCBTMode = false;
-            // CBT終了時にメタヘータ表示を元に戻せるようにしておく
-            const metaHeader = document.getElementById('q-meta-header');
-            if (metaHeader) metaHeader.classList.remove('hidden');
-            goToLanding();
-        }
-
-        function finishCBTMode() {
-            if (questionTimerInterval) clearInterval(questionTimerInterval);
-            hideAllViews();
-            const metaHeader = document.getElementById('q-meta-header');
-            if (metaHeader) metaHeader.classList.remove('hidden');
-            const score = cbtHistory.filter(h => h.isCorrect).length;
-            const accuracy = Math.round((score / cbtTotalQuestions) * 100);
-
-            document.getElementById('cbt-res-score').innerText = `${score} / ${cbtTotalQuestions}`;
-            document.getElementById('cbt-res-accuracy').innerText = `${accuracy} %`;
-            document.getElementById('cbt-res-final-lvl').innerText = `Lv.${cbtCurrentLevel}`;
-            
-            globalHistory.unshift({
-                type: cbtModeType === 'mini' ? 'CBT ミニテスト (10問)' : 'CBT フル模擬試験 (20問)',
-                scoreText: `${score} / ${cbtTotalQuestions}問正解`,
-                accuracy: accuracy,
-                date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-            });
-            if (globalHistory.length > 10) globalHistory.pop();
-            saveGlobalHistory();
-
-            document.getElementById('cbt-result-card').classList.remove('hidden');
-        }
-
-        function updateStats() {
-            const accEl = document.getElementById('stat-accuracy');
-            if (accEl) {
-                const acc = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
-                accEl.innerText = `${acc} % (${correctCount}/${totalCount})`;
-            }
-        }
-
-        function resetStats() {
-            totalCount = 0;
-            correctCount = 0;
-            updateStats();
-            sessionAnswers = [];
-            globalHistory = [];
-            saveGlobalHistory();
-        }
-
-        function recordPracticeSessionToGlobal() {
-            if (totalCount > 0 && totalCount % 5 === 0) {
-                const acc = Math.round((correctCount / totalCount) * 100);
-                // Avoid duplicating the exact same count record
-                const existingIndex = globalHistory.findIndex(h => h.type.includes('通常問題演習') && h.date.includes(new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' })));
-                const record = {
-                    type: '通常問題演習',
-                    scoreText: `${correctCount} / ${totalCount}問正解`,
-                    accuracy: acc,
-                    date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-                };
-                if (existingIndex !== -1) {
-                    globalHistory[existingIndex] = record;
-                } else {
-                    globalHistory.unshift(record);
-                }
-                if (globalHistory.length > 10) globalHistory.pop();
-                saveGlobalHistory();
-            }
-        }
-
-        function saveGlobalHistory() {
-            try {
-                localStorage.setItem('spi_global_history', JSON.stringify(globalHistory));
-                localStorage.setItem('spi_total_count', totalCount);
-                localStorage.setItem('spi_correct_count', correctCount);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        function loadGlobalHistory() {
-            try {
-                const saved = localStorage.getItem('spi_global_history');
-                if (saved) globalHistory = JSON.parse(saved);
-                const tCount = localStorage.getItem('spi_total_count');
-                const cCount = localStorage.getItem('spi_correct_count');
-                if (tCount !== null) totalCount = parseInt(tCount);
-                if (cCount !== null) correctCount = parseInt(cCount);
-                updateStats();
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        window.onload = function() {
-            loadGlobalHistory();
+        return {
+          category: "非言語",
+          unit: "集合",
+          difficulty: diff,
+          instruction: "問題文を読み、正しく当てはまるものを選びなさい。",
+          premise: `あるクラスの生徒${total}人にアンケートを行った。\n・英検を持っている生徒: ${likeA}人\n・漢検を持っている生徒: ${likeB}人`,
+          question: `両方の資格を持っている生徒が${both}人のとき、どちらも持っていない生徒は何人か。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
         };
-    </script>
+      },
+
+      "代金清算": (diff) => {
+        const itemPrice = (Math.floor(Math.random() * 5) + 3) * 100;
+        const countA = Math.floor(Math.random() * 3) + 3;
+        const countB = Math.floor(Math.random() * 2) + 1;
+        const totalCost = itemPrice * (countA + countB);
+        const perPerson = totalCost / 2;
+        const diffPay = (countA * itemPrice) - perPerson;
+
+        const correctText = `QがPに ${diffPay}円払う`;
+        const dummyTexts = [
+          `PがQに ${diffPay}円払う`,
+          `QがPに ${diffPay + 100}円払う`,
+          `PがQに ${diffPay + 100}円払う`,
+          `QがPに ${Math.max(100, diffPay - 100)}円払う`,
+          `PがQに ${Math.max(100, diffPay - 100)}円払う`,
+          `QがPに ${diffPay + 200}円払う`,
+          `PがQに ${diffPay + 200}円払う`
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctText, dummyTexts, v => v
+        );
+
+        let exp = `総額 = ${itemPrice}円 × ${countA + countB}個 = ${totalCost}円。\n1人あたりの等しい負担 = ${perPerson}円。\nPは${countA * itemPrice}円払っているため、${diffPay}円多く払っている。したがって【QがPに ${diffPay}円払う】が正しい清算です。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正しい選択肢が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "代金清算",
+          difficulty: diff,
+          instruction: "適切な清算方法を選びなさい。",
+          premise: `PとQの2人が1個${itemPrice}円の商品を買った。Pが${countA}個分、Qが${countB}個分の代金を支払った。`,
+          question: `2人の負担額を等しくするには、どのように清算すればよいか。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      },
+
+      "料金割引": (diff) => {
+        const adultPrice = (Math.floor(Math.random() * 5) + 8) * 100;
+        const childPrice = adultPrice * 0.5;
+        const groupMin = 10;
+        const groupDiscount = 0.2;
+
+        const numAdults = Math.floor(Math.random() * 4) + 6;
+        const numChildren = Math.floor(Math.random() * 4) + 5;
+        const totalPeople = numAdults + numChildren;
+
+        const rawTotal = (numAdults * adultPrice) + (numChildren * childPrice);
+        const discountedTotal = rawTotal * (1 - groupDiscount);
+
+        const correctVal = discountedTotal;
+        const dummyArr = [
+          rawTotal,
+          discountedTotal + 200,
+          Math.max(1000, discountedTotal - 200),
+          discountedTotal + 400,
+          Math.max(1000, discountedTotal - 400),
+          discountedTotal + 600,
+          discountedTotal + 1000
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctVal, dummyArr, v => `${v.toLocaleString()}円`
+        );
+
+        let exp = `合計人数 = ${numAdults} + ${numChildren} = ${totalPeople}名となり、${groupMin}名以上のため20%引きが適用される。\n通常合計 = (${numAdults} × ${adultPrice}) + (${numChildren} × ${childPrice}) = ${rawTotal.toLocaleString()}円。\n割引後合計 = ${rawTotal.toLocaleString()} × 0.8 = ${discountedTotal.toLocaleString()}円。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の金額（${discountedTotal.toLocaleString()}円）が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "料金割引",
+          difficulty: diff,
+          instruction: "条件にしたがって支払合計金額を求めなさい。",
+          premise: `ある美術館の入館料は、大人1人${adultPrice}円、子ども1人${childPrice}円である。\nただし、合計${groupMin}名以上の団体で入館する場合は全員の入館料が20%引きとなる。`,
+          question: `大人${numAdults}名、子ども${numChildren}名で入館する場合の合計入館料はいくらか。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      },
+
+      "分割払い": (diff) => {
+        const totalPrice = (Math.floor(Math.random() * 6) + 10) * 10000;
+        const downPaymentRatio = 0.2;
+        const downPayment = totalPrice * downPaymentRatio;
+        const remaining = totalPrice - downPayment;
+        const months = 10;
+        const monthlyPayment = remaining / months;
+
+        const correctVal = monthlyPayment;
+        const dummyArr = [
+          totalPrice / months,
+          monthlyPayment + 1000,
+          Math.max(1000, monthlyPayment - 1000),
+          monthlyPayment + 2000,
+          Math.max(1000, monthlyPayment - 2000),
+          monthlyPayment + 3000,
+          monthlyPayment + 500
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctVal, dummyArr, v => `${v.toLocaleString()}円`
+        );
+
+        let exp = `頭金 = ${totalPrice.toLocaleString()}円 × 0.2 = ${downPayment.toLocaleString()}円。\n残金 = ${totalPrice.toLocaleString()} - ${downPayment.toLocaleString()} = ${remaining.toLocaleString()}円。\n毎月の支払額 = ${remaining.toLocaleString()}円 ÷ ${months}回 = ${monthlyPayment.toLocaleString()}円。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の金額（${monthlyPayment.toLocaleString()}円）が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "分割払い",
+          difficulty: diff,
+          instruction: "分割払いの毎月の支払額を求めなさい。",
+          premise: `定価${totalPrice.toLocaleString()}円の商品を分割払いで購入する。\n購入時に頭金として代金の20%を現金で支払った。`,
+          question: `残金を毎月均等に${months}回の分割払いで支払うとき、毎月の支払額は何円か。（利息は考えないものとする）`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      },
+
+      "速さ": (diff) => {
+        const speed = (Math.floor(Math.random() * 4) + 3) * 10;
+        const timeHours = Math.floor(Math.random() * 2) + 2;
+        const distance = speed * timeHours;
+
+        const correctVal = distance;
+        const dummyArr = [
+          distance + 10, Math.max(5, distance - 10),
+          distance + 15, Math.max(5, distance - 15),
+          distance + 20, distance + 30, distance + 25
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctVal, dummyArr, v => `${v} km`
+        );
+
+        let exp = `距離 = 速さ × 時間 より、 ${speed} km/h × ${timeHours} 時間 = ${distance} km となります。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の数値（${distance} km）が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "速さ",
+          difficulty: diff,
+          instruction: "距離を求めなさい。",
+          premise: `自動車が時速${speed}kmの一定の速さで走っている。`,
+          question: `この自動車が${timeHours}時間走ったときに進む距離は何kmか。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      },
+
+      "損益算": (diff) => {
+        const cost = (Math.floor(Math.random() * 8) + 2) * 100;
+        const marginRate = 0.2 + (Math.floor(Math.random() * 3) * 0.1);
+        const listPrice = cost * (1 + marginRate);
+        const discountRate = 0.1;
+        const sellPrice = listPrice * (1 - discountRate);
+        const profit = sellPrice - cost;
+
+        const correctVal = profit;
+        const dummyArr = [
+          profit + 20, Math.max(10, profit - 20),
+          profit + 40, Math.max(10, profit - 30),
+          profit + 50, profit + 80, profit + 100
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          correctVal, dummyArr, v => `${v}円`
+        );
+
+        let exp = `定価 = ${cost} × (1 + ${marginRate}) = ${listPrice}円。\n売価 = ${listPrice} × (1 - 0.1) = ${sellPrice}円。\n利益 = 売価 - 原価 = ${sellPrice} - ${cost} = ${profit}円。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の金額（${profit}円）が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "損益算",
+          difficulty: diff,
+          instruction: "計算により得られる利益額を求めなさい。",
+          premise: `原価${cost}円の商品に、${Math.round(marginRate*100)}%の利益を見込んで定価をつけた。`,
+          question: `この商品を定価の10%引きで販売したとき、得られる利益は何円か。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      },
+
+      "場合の数・確率": (diff) => {
+        const redCards = Math.floor(Math.random() * 3) + 3;
+        const whiteCards = Math.floor(Math.random() * 3) + 2;
+        const total = redCards + whiteCards;
+        const num = redCards * (redCards - 1);
+        const den = total * (total - 1);
+
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const g = gcd(num, den);
+        const ansStr = `${num/g} / ${den/g}`;
+
+        const dummyArr = [
+          `${Math.min(den/g - 1, num/g + 1)} / ${den/g}`,
+          `1 / ${den/g}`,
+          `${num/g} / ${den/g + 2}`,
+          `${num/g + 1} / ${den/g + 1}`,
+          `2 / ${den/g}`,
+          `${num/g} / ${den/g + 4}`
+        ];
+
+        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
+          ansStr, dummyArr, v => v
+        );
+
+        let exp = `すべての取り出し方は nCr(${total}, 2) = ${den/2}通り。\n赤玉2個の取り出し方は nCr(${redCards}, 2) = ${num/2}通り。\n確率は (${num/2}) / (${den/2}) = ${ansStr} となります。`;
+        if (isFCorrect) {
+          exp += `\n\n※ A〜E の中に正解の確率（${ansStr}）が含まれないため、F「いずれでもない」が正解となります。`;
+        }
+
+        return {
+          category: "非言語",
+          unit: "場合の数・確率",
+          difficulty: diff,
+          instruction: "確率を求めなさい。",
+          premise: `袋の中に赤玉が${redCards}個、白玉が${whiteCards}個入っている。`,
+          question: `この袋から同時に2個の玉を取り出すとき、2個とも赤玉である確率はいくらか。`,
+          choices: choices,
+          correctIndex: correctIndex,
+          explanation: exp
+        };
+      }
+    };
+
+    // ==========================================
+    // STATE MANAGEMENT
+    // ==========================================
+    let appState = {
+      mode: 'practice', // 'practice' | 'mini' | 'exam'
+      field: '言語',
+      selectedUnit: 'すべて',
+      selectedDifficultySetting: 'auto', // 'auto' | 1 | 2 | 3
+      totalTimeLimitSec: 600,
+      questionTimeLimitSec: 45,
+      targetQuestionCount: 10,
+      
+      currentQuestions: [],
+      currentIndex: 0,
+      userAnswers: [],
+      currentDifficulty: 2,
+      isAnsweredCurrent: false,
+      
+      startTime: null
+    };
+
+    // タイマー制御変数
+    let questionAnimFrame = null;
+    let totalAnimFrame = null;
+    let questionStartTime = 0;
+    let questionDurationMs = 0;
+    let totalStartTime = 0;
+    let totalDurationMs = 0;
+
+    // ==========================================
+    // DATA FETCHING & UI INITIALIZATION
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', async () => {
+      lucide.createIcons();
+      await fetchGengoQuestions();
+      selectField('言語');
+    });
+
+    // gengo.json の読み込みと正規化処理
+    async function fetchGengoQuestions() {
+      const loadingEl = document.getElementById('loading');
+      try {
+        const res = await fetch('./gengo.json');
+        if (!res.ok) {
+          throw new Error(`HTTP status ${res.status}`);
+        }
+        const rawData = await res.json();
+        
+        // gengo.json のフォーマットを内部標準形式に変換
+        loadedVerbalQuestions = rawData.map(item => {
+          // choices がオブジェクト { "A": "...", "B": "..." } の場合に配列化
+          let choicesArray = [];
+          let correctIdx = 0;
+
+          if (Array.isArray(item.choices)) {
+            choicesArray = item.choices;
+            correctIdx = typeof item.correct === 'number' ? item.correct : 0;
+          } else if (item.choices && typeof item.choices === 'object') {
+            const keys = Object.keys(item.choices).sort(); // A, B, C, D...
+            choicesArray = keys.map(k => item.choices[k]);
+            
+            // correct が "A", "B", "C" 等のキー文字列の場合
+            if (typeof item.correct === 'string') {
+              correctIdx = keys.indexOf(item.correct);
+              if (correctIdx === -1) correctIdx = 0;
+            } else if (typeof item.correct === 'number') {
+              correctIdx = item.correct;
+            }
+          }
+
+          const correctLetter = String.fromCharCode(65 + correctIdx);
+          const correctText = choicesArray[correctIdx] || '';
+
+          return {
+            id: item.id,
+            category: item.category || '言語',
+            unit: item.unit || 'その他',
+            difficulty: Number(item.difficulty) || 1,
+            timeLimit: Number(item.timeLimit) || 30,
+            instruction: item.instruction || '最も適当なものを選択しなさい。',
+            premise: item.premise || '',
+            question: item.question || '',
+            choices: choicesArray,
+            correctIndex: correctIdx,
+            explanation: item.explanation || `正解は 【${correctLetter} : ${correctText}】 です。`
+          };
+        });
+
+        // 言語分野の単元リストを動的作成
+        const unitSet = new Set(loadedVerbalQuestions.map(q => q.unit));
+        verbalUnits = Array.from(unitSet);
+
+      } catch (err) {
+        console.warn('gengo.json の読み込みに失敗したため、バックアップデータを使用します:', err);
+        // 万が一の通信エラー用フォールバック
+        loadedVerbalQuestions = [
+          {
+            category: "言語",
+            unit: "語句の意味",
+            difficulty: 1,
+            timeLimit: 20,
+            instruction: "以下の語句の意味を答えなさい",
+            premise: "",
+            question: "簡潔",
+            choices: ["丁寧", "短く要領を得ている", "難解", "詳細"],
+            correctIndex: 1,
+            explanation: "「簡潔」は言葉数が少なく手際よくまとまっている様子を意味します。"
+          }
+        ];
+        verbalUnits = ["語句の意味"];
+      } finally {
+        // ロード画面をスムーズに非表示
+        loadingEl.classList.add('opacity-0');
+        setTimeout(() => loadingEl.classList.add('hidden'), 300);
+      }
+    }
+
+    function selectMode(mode) {
+      appState.mode = mode;
+      const btnPractice = document.getElementById('btn-mode-practice');
+      const btnMini = document.getElementById('btn-mode-mini');
+      const btnExam = document.getElementById('btn-mode-exam');
+      
+      const practiceSettings = document.getElementById('practice-settings');
+      const miniSettings = document.getElementById('mini-settings');
+      const examSettings = document.getElementById('exam-settings');
+
+      const activeClass = "p-4 rounded-xl border-2 text-left transition-all border-indigo-600 bg-indigo-50/60 shadow-sm";
+      const inactiveClass = "p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 text-slate-600";
+
+      btnPractice.className = mode === 'practice' ? activeClass : inactiveClass;
+      btnMini.className = mode === 'mini' ? activeClass : inactiveClass;
+      btnExam.className = mode === 'exam' ? activeClass : inactiveClass;
+
+      practiceSettings.classList.toggle('hidden', mode !== 'practice');
+      miniSettings.classList.toggle('hidden', mode !== 'mini');
+      examSettings.classList.toggle('hidden', mode !== 'exam');
+    }
+
+    function selectField(field) {
+      appState.field = field;
+      const btnVerbal = document.getElementById('btn-field-verbal');
+      const btnNonVerbal = document.getElementById('btn-field-nonverbal');
+
+      if (field === '言語') {
+        btnVerbal.className = "py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-indigo-600 bg-indigo-50 text-indigo-800 shadow-sm";
+        btnNonVerbal.className = "py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-slate-200 hover:border-slate-300 text-slate-600";
+      } else {
+        btnNonVerbal.className = "py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-indigo-600 bg-indigo-50 text-indigo-800 shadow-sm";
+        btnVerbal.className = "py-3 px-3 rounded-xl border-2 text-center text-xs font-bold transition-all border-slate-200 hover:border-slate-300 text-slate-600";
+      }
+      updateUnitDropdown();
+    }
+
+    function updateUnitDropdown() {
+      const select = document.getElementById('select-unit');
+      select.innerHTML = '<option value="すべて">すべての単元からランダム</option>';
+
+      if (appState.field === '言語') {
+        verbalUnits.forEach(u => {
+          select.innerHTML += `<option value="${u}">${u}</option>`;
+        });
+      } else {
+        nonVerbalUnits.forEach(u => {
+          select.innerHTML += `<option value="${u}">${u}</option>`;
+        });
+      }
+    }
+
+    // ==========================================
+    // QUESTION GENERATION ENGINE
+    // ==========================================
+    function generateQuestion(category, requestedUnit, difficulty) {
+      if (category === '言語') {
+        let pool = loadedVerbalQuestions;
+        
+        // 難易度での絞り込み
+        const diffFiltered = pool.filter(q => q.difficulty === difficulty);
+        if (diffFiltered.length > 0) pool = diffFiltered;
+
+        // 単元での絞り込み
+        if (requestedUnit !== 'すべて') {
+          const unitFiltered = pool.filter(q => q.unit === requestedUnit);
+          if (unitFiltered.length > 0) pool = unitFiltered;
+        }
+
+        if (pool.length === 0) pool = loadedVerbalQuestions; // 完全フォールバック
+        const template = pool[Math.floor(Math.random() * pool.length)];
+        return JSON.parse(JSON.stringify(template));
+      } else {
+        let unit = requestedUnit;
+        if (unit === 'すべて') {
+          unit = nonVerbalUnits[Math.floor(Math.random() * nonVerbalUnits.length)];
+        }
+        const generatorFn = nonVerbalGenerator[unit] || nonVerbalGenerator["集合"];
+        return generatorFn(difficulty);
+      }
+    }
+
+    // ミニテスト用の事前キュー作成
+    function prepareMiniTestQuestions() {
+      const queue = [];
+      
+      // 言語から6問
+      for (let i = 0; i < 6; i++) {
+        const u = verbalUnits.length > 0 ? verbalUnits[i % verbalUnits.length] : 'すべて';
+        queue.push(generateQuestion('言語', u, 2));
+      }
+      // 非言語から6問
+      nonVerbalUnits.forEach((u, i) => {
+        if (i < 6) queue.push(generateQuestion('非言語', u, 2));
+      });
+
+      // ランダムシャッフル
+      return queue.sort(() => Math.random() - 0.5);
+    }
+
+    // ==========================================
+    // QUIZ FLOW CONTROLLER
+    // ==========================================
+    function startQuiz() {
+      document.getElementById('screen-setup').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.remove('hidden');
+      document.getElementById('quiz-header').classList.remove('hidden');
+      document.getElementById('footer-bar').classList.remove('hidden');
+
+      appState.currentQuestions = [];
+
+      if (appState.mode === 'practice') {
+        appState.selectedUnit = document.getElementById('select-unit').value;
+        appState.selectedDifficultySetting = document.getElementById('select-difficulty-mode').value;
+        appState.totalTimeLimitSec = parseInt(document.getElementById('select-total-time').value);
+        appState.questionTimeLimitSec = parseInt(document.getElementById('select-question-time').value);
+        appState.targetQuestionCount = parseInt(document.getElementById('select-question-count').value);
+
+        if (appState.selectedDifficultySetting !== 'auto') {
+          appState.currentDifficulty = parseInt(appState.selectedDifficultySetting);
+        } else {
+          appState.currentDifficulty = 2;
+        }
+
+        const diffLabel = appState.selectedDifficultySetting === 'auto' ? '自動調整' : `Lv.${appState.selectedDifficultySetting}`;
+        document.getElementById('header-mode-title').innerText = `SPI3 練習モード (${appState.field} - ${appState.selectedUnit} / 難易度:${diffLabel})`;
+
+      } else if (appState.mode === 'mini') {
+        appState.selectedDifficultySetting = 'auto';
+        appState.totalTimeLimitSec = 600; // 10分
+        appState.targetQuestionCount = 12;
+        appState.currentDifficulty = 2;
+        document.getElementById('header-mode-title').innerText = `SPI3 10分ミニテストモード (12問)`;
+        appState.currentQuestions = prepareMiniTestQuestions();
+
+      } else { // 'exam' CBT模擬試験
+        appState.selectedDifficultySetting = 'auto';
+        appState.totalTimeLimitSec = 2100; // 35分
+        appState.targetQuestionCount = 20;
+        appState.currentDifficulty = 2;
+        document.getElementById('header-mode-title').innerText = `SPI3 CBT本番模擬試験モード (適応型20問)`;
+      }
+
+      appState.currentIndex = 0;
+      appState.userAnswers = [];
+      appState.startTime = Date.now();
+
+      if (appState.totalTimeLimitSec > 0) {
+        startTotalTimer();
+      } else {
+        document.getElementById('bar-total-time').style.width = "100%";
+      }
+
+      loadNextQuestionToState();
+    }
+
+    function loadNextQuestionToState() {
+      appState.isAnsweredCurrent = false;
+
+      let q;
+      if (appState.mode === 'mini') {
+        q = appState.currentQuestions[appState.currentIndex];
+      } else {
+        let currentCategory = appState.field;
+        if (appState.mode === 'exam') {
+          currentCategory = appState.currentIndex < 10 ? '言語' : '非言語';
+        }
+        q = generateQuestion(currentCategory, appState.selectedUnit, appState.currentDifficulty);
+        appState.currentQuestions[appState.currentIndex] = q;
+      }
+
+      // 1問あたりの動的制限時間設定
+      if (appState.mode === 'exam' || appState.mode === 'mini') {
+        if (q.timeLimit && q.timeLimit > 0) {
+          appState.questionTimeLimitSec = q.timeLimit;
+        } else if (q.category === '非言語') {
+          if (q.difficulty === 1) appState.questionTimeLimitSec = 45;
+          else if (q.difficulty === 2) appState.questionTimeLimitSec = 90;
+          else if (q.difficulty === 3) appState.questionTimeLimitSec = 120;
+        } else {
+          appState.questionTimeLimitSec = 30;
+        }
+      }
+
+      renderQuestion(q);
+      startQuestionTimer();
+    }
+
+    function renderQuestion(q) {
+      document.getElementById('btn-next').classList.add('hidden');
+      document.getElementById('answer-feedback').classList.add('hidden');
+
+      document.getElementById('current-question-badge').innerText = `第 ${appState.currentIndex + 1} 問`;
+      document.getElementById('badge-category').innerText = q.category;
+      document.getElementById('badge-unit').innerText = q.unit;
+      
+      const diffText = q.difficulty === 1 ? 'Easy' : (q.difficulty === 2 ? 'Normal' : 'Hard');
+      document.getElementById('text-difficulty').innerText = `難易度: ${diffText}`;
+
+      document.getElementById('progress-text').innerText = `${appState.currentIndex + 1} / ${appState.targetQuestionCount}`;
+      document.getElementById('quiz-instruction').innerText = q.instruction || "正しい答えを選びなさい。";
+      
+      const premiseEl = document.getElementById('quiz-premise');
+      if (q.premise && q.premise.trim() !== '') {
+        premiseEl.innerText = q.premise;
+        premiseEl.classList.remove('hidden');
+      } else {
+        premiseEl.classList.add('hidden');
+      }
+
+      document.getElementById('quiz-question').innerText = q.question;
+
+      const container = document.getElementById('choices-container');
+      container.innerHTML = '';
+      
+      q.choices.forEach((choiceText, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "choice-btn w-full p-3.5 rounded-xl border-2 border-slate-200 hover:border-indigo-400 bg-white text-left font-medium text-slate-800 transition flex items-center justify-between shadow-sm";
+        btn.onclick = () => selectChoice(idx);
+        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center border border-slate-300 choice-badge">${String.fromCharCode(65 + idx)}</span>
+            <span class="text-xs md:text-sm leading-snug">${choiceText}</span>
+          </div>
+          <i data-lucide="circle" class="w-4 h-4 text-slate-300 choice-icon"></i>
+        `;
+        container.appendChild(btn);
+      });
+      lucide.createIcons();
+    }
+
+    // 選択肢クリック時の即時回答処理
+    function selectChoice(idx) {
+      if (appState.isAnsweredCurrent) return;
+      appState.isAnsweredCurrent = true;
+
+      if (questionAnimFrame) {
+        cancelAnimationFrame(questionAnimFrame);
+        questionAnimFrame = null;
+      }
+
+      const q = appState.currentQuestions[appState.currentIndex];
+      const isCorrect = (idx === q.correctIndex);
+
+      // ボタンの見た目を更新
+      const buttons = document.querySelectorAll('.choice-btn');
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        const badge = btn.querySelector('.choice-badge');
+        if (i === idx) {
+          if (appState.mode === 'practice') {
+            btn.className = isCorrect
+              ? "choice-btn w-full p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-semibold text-emerald-950 flex items-center justify-between shadow-sm"
+              : "choice-btn w-full p-3.5 rounded-xl border-2 border-rose-500 bg-rose-50 font-semibold text-rose-950 flex items-center justify-between shadow-sm";
+            badge.className = isCorrect
+              ? "w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center"
+              : "w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center";
+          } else {
+            btn.className = "choice-btn w-full p-3.5 rounded-xl border-2 border-indigo-600 bg-indigo-50 font-semibold text-indigo-950 flex items-center justify-between shadow-sm";
+            badge.className = "w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center";
+          }
+        } else if (appState.mode === 'practice' && i === q.correctIndex) {
+          btn.className = "choice-btn w-full p-3.5 rounded-xl border-2 border-emerald-400 bg-emerald-50/50 font-semibold text-emerald-900 flex items-center justify-between shadow-sm";
+          badge.className = "w-6 h-6 rounded-full bg-emerald-500 text-white font-bold text-xs flex items-center justify-center";
+        } else {
+          btn.className = "choice-btn w-full p-3.5 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-50 font-medium text-slate-400 flex items-center justify-between";
+        }
+      });
+
+      const spentSec = Math.round((Date.now() - questionStartTime) / 1000);
+
+      // 解答履歴へ追加
+      appState.userAnswers.push({
+        question: q,
+        selectedIndex: idx,
+        isCorrect: isCorrect,
+        timeSpentSec: spentSec
+      });
+
+      // 難易度調整（自動設定モード時のみ可変）
+      if (appState.selectedDifficultySetting === 'auto') {
+        if (isCorrect && appState.currentDifficulty < 3) {
+          appState.currentDifficulty++;
+        } else if (!isCorrect && appState.currentDifficulty > 1) {
+          appState.currentDifficulty--;
+        }
+      }
+
+      if (appState.mode === 'practice') {
+        showFeedback(isCorrect, q);
+      } else {
+        setTimeout(() => {
+          nextQuestion();
+        }, 300);
+      }
+    }
+
+    function showFeedback(isCorrect, q) {
+      document.getElementById('btn-next').classList.remove('hidden');
+
+      const feedbackBox = document.getElementById('answer-feedback');
+      const iconContainer = document.getElementById('feedback-icon-container');
+      const title = document.getElementById('feedback-title');
+      const desc = document.getElementById('feedback-desc');
+      const exp = document.getElementById('feedback-explanation');
+
+      feedbackBox.classList.remove('hidden');
+
+      if (isCorrect) {
+        feedbackBox.className = "mt-4 p-4 rounded-xl border transition duration-300 text-xs space-y-3 bg-emerald-50 border-emerald-200";
+        iconContainer.className = "p-1.5 rounded-full bg-emerald-100 text-emerald-600";
+        iconContainer.innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5"></i>`;
+        title.className = "font-bold text-sm text-emerald-950";
+        title.innerText = "正解！";
+        desc.innerText = "素晴らしい解答です。次の問題に進みましょう。";
+      } else {
+        feedbackBox.className = "mt-4 p-4 rounded-xl border transition duration-300 text-xs space-y-3 bg-rose-50 border-rose-200";
+        iconContainer.className = "p-1.5 rounded-full bg-rose-100 text-rose-600";
+        iconContainer.innerHTML = `<i data-lucide="x-circle" class="w-5 h-5"></i>`;
+        title.className = "font-bold text-sm text-rose-950";
+        title.innerText = "不正解...";
+        desc.innerText = `正解は 【${String.fromCharCode(65 + q.correctIndex)}】 でした。`;
+      }
+
+      exp.innerText = q.explanation;
+      lucide.createIcons();
+    }
+
+    function nextQuestion() {
+      appState.currentIndex++;
+
+      if (appState.currentIndex >= appState.targetQuestionCount) {
+        finishQuiz();
+      } else {
+        loadNextQuestionToState();
+      }
+    }
+
+    // ==========================================
+    // SEAMLESS ANIMATED TIMERS (requestAnimationFrame)
+    // ==========================================
+    function startQuestionTimer() {
+      if (questionAnimFrame) cancelAnimationFrame(questionAnimFrame);
+
+      if (appState.questionTimeLimitSec <= 0) {
+        document.getElementById('bar-question-time').style.width = "100%";
+        return;
+      }
+
+      questionDurationMs = appState.questionTimeLimitSec * 1000;
+      questionStartTime = Date.now();
+
+      function updateQuestionBar() {
+        const elapsed = Date.now() - questionStartTime;
+        const remainingMs = Math.max(0, questionDurationMs - elapsed);
+        const pct = (remainingMs / questionDurationMs) * 100;
+
+        document.getElementById('bar-question-time').style.width = `${pct}%`;
+
+        if (remainingMs > 0) {
+          questionAnimFrame = requestAnimationFrame(updateQuestionBar);
+        } else {
+          questionAnimFrame = null;
+          if (!appState.isAnsweredCurrent) {
+            selectChoice(-1);
+          }
+        }
+      }
+
+      questionAnimFrame = requestAnimationFrame(updateQuestionBar);
+    }
+
+    function startTotalTimer() {
+      if (totalAnimFrame) cancelAnimationFrame(totalAnimFrame);
+
+      if (appState.totalTimeLimitSec <= 0) {
+        document.getElementById('bar-total-time').style.width = "100%";
+        return;
+      }
+
+      totalDurationMs = appState.totalTimeLimitSec * 1000;
+      totalStartTime = Date.now();
+
+      function updateTotalBar() {
+        const elapsed = Date.now() - totalStartTime;
+        const remainingMs = Math.max(0, totalDurationMs - elapsed);
+        const pct = (remainingMs / totalDurationMs) * 100;
+
+        document.getElementById('bar-total-time').style.width = `${pct}%`;
+
+        if (remainingMs > 0) {
+          totalAnimFrame = requestAnimationFrame(updateTotalBar);
+        } else {
+          totalAnimFrame = null;
+          alertModal("時間切れ", "全体制限時間に達したため、テストを終了します。", () => {
+            finishQuiz();
+          });
+        }
+      }
+
+      totalAnimFrame = requestAnimationFrame(updateTotalBar);
+    }
+
+    // ==========================================
+    // RESULTS & REVIEW (SIMPLE MODE)
+    // ==========================================
+    function finishQuiz() {
+      if (questionAnimFrame) cancelAnimationFrame(questionAnimFrame);
+      if (totalAnimFrame) cancelAnimationFrame(totalAnimFrame);
+
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('quiz-header').classList.add('hidden');
+      document.getElementById('footer-bar').classList.add('hidden');
+      document.getElementById('screen-result').classList.remove('hidden');
+
+      const totalQs = appState.userAnswers.length;
+      const correctCount = appState.userAnswers.filter(a => a.isCorrect).length;
+      const pct = totalQs > 0 ? Math.round((correctCount / totalQs) * 100) : 0;
+
+      document.getElementById('res-score').innerText = `${correctCount} / ${totalQs}`;
+      document.getElementById('res-percent').innerText = `${pct}% 正解`;
+
+      const totalElapsedSec = Math.floor((Date.now() - appState.startTime) / 1000);
+      const min = Math.floor(totalElapsedSec / 60);
+      const sec = totalElapsedSec % 60;
+      document.getElementById('res-time').innerText = `${min}分${sec}秒`;
+      document.getElementById('res-avg-time').innerText = `1問平均: ${totalQs > 0 ? Math.round(totalElapsedSec / totalQs) : 0}秒`;
+
+      // 振り返りテーブルの構築
+      const tbody = document.getElementById('result-list-body');
+      tbody.innerHTML = '';
+      
+      appState.userAnswers.forEach((ans, idx) => {
+        const tr = document.createElement('tr');
+        const diffText = ans.question.difficulty === 1 ? 'Easy' : (ans.question.difficulty === 2 ? 'Normal' : 'Hard');
+        const isOk = ans.isCorrect;
+
+        const userSelectedText = ans.selectedIndex >= 0 
+          ? `${String.fromCharCode(65 + ans.selectedIndex)}: ${ans.question.choices[ans.selectedIndex]}` 
+          : '未解答 (時間切れ)';
+        const correctText = `${String.fromCharCode(65 + ans.question.correctIndex)}: ${ans.question.choices[ans.question.correctIndex]}`;
+
+        tr.innerHTML = `
+          <td class="p-3 font-bold text-center align-top">${idx + 1}</td>
+          <td class="p-3 align-top">
+            <span class="font-bold text-slate-800 block">${ans.question.category}</span>
+            <span class="text-slate-500 text-[11px] block mt-0.5">${ans.question.unit}</span>
+          </td>
+          <td class="p-3 text-center align-top">
+            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-100 font-semibold border border-slate-200">${diffText}</span>
+          </td>
+          <td class="p-3 text-slate-800 font-medium align-top space-y-1.5">
+            ${ans.question.premise ? `<div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded border border-slate-200 whitespace-pre-line leading-relaxed">${ans.question.premise}</div>` : ''}
+            <div class="font-bold text-slate-900 leading-normal whitespace-pre-line">${ans.question.question}</div>
+            <div class="mt-2 pt-2 border-t border-slate-100 text-[11px] space-y-0.5">
+              <div class="text-emerald-700 font-bold"><span class="text-slate-400 font-normal">正解:</span> ${correctText}</div>
+              ${!isOk ? `<div class="text-rose-600 font-bold"><span class="text-slate-400 font-normal">あなたの解答:</span> ${userSelectedText}</div>` : ''}
+            </div>
+          </td>
+          <td class="p-3 text-center align-top">
+            ${isOk 
+              ? '<span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-700 font-bold border border-emerald-200">正解</span>'
+              : '<span class="px-2 py-0.5 rounded text-[10px] bg-rose-100 text-rose-700 font-bold border border-rose-200">不正解</span>'}
+          </td>
+          <td class="p-3 text-[11px] text-slate-600 leading-relaxed whitespace-pre-line align-top bg-slate-50/50">
+            ${ans.question.explanation}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      let advice = "";
+      if (pct >= 80) {
+        advice = "【非常に素晴らしい成績です】\n高い解答精度が維持されています。この調子で反復練習を行い、解答スピードの更なる向上を目指しましょう。";
+      } else if (pct >= 50) {
+        advice = "【着実な理解が進んでいます】\n間違えた問題の解説を確認し、苦手な語句やパターンの復習を重点的に行いましょう。";
+      } else {
+        advice = "【基礎知識の再確認を行いましょう】\nまずは各問題の解説をしっかり確認し、語句の意味や標準的な解法手順を覚えてから再挑戦してください。";
+      }
+      document.getElementById('res-advice').innerText = advice;
+    }
+
+    // ==========================================
+    // UTILITY & MODALS
+    // ==========================================
+    function confirmAbort() {
+      alertModal("テストの中断", "現在の進行状況は破棄されます。本当に終了しますか？", () => {
+        restartApp();
+      }, true);
+    }
+
+    function restartApp() {
+      if (questionAnimFrame) cancelAnimationFrame(questionAnimFrame);
+      if (totalAnimFrame) cancelAnimationFrame(totalAnimFrame);
+
+      document.getElementById('screen-result').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('quiz-header').classList.add('hidden');
+      document.getElementById('footer-bar').classList.add('hidden');
+      document.getElementById('screen-setup').classList.remove('hidden');
+    }
+
+    function alertModal(title, msg, onConfirm, showCancel = false) {
+      const alertBox = document.getElementById('alertBox');
+      const customAlert = document.getElementById('customAlert');
+      
+      document.getElementById('alertTitle').innerText = title;
+      document.getElementById('alertMessage').innerText = msg;
+      
+      const container = document.getElementById('alertButtonContainer');
+      container.innerHTML = '';
+
+      if (showCancel) {
+        const btnCancel = document.createElement('button');
+        btnCancel.className = "px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition";
+        btnCancel.innerText = "キャンセル";
+        btnCancel.onclick = closeAlert;
+        container.appendChild(btnCancel);
+      }
+
+      const btnOk = document.createElement('button');
+      btnOk.className = "px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition";
+      btnOk.innerText = " OK ";
+      btnOk.onclick = () => {
+        closeAlert();
+        if (onConfirm) onConfirm();
+      };
+      container.appendChild(btnOk);
+
+      customAlert.classList.remove('hidden');
+      setTimeout(() => {
+        alertBox.classList.remove('scale-95', 'opacity-0');
+        alertBox.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeAlert() {
+      const alertBox = document.getElementById('alertBox');
+      const customAlert = document.getElementById('customAlert');
+      
+      alertBox.classList.remove('scale-100', 'opacity-100');
+      alertBox.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        customAlert.classList.add('hidden');
+      }, 200);
+    }
+
+    function copyResultText() {
+      const totalQs = appState.userAnswers.length;
+      const correctCount = appState.userAnswers.filter(a => a.isCorrect).length;
+      const pct = totalQs > 0 ? Math.round((correctCount / totalQs) * 100) : 0;
+
+      let modeName = "練習モード";
+      if (appState.mode === 'mini') modeName = "10分ミニテスト";
+      else if (appState.mode === 'exam') modeName = "CBT模擬試験";
+
+      const text = `【SPI3演習結果】\n正答率: ${correctCount}/${totalQs} (${pct}%)\n所要時間: ${document.getElementById('res-time').innerText}\nモード: ${modeName}`;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        alertModal("コピー完了", "成績結果テキストをクリップボードにコピーしました。");
+      });
+    }
+  </script>
 </body>
 </html>
