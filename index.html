@@ -8,15 +8,17 @@
   <!-- Chosen Palette: Deep Slate & Electric Indigo (Dark Theme with Indigo & Emerald Accents) -->
   <!-- Application Structure Plan: 
        1. Top Header: App Branding with "Previous Review" (前回の振り返り) quick access button when historical test result exists.
-       2. Setup Screen (Dark Theme): Concise Mode selection (without redundant descriptions), Field/Unit/Difficulty/Time configs, Start button.
+       2. Setup Screen (Dark Theme): Concise Mode selection, Field/Unit/Difficulty/Time configs, Start button.
        3. Quiz Execution Interface: Split dark-card view for premise/question and interactive choice buttons with animated time bars.
-       4. Results & Review Dashboard: High-contrast dark cards displaying metrics (accuracy & time), problem-by-problem review table with explanations, and quick retake/copy actions. Persistent save of last result in localStorage.
+       4. Non-Verbal Generator: Multi-level dynamic problem engine strictly implementing specified Lv.1, Lv.2, and Lv.3 math models across all 7 non-verbal units (Sets, Payment, Discounts, Installments, Speed, Profit & Loss, Probability).
+       5. Results & Review Dashboard: High-contrast dark cards displaying metrics (accuracy & time), responsive mobile-friendly card list for problem-by-problem review, and quick retake/copy actions. Persistent save of last result in localStorage.
   -->
   <!-- Visualization & Content Choices: 
        - Storage: Uses localStorage ('spi3_last_result') to retain the most recent quiz results across sessions.
        - External JSON: Fetches ./gengo.json for Verbal questions and normalizes structure dynamically.
-       - Non-verbal Generator: Dynamic problem engine supporting choices A-F.
+       - Non-verbal Generator: Advanced dynamic problem engine supporting strict Level 1-3 math branching and choices A-F.
        - Timers: Smooth progress animation via requestAnimationFrame.
+       - Mobile UX Optimization: Clear, full-width responsive card blocks in review.
        - Presentation: Pure HTML/Tailwind CSS dark UI with Lucide Icons (NO SVG / NO Mermaid).
   -->
   <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -82,7 +84,7 @@
       </button>
     </div>
     
-    <!-- 時間制限ゲージ（シームレスバーのみ） -->
+    <!-- 時間制限ゲージ -->
     <div class="grid grid-cols-2 gap-4 mt-2.5 pt-2 border-t border-slate-800/80 text-[10px] max-w-6xl mx-auto w-full">
       <div class="flex items-center gap-2">
         <span class="text-slate-400 font-bold flex-shrink-0">1問制限</span>
@@ -119,7 +121,7 @@
         </div>
 
         <div class="p-6 md:p-8 space-y-6">
-          <!-- 0. テストモード選択 (シンプル表記) -->
+          <!-- 0. テストモード選択 -->
           <div>
             <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">0. テストモードを選択</label>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -167,7 +169,6 @@
               <div>
                 <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">2. 出題単元を選択</label>
                 <select id="select-unit" class="w-full bg-slate-950/80 border border-slate-800 text-slate-200 rounded-xl px-3 py-2.5 font-medium text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
-                  <!-- JSで動的に初期化 -->
                 </select>
               </div>
 
@@ -175,9 +176,9 @@
                 <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">3. 難易度を選択</label>
                 <select id="select-difficulty-mode" class="w-full bg-slate-950/80 border border-slate-800 text-slate-200 rounded-xl px-3 py-2.5 font-medium text-xs focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
                   <option value="auto" selected>自動調整（適応型出題）</option>
-                  <option value="1">Easy (初級)</option>
-                  <option value="2">Normal (中級)</option>
-                  <option value="3">Hard (上級)</option>
+                  <option value="1">Lv.1 (初級)</option>
+                  <option value="2">Lv.2 (中級)</option>
+                  <option value="3">Lv.3 (上級)</option>
                 </select>
               </div>
             </div>
@@ -237,7 +238,7 @@
             <span class="px-2.5 py-1 bg-slate-950 text-slate-300 rounded-md font-bold text-xs border border-slate-800" id="badge-category">非言語分野</span>
             <span class="px-2.5 py-1 bg-slate-950 text-slate-300 rounded-md font-bold text-xs border border-slate-800" id="badge-unit">単元名</span>
             <span class="px-2.5 py-1 bg-indigo-950/60 text-indigo-300 rounded-md font-bold text-xs border border-indigo-800/60 flex items-center gap-1" id="badge-difficulty">
-              <i data-lucide="star" class="w-3.5 h-3.5 fill-indigo-400 text-indigo-400"></i><span id="text-difficulty">難易度: Normal</span>
+              <i data-lucide="star" class="w-3.5 h-3.5 fill-indigo-400 text-indigo-400"></i><span id="text-difficulty">難易度: Lv.2</span>
             </span>
           </div>
           
@@ -291,7 +292,6 @@
               </div>
             </div>
           </div>
-          <!-- 解答解説表示 -->
           <div id="feedback-explanation" class="pt-3 border-t border-slate-800 text-slate-300 leading-relaxed bg-slate-900 p-3 rounded-lg text-xs max-h-40 overflow-y-auto whitespace-pre-line border border-slate-800/50">
           </div>
         </div>
@@ -316,16 +316,16 @@
     </div>
   </footer>
 
-  <!-- ==================== 画面C: 結果画面（ダークテーマ＆振り返り対応） ==================== -->
+  <!-- ==================== 画面C: 結果画面 ==================== -->
   <section id="screen-result" class="hidden flex-1 overflow-y-auto p-4 md:p-8 bg-slate-950">
-    <div class="bg-slate-900 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden border border-slate-800 my-auto">
+    <div class="bg-slate-900 rounded-2xl shadow-2xl max-w-4xl mx-auto overflow-hidden border border-slate-800 my-auto">
       
       <div class="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-950 p-6 md:p-8 text-center border-b border-slate-800 relative">
         <h2 class="text-2xl md:text-3xl font-black text-slate-100 tracking-wide">テスト結果レポート</h2>
         <p class="text-indigo-300 text-xs md:text-sm mt-1">演習結果および解答内容の振り返りです。</p>
       </div>
 
-      <div class="p-6 md:p-8 space-y-8">
+      <div class="p-4 md:p-8 space-y-6 md:space-y-8">
         <!-- メトリクスカード（正答率 & 所要時間） -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
           <div class="bg-indigo-950/40 p-5 rounded-2xl border border-indigo-800/50 flex flex-col justify-center items-center">
@@ -340,32 +340,20 @@
           </div>
         </div>
 
-        <!-- 解答履歴ログ（問題文つき振り返り機能） -->
-        <div class="bg-slate-950/60 p-5 rounded-2xl border border-slate-800 space-y-3">
-          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-            <i data-lucide="list-checks" class="w-4 h-4 text-indigo-400"></i> 問題ごとの振り返り・正誤・詳細解説
+        <!-- 振り返りカードリスト -->
+        <div class="space-y-4">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 px-1">
+            <i data-lucide="list-checks" class="w-4 h-4 text-indigo-400"></i> 問題ごとの振り返り・詳細解説
           </h4>
-          <div class="overflow-x-auto border border-slate-800 rounded-xl bg-slate-900 shadow-sm">
-            <table class="w-full text-xs text-left text-slate-300 border-collapse">
-              <thead>
-                <tr class="bg-slate-950 text-slate-200 font-bold border-b border-slate-800">
-                  <th class="p-3 w-10 text-center">問</th>
-                  <th class="p-3 w-28">分野 / 単元</th>
-                  <th class="p-3 text-center w-16">難易度</th>
-                  <th class="p-3">問題内容 &amp; 回答選択</th>
-                  <th class="p-3 text-center w-16">判定</th>
-                  <th class="p-3 w-64">解説</th>
-                </tr>
-              </thead>
-              <tbody id="result-list-body" class="divide-y divide-slate-800">
-              </tbody>
-            </table>
+
+          <!-- カードコンテナ（JSで動的生成） -->
+          <div id="result-list-container" class="space-y-4">
           </div>
         </div>
 
         <!-- フィードバックアドバイス -->
         <div class="space-y-2">
-          <h4 class="text-sm font-bold text-slate-200 flex items-center gap-1.5">
+          <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 px-1">
             <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i> SPI対策アドバイス
           </h4>
           <div class="bg-amber-950/30 p-4 rounded-xl border border-amber-800/40 text-xs md:text-sm text-amber-200/90 leading-relaxed whitespace-pre-line" id="res-advice">
@@ -375,10 +363,10 @@
 
         <!-- ボタンアクション -->
         <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-800">
-          <button onclick="restartApp()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-950/50 transition flex items-center justify-center gap-2">
+          <button onclick="restartApp()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-950/50 transition flex items-center justify-center gap-2 text-sm">
             <i data-lucide="rotate-ccw" class="w-4 h-4"></i> トップに戻る
           </button>
-          <button onclick="copyResultText()" class="sm:w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 px-6 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+          <button onclick="copyResultText()" class="sm:w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 px-6 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 text-sm">
             <i data-lucide="copy" class="w-4 h-4"></i> 成績をコピー
           </button>
         </div>
@@ -392,9 +380,9 @@
     // 保持データ・状態管理
     let loadedVerbalQuestions = [];
     let verbalUnits = [];
-    let lastSavedResultData = null; // 直近の試験結果
+    let lastSavedResultData = null;
 
-    // 非言語分野の指定全7単元
+    // 非言語分野の全7単元
     const nonVerbalUnits = [
       "集合",
       "代金清算",
@@ -405,7 +393,7 @@
       "場合の数・確率"
     ];
 
-    // 非言語用：選択肢 A〜F（Fは「いずれでもない」固定）の構築ヘルパー
+    // 非言語分野用 選択肢生成ヘルパー (A〜F)
     function buildNonVerbalChoices(correctVal, dummyArr, formatFn) {
       const isFCorrect = Math.random() < 0.20;
       
@@ -417,7 +405,7 @@
 
       if (isFCorrect) {
         choicesAtoE = uniqueDummies.slice(0, 5).map(formatFn);
-        correctIndex = 5;
+        correctIndex = 5; // F (いずれでもない)
       } else {
         const candidateDummies = uniqueDummies.slice(0, 4).map(formatFn);
         const correctFormatted = formatFn(correctVal);
@@ -432,296 +420,656 @@
       return { choices, correctIndex, isFCorrect };
     }
 
-    // 非言語分野の自動生成エンジン（全単元 選択肢 A〜F）
+    // =========================================================================
+    // 非言語分野 自動生成エンジン (難易度 Lv.1 / Lv.2 / Lv.3 完全対応)
+    // =========================================================================
     const nonVerbalGenerator = {
+      // 1. 集合
       "集合": (diff) => {
-        const total = 40 + Math.floor(Math.random() * 20);
-        const likeA = 20 + Math.floor(Math.random() * 15);
-        const likeB = 15 + Math.floor(Math.random() * 15);
-        const bothMin = Math.max(1, (likeA + likeB) - total + 2);
-        const both = bothMin + Math.floor(Math.random() * 5);
-        const neither = total - (likeA + likeB - both);
+        if (diff === 1) {
+          // Lv.1: 2集合の標準ベン図（どちらにも該当しない人数の算出）
+          const total = 40 + Math.floor(Math.random() * 20); // 40~59人
+          const likeA = 22 + Math.floor(Math.random() * 10);
+          const likeB = 18 + Math.floor(Math.random() * 10);
+          const bothMin = Math.max(1, (likeA + likeB) - total + 2);
+          const both = bothMin + Math.floor(Math.random() * 4);
+          const correctVal = total - (likeA + likeB - both);
 
-        const correctVal = neither;
-        const dummyArr = [
-          correctVal + 2, Math.max(0, correctVal - 2),
-          correctVal + 4, Math.max(0, correctVal - 3),
-          correctVal + 5, Math.max(0, correctVal - 1),
-          correctVal + 6, correctVal + 8
-        ];
+          const dummyArr = [
+            correctVal + 2, Math.max(0, correctVal - 2),
+            correctVal + 4, Math.max(0, correctVal - 3),
+            correctVal + 5, correctVal + 1, correctVal + 6
+          ];
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctVal, dummyArr, v => `${v}人`
-        );
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}人`);
 
-        let exp = `全体 ${total}人。\n少なくとも一方を持っている人数 = ${likeA} + ${likeB} - ${both} = ${likeA + likeB - both}人。\nどちらも持っていない人数 = ${total} - ${likeA + likeB - both} = ${correctVal}人。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の数値（${correctVal}人）が含まれないため、F「いずれでもない」が正解となります。`;
+          let exp = `【解法】\n少なくとも一方を習っている人数 = ${likeA} + ${likeB} - ${both} = ${likeA + likeB - both}人。\nどちらも習っていない人数 = 全体 ${total}人 - ${likeA + likeB - both}人 = ${correctVal}人。`;
+          if (isFCorrect) exp += `\n\n※ A〜E の中に正解の数値（${correctVal}人）が含まれないため、F「いずれでもない」が正解となります。`;
+
+          return {
+            category: "非言語", unit: "集合", difficulty: 1,
+            instruction: "条件からどちらも習っていない人数を求めなさい。",
+            premise: `生徒${total}人に習い事のアンケートを行った。\n・ピアノを習っている生徒: ${likeA}人\n・水泳を習っている生徒: ${likeB}人\n・両方習っている生徒: ${both}人`,
+            question: `どちらも習っていない生徒は何人か。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else if (diff === 2) {
+          // Lv.2: 3集合の要素算出（A・B・Cの3項目と重複人数から該当なし・全体を算出）
+          const total = 100;
+          const A = 45 + Math.floor(Math.random() * 10); // ~50
+          const B = 40 + Math.floor(Math.random() * 10); // ~45
+          const C = 35 + Math.floor(Math.random() * 10); // ~40
+          const AB = 15 + Math.floor(Math.random() * 5);
+          const BC = 12 + Math.floor(Math.random() * 5);
+          const CA = 10 + Math.floor(Math.random() * 5);
+          const ABC = 5;
+
+          const union = (A + B + C) - (AB + BC + CA) + ABC;
+          const correctVal = total - union; // どれも受けていない人数
+
+          const dummyArr = [
+            correctVal + 3, Math.max(1, correctVal - 3),
+            correctVal + 5, Math.max(1, correctVal - 5),
+            correctVal + 8, correctVal + 2, correctVal + 10
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}人`);
+
+          let exp = `【3集合の和集合の公式】\nn(A ∪ B ∪ C) = n(A) + n(B) + n(C) - n(A ∩ B) - n(B ∩ C) - n(C ∩ A) + n(A ∩ B ∩ C)\n= ${A} + ${B} + ${C} - (${AB} + ${BC} + ${CA}) + ${ABC} = ${union}人。\nしたがって、どれも受けていない人数 = ${total} - ${union} = ${correctVal}人。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解の数値（${correctVal}人）がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "集合", difficulty: 2,
+            instruction: "3つの資格試験の受講状況から、いずれも受けていない人数を求めなさい。",
+            premise: `ある会社で100人の社員を対象に検定試験の受検状況を調査した。\n・A検定合格者: ${A}人, B検定合格者: ${B}人, C検定合格者: ${C}人\n・AとB両方合格: ${AB}人, BとC両方合格: ${BC}人, CとA両方合格: ${CA}人\n・3つすべてに合格: ${ABC}人`,
+            question: `3つの検定のいずれにも合格していない社員は何人か。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 集合の極限値推論（条件から「両方好きな人の最小人数 / 最大人数」を算出）
+          const total = 100;
+          const likeA = 60 + Math.floor(Math.random() * 15); // 60~74
+          const likeB = 50 + Math.floor(Math.random() * 15); // 50~64
+
+          const isMinTarget = Math.random() < 0.5;
+          const minOverlap = Math.max(0, (likeA + likeB) - total);
+          const maxOverlap = Math.min(likeA, likeB);
+
+          const correctVal = isMinTarget ? minOverlap : maxOverlap;
+
+          const dummyArr = [
+            minOverlap, maxOverlap,
+            correctVal + 5, Math.max(0, correctVal - 5),
+            correctVal + 10, Math.max(0, correctVal - 10),
+            correctVal + 12
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}人`);
+
+          let exp = `【極限値推論】\n・両方好きな人数の最小値: (A好き + B好き) - 全体 = ${likeA} + ${likeB} - 100 = ${minOverlap}人。\n・両方好きな人数の最大値: A好きとB好きの少ない方の人数 = ${maxOverlap}人。`;
+          if (isMinTarget) {
+            exp += `\nよって、最小人数は ${correctVal}人 となります。`;
+          } else {
+            exp += `\nよって、最大人数は ${correctVal}人 となります。`;
+          }
+          if (isFCorrect) exp += `\n\n※ A〜E に該当数値がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "集合", difficulty: 3,
+            instruction: "条件から両方好きな人数の範囲（極限値）を推論しなさい。",
+            premise: `100人の学生に好きなスポーツのアンケートを行った。\n・野球が好き: ${likeA}人\n・サッカーが好き: ${likeB}人`,
+            question: `両方とも好きな生徒の【${isMinTarget ? "最小人数" : "最大人数"}】は何人か。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "集合",
-          difficulty: diff,
-          instruction: "問題文を読み、正しく当てはまるものを選びなさい。",
-          premise: `あるクラスの生徒${total}人にアンケートを行った。\n・英検を持っている生徒: ${likeA}人\n・漢検を持っている生徒: ${likeB}人`,
-          question: `両方の資格を持っている生徒が${both}人のとき、どちらも持っていない生徒は何人か。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 2. 代金清算
       "代金清算": (diff) => {
-        const itemPrice = (Math.floor(Math.random() * 5) + 3) * 100;
-        const countA = Math.floor(Math.random() * 3) + 3;
-        const countB = Math.floor(Math.random() * 2) + 1;
-        const totalCost = itemPrice * (countA + countB);
-        const perPerson = totalCost / 2;
-        const diffPay = (countA * itemPrice) - perPerson;
+        if (diff === 1) {
+          // Lv.1: 2人の商品立替えと差額均等清算
+          const price = (Math.floor(Math.random() * 5) + 3) * 100; // 300~700円
+          const countP = Math.floor(Math.random() * 3) + 4; // 4~6
+          const countQ = Math.floor(Math.random() * 2) + 1; // 1~2
+          const total = price * (countP + countQ);
+          const perPerson = total / 2;
+          const diffPay = (countP * price) - perPerson;
 
-        const correctText = `QがPに ${diffPay}円払う`;
-        const dummyTexts = [
-          `PがQに ${diffPay}円払う`,
-          `QがPに ${diffPay + 100}円払う`,
-          `PがQに ${diffPay + 100}円払う`,
-          `QがPに ${Math.max(100, diffPay - 100)}円払う`,
-          `PがQに ${Math.max(100, diffPay - 100)}円払う`,
-          `QがPに ${diffPay + 200}円払う`,
-          `PがQに ${diffPay + 200}円払う`
-        ];
+          const correctText = `QがPに ${diffPay}円払う`;
+          const dummyTexts = [
+            `PがQに ${diffPay}円払う`,
+            `QがPに ${diffPay + 100}円払う`,
+            `PがQに ${diffPay + 100}円払う`,
+            `QがPに ${Math.max(100, diffPay - 100)}円払う`,
+            `PがQに ${Math.max(100, diffPay - 100)}円払う`
+          ];
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctText, dummyTexts, v => v
-        );
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctText, dummyTexts, v => v);
 
-        let exp = `総額 = ${itemPrice}円 × ${countA + countB}個 = ${totalCost}円。\n1人あたりの等しい負担 = ${perPerson}円。\nPは${countA * itemPrice}円払っているため、${diffPay}円多く払っている。したがって【QがPに ${diffPay}円払う】が正しい清算です。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正しい選択肢が含まれないため、F「いずれでもない」が正解となります。`;
+          let exp = `総額 = ${price}円 × ${countP + countQ}個 = ${total}円。\n1人あたりの負担額 = ${perPerson}円。\nPは ${countP * price}円 支払っているため、${diffPay}円多く支払っています。\nしたがって、【QがPに ${diffPay}円払う】ことで等しくなります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい記述がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "代金清算", difficulty: 1,
+            instruction: "2人の負担金額を等しくするための正しい清算方法を選びなさい。",
+            premise: `PとQが1個${price}円のお菓子を買った。Pが${countP}個分、Qが${countQ}個分の代金をそれぞれ支払った。`,
+            question: `2人の負担額を等しくするには、どのように清算すればよいか。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else if (diff === 2) {
+          // Lv.2: 3人（P, Q, R）による複数立替えと最終移動金額の算出
+          const cafeP = 3600;
+          const trainQ = 1800;
+          const ticketR = 0;
+          const totalCost = cafeP + trainQ + ticketR; // 5400
+          const sharePerPerson = totalCost / 3; // 1800
+
+          const receiveP = cafeP - sharePerPerson; // +1800
+
+          const correctText = `1,800円受け取る`;
+          const dummyTexts = [
+            `1,800円支払う`,
+            `3,600円受け取る`,
+            `1,200円受け取る`,
+            `1,200円支払う`,
+            `900円受け取る`
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctText, dummyTexts, v => v);
+
+          let exp = `【3人の立替清算】\n総費用 = 3,600 + 1,800 + 0 = 5,400円。\n1人あたりの平均負担額 = 5,400 ÷ 3 = 1,800円。\nPの支払い実績 = 3,600円 なので、過払い額は 3,600 - 1,800 = +1,800円。\nよって、Pは最終的に【1,800円受け取る】ことになります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい答えが含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "代金清算", difficulty: 2,
+            instruction: "3人の立替費用から最終的な精算受渡金額を求めなさい。",
+            premise: `P、Q、Rの3人で旅行に行った。\n・Pはカフェ代として合計3,600円を支払った。\n・Qは電車代として合計1,800円を支払った。\n・Rは立て替えを行わなかった。`,
+            question: `費用を3人で均等に折半する場合、精算後、Pが最終的に受け取る（または支払う）金額として正しいものはどれか。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 共同費用（割り勘）と個人買い物が混ざった複雑な精算
+          const sharedMealByP = 9000; // 共同の食事代（Pが全額支払い）
+          const individualByPForQ = 2000; // PがQの個人的なお土産代を立て替えた
+
+          const qSharedShare = sharedMealByP / 3; // 3000円
+          const correctVal = qSharedShare + individualByPForQ; // 5000円 (QがPに払う額)
+
+          const dummyArr = [
+            3000, 4000, 6000, 7000, 2000, 8000
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
+
+          let exp = `【割り勘＋個人買い物の清算】\n1. 共同食事代のQの負担額 = 9,000円 ÷ 3人 = 3,000円。\n2. Qの個人買い物立替額 = 2,000円。\nQがPに支払うべき合計額 = 3,000円 + 2,000円 = 5,000円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解の金額がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "代金清算", difficulty: 3,
+            instruction: "割り勘費用と個人立替費用が混ざった複雑な精算金額を求めなさい。",
+            premise: `P、Q、Rの3人で食事をし、全員分の合計9,000円をPがまとめて支払った。\nさらに、Pは買い物時にQの個人的なお土産代2,000円を代わりに立て替えて支払った。`,
+            question: `食事代を3人で等しく割り勘にし、立て替え分も合わせて清算するとき、QがPに支払うべき金額は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "代金清算",
-          difficulty: diff,
-          instruction: "適切な清算方法を選びなさい。",
-          premise: `PとQの2人が1個${itemPrice}円の商品を買った。Pが${countA}個分、Qが${countB}個分の代金を支払った。`,
-          question: `2人の負担額を等しくするには、どのように清算すればよいか。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 3. 料金割引
       "料金割引": (diff) => {
-        const adultPrice = (Math.floor(Math.random() * 5) + 8) * 100;
-        const childPrice = adultPrice * 0.5;
-        const groupMin = 10;
-        const groupDiscount = 0.2;
+        if (diff === 1) {
+          // Lv.1: 定額割引・一律団体割引
+          const adultPrice = 1000;
+          const childPrice = 500;
+          const numAdults = 8;
+          const numChildren = 4;
+          const rawTotal = (numAdults * adultPrice) + (numChildren * childPrice); // 10,000円
+          const discountRate = 0.2; // 団体20%引き
+          const correctVal = rawTotal * (1 - discountRate); // 8,000円
 
-        const numAdults = Math.floor(Math.random() * 4) + 6;
-        const numChildren = Math.floor(Math.random() * 4) + 5;
-        const totalPeople = numAdults + numChildren;
+          const dummyArr = [
+            rawTotal, correctVal + 1000, Math.max(1000, correctVal - 1000),
+            correctVal + 500, Math.max(1000, correctVal - 500), correctVal + 1500
+          ];
 
-        const rawTotal = (numAdults * adultPrice) + (numChildren * childPrice);
-        const discountedTotal = rawTotal * (1 - groupDiscount);
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
 
-        const correctVal = discountedTotal;
-        const dummyArr = [
-          rawTotal,
-          discountedTotal + 200,
-          Math.max(1000, discountedTotal - 200),
-          discountedTotal + 400,
-          Math.max(1000, discountedTotal - 400),
-          discountedTotal + 600,
-          discountedTotal + 1000
-        ];
+          let exp = `通常合計金額 = (8人 × 1,000円) + (4人 × 500円) = 10,000円。\n合計12名（10名以上）のため20%割引が適用される。\n割引後合計 = 10,000円 × 0.8 = 8,000円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解がないため、F「いずれでもない」が正解です。`;
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctVal, dummyArr, v => `${v.toLocaleString()}円`
-        );
+          return {
+            category: "非言語", unit: "料金割引", difficulty: 1,
+            instruction: "団体割引条件に基づき支払額を計算しなさい。",
+            premise: `あるテーマパークの通常入園料は大人1,000円、子ども500円である。\n合計10名以上の団体で入園する場合は、全員の入園料が一律20%引きとなる。`,
+            question: `大人8名、子ども4名の合計12名で入園する場合の合計入園料は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
 
-        let exp = `合計人数 = ${numAdults} + ${numChildren} = ${totalPeople}名となり、${groupMin}名以上のため20%引きが適用される。\n通常合計 = (${numAdults} × ${adultPrice}) + (${numChildren} × ${childPrice}) = ${rawTotal.toLocaleString()}円。\n割引後合計 = ${rawTotal.toLocaleString()} × 0.8 = ${discountedTotal.toLocaleString()}円。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の金額（${discountedTotal.toLocaleString()}円）が含まれないため、F「いずれでもない」が正解となります。`;
+        } else if (diff === 2) {
+          // Lv.2: 複数プランの損益分岐点・条件比較
+          // プランA: 都度600円
+          // プランB: 月額パス4,500円 + 1回150円
+          // 損益分岐点: 600n > 4500 + 150n  => 450n > 4500 => n > 10
+          // 答え: 11回以上利用するとプランBが安い
+
+          const correctVal = 11;
+          const dummyArr = [
+            8, 9, 10, 12, 13, 15
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}回`);
+
+          let exp = `【損益分岐点の計算】\n月に n 回利用する時の料金比較:\n・プランA: 600n 円\n・プランB: 4,500 + 150n 円\nプランBが安くなる条件:\n600n > 4,500 + 150n\n450n > 4,500  ⇒  n > 10\nしたがって、月に【11回以上】利用するとプランBの方が安くなります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "料金割引", difficulty: 2,
+            instruction: "2つの料金プランを比較し、お得になる損益分岐点の回数を求めなさい。",
+            premise: `フィットネスジムの利用プランが2種類ある。\n・プランA（都度払い）: 1回利用するごとに 600円\n・プランB（会員パス）: 月額固定 4,500円 ＋ 1回利用ごとに 150円`,
+            question: `1ヶ月に最低何回以上利用すると、プランBの方がプランAより総支払額が安くなるか。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 段階的・階段状割引（一定数量超過分のみ割引適用）
+          const basePrice = 500;
+          const threshold = 10;
+          const discountRate = 0.3; // 30%引き (350円)
+          const totalCount = 25;
+
+          const baseCost = threshold * basePrice; // 5,000円
+          const excessCost = (totalCount - threshold) * (basePrice * (1 - discountRate)); // 15 * 350 = 5,250円
+          const correctVal = baseCost + excessCost; // 10,250円
+
+          const dummyArr = [
+            totalCount * basePrice, // 12,500
+            totalCount * (basePrice * 0.7), // 8,750
+            correctVal + 500, Math.max(1000, correctVal - 500),
+            correctVal + 1000, correctVal - 1000
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
+
+          let exp = `【段階的割引の計算】\n・最初の10個分の代金 = 10個 × 500円 = 5,000円。\n・10個を超えた15個分（25 - 10）の割引単価 = 500円 × (1 - 0.3) = 350円。\n・超過分15個の代金 = 15個 × 350円 = 5,250円。\n合計金額 = 5,000円 + 5,250円 = 10,250円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい金額が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "料金割引", difficulty: 3,
+            instruction: "一定購入数量の超過分のみに割引が適用される段階割引の合計代金を求めなさい。",
+            premise: `ある部品は1個あたり定価500円である。\nただし、一度に10個を超えて購入する場合、10個を超える分（11個目以降）の単価に限って30%引き（1個350円）で購入できる。`,
+            question: `この部品を一度に25個購入したときの合計代金は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "料金割引",
-          difficulty: diff,
-          instruction: "条件にしたがって支払合計金額を求めなさい。",
-          premise: `ある美術館の入館料は、大人1人${adultPrice}円、子ども1人${childPrice}円である。\nただし、合計${groupMin}名以上の団体で入館する場合は全員の入館料が20%引きとなる。`,
-          question: `大人${numAdults}名、子ども${numChildren}名で入館する場合の合計入館料はいくらか。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 4. 分割払い
       "分割払い": (diff) => {
-        const totalPrice = (Math.floor(Math.random() * 6) + 10) * 10000;
-        const downPaymentRatio = 0.2;
-        const downPayment = totalPrice * downPaymentRatio;
-        const remaining = totalPrice - downPayment;
-        const months = 10;
-        const monthlyPayment = remaining / months;
+        if (diff === 1) {
+          // Lv.1: 頭金（定価の%）＋残り均等分割
+          const totalPrice = 100000;
+          const downPaymentRatio = 0.2; // 20%
+          const months = 10;
+          const downPayment = totalPrice * downPaymentRatio; // 20,000
+          const remaining = totalPrice - downPayment; // 80,000
+          const correctVal = remaining / months; // 8,000円
 
-        const correctVal = monthlyPayment;
-        const dummyArr = [
-          totalPrice / months,
-          monthlyPayment + 1000,
-          Math.max(1000, monthlyPayment - 1000),
-          monthlyPayment + 2000,
-          Math.max(1000, monthlyPayment - 2000),
-          monthlyPayment + 3000,
-          monthlyPayment + 500
-        ];
+          const dummyArr = [
+            totalPrice / months, correctVal + 1000, Math.max(1000, correctVal - 1000),
+            correctVal + 2000, Math.max(1000, correctVal - 2000), correctVal + 500
+          ];
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctVal, dummyArr, v => `${v.toLocaleString()}円`
-        );
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
 
-        let exp = `頭金 = ${totalPrice.toLocaleString()}円 × 0.2 = ${downPayment.toLocaleString()}円。\n残金 = ${totalPrice.toLocaleString()} - ${downPayment.toLocaleString()} = ${remaining.toLocaleString()}円。\n毎月の支払額 = ${remaining.toLocaleString()}円 ÷ ${months}回 = ${monthlyPayment.toLocaleString()}円。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の金額（${monthlyPayment.toLocaleString()}円）が含まれないため、F「いずれでもない」が正解となります。`;
+          let exp = `頭金 = 100,000円 × 0.2 = 20,000円。\n残金 = 100,000 - 20,000 = 80,000円。\n毎月の支払額 = 80,000円 ÷ 10回 = 8,000円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "分割払い", difficulty: 1,
+            instruction: "頭金を差し引いた残金の均等分割支払額を求めなさい。",
+            premise: `定価100,000円の家電を分割払いで購入する。\n購入時に頭金として代金の20%を現金で支払った。`,
+            question: `残金を毎月均等に10回の分割払いで支払うとき、毎月の支払額は何円か。（手数料は考慮しない）`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else if (diff === 2) {
+          // Lv.2: 手数料（年利・加算率）を伴う分割払い
+          const price = 120000;
+          const feeRate = 0.10; // 10%の手数料が加算
+          const months = 12;
+          const totalWithFee = price * (1 + feeRate); // 132,000
+          const correctVal = totalWithFee / months; // 11,000円
+
+          const dummyArr = [
+            price / months, // 10,000
+            correctVal + 1000, Math.max(1000, correctVal - 1000),
+            correctVal + 2000, Math.max(1000, correctVal - 500), correctVal + 1500
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
+
+          let exp = `【手数料込みの分割計算】\n分割手数料 = 120,000円 × 10% = 12,000円。\n支払総額 = 120,000 + 12,000 = 132,000円。\n毎月の支払額 = 132,000円 ÷ 12ヶ月 = 11,000円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい選択肢がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "分割払い", difficulty: 2,
+            instruction: "分割手数料を加算した毎月の支払金額を求めなさい。",
+            premise: `120,000円のパソコンを12回の分割払いで購入する。\n分割払い手数料として本体価格の10%が別途加算される。`,
+            question: `手数料を加算した支払総額を12回で均等に支払うとき、毎月の支払額は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 毎月の支払額が定額で変化する変則分割（等差数列的支払い）
+          // 5ヶ月支払い。初月 A円、毎月 2,000円ずつ増額。合計150,000円。
+          // A + (A+2000) + (A+4000) + (A+6000) + (A+8000) = 5A + 20000 = 150000
+          // 5A = 130000 => A = 26000
+          const correctVal = 26000;
+
+          const dummyArr = [
+            30000, 28000, 24000, 22000, 25000, 27000
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
+
+          let exp = `【変則分割（等差数列）の計算】\n初月の支払額を A 円とすると、各月の支払額は:\n1月: A, 2月: A+2000, 3月: A+4000, 4月: A+6000, 5月: A+8000\n合計 = 5A + 20,000 = 150,000円\n5A = 130,000円  ⇒  A = 26,000円。\nよって、初月の支払額は 26,000円 となります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に該当数値がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "分割払い", difficulty: 3,
+            instruction: "毎月一定額ずつ支払額が増加する変則分割払いの初月支払額を求めなさい。",
+            premise: `150,000円の商品を5ヶ月の分割払いで購入した。\n毎月の支払額は、前月よりも一律2,000円ずつ増えるように設定されている。`,
+            question: `初月（1ヶ月目）の支払額は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "分割払い",
-          difficulty: diff,
-          instruction: "分割払いの毎月の支払額を求めなさい。",
-          premise: `定価${totalPrice.toLocaleString()}円の商品を分割払いで購入する。\n購入時に頭金として代金の20%を現金で支払った。`,
-          question: `残金を毎月均等に${months}回の分割払いで支払うとき、毎月の支払額は何円か。（利息は考えないものとする）`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 5. 速さ
       "速さ": (diff) => {
-        const speed = (Math.floor(Math.random() * 4) + 3) * 10;
-        const timeHours = Math.floor(Math.random() * 2) + 2;
-        const distance = speed * timeHours;
+        if (diff === 1) {
+          // Lv.1: 単純な道のり・速さ・時間の計算
+          const speed = 60;
+          const time = 2.5;
+          const correctVal = speed * time; // 150km
 
-        const correctVal = distance;
-        const dummyArr = [
-          distance + 10, Math.max(5, distance - 10),
-          distance + 15, Math.max(5, distance - 15),
-          distance + 20, distance + 30, distance + 25
-        ];
+          const dummyArr = [
+            120, 140, 160, 180, 200, 130
+          ];
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctVal, dummyArr, v => `${v} km`
-        );
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v} km`);
 
-        let exp = `距離 = 速さ × 時間 より、 ${speed} km/h × ${timeHours} 時間 = ${distance} km となります。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の数値（${distance} km）が含まれないため、F「いずれでもない」が正解となります。`;
+          let exp = `道のり = 速さ × 時間 より、 60 km/h × 2.5 時間 = 150 km。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "速さ", difficulty: 1,
+            instruction: "以下の問いに答えなさい。",
+            premise: `自動車が時速60kmの一定の速さで高速道路を走っている。`,
+            question: `この自動車が2時間30分（2.5時間）で進む距離は何kmか。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else if (diff === 2) {
+          // Lv.2: 旅人算（2人の出会い・追いつき）および平均速度
+          // 24km離れた地点からP(4km/h)とQ(2km/h)が出会うまでの時間: 24 / (4+2) = 4時間
+          const isMeeting = Math.random() < 0.5;
+
+          if (isMeeting) {
+            const distance = 24;
+            const speedP = 4;
+            const speedQ = 2;
+            const correctVal = distance / (speedP + speedQ); // 4時間
+
+            const dummyArr = [2, 3, 5, 6, 8, 4.5];
+            const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}時間`);
+
+            let exp = `【旅人算（出会い）】\n出会うまでの時間 = 2地点間の距離 ÷ (速さの和)\n= 24 km ÷ (4 + 2) km/h = 4時間。`;
+            if (isFCorrect) exp += `\n\n※ A〜E に正しい選択肢がないため、F「いずれでもない」が正解です。`;
+
+            return {
+              category: "非言語", unit: "速さ", difficulty: 2,
+              instruction: "以下の問いに答えなさい。",
+              premise: `24km離れたA地点とB地点がある。P君はA地点から時速4kmで、Q君はB地点から時速2kmで同時に向かい合って出発した。`,
+              question: `2人が出会うのは出発してから何時間後か。`,
+              choices, correctIndex, explanation: exp
+            };
+
+          } else {
+            // 平均速度: 行き60km/h, 帰り40km/h -> 2*60*40 / (60+40) = 48km/h
+            const speedGo = 60;
+            const speedBack = 40;
+            const correctVal = (2 * speedGo * speedBack) / (speedGo + speedBack); // 48km/h
+
+            const dummyArr = [50, 45, 52, 42, 55, 46];
+            const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `時速 ${v} km`);
+
+            let exp = `【往復の平均速度】\n片道の距離を S とすると、往復距離は 2S。\n往復の所要時間 = (S ÷ 60) + (S ÷ 40) = 5S / 120 = S / 24。\n平均速度 = 往復距離 ÷ 往復時間 = 2S ÷ (S / 24) = 48 km/h。\n※ 単純な (60+40)/2 = 50km/h ではない点に注意してください。`;
+            if (isFCorrect) exp += `\n\n※ A〜E に正しい選択肢がないため、F「いずれでもない」が正解です。`;
+
+            return {
+              category: "非言語", unit: "速さ", difficulty: 2,
+              instruction: "以下の問いに答えなさい。",
+              premise: `A地点とB地点の間を自動車で往復した。行きは時速60km、帰りと同じ道を時速40kmで走った。`,
+              question: `この往復全体での平均速度は時速何kmか。`,
+              choices, correctIndex, explanation: exp
+            };
+          }
+
+        } else {
+          // Lv.3: 流水算（川の流速・上り下りの船速）および通過算（列車とトンネル・鉄橋）
+          // 流水算: 静水時18km/h, 川の流速3km/h -> 下り速さ 21km/h. 42km下る時間 = 42/21 = 2時間
+          const isRiver = Math.random() < 0.5;
+
+          if (isRiver) {
+            const boatSpeed = 18;
+            const riverSpeed = 3;
+            const distance = 42;
+            const downstreamSpeed = boatSpeed + riverSpeed; // 21
+            const correctVal = distance / downstreamSpeed; // 2時間
+
+            const dummyArr = [2.5, 3, 3.5, 1.5, 4, 2.8];
+            const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}時間`);
+
+            let exp = `【流水算】\n川を下る時の船の速さ = 静水時の速さ + 川の流速 = 18 + 3 = 21 km/h。\nかかる時間 = 距離 ÷ 川を下る速さ = 42 km ÷ 21 km/h = 2時間。`;
+            if (isFCorrect) exp += `\n\n※ A〜E に正しい数値がないため、F「いずれでもない」が正解です。`;
+
+            return {
+              category: "非言語", unit: "速さ", difficulty: 3,
+              instruction: "以下の問いに答えなさい。",
+              premise: `静水での速さが時速18kmの船がある。この船で、流速が時速3kmの川を42km下る。`,
+              question: `川を下りきるのにかかる時間は何時間か。`,
+              choices, correctIndex, explanation: exp
+            };
+
+          } else {
+            // 通過算: 長さ150mの列車、速さ72km/h (20m/s)、長さ850mのトンネル通過時間
+            // 全移動距離 = 150 + 850 = 1000m. 時間 = 1000 / 20 = 50秒
+            const trainLength = 150;
+            const tunnelLength = 850;
+            const speedKmH = 72; // 20m/s
+            const speedMS = speedKmH * 1000 / 3600; // 20
+            const totalDistance = trainLength + tunnelLength; // 1000m
+            const correctVal = totalDistance / speedMS; // 50秒
+
+            const dummyArr = [40, 42.5, 45, 55, 60, 48];
+            const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}秒`);
+
+            let exp = `【通過算】\n1. 時速72kmを秒速に変換: 72,000m ÷ 3600秒 = 秒速20m。\n2. トンネルを通過しきるための全移動距離 = 列車長 + トンネル長 = 150m + 850m = 1,000m。\n3. かかる時間 = 1,000m ÷ 20m/s = 50秒。`;
+            if (isFCorrect) exp += `\n\n※ A〜E に正しい数値がないため、F「いずれでもない」が正解です。`;
+
+            return {
+              category: "非言語", unit: "速さ", difficulty: 3,
+              instruction: "以下の問いに答えなさい。",
+              premise: `長さ150mの列車が、時速72kmの一定の速さで走っている。この列車が長さ850mのトンネルに入る。`,
+              question: `列車の先頭がトンネルに入り始めてから、列車の最後尾がトンネルを完全に抜け出るまでに何秒かかるか。`,
+              choices, correctIndex, explanation: exp
+            };
+          }
         }
-
-        return {
-          category: "非言語",
-          unit: "速さ",
-          difficulty: diff,
-          instruction: "距離を求めなさい。",
-          premise: `自動車が時速${speed}kmの一定の速さで走っている。`,
-          question: `この自動車が${timeHours}時間走ったときに進む距離は何kmか。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 6. 損益算
       "損益算": (diff) => {
-        const cost = (Math.floor(Math.random() * 8) + 2) * 100;
-        const marginRate = 0.2 + (Math.floor(Math.random() * 3) * 0.1);
-        const listPrice = cost * (1 + marginRate);
-        const discountRate = 0.1;
-        const sellPrice = listPrice * (1 - discountRate);
-        const profit = sellPrice - cost;
+        if (diff === 1) {
+          // Lv.1: 原価・定価（利益率）・売価（割引率）・利益の基本構造
+          const cost = 1000;
+          const marginRate = 0.3; // 30%利益込み
+          const listPrice = cost * (1 + marginRate); // 1300
+          const discountRate = 0.1; // 10%引き
+          const sellPrice = listPrice * (1 - discountRate); // 1170
+          const correctVal = sellPrice - cost; // 170円
 
-        const correctVal = profit;
-        const dummyArr = [
-          profit + 20, Math.max(10, profit - 20),
-          profit + 40, Math.max(10, profit - 30),
-          profit + 50, profit + 80, profit + 100
-        ];
+          const dummyArr = [
+            300, 200, 150, 130, 230, 100
+          ];
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          correctVal, dummyArr, v => `${v}円`
-        );
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}円`);
 
-        let exp = `定価 = ${cost} × (1 + ${marginRate}) = ${listPrice}円。\n売価 = ${listPrice} × (1 - 0.1) = ${sellPrice}円。\n利益 = 売価 - 原価 = ${sellPrice} - ${cost} = ${profit}円。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の金額（${profit}円）が含まれないため、F「いずれでもない」が正解となります。`;
+          let exp = `定価 = 1,000円 × 1.3 = 1,300円。\n売価 = 1,300円 × 0.9 = 1,170円。\n利益 = 売価 - 原価 = 1,170 - 1,000 = 170円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "損益算", difficulty: 1,
+            instruction: "以下の問いに答えなさい。",
+            premise: `原価1,000円の商品に、30%の利益を見込んで定価をつけた。`,
+            question: `この商品を定価の10%引きで販売したとき、得られる利益は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else if (diff === 2) {
+          // Lv.2: 分割販売（一部を定価で売り、残りを割引販売した際の合計利益）
+          // 全100個。原価500円 (総原価50,000円)
+          // 定価800円 (利益300円) で 60個売る -> 売上 48,000円
+          // 残り40個を定価の25%引き(600円) で売る -> 売上 24,000円
+          // 総売上 72,000円 -> 総利益 22,000円
+          const correctVal = 22000;
+
+          const dummyArr = [
+            30000, 25000, 20000, 18000, 24000, 21000
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v.toLocaleString()}円`);
+
+          let exp = `【分割販売の合計利益】\n・定価での売上 = 60個 × 800円 = 48,000円。\n・割引時の単価 = 800円 × (1 - 0.25) = 600円。\n・割引での売上 = 40個 × 600円 = 24,000円。\n・総売上 = 48,000 + 24,000 = 72,000円。\n・総仕入れ原価 = 100個 × 500円 = 50,000円。\n総利益 = 72,000 - 50,000 = 22,000円。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "損益算", difficulty: 2,
+            instruction: "以下の問いに答えなさい。",
+            premise: `1個あたり原価500円の商品を100個仕入れ、定価800円をつけて販売した。\n60個は定価で売れたが、残りの40個は定価の25%引きで販売し、すべて完売した。`,
+            question: `この取引全体で得られた合計利益は何円か。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 目標利益率から売れ残りの最終処分価格（割引率）を逆算推論
+          // 全100個、原価1000円 (総原価 100,000円)
+          // 定価 2,000円。
+          // 70個を定価で販売 (70 * 2000 = 140,000円)
+          // 全体で 55,000円の利益（総売上目標 155,000円）を得るには、残り30個を定価の何%引きで売ればよいか。
+          // 残り30個で得るべき売上 = 155,000 - 140,000 = 15,000円 => 1個500円。
+          // 2,000円から500円への割引率 = (2000-500)/2000 = 75%引き
+
+          const correctVal = 75;
+
+          const dummyArr = [
+            50, 60, 65, 70, 80, 40
+          ];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => `${v}%引き`);
+
+          let exp = `【逆算による割引率の算出】\n1. 目標総売上 = 総原価100,000円 + 目標利益55,000円 = 155,000円。\n2. 定価販売70個の売上 = 70個 × 2,000円 = 140,000円。\n3. 残り30個に必要な売上 = 155,000 - 140,000 = 15,000円。\n4. 残り30個の必要販売単価 = 15,000円 ÷ 30個 = 500円。\n5. 定価2,000円に対する割引率 = (2,000 - 500) ÷ 2,000 = 0.75（75%引き）。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい選択肢がないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "損益算", difficulty: 3,
+            instruction: "以下の問いに答えなさい。",
+            premise: `原価1,000円の品物を100個仕入れ、定価2,000円で販売を開始した。\n最初の70個は定価で売れたが、残りの30個が売れ残った。`,
+            question: `全体で55,000円の利益を確保するためには、残りの30個を定価の何%引きで販売して完売させればよいか。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "損益算",
-          difficulty: diff,
-          instruction: "計算により得られる利益額を求めなさい。",
-          premise: `原価${cost}円の商品に、${Math.round(marginRate*100)}%の利益を見込んで定価をつけた。`,
-          question: `この商品を定価の10%引きで販売したとき、得られる利益は何円か。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       },
 
+      // 7. 場合の数・確率
       "場合の数・確率": (diff) => {
-        const redCards = Math.floor(Math.random() * 3) + 3;
-        const whiteCards = Math.floor(Math.random() * 3) + 2;
-        const total = redCards + whiteCards;
-        const num = redCards * (redCards - 1);
-        const den = total * (total - 1);
+        if (diff === 1) {
+          // Lv.1: 基本的なボール取り出し確率（nCr）
+          // 赤5, 白3 (計8) から2個取り出し、両方赤: 5C2 / 8C2 = 10 / 28 = 5/14
+          const correctVal = "5 / 14";
+          const dummyArr = ["3 / 14", "1 / 4", "5 / 28", "1 / 2", "3 / 8", "3 / 7"];
 
-        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-        const g = gcd(num, den);
-        const ansStr = `${num/g} / ${den/g}`;
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => v);
 
-        const dummyArr = [
-          `${Math.min(den/g - 1, num/g + 1)} / ${den/g}`,
-          `1 / ${den/g}`,
-          `${num/g} / ${den/g + 2}`,
-          `${num/g + 1} / ${den/g + 1}`,
-          `2 / ${den/g}`,
-          `${num/g} / ${den/g + 4}`
-        ];
+          let exp = `【組み合わせによる確率】\nすべての取り出し方 = 8C2 = (8 × 7) / (2 × 1) = 28通り。\n2個とも赤玉が出る取り出し方 = 5C2 = (5 × 4) / (2 × 1) = 10通り。\n確率は 10 / 28 = 5 / 14 となります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい確率がないため、F「いずれでもない」が正解です。`;
 
-        const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(
-          ansStr, dummyArr, v => v
-        );
+          return {
+            category: "非言語", unit: "場合の数・確率", difficulty: 1,
+            instruction: "以下の問いに答えなさい。",
+            premise: `袋の中に赤玉が5個、白玉が3個入っている。`,
+            question: `この袋から同時に2個の玉を取り出すとき、2個とも赤玉である確率はいくらか。`,
+            choices, correctIndex, explanation: exp
+          };
 
-        let exp = `すべての取り出し方は nCr(${total}, 2) = ${den/2}通り。\n赤玉2個の取り出し方は nCr(${redCards}, 2) = ${num/2}通り。\n確率は (${num/2}) / (${den/2}) = ${ansStr} となります。`;
-        if (isFCorrect) {
-          exp += `\n\n※ A〜E の中に正解の確率（${ansStr}）が含まれないため、F「いずれでもない」が正解となります。`;
+        } else if (diff === 2) {
+          // Lv.2: 「余事象（少なくとも〜）」「特定の順番で取り出す」確率
+          // 赤4, 白4 (計8) から3個同時に取り出す。「少なくとも1個は赤」の確率
+          // 余事象: 3個とも白 = 4C3 / 8C3 = 4 / 56 = 1 / 14
+          // 確率 = 1 - 1/14 = 13/14
+          const correctVal = "13 / 14";
+          const dummyArr = ["1 / 14", "11 / 14", "3 / 4", "5 / 7", "12 / 14", "9 / 14"];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => v);
+
+          let exp = `【余事象を利用した確率】\n「少なくとも1個は赤」の余事象は「3個とも白玉」です。\n・すべての取り出し方 = 8C3 = (8 × 7 × 6) / (3 × 2 × 1) = 56通り。\n・3個とも白玉の取り出し方 = 4C3 = 4通り。\n・3個とも白玉の確率 = 4 / 56 = 1 / 14。\n求める確率 = 1 - (1 / 14) = 13 / 14。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正解が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "場合の数・確率", difficulty: 2,
+            instruction: "以下の問いに答えなさい。",
+            premise: `袋の中に赤玉が4個、白玉が4個入っている。`,
+            question: `この袋から同時に3個の玉を取り出すとき、「少なくとも1個は赤玉」である確率はいくらか。`,
+            choices, correctIndex, explanation: exp
+          };
+
+        } else {
+          // Lv.3: 独立試行・条件付き確率（サイコロの出目の和の倍数条件や非復元抽出の確率）
+          // 2個のサイコロを同時に投げ、出目の和が4の倍数（4, 8, 12）になる確率
+          // 4になる: (1,3),(2,2),(3,1) -> 3
+          // 8になる: (2,6),(3,5),(4,4),(5,3),(6,2) -> 5
+          // 12になる: (6,6) -> 1
+          // 計 3 + 5 + 1 = 9通り / 36通り = 1/4
+
+          const correctVal = "1 / 4";
+          const dummyArr = ["1 / 3", "1 / 6", "5 / 18", "2 / 9", "7 / 36", "1 / 2"];
+
+          const { choices, correctIndex, isFCorrect } = buildNonVerbalChoices(correctVal, dummyArr, v => v);
+
+          let exp = `【独立試行・出目の条件確率】\n全事象 = 6 × 6 = 36通り。\n和が4の倍数（4, 8, 12）になる組み合わせ:\n・和が4: (1,3), (2,2), (3,1) ⇒ 3通り\n・和が8: (2,6), (3,5), (4,4), (5,3), (6,2) ⇒ 5通り\n・和が12: (6,6) ⇒ 1通り\n合計 = 3 + 5 + 1 = 9通り。\n確率は 9 / 36 = 1 / 4 となります。`;
+          if (isFCorrect) exp += `\n\n※ A〜E に正しい確率が含まれないため、F「いずれでもない」が正解です。`;
+
+          return {
+            category: "非言語", unit: "場合の数・確率", difficulty: 3,
+            instruction: "以下の問いに答えなさい。",
+            premise: `大小2個のサイコロを同時に1回投げる。`,
+            question: `出た目の和が「4の倍数」になる確率はいくらか。`,
+            choices, correctIndex, explanation: exp
+          };
         }
-
-        return {
-          category: "非言語",
-          unit: "場合の数・確率",
-          difficulty: diff,
-          instruction: "確率を求めなさい。",
-          premise: `袋の中に赤玉が${redCards}個、白玉が${whiteCards}個入っている。`,
-          question: `この袋から同時に2個の玉を取り出すとき、2個とも赤玉である確率はいくらか。`,
-          choices: choices,
-          correctIndex: correctIndex,
-          explanation: exp
-        };
       }
     };
 
-    // ==========================================
     // STATE MANAGEMENT
-    // ==========================================
     let appState = {
-      mode: 'practice', // 'practice' | 'mini' | 'exam'
+      mode: 'practice',
       field: '言語',
       selectedUnit: 'すべて',
-      selectedDifficultySetting: 'auto', // 'auto' | 1 | 2 | 3
+      selectedDifficultySetting: 'auto',
       totalTimeLimitSec: 600,
       questionTimeLimitSec: 45,
       targetQuestionCount: 10,
@@ -735,7 +1083,6 @@
       startTime: null
     };
 
-    // タイマー制御変数
     let questionAnimFrame = null;
     let totalAnimFrame = null;
     let questionStartTime = 0;
@@ -743,9 +1090,7 @@
     let totalStartTime = 0;
     let totalDurationMs = 0;
 
-    // ==========================================
-    // DATA FETCHING & UI INITIALIZATION
-    // ==========================================
+    // INITIALIZATION
     window.addEventListener('DOMContentLoaded', async () => {
       lucide.createIcons();
       loadHistoryFromStorage();
@@ -753,7 +1098,6 @@
       selectField('言語');
     });
 
-    // ローカルストレージから前回のテスト結果をロード
     function loadHistoryFromStorage() {
       try {
         const stored = localStorage.getItem('spi3_last_result');
@@ -767,7 +1111,6 @@
       }
     }
 
-    // gengo.json の読み込みと正規化処理
     async function fetchGengoQuestions() {
       const loadingEl = document.getElementById('loading');
       try {
@@ -777,7 +1120,6 @@
         }
         const rawData = await res.json();
         
-        // gengo.json のフォーマットを内部標準形式に変換
         loadedVerbalQuestions = rawData.map(item => {
           let choicesArray = [];
           let correctIdx = 0;
@@ -835,7 +1177,7 @@
           }
         ];
         verbalUnits = ["語句の意味"];
-      } fontFinally: {
+      } finally {
         loadingEl.classList.add('opacity-0');
         setTimeout(() => loadingEl.classList.add('hidden'), 300);
       }
@@ -889,9 +1231,6 @@
       }
     }
 
-    // ==========================================
-    // QUESTION GENERATION ENGINE
-    // ==========================================
     function generateQuestion(category, requestedUnit, difficulty) {
       if (category === '言語') {
         let pool = loadedVerbalQuestions;
@@ -930,9 +1269,6 @@
       return queue.sort(() => Math.random() - 0.5);
     }
 
-    // ==========================================
-    // QUIZ FLOW CONTROLLER
-    // ==========================================
     function startQuiz() {
       document.getElementById('screen-setup').classList.add('hidden');
       document.getElementById('screen-quiz').classList.remove('hidden');
@@ -965,7 +1301,7 @@
         document.getElementById('header-mode-title').innerText = `SPI3 10分ミニテストモード (12問)`;
         appState.currentQuestions = prepareMiniTestQuestions();
 
-      } else { // 'exam' CBT模擬試験
+      } else {
         appState.selectedDifficultySetting = 'auto';
         appState.totalTimeLimitSec = 2100;
         appState.targetQuestionCount = 20;
@@ -1025,8 +1361,7 @@
       document.getElementById('badge-category').innerText = q.category;
       document.getElementById('badge-unit').innerText = q.unit;
       
-      const diffText = q.difficulty === 1 ? 'Easy' : (q.difficulty === 2 ? 'Normal' : 'Hard');
-      document.getElementById('text-difficulty').innerText = `難易度: ${diffText}`;
+      document.getElementById('text-difficulty').innerText = `難易度: Lv.${q.difficulty}`;
 
       document.getElementById('progress-text').innerText = `${appState.currentIndex + 1} / ${appState.targetQuestionCount}`;
       document.getElementById('quiz-instruction').innerText = q.instruction || "正しい答えを選びなさい。";
@@ -1164,9 +1499,6 @@
       }
     }
 
-    // ==========================================
-    // SEAMLESS ANIMATED TIMERS (requestAnimationFrame)
-    // ==========================================
     function startQuestionTimer() {
       if (questionAnimFrame) cancelAnimationFrame(questionAnimFrame);
 
@@ -1229,16 +1561,13 @@
       totalAnimFrame = requestAnimationFrame(updateTotalBar);
     }
 
-    // ==========================================
     // RESULTS & REVIEW CONTROLLER
-    // ==========================================
     function finishQuiz() {
       if (questionAnimFrame) cancelAnimationFrame(questionAnimFrame);
       if (totalAnimFrame) cancelAnimationFrame(totalAnimFrame);
 
       const totalElapsedSec = Math.floor((Date.now() - appState.startTime) / 1000);
 
-      // 保存用結果データ構築
       const resultObj = {
         mode: appState.mode,
         userAnswers: appState.userAnswers,
@@ -1246,7 +1575,6 @@
         timestamp: Date.now()
       };
 
-      // ストレージに最新結果を永続化
       try {
         localStorage.setItem('spi3_last_result', JSON.stringify(resultObj));
         lastSavedResultData = resultObj;
@@ -1286,13 +1614,12 @@
       document.getElementById('res-time').innerText = `${min}分${sec}秒`;
       document.getElementById('res-avg-time').innerText = `1問平均: ${totalQs > 0 ? Math.round(totalElapsedSec / totalQs) : 0}秒`;
 
-      // 振り返りログテーブル構築
-      const tbody = document.getElementById('result-list-body');
-      tbody.innerHTML = '';
+      const container = document.getElementById('result-list-container');
+      container.innerHTML = '';
       
       userAnswers.forEach((ans, idx) => {
-        const tr = document.createElement('tr');
-        const diffText = ans.question.difficulty === 1 ? 'Easy' : (ans.question.difficulty === 2 ? 'Normal' : 'Hard');
+        const card = document.createElement('div');
+        const diffText = `Lv.${ans.question.difficulty}`;
         const isOk = ans.isCorrect;
 
         const userSelectedText = ans.selectedIndex >= 0 
@@ -1300,49 +1627,66 @@
           : '未解答 (時間切れ)';
         const correctText = `${String.fromCharCode(65 + ans.question.correctIndex)}: ${ans.question.choices[ans.question.correctIndex]}`;
 
-        tr.innerHTML = `
-          <td class="p-3 font-bold text-center align-top text-slate-300">${idx + 1}</td>
-          <td class="p-3 align-top">
-            <span class="font-bold text-slate-100 block">${ans.question.category}</span>
-            <span class="text-slate-400 text-[11px] block mt-0.5">${ans.question.unit}</span>
-          </td>
-          <td class="p-3 text-center align-top">
-            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-950 font-semibold border border-slate-800 text-slate-400">${diffText}</span>
-          </td>
-          <td class="p-3 text-slate-200 font-medium align-top space-y-1.5">
-            ${ans.question.premise ? `<div class="text-[11px] text-slate-300 bg-slate-950 p-2 rounded border border-slate-800 whitespace-pre-line leading-relaxed">${ans.question.premise}</div>` : ''}
-            <div class="font-bold text-slate-100 leading-normal whitespace-pre-line">${ans.question.question}</div>
-            <div class="mt-2 pt-2 border-t border-slate-800 text-[11px] space-y-0.5">
-              <div class="text-emerald-400 font-bold"><span class="text-slate-500 font-normal">正解:</span> ${correctText}</div>
-              ${!isOk ? `<div class="text-rose-400 font-bold"><span class="text-slate-500 font-normal">あなたの解答:</span> ${userSelectedText}</div>` : ''}
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-md space-y-3";
+
+        card.innerHTML = `
+          <!-- 上部ヘッダー：問番号・判定・タグ -->
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="bg-indigo-600 text-white text-xs font-black px-2.5 py-1 rounded-lg">問 ${idx + 1}</span>
+              ${isOk 
+                ? '<span class="px-2.5 py-0.5 rounded-lg text-xs bg-emerald-950 text-emerald-300 font-bold border border-emerald-800 flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> 正解</span>'
+                : '<span class="px-2.5 py-0.5 rounded-lg text-xs bg-rose-950 text-rose-300 font-bold border border-rose-800 flex items-center gap-1"><i data-lucide="x" class="w-3.5 h-3.5"></i> 不正解</span>'}
             </div>
-          </td>
-          <td class="p-3 text-center align-top">
-            ${isOk 
-              ? '<span class="px-2 py-0.5 rounded text-[10px] bg-emerald-950 text-emerald-300 font-bold border border-emerald-800">正解</span>'
-              : '<span class="px-2 py-0.5 rounded text-[10px] bg-rose-950 text-rose-300 font-bold border border-rose-800">不正解</span>'}
-          </td>
-          <td class="p-3 text-[11px] text-slate-300 leading-relaxed whitespace-pre-line align-top bg-slate-950/50">
+            <div class="flex items-center gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded-md bg-slate-950 text-slate-300 font-bold border border-slate-800">${ans.question.category}</span>
+              <span class="px-2 py-0.5 rounded-md bg-slate-950 text-slate-400 font-medium border border-slate-800">${ans.question.unit}</span>
+              <span class="px-2 py-0.5 rounded-md bg-slate-950 text-slate-400 font-semibold border border-slate-800">${diffText}</span>
+            </div>
+          </div>
+
+          <!-- 本文エリア -->
+          <div class="space-y-2 text-xs md:text-sm">
+            ${ans.question.premise ? `<div class="p-3 bg-slate-950 text-slate-300 rounded-xl border border-slate-800/80 leading-relaxed whitespace-pre-line">${ans.question.premise}</div>` : ''}
+            <div class="font-bold text-slate-100 leading-relaxed whitespace-pre-line pt-1">${ans.question.question}</div>
+          </div>
+
+          <!-- 解答結果比較ボックス -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-xs">
+            <div class="p-2.5 bg-emerald-950/30 border border-emerald-800/50 rounded-xl">
+              <span class="text-slate-400 block text-[10px] font-bold">正解選択肢</span>
+              <span class="text-emerald-300 font-bold mt-0.5 block">${correctText}</span>
+            </div>
+            <div class="p-2.5 ${isOk ? 'bg-slate-950/60 border border-slate-800' : 'bg-rose-950/30 border border-rose-800/50'} rounded-xl">
+              <span class="text-slate-400 block text-[10px] font-bold">あなたの解答</span>
+              <span class="${isOk ? 'text-slate-300' : 'text-rose-300'} font-bold mt-0.5 block">${userSelectedText}</span>
+            </div>
+          </div>
+
+          <!-- 解説ボックス -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed whitespace-pre-line">
+            <div class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+              <i data-lucide="book-open" class="w-3 h-3"></i> 解答解説
+            </div>
             ${ans.question.explanation}
-          </td>
+          </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
 
       let advice = "";
       if (pct >= 80) {
-        advice = "【非常に素晴らしい成績です】\n高い解答精度が維持されています。この調子で反復練習を行い、解答スピードの更なる向上を目指しましょう。";
+        advice = "【非常に素晴らしい成績です】\n高い解答精度が維持されています。この調子で反復練習を行い、解法パターンの定着と解答スピードの更なる向上を目指しましょう。";
       } else if (pct >= 50) {
-        advice = "【着実な理解が進んでいます】\n間違えた問題の解説を確認し、苦手な語句やパターンの復習を重点的に行いましょう。";
+        advice = "【着実な理解が進んでいます】\n間違えた問題の解説を確認し、特に難易度Lv.2やLv.3の問題の立式・計算手順を復習しましょう。";
       } else {
-        advice = "【基礎知識の再確認を行いましょう】\nまずは各問題の解説をしっかり確認し、語句の意味や標準的な解法手順を覚えてから再挑戦してください。";
+        advice = "【基礎公式・解法の再確認を行いましょう】\nまずは各単元のLv.1問題から確実に正解できるように、解説の解法プロセスを丁寧に確認してください。";
       }
       document.getElementById('res-advice').innerText = advice;
+      lucide.createIcons();
     }
 
-    // ==========================================
     // UTILITY & MODALS
-    // ==========================================
     function confirmAbort() {
       alertModal("テストの中断", "現在の進行状況は破棄されます。本当に終了しますか？", () => {
         restartApp();
