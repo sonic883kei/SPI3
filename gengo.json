@@ -6,7 +6,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "簡潔",
     "choices": {
       "A": "丁寧",
@@ -23,7 +23,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "堅実",
     "choices": {
       "A": "派手",
@@ -40,7 +40,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "慎重",
     "choices": {
       "A": "軽率",
@@ -57,7 +57,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "謙虚",
     "choices": {
       "A": "控えめ",
@@ -74,7 +74,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "迅速",
     "choices": {
       "A": "遅延",
@@ -91,7 +91,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "貢献",
     "choices": {
       "A": "妨害",
@@ -108,7 +108,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "簡潔",
     "choices": {
       "A": "丁寧",
@@ -125,7 +125,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "堅実",
     "choices": {
       "A": "派手",
@@ -142,7 +142,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "慎重",
     "choices": {
       "A": "軽率",
@@ -159,7 +159,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "謙虚",
     "choices": {
       "A": "控えめ",
@@ -176,7 +176,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "迅速",
     "choices": {
       "A": "遅延",
@@ -193,7 +193,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "貢献",
     "choices": {
       "A": "妨害",
@@ -210,7 +210,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "恩恵",
     "choices": {
       "A": "利益やめぐみ",
@@ -227,7 +227,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "愛顧",
     "choices": {
       "A": "ひいきにすること",
@@ -244,7 +244,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "繁忙",
     "choices": {
       "A": "忙しいこと",
@@ -261,7 +261,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "兆候",
     "choices": {
       "A": "何かが起こるきざし",
@@ -278,7 +278,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "温和",
     "choices": {
       "A": "おだやかなさま",
@@ -295,7 +295,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "疲弊",
     "choices": {
       "A": "ひどく弱ること",
@@ -312,7 +312,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "繁殖",
     "choices": {
       "A": "増え広がること",
@@ -329,7 +329,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "孤立",
     "choices": {
       "A": "仲間から離れること",
@@ -346,7 +346,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "復旧",
     "choices": {
       "A": "元に戻すこと",
@@ -363,7 +363,7 @@
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "柔軟",
     "choices": {
       "A": "状況に応じて対応できること",
@@ -380,7 +380,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "寛容",
     "choices": {
       "A": "厳格",
@@ -397,7 +397,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "顕著",
     "choices": {
       "A": "不明瞭",
@@ -414,7 +414,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "妥当",
     "choices": {
       "A": "適切",
@@ -431,7 +431,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "漠然",
     "choices": {
       "A": "はっきり",
@@ -448,7 +448,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "阻害",
     "choices": {
       "A": "妨げる",
@@ -465,7 +465,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "秩序",
     "choices": {
       "A": "混乱",
@@ -482,7 +482,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "異論",
     "choices": {
       "A": "賛成意見",
@@ -499,7 +499,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "懸念",
     "choices": {
       "A": "喜び",
@@ -516,7 +516,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "卓越",
     "choices": {
       "A": "平凡",
@@ -533,7 +533,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "寛容",
     "choices": {
       "A": "厳格",
@@ -550,7 +550,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "顕著",
     "choices": {
       "A": "不明瞭",
@@ -567,7 +567,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "妥当",
     "choices": {
       "A": "適切",
@@ -584,7 +584,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "漠然",
     "choices": {
       "A": "はっきりしている",
@@ -601,7 +601,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "阻害",
     "choices": {
       "A": "妨げること",
@@ -618,7 +618,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "秩序",
     "choices": {
       "A": "混乱",
@@ -635,7 +635,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "異論",
     "choices": {
       "A": "賛成意見",
@@ -652,7 +652,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "懸念",
     "choices": {
       "A": "喜び",
@@ -669,7 +669,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "卓越",
     "choices": {
       "A": "平凡",
@@ -686,7 +686,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "閲覧",
     "choices": {
       "A": "見たり読んだりすること",
@@ -703,7 +703,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "概算",
     "choices": {
       "A": "おおよその計算",
@@ -720,7 +720,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "折衝",
     "choices": {
       "A": "利害調整のための交渉",
@@ -737,7 +737,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "黙認",
     "choices": {
       "A": "知りながら許すこと",
@@ -754,7 +754,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "推奨",
     "choices": {
       "A": "すすめること",
@@ -771,7 +771,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "懐柔",
     "choices": {
       "A": "うまくなだめ従わせること",
@@ -788,7 +788,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "踏襲",
     "choices": {
       "A": "前例にならうこと",
@@ -805,7 +805,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "困窮",
     "choices": {
       "A": "生活に苦しむこと",
@@ -822,7 +822,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "模索",
     "choices": {
       "A": "方法を探し求めること",
@@ -839,7 +839,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "勘案",
     "choices": {
       "A": "考え合わせること",
@@ -856,7 +856,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "是正",
     "choices": {
       "A": "悪い点を正すこと",
@@ -873,7 +873,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "滞納",
     "choices": {
       "A": "納付が遅れること",
@@ -890,7 +890,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "従事",
     "choices": {
       "A": "仕事に携わること",
@@ -907,7 +907,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "享受",
     "choices": {
       "A": "利益や恩恵を受けること",
@@ -924,7 +924,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "網羅",
     "choices": {
       "A": "もれなく含むこと",
@@ -941,7 +941,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "顧慮",
     "choices": {
       "A": "気にかけて考えること",
@@ -958,7 +958,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "介入",
     "choices": {
       "A": "間に入って関わること",
@@ -975,7 +975,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "排除",
     "choices": {
       "A": "取り除くこと",
@@ -992,7 +992,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "脅威",
     "choices": {
       "A": "おびやかすもの",
@@ -1009,7 +1009,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "示唆",
     "choices": {
       "A": "それとなく知らせること",
@@ -1026,7 +1026,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "妨害",
     "choices": {
       "A": "じゃますること",
@@ -1043,7 +1043,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "抽出",
     "choices": {
       "A": "抜き出すこと",
@@ -1060,7 +1060,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "把握",
     "choices": {
       "A": "しっかり理解すること",
@@ -1077,7 +1077,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "刷新",
     "choices": {
       "A": "新しく改めること",
@@ -1094,7 +1094,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "検証",
     "choices": {
       "A": "調べて確かめること",
@@ -1111,7 +1111,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "赴任",
     "choices": {
       "A": "新しい勤務地へ行くこと",
@@ -1128,7 +1128,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "一掃",
     "choices": {
       "A": "すっかり取り除くこと",
@@ -1145,7 +1145,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "飽和",
     "choices": {
       "A": "いっぱいになること",
@@ -1162,7 +1162,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "証言",
     "choices": {
       "A": "事実を述べること",
@@ -1179,7 +1179,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "蓄積",
     "choices": {
       "A": "ためて積み重ねること",
@@ -1196,7 +1196,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "軽減",
     "choices": {
       "A": "軽くすること",
@@ -1213,7 +1213,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "黙秘",
     "choices": {
       "A": "不利益なことを話さないこと",
@@ -1230,7 +1230,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "推移",
     "choices": {
       "A": "時間とともに変化すること",
@@ -1247,7 +1247,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "整頓",
     "choices": {
       "A": "きちんと片付けること",
@@ -1264,7 +1264,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "進捗",
     "choices": {
       "A": "物事の進み具合",
@@ -1281,7 +1281,7 @@
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "以下の語句の意味を答えなさい",
-    "premise": "", 
+    "premise": "",
     "question": "拠点",
     "choices": {
       "A": "活動の中心となる場所",
@@ -1294,260 +1294,685 @@
   {
     "id": "77",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "援助",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "懸念",
     "choices": {
-      "A": "妨害",
-      "B": "支援",
-      "C": "拒絶",
-      "D": "放棄"
+      "A": "心配や不安に思うこと",
+      "B": "強く期待すること",
+      "C": "詳しく調べること",
+      "D": "意見をまとめること"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "78",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "繁栄",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "配慮",
     "choices": {
-      "A": "発展",
-      "B": "衰退",
-      "C": "成熟",
-      "D": "成功"
+      "A": "相手や周囲のことを考えて気をつかうこと",
+      "B": "物事を厳しく評価すること",
+      "C": "自分の考えを押し通すこと",
+      "D": "問題を解決すること"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "79",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "誠実",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "促進",
     "choices": {
-      "A": "真面目",
-      "B": "傲慢",
-      "C": "粗雑",
-      "D": "冷酷"
+      "A": "物事の進行をうながすこと",
+      "B": "物事を一時的に止めること",
+      "C": "物事を詳しく調べること",
+      "D": "物事を元に戻すこと"
     },
     "correct": "A"
   },
   {
     "id": "80",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "拡大",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "抑制",
     "choices": {
-      "A": "上昇",
-      "B": "増加",
-      "C": "縮小",
-      "D": "前進"
+      "A": "勢いや活動などをおさえること",
+      "B": "勢いをさらに強めること",
+      "C": "新しいものを生み出すこと",
+      "D": "問題を明らかにすること"
     },
-    "correct": "C"
+    "correct": "A"
   },
   {
     "id": "81",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "迅速",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "簡潔",
     "choices": {
-      "A": "緩慢",
-      "B": "敏速",
-      "C": "平穏",
-      "D": "慎重"
+      "A": "余分なものがなく簡単にまとまっていること",
+      "B": "内容が複雑で理解しにくいこと",
+      "C": "非常に詳しく説明されていること",
+      "D": "内容があいまいであること"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "82",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "危険",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "明瞭",
     "choices": {
-      "A": "冒険",
-      "B": "安全",
-      "C": "注意",
-      "D": "警戒"
+      "A": "内容や意味がはっきりしていること",
+      "B": "内容が非常に複雑であること",
+      "C": "内容を意図的に隠すこと",
+      "D": "内容が大きく変化すること"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "83",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "賛同",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "概略",
     "choices": {
-      "A": "同意",
-      "B": "反論",
-      "C": "反対",
-      "D": "疑問"
+      "A": "物事の大まかな内容",
+      "B": "物事の細かな部分",
+      "C": "物事の最終的な結論",
+      "D": "物事の原因となった出来事"
     },
     "correct": "A"
   },
   {
     "id": "84",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "豊富",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "根拠",
     "choices": {
-      "A": "多量",
-      "B": "過剰",
-      "C": "不足",
-      "D": "余剰"
+      "A": "ある判断や主張のよりどころとなるもの",
+      "B": "物事を実行するための手順",
+      "C": "物事を簡単に説明したもの",
+      "D": "将来の予定を示すもの"
     },
-    "correct": "C"
+    "correct": "A"
   },
   {
     "id": "85",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "冷静",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "趣旨",
     "choices": {
-      "A": "動揺",
-      "B": "沈着",
-      "C": "焦燥",
-      "D": "衝動"
+      "A": "文章や発言などが示そうとする中心的な意味",
+      "B": "文章の細かな表現方法",
+      "C": "発言した人の経歴",
+      "D": "文章の長さや形式"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "86",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "積極",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "考慮",
     "choices": {
-      "A": "活発",
-      "B": "消極",
-      "C": "勇敢",
-      "D": "強気"
+      "A": "さまざまな事情を考えに入れること",
+      "B": "物事をすぐに決定すること",
+      "C": "他人の意見を否定すること",
+      "D": "問題を後回しにすること"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "87",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "優秀",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "適宜",
     "choices": {
-      "A": "卓越",
-      "B": "平凡",
-      "C": "未熟",
-      "D": "粗雑"
+      "A": "その場の状況に応じて適切に",
+      "B": "必ず同じ方法で",
+      "C": "できるだけ早く",
+      "D": "一度だけ"
     },
     "correct": "A"
   },
   {
     "id": "88",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "開始",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "一概に",
     "choices": {
-      "A": "着手",
-      "B": "終了",
-      "C": "継続",
-      "D": "発展"
+      "A": "一つの例外もなくすべて同じように",
+      "B": "一つの例だけを取り上げて",
+      "C": "細かな違いを詳しく調べて",
+      "D": "将来のことだけを考えて"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "89",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "信用",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "おおむね",
     "choices": {
-      "A": "疑念",
-      "B": "信頼",
-      "C": "不安",
-      "D": "誤解"
+      "A": "だいたい",
+      "B": "まったく",
+      "C": "必ず",
+      "D": "偶然に"
     },
-    "correct": "B"
+    "correct": "A"
   },
   {
     "id": "90",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "明確",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "顕在",
     "choices": {
-      "A": "具体",
-      "B": "鮮明",
-      "C": "曖昧",
-      "D": "厳密"
+      "A": "はっきりと表面に現れていること",
+      "B": "まだ存在していないこと",
+      "C": "完全に失われていること",
+      "D": "将来起こる可能性があること"
     },
-    "correct": "C"
+    "correct": "A"
   },
   {
     "id": "91",
     "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
+    "unit": "語句の意味",
+    "difficulty": 2,
     "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "成功",
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "潜在",
     "choices": {
-      "A": "勝利",
-      "B": "発展",
-      "C": "達成",
-      "D": "失敗"
+      "A": "表面には現れていないが存在していること",
+      "B": "すでに明らかになっていること",
+      "C": "完全に消滅していること",
+      "D": "誰にでも知られていること"
     },
-    "correct": "D"
+    "correct": "A"
   },
   {
     "id": "92",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 2,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "相応",
+    "choices": {
+      "A": "つり合いがとれてふさわしいこと",
+      "B": "他とまったく異なっていること",
+      "C": "必要以上に大きいこと",
+      "D": "偶然一致すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "93",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 2,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "円滑",
+    "choices": {
+      "A": "物事が滞りなく進むこと",
+      "B": "物事が突然中止されること",
+      "C": "物事が複雑になること",
+      "D": "物事を慎重に延期すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "94",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 2,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "妥協",
+    "choices": {
+      "A": "互いに譲り合って意見などをまとめること",
+      "B": "自分の意見を最後まで変えないこと",
+      "C": "相手の意見を完全に否定すること",
+      "D": "問題について何も考えないこと"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "95",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 2,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "矛盾",
+    "choices": {
+      "A": "二つの事柄のつじつまが合わないこと",
+      "B": "二つの事柄が完全に一致すること",
+      "C": "物事を順序よく整理すること",
+      "D": "問題を簡単に解決すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "96",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 2,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "是正",
+    "choices": {
+      "A": "悪い状態や誤りを正すこと",
+      "B": "問題をそのまま放置すること",
+      "C": "新しい問題を作り出すこと",
+      "D": "過去の事実を隠すこと"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "97",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "示唆",
+    "choices": {
+      "A": "直接的に命令すること",
+      "B": "それとなく知らせること",
+      "C": "詳しく説明すること",
+      "D": "厳しく批判すること"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "98",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "踏襲",
+    "choices": {
+      "A": "新しい方法を考案すること",
+      "B": "従来の方法などを受け継ぐこと",
+      "C": "過去の方法を批判すること",
+      "D": "方法を完全に廃止すること"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "99",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "看過",
+    "choices": {
+      "A": "問題を詳しく調査すること",
+      "B": "問題を積極的に解決すること",
+      "C": "問題などを見過ごすこと",
+      "D": "問題を公表すること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "100",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "懸案",
+    "choices": {
+      "A": "すでに解決した問題",
+      "B": "以前から解決していない問題",
+      "C": "偶然発生した小さな問題",
+      "D": "将来必ず起こる問題"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "101",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "妥当",
+    "choices": {
+      "A": "道理にかなって適切であること",
+      "B": "非常に珍しいことであること",
+      "C": "多数の人が賛成すること",
+      "D": "完全に正しいと証明されること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "102",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "顕著",
+    "choices": {
+      "A": "ほとんど変化しないこと",
+      "B": "人目につかないこと",
+      "C": "際立って目立つこと",
+      "D": "偶然に起こること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "103",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "逼迫",
+    "choices": {
+      "A": "余裕があり安定していること",
+      "B": "余裕がなく差し迫っていること",
+      "C": "問題が完全に解消すること",
+      "D": "状況が長期的に改善すること"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "104",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "顧慮",
+    "choices": {
+      "A": "過去の出来事を忘れること",
+      "B": "自分の意見を強く主張すること",
+      "C": "周囲の事情などを深く考えること",
+      "D": "相手の意見を否定すること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "105",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "拙速",
+    "choices": {
+      "A": "出来はよくないが仕上げるのが早いこと",
+      "B": "時間をかけて完成度を高めること",
+      "C": "慎重に判断して結論を遅らせること",
+      "D": "正確さと速さを完全に両立すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "106",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "些末",
+    "choices": {
+      "A": "極めて重要であること",
+      "B": "複雑で理解しにくいこと",
+      "C": "取るに足りないほど小さいこと",
+      "D": "将来に大きな影響を与えること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "107",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "傍若無人",
+    "choices": {
+      "A": "周囲を気にせず勝手に振る舞うこと",
+      "B": "周囲に細かく気を配ること",
+      "C": "人前で控えめに行動すること",
+      "D": "他人の意見を尊重すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "108",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "枚挙にいとまがない",
+    "choices": {
+      "A": "数が少なく簡単に数えられること",
+      "B": "数を正確に記録すること",
+      "C": "数が多すぎて一つ一つ数えきれないこと",
+      "D": "数が一定せず予測できないこと"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "109",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "忸怩たる思い",
+    "choices": {
+      "A": "自分の成功を誇らしく感じる気持ち",
+      "B": "相手に強い怒りを覚える気持ち",
+      "C": "自分の行為を恥じて深く思い悩む気持ち",
+      "D": "将来に大きな期待を抱く気持ち"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "110",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "杞憂",
+    "choices": {
+      "A": "必要以上に取り越し苦労をすること",
+      "B": "過去の失敗を詳細に分析すること",
+      "C": "問題を事前に確実に防ぐこと",
+      "D": "将来の成功を具体的に予測すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "111",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "逡巡",
+    "choices": {
+      "A": "決断できずためらうこと",
+      "B": "すぐに決断して行動すること",
+      "C": "過去の判断を撤回すること",
+      "D": "他人に判断を任せること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "112",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "忖度",
+    "choices": {
+      "A": "相手の意見を公然と批判すること",
+      "B": "相手の気持ちや意向を推し量ること",
+      "C": "相手に自分の意見を押しつけること",
+      "D": "相手の発言を正確に記録すること"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "113",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "瑕疵",
+    "choices": {
+      "A": "品質が非常に優れていること",
+      "B": "手続きが完全に終了すること",
+      "C": "物事に欠点や不備があること",
+      "D": "物事が予定どおり進行すること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "114",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "機を見るに敏",
+    "choices": {
+      "A": "好機を素早く見抜いて行動すること",
+      "B": "慎重に機会を待ち続けること",
+      "C": "一度決めた方針を変えないこと",
+      "D": "他人の行動を細かく観察すること"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "115",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "画餅",
+    "choices": {
+      "A": "実際には役に立たない計画や構想",
+      "B": "綿密に実行された計画",
+      "C": "偶然成功した計画",
+      "D": "失敗を予測して立てた計画"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "116",
+    "category": "言語",
+    "unit": "語句の意味",
+    "difficulty": 3,
+    "timeLimit": 20,
+    "instruction": "以下の語句の意味を答えなさい",
+    "premise": "",
+    "question": "敷衍",
+    "choices": {
+      "A": "内容を短くまとめること",
+      "B": "内容を完全に否定すること",
+      "C": "意味を押し広げて詳しく説明すること",
+      "D": "内容を別のものに置き換えること"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "117",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 1,
@@ -1560,431 +1985,6 @@
       "B": "支援",
       "C": "拒絶",
       "D": "放棄"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "93",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "繁栄",
-    "choices": {
-      "A": "発展",
-      "B": "衰退",
-      "C": "成熟",
-      "D": "成功"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "94",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "誠実",
-    "choices": {
-      "A": "真面目",
-      "B": "傲慢",
-      "C": "粗雑",
-      "D": "冷酷"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "95",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "拡大",
-    "choices": {
-      "A": "上昇",
-      "B": "増加",
-      "C": "縮小",
-      "D": "前進"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "96",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "迅速",
-    "choices": {
-      "A": "緩慢",
-      "B": "敏速",
-      "C": "平穏",
-      "D": "慎重"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "97",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "危険",
-    "choices": {
-      "A": "冒険",
-      "B": "安全",
-      "C": "注意",
-      "D": "警戒"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "98",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "賛同",
-    "choices": {
-      "A": "同意",
-      "B": "反論",
-      "C": "反対",
-      "D": "疑問"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "99",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "豊富",
-    "choices": {
-      "A": "多量",
-      "B": "過剰",
-      "C": "不足",
-      "D": "余剰"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "100",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "冷静",
-    "choices": {
-      "A": "動揺",
-      "B": "沈着",
-      "C": "焦燥",
-      "D": "衝動"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "101",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "積極",
-    "choices": {
-      "A": "活発",
-      "B": "消極",
-      "C": "勇敢",
-      "D": "強気"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "102",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "優秀",
-    "choices": {
-      "A": "卓越",
-      "B": "平凡",
-      "C": "未熟",
-      "D": "粗雑"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "103",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "開始",
-    "choices": {
-      "A": "着手",
-      "B": "終了",
-      "C": "継続",
-      "D": "発展"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "104",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "信用",
-    "choices": {
-      "A": "疑念",
-      "B": "信頼",
-      "C": "不安",
-      "D": "誤解"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "105",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "明確",
-    "choices": {
-      "A": "具体",
-      "B": "鮮明",
-      "C": "曖昧",
-      "D": "厳密"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "106",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 1,
-    "timeLimit": 20,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "成功",
-    "choices": {
-      "A": "勝利",
-      "B": "発展",
-      "C": "達成",
-      "D": "失敗"
-    },
-    "correct": "D"
-  },
-  {
-    "id": "107",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "踏襲",
-    "choices": {
-      "A": "継承",
-      "B": "革新",
-      "C": "否定",
-      "D": "放棄"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "108",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "懐柔",
-    "choices": {
-      "A": "説得して従わせる",
-      "B": "脅迫する",
-      "C": "裏切る",
-      "D": "無視する"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "109",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "困窮",
-    "choices": {
-      "A": "窮乏",
-      "B": "貧困",
-      "C": "裕福",
-      "D": "困難"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "110",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "勘案",
-    "choices": {
-      "A": "考慮",
-      "B": "断定",
-      "C": "命令",
-      "D": "省略"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "111",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "享受",
-    "choices": {
-      "A": "受益",
-      "B": "放棄",
-      "C": "損失",
-      "D": "返納"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "112",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "顧慮",
-    "choices": {
-      "A": "配慮",
-      "B": "軽視",
-      "C": "忘却",
-      "D": "放任"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "113",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "滞納",
-    "choices": {
-      "A": "未納",
-      "B": "完納",
-      "C": "延納",
-      "D": "督促"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "114",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "把握",
-    "choices": {
-      "A": "理解",
-      "B": "掌握",
-      "C": "看過",
-      "D": "認識不足"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "115",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "同義語を答えよ",
-    "question": "一掃",
-    "choices": {
-      "A": "根絶",
-      "B": "収集",
-      "C": "保存",
-      "D": "維持"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "116",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "飽和",
-    "choices": {
-      "A": "満杯",
-      "B": "不足",
-      "C": "充満",
-      "D": "過剰"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "117",
-    "category": "言語",
-    "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
-    "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "蓄積",
-    "choices": {
-      "A": "集積",
-      "B": "放出",
-      "C": "保存",
-      "D": "備蓄"
     },
     "correct": "B"
   },
@@ -1992,67 +1992,67 @@
     "id": "118",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "類義語を答えよ",
-    "question": "黙秘",
+    "premise": "反義語を答えよ",
+    "question": "繁栄",
     "choices": {
-      "A": "秘匿",
-      "B": "自白",
-      "C": "告白",
-      "D": "証言"
+      "A": "発展",
+      "B": "衰退",
+      "C": "成熟",
+      "D": "成功"
     },
-    "correct": "A"
+    "correct": "B"
   },
   {
     "id": "119",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "復旧",
+    "premise": "同義語を答えよ",
+    "question": "誠実",
     "choices": {
-      "A": "修復",
-      "B": "回復",
-      "C": "破損",
-      "D": "復元"
+      "A": "真面目",
+      "B": "傲慢",
+      "C": "粗雑",
+      "D": "冷酷"
     },
-    "correct": "C"
+    "correct": "A"
   },
   {
     "id": "120",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "類義語を答えよ",
-    "question": "推移",
+    "premise": "反義語を答えよ",
+    "question": "拡大",
     "choices": {
-      "A": "変遷",
-      "B": "固定",
-      "C": "停止",
-      "D": "断絶"
+      "A": "上昇",
+      "B": "増加",
+      "C": "縮小",
+      "D": "前進"
     },
-    "correct": "A"
+    "correct": "C"
   },
   {
     "id": "121",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "整頓",
+    "premise": "同義語を答えよ",
+    "question": "迅速",
     "choices": {
-      "A": "整理",
-      "B": "乱雑",
-      "C": "規律",
-      "D": "収納"
+      "A": "緩慢",
+      "B": "敏速",
+      "C": "平穏",
+      "D": "慎重"
     },
     "correct": "B"
   },
@@ -2060,50 +2060,50 @@
     "id": "122",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
     "premise": "反義語を答えよ",
-    "question": "進捗",
+    "question": "危険",
     "choices": {
-      "A": "前進",
-      "B": "進行",
-      "C": "停滞",
-      "D": "達成"
+      "A": "冒険",
+      "B": "安全",
+      "C": "注意",
+      "D": "警戒"
     },
-    "correct": "C"
+    "correct": "B"
   },
   {
     "id": "123",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "温存",
+    "premise": "同義語を答えよ",
+    "question": "賛同",
     "choices": {
-      "A": "保存",
-      "B": "保持",
-      "C": "消耗",
-      "D": "保全"
+      "A": "同意",
+      "B": "反論",
+      "C": "反対",
+      "D": "疑問"
     },
-    "correct": "C"
+    "correct": "A"
   },
   {
     "id": "124",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
     "premise": "反義語を答えよ",
-    "question": "遵守",
+    "question": "豊富",
     "choices": {
-      "A": "順守",
-      "B": "励行",
-      "C": "違反",
-      "D": "服従"
+      "A": "多量",
+      "B": "過剰",
+      "C": "不足",
+      "D": "余剰"
     },
     "correct": "C"
   },
@@ -2111,21 +2111,378 @@
     "id": "125",
     "category": "言語",
     "unit": "語句の用法",
-    "difficulty": 3,
-    "timeLimit": 30,
+    "difficulty": 1,
+    "timeLimit": 20,
     "instruction": "以下の問いに答えなさい",
-    "premise": "反義語を答えよ",
-    "question": "抑制",
+    "premise": "同義語を答えよ",
+    "question": "冷静",
     "choices": {
-      "A": "制限",
-      "B": "促進",
-      "C": "規制",
-      "D": "節制"
+      "A": "動揺",
+      "B": "沈着",
+      "C": "焦燥",
+      "D": "衝動"
     },
     "correct": "B"
   },
   {
     "id": "126",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "積極",
+    "choices": {
+      "A": "活発",
+      "B": "消極",
+      "C": "勇敢",
+      "D": "強気"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "127",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "優秀",
+    "choices": {
+      "A": "卓越",
+      "B": "平凡",
+      "C": "未熟",
+      "D": "粗雑"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "128",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "開始",
+    "choices": {
+      "A": "着手",
+      "B": "終了",
+      "C": "継続",
+      "D": "発展"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "129",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "信用",
+    "choices": {
+      "A": "疑念",
+      "B": "信頼",
+      "C": "不安",
+      "D": "誤解"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "130",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "明確",
+    "choices": {
+      "A": "具体",
+      "B": "鮮明",
+      "C": "曖昧",
+      "D": "厳密"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "131",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "成功",
+    "choices": {
+      "A": "勝利",
+      "B": "発展",
+      "C": "達成",
+      "D": "失敗"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "132",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "援助",
+    "choices": {
+      "A": "妨害",
+      "B": "支援",
+      "C": "拒絶",
+      "D": "放棄"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "133",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "繁栄",
+    "choices": {
+      "A": "発展",
+      "B": "衰退",
+      "C": "成熟",
+      "D": "成功"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "134",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "誠実",
+    "choices": {
+      "A": "真面目",
+      "B": "傲慢",
+      "C": "粗雑",
+      "D": "冷酷"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "135",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "拡大",
+    "choices": {
+      "A": "上昇",
+      "B": "増加",
+      "C": "縮小",
+      "D": "前進"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "136",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "迅速",
+    "choices": {
+      "A": "緩慢",
+      "B": "敏速",
+      "C": "平穏",
+      "D": "慎重"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "137",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "危険",
+    "choices": {
+      "A": "冒険",
+      "B": "安全",
+      "C": "注意",
+      "D": "警戒"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "138",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "賛同",
+    "choices": {
+      "A": "同意",
+      "B": "反論",
+      "C": "反対",
+      "D": "疑問"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "139",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "豊富",
+    "choices": {
+      "A": "多量",
+      "B": "過剰",
+      "C": "不足",
+      "D": "余剰"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "140",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "冷静",
+    "choices": {
+      "A": "動揺",
+      "B": "沈着",
+      "C": "焦燥",
+      "D": "衝動"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "141",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "積極",
+    "choices": {
+      "A": "活発",
+      "B": "消極",
+      "C": "勇敢",
+      "D": "強気"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "142",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "優秀",
+    "choices": {
+      "A": "卓越",
+      "B": "平凡",
+      "C": "未熟",
+      "D": "粗雑"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "143",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "開始",
+    "choices": {
+      "A": "着手",
+      "B": "終了",
+      "C": "継続",
+      "D": "発展"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "144",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "信用",
+    "choices": {
+      "A": "疑念",
+      "B": "信頼",
+      "C": "不安",
+      "D": "誤解"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "145",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "明確",
+    "choices": {
+      "A": "具体",
+      "B": "鮮明",
+      "C": "曖昧",
+      "D": "厳密"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "146",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 20,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "成功",
+    "choices": {
+      "A": "勝利",
+      "B": "発展",
+      "C": "達成",
+      "D": "失敗"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "147",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2142,7 +2499,7 @@
     "correct": "B"
   },
   {
-    "id": "127",
+    "id": "148",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2159,7 +2516,7 @@
     "correct": "A"
   },
   {
-    "id": "128",
+    "id": "149",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2176,7 +2533,7 @@
     "correct": "B"
   },
   {
-    "id": "129",
+    "id": "150",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2193,7 +2550,7 @@
     "correct": "B"
   },
   {
-    "id": "130",
+    "id": "151",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2210,7 +2567,7 @@
     "correct": "A"
   },
   {
-    "id": "131",
+    "id": "152",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2227,7 +2584,7 @@
     "correct": "C"
   },
   {
-    "id": "132",
+    "id": "153",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2244,7 +2601,7 @@
     "correct": "B"
   },
   {
-    "id": "133",
+    "id": "154",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2261,7 +2618,7 @@
     "correct": "C"
   },
   {
-    "id": "134",
+    "id": "155",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2278,7 +2635,7 @@
     "correct": "B"
   },
   {
-    "id": "135",
+    "id": "156",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2295,7 +2652,7 @@
     "correct": "B"
   },
   {
-    "id": "136",
+    "id": "157",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2312,7 +2669,7 @@
     "correct": "A"
   },
   {
-    "id": "137",
+    "id": "158",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2329,7 +2686,7 @@
     "correct": "B"
   },
   {
-    "id": "138",
+    "id": "159",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2346,7 +2703,7 @@
     "correct": "B"
   },
   {
-    "id": "139",
+    "id": "160",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2363,7 +2720,7 @@
     "correct": "B"
   },
   {
-    "id": "140",
+    "id": "161",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2380,7 +2737,7 @@
     "correct": "B"
   },
   {
-    "id": "141",
+    "id": "162",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2397,7 +2754,7 @@
     "correct": "B"
   },
   {
-    "id": "142",
+    "id": "163",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2414,7 +2771,7 @@
     "correct": "A"
   },
   {
-    "id": "143",
+    "id": "164",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2431,7 +2788,7 @@
     "correct": "B"
   },
   {
-    "id": "144",
+    "id": "165",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2448,7 +2805,7 @@
     "correct": "A"
   },
   {
-    "id": "145",
+    "id": "166",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2465,7 +2822,7 @@
     "correct": "C"
   },
   {
-    "id": "146",
+    "id": "167",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2482,7 +2839,7 @@
     "correct": "A"
   },
   {
-    "id": "147",
+    "id": "168",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2499,7 +2856,7 @@
     "correct": "A"
   },
   {
-    "id": "148",
+    "id": "169",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2516,7 +2873,7 @@
     "correct": "B"
   },
   {
-    "id": "149",
+    "id": "170",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2533,7 +2890,7 @@
     "correct": "B"
   },
   {
-    "id": "150",
+    "id": "171",
     "category": "言語",
     "unit": "語句の用法",
     "difficulty": 2,
@@ -2550,13 +2907,1016 @@
     "correct": "B"
   },
   {
-    "id": "151",
+    "id": "172",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は周囲の人から「信頼」を得ている",
+    "choices": {
+      "A": "信頼できる友人に相談する",
+      "B": "先生から信頼されて仕事を任される",
+      "C": "天気予報を信頼する",
+      "D": "機械の性能を信頼する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "173",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼女は仕事を「任された」",
+    "choices": {
+      "A": "友人に荷物を任せる",
+      "B": "重要な仕事を任される",
+      "C": "判断を相手に任せる",
+      "D": "家族に店を任せる"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "174",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の努力が「実を結んだ」",
+    "choices": {
+      "A": "庭の木が実を結んだ",
+      "B": "長年の努力が実を結んだ",
+      "C": "果樹が多くの実を結んだ",
+      "D": "花が終わって実を結んだ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "175",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その知らせを聞いて「安心した」",
+    "choices": {
+      "A": "安全な場所に移って安心した",
+      "B": "試験の結果を見て安心した",
+      "C": "家族の無事を確認して安心した",
+      "D": "薬を飲んで安心した"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "176",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は問題を「取り上げた」",
+    "choices": {
+      "A": "机の上の本を取り上げた",
+      "B": "会議で重要な問題を取り上げた",
+      "C": "落ちた財布を取り上げた",
+      "D": "子どもからおもちゃを取り上げた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "177",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "新しい制度を「導入する」",
+    "choices": {
+      "A": "教室に新しい机を導入する",
+      "B": "会社に新しい制度を導入する",
+      "C": "商品を店に導入する",
+      "D": "荷物を建物の中に導入する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "178",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は失敗を「教訓にした」",
+    "choices": {
+      "A": "先生から教訓を聞いた",
+      "B": "過去の失敗を教訓にして改善した",
+      "C": "物語から教訓を学んだ",
+      "D": "人生の教訓を書き残した"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "179",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は計画を「見直した」",
+    "choices": {
+      "A": "鏡を見直した",
+      "B": "提出前に計画を見直した",
+      "C": "もう一度景色を見直した",
+      "D": "写真を見直した"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "180",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その経験が彼の考え方に「影響を与えた」",
+    "choices": {
+      "A": "壁に影が影響を与えた",
+      "B": "友人の言葉が彼の判断に影響を与えた",
+      "C": "雨が道路に影響を与えた",
+      "D": "薬が体調に影響を与えた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "181",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼はその意見に「賛成した」",
+    "choices": {
+      "A": "友人の提案に賛成した",
+      "B": "試合の結果に賛成した",
+      "C": "商品の価格に賛成した",
+      "D": "天気の変化に賛成した"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "182",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は問題の原因を「探った」",
+    "choices": {
+      "A": "山道を探った",
+      "B": "事件の原因を探った",
+      "C": "暗い部屋を探った",
+      "D": "手探りで道を探った"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "183",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その発言が問題を「招いた」",
+    "choices": {
+      "A": "友人を家に招いた",
+      "B": "大きな混乱を招いた",
+      "C": "客を食事に招いた",
+      "D": "先生を式典に招いた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "184",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は仕事を「引き受けた」",
+    "choices": {
+      "A": "荷物を引き受けて運んだ",
+      "B": "新しい仕事を引き受けた",
+      "C": "責任ある役割を引き受けた",
+      "D": "友人から手紙を引き受けた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "185",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その計画を「進める」ことにした",
+    "choices": {
+      "A": "机を前に進める",
+      "B": "計画を予定どおり進める",
+      "C": "列の先頭へ進める",
+      "D": "車を前に進める"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "186",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の説明は皆を「納得させた」",
+    "choices": {
+      "A": "相手を納得させる説明をする",
+      "B": "お腹を納得させる",
+      "C": "商品を納得させる",
+      "D": "机を納得させる"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "187",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その仕事を「終える」",
+    "choices": {
+      "A": "駅で一日を終える",
+      "B": "予定していた仕事を終える",
+      "C": "学校を終えて帰る",
+      "D": "一日を終えて眠る"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "188",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は困難を「乗り越えた」",
+    "choices": {
+      "A": "橋を乗り越えて進んだ",
+      "B": "大きな困難を乗り越えた",
+      "C": "山を乗り越えて進んだ",
+      "D": "塀を乗り越えて入った"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "189",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その問題について「検討する」必要がある",
+    "choices": {
+      "A": "商品の品質を検討する",
+      "B": "今後の対応について検討する",
+      "C": "服の色を検討する",
+      "D": "料理の材料を検討する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "190",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は新しい環境に「慣れた」",
+    "choices": {
+      "A": "毎朝の生活に慣れた",
+      "B": "新しい職場の環境に慣れた",
+      "C": "寒さに慣れた",
+      "D": "辛い食べ物に慣れた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "191",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 2,
+    "timeLimit": 25,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その出来事を「きっかけに」考え方が変わった",
+    "choices": {
+      "A": "駅をきっかけに道を曲がった",
+      "B": "その経験をきっかけに勉強を始めた",
+      "C": "雨をきっかけに傘を開いた",
+      "D": "音をきっかけに窓を閉めた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "192",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "踏襲",
+    "choices": {
+      "A": "継承",
+      "B": "革新",
+      "C": "否定",
+      "D": "放棄"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "193",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "懐柔",
+    "choices": {
+      "A": "説得して従わせる",
+      "B": "脅迫する",
+      "C": "裏切る",
+      "D": "無視する"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "194",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "困窮",
+    "choices": {
+      "A": "窮乏",
+      "B": "貧困",
+      "C": "裕福",
+      "D": "困難"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "195",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "勘案",
+    "choices": {
+      "A": "考慮",
+      "B": "断定",
+      "C": "命令",
+      "D": "省略"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "196",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "享受",
+    "choices": {
+      "A": "受益",
+      "B": "放棄",
+      "C": "損失",
+      "D": "返納"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "197",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "顧慮",
+    "choices": {
+      "A": "配慮",
+      "B": "軽視",
+      "C": "忘却",
+      "D": "放任"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "198",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "滞納",
+    "choices": {
+      "A": "未納",
+      "B": "完納",
+      "C": "延納",
+      "D": "督促"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "199",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "把握",
+    "choices": {
+      "A": "理解",
+      "B": "掌握",
+      "C": "看過",
+      "D": "認識不足"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "200",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "同義語を答えよ",
+    "question": "一掃",
+    "choices": {
+      "A": "根絶",
+      "B": "収集",
+      "C": "保存",
+      "D": "維持"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "201",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "飽和",
+    "choices": {
+      "A": "満杯",
+      "B": "不足",
+      "C": "充満",
+      "D": "過剰"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "202",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "蓄積",
+    "choices": {
+      "A": "集積",
+      "B": "放出",
+      "C": "保存",
+      "D": "備蓄"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "203",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "類義語を答えよ",
+    "question": "黙秘",
+    "choices": {
+      "A": "秘匿",
+      "B": "自白",
+      "C": "告白",
+      "D": "証言"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "204",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "復旧",
+    "choices": {
+      "A": "修復",
+      "B": "回復",
+      "C": "破損",
+      "D": "復元"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "205",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "類義語を答えよ",
+    "question": "推移",
+    "choices": {
+      "A": "変遷",
+      "B": "固定",
+      "C": "停止",
+      "D": "断絶"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "206",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "整頓",
+    "choices": {
+      "A": "整理",
+      "B": "乱雑",
+      "C": "規律",
+      "D": "収納"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "207",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "進捗",
+    "choices": {
+      "A": "前進",
+      "B": "進行",
+      "C": "停滞",
+      "D": "達成"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "208",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "温存",
+    "choices": {
+      "A": "保存",
+      "B": "保持",
+      "C": "消耗",
+      "D": "保全"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "209",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "遵守",
+    "choices": {
+      "A": "順守",
+      "B": "励行",
+      "C": "違反",
+      "D": "服従"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "210",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "反義語を答えよ",
+    "question": "抑制",
+    "choices": {
+      "A": "制限",
+      "B": "促進",
+      "C": "規制",
+      "D": "節制"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "211",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の説明には少し「かたい」印象を受けた",
+    "choices": {
+      "A": "この布はとてもかたい",
+      "B": "かたい握手を交わす",
+      "C": "かたい文章を読む",
+      "D": "かたい地面を歩く"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "212",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は責任の重さを「担って」いる",
+    "choices": {
+      "A": "荷物を肩に担う",
+      "B": "地域の未来を担う",
+      "C": "祭りの神輿を担う",
+      "D": "米俵を担いで運ぶ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "213",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その問題については慎重に「扱う」必要がある",
+    "choices": {
+      "A": "荷物を丁寧に扱う",
+      "B": "人を平等に扱う",
+      "C": "新しいテーマを扱う",
+      "D": "機械を乱暴に扱う"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "214",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の意見には十分「耳を傾ける」べきだ",
+    "choices": {
+      "A": "音楽に耳を傾ける",
+      "B": "小さな物音に耳を傾ける",
+      "C": "講演者の話に耳を傾ける",
+      "D": "隣室の音に耳を傾ける"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "215",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その提案には一定の「含み」がある",
+    "choices": {
+      "A": "紅茶に砂糖を含みを加える",
+      "B": "彼の発言には別の意味の含みがある",
+      "C": "荷物に貴重品を含める",
+      "D": "水分を多く含む食品を選ぶ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "216",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 1,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼はその知らせを聞いて「胸をなで下ろした」",
+    "choices": {
+      "A": "緊張して胸を押さえた",
+      "B": "深呼吸をして胸を広げた",
+      "C": "無事を確認して胸をなで下ろした",
+      "D": "痛みを感じて胸をさすった"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "217",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "計画の実現には多くの困難が「伴う」",
+    "choices": {
+      "A": "旅行に友人が伴う",
+      "B": "危険を伴う作業に従事する",
+      "C": "荷物を持って人に伴う",
+      "D": "部下を伴って訪問する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "218",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の発言は周囲に大きな影響を「及ぼした」",
+    "choices": {
+      "A": "手を遠くまで及ぼす",
+      "B": "被害が広い地域に及んだ",
+      "C": "努力が実を結ぶまで及ぶ",
+      "D": "腕を相手に及ぼす"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "219",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "新制度の導入を「めぐって」議論が続いた",
+    "choices": {
+      "A": "湖をめぐって散歩する",
+      "B": "問題をめぐって意見が対立する",
+      "C": "庭をめぐって歩く",
+      "D": "町をめぐって観光する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "220",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の行動は周囲の期待に「応える」ものだった",
+    "choices": {
+      "A": "呼びかけに応える",
+      "B": "期待に応える成果を上げる",
+      "C": "質問に応える",
+      "D": "要求に応える"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "221",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "この経験が今後の活動に「生きる」だろう",
+    "choices": {
+      "A": "魚が水中で生きる",
+      "B": "祖父は長く生きた",
+      "C": "過去の経験が仕事に生きる",
+      "D": "植物が冬を越して生きる"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "222",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は新しい環境にもすぐ「馴染んだ」",
+    "choices": {
+      "A": "靴が足に馴染む",
+      "B": "新しい職場の雰囲気に馴染む",
+      "C": "家具が部屋に馴染む",
+      "D": "味が舌に馴染む"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "223",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その政策には将来への「布石」が含まれている",
+    "choices": {
+      "A": "石を道に布石する",
+      "B": "次の大会に向けた布石を打つ",
+      "C": "庭に石を布石する",
+      "D": "囲碁で石を布石する"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "224",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は問題の核心を「突いた」発言をした",
+    "choices": {
+      "A": "槍で的を突いた",
+      "B": "問題の核心を突いた質問をした",
+      "C": "指で肩を突いた",
+      "D": "棒で地面を突いた"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "225",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その発言は世論を「刺激した」",
+    "choices": {
+      "A": "皮膚を刺激する",
+      "B": "胃を刺激する薬を飲む",
+      "C": "新しい情報が人々の関心を刺激した",
+      "D": "神経を刺激する光を浴びる"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "226",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼は事実を「認める」ことができなかった",
+    "choices": {
+      "A": "功績を認める",
+      "B": "相手の意見を認める",
+      "C": "誤りを認める",
+      "D": "存在を認める"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "227",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "この制度には多くの問題が「残されている」",
+    "choices": {
+      "A": "料理を残しておく",
+      "B": "机の上に荷物を残す",
+      "C": "未解決の課題が残されている",
+      "D": "記念品を残して帰る"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "228",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "その案は実現の可能性を「秘めている」",
+    "choices": {
+      "A": "宝物を箱に秘める",
+      "B": "胸の内に思いを秘める",
+      "C": "大きな可能性を秘めた計画だ",
+      "D": "秘密を心に秘める"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "229",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "彼の説明には重要な点が「抜けている」",
+    "choices": {
+      "A": "髪の毛が抜ける",
+      "B": "歯が抜ける",
+      "C": "説明から重要な条件が抜けている",
+      "D": "服の糸が抜ける"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "230",
+    "category": "言語",
+    "unit": "語句の用法",
+    "difficulty": 3,
+    "timeLimit": 30,
+    "instruction": "以下の問いに答えなさい",
+    "premise": "「　　」内と最も近い意味で使われているものを選べ",
+    "question": "この経験を今後の教育に「還元したい」",
+    "choices": {
+      "A": "利益を株主に還元する",
+      "B": "水を川に還元する",
+      "C": "学んだ知識を社会に還元する",
+      "D": "借金を銀行に還元する"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "231",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "リンゴ：果物",
     "choices": {
       "A": "大根：野菜",
@@ -2567,13 +3927,13 @@
     "correct": "A"
   },
   {
-    "id": "152",
+    "id": "232",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "飛行機：空港",
     "choices": {
       "A": "列車：駅",
@@ -2584,13 +3944,13 @@
     "correct": "A"
   },
   {
-    "id": "153",
+    "id": "233",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "出発：到着",
     "choices": {
       "A": "開始：終了",
@@ -2601,13 +3961,13 @@
     "correct": "A"
   },
   {
-    "id": "154",
+    "id": "234",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "安心：不安",
     "choices": {
       "A": "希望：絶望",
@@ -2618,13 +3978,13 @@
     "correct": "A"
   },
   {
-    "id": "155",
+    "id": "235",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "春：夏",
     "choices": {
       "A": "朝：昼",
@@ -2635,13 +3995,13 @@
     "correct": "A"
   },
   {
-    "id": "156",
+    "id": "236",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "魚：海",
     "choices": {
       "A": "鳥：空",
@@ -2652,13 +4012,13 @@
     "correct": "A"
   },
   {
-    "id": "157",
+    "id": "237",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "東京：日本",
     "choices": {
       "A": "パリ：フランス",
@@ -2669,13 +4029,13 @@
     "correct": "A"
   },
   {
-    "id": "158",
+    "id": "238",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "教師：生徒",
     "choices": {
       "A": "親：子",
@@ -2686,13 +4046,13 @@
     "correct": "A"
   },
   {
-    "id": "159",
+    "id": "239",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "鉛筆：筆記",
     "choices": {
       "A": "はさみ：切断",
@@ -2703,13 +4063,13 @@
     "correct": "A"
   },
   {
-    "id": "160",
+    "id": "240",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "教師：学校",
     "choices": {
       "A": "病院：医師",
@@ -2720,13 +4080,13 @@
     "correct": "B"
   },
   {
-    "id": "161",
+    "id": "241",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "リンゴ：果物",
     "choices": {
       "A": "大根：野菜",
@@ -2737,13 +4097,13 @@
     "correct": "A"
   },
   {
-    "id": "162",
+    "id": "242",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "飛行機：空港",
     "choices": {
       "A": "列車：駅",
@@ -2754,13 +4114,13 @@
     "correct": "A"
   },
   {
-    "id": "163",
+    "id": "243",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "出発：到着",
     "choices": {
       "A": "開始：終了",
@@ -2771,13 +4131,13 @@
     "correct": "A"
   },
   {
-    "id": "164",
+    "id": "244",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "安心：不安",
     "choices": {
       "A": "希望：絶望",
@@ -2788,13 +4148,13 @@
     "correct": "A"
   },
   {
-    "id": "165",
+    "id": "245",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "春：夏",
     "choices": {
       "A": "朝：昼",
@@ -2805,13 +4165,13 @@
     "correct": "A"
   },
   {
-    "id": "166",
+    "id": "246",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "魚：海",
     "choices": {
       "A": "鳥：空",
@@ -2822,13 +4182,13 @@
     "correct": "A"
   },
   {
-    "id": "167",
+    "id": "247",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "東京：日本",
     "choices": {
       "A": "パリ：フランス",
@@ -2839,13 +4199,13 @@
     "correct": "A"
   },
   {
-    "id": "168",
+    "id": "248",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "教師：生徒",
     "choices": {
       "A": "親：子",
@@ -2856,13 +4216,13 @@
     "correct": "A"
   },
   {
-    "id": "169",
+    "id": "249",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "鉛筆：筆記",
     "choices": {
       "A": "はさみ：切断",
@@ -2873,13 +4233,13 @@
     "correct": "A"
   },
   {
-    "id": "170",
+    "id": "250",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "昆虫：生物",
     "choices": {
       "A": "哺乳類：生物",
@@ -2890,13 +4250,13 @@
     "correct": "A"
   },
   {
-    "id": "171",
+    "id": "251",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "九州：福岡",
     "choices": {
       "A": "関東：東京",
@@ -2907,13 +4267,13 @@
     "correct": "A"
   },
   {
-    "id": "172",
+    "id": "252",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "兄：弟",
     "choices": {
       "A": "父：子",
@@ -2924,13 +4284,13 @@
     "correct": "A"
   },
   {
-    "id": "173",
+    "id": "253",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "新聞：情報",
     "choices": {
       "A": "辞書：語義",
@@ -2941,13 +4301,13 @@
     "correct": "A"
   },
   {
-    "id": "174",
+    "id": "254",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "犬：哺乳類",
     "choices": {
       "A": "スズメ：鳥類",
@@ -2958,13 +4318,13 @@
     "correct": "A"
   },
   {
-    "id": "175",
+    "id": "255",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "赤：色",
     "choices": {
       "A": "円：図形",
@@ -2975,13 +4335,13 @@
     "correct": "A"
   },
   {
-    "id": "176",
+    "id": "256",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "鉱石：金属",
     "choices": {
       "A": "原油：燃料",
@@ -2992,13 +4352,13 @@
     "correct": "A"
   },
   {
-    "id": "177",
+    "id": "257",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "桜：春",
     "choices": {
       "A": "海水浴：夏",
@@ -3009,13 +4369,13 @@
     "correct": "A"
   },
   {
-    "id": "178",
+    "id": "258",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "兵庫：神戸",
     "choices": {
       "A": "宮城：仙台",
@@ -3026,13 +4386,13 @@
     "correct": "A"
   },
   {
-    "id": "179",
+    "id": "259",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "医薬品：薬局",
     "choices": {
       "A": "書籍：書店",
@@ -3043,13 +4403,13 @@
     "correct": "A"
   },
   {
-    "id": "180",
+    "id": "260",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "梅：果物",
     "choices": {
       "A": "白菜：野菜",
@@ -3060,13 +4420,13 @@
     "correct": "B"
   },
   {
-    "id": "181",
+    "id": "261",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "砂糖：甘い",
     "choices": {
       "A": "塩：しょっぱい",
@@ -3076,13 +4436,13 @@
     "correct": "A"
   },
   {
-    "id": "182",
+    "id": "262",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "稲：米",
     "choices": {
       "A": "羊：羊毛",
@@ -3092,13 +4452,13 @@
     "correct": "A"
   },
   {
-    "id": "183",
+    "id": "263",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 1,
     "timeLimit": 20,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "英語：言語",
     "choices": {
       "A": "数学：学問",
@@ -3108,30 +4468,13 @@
     "correct": "C"
   },
   {
-    "id": "184",
-    "category": "言語",
-    "unit": "二語の関係",
-    "difficulty": 3,
-    "timeLimit": 35,
-    "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
-    "question": "受注：納品",
-    "choices": {
-      "A": "採用：入社",
-      "B": "契約：履行",
-      "C": "出願：受験",
-      "D": "研究：発表"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "185",
+    "id": "264",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "教師：学校",
     "choices": {
       "A": "病院：医師",
@@ -3142,13 +4485,13 @@
     "correct": "B"
   },
   {
-    "id": "186",
+    "id": "265",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "時計：時間",
     "choices": {
       "A": "温度計：温度",
@@ -3159,13 +4502,13 @@
     "correct": "A"
   },
   {
-    "id": "187",
+    "id": "266",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "医師：診察",
     "choices": {
       "A": "教師：授業",
@@ -3176,13 +4519,13 @@
     "correct": "A"
   },
   {
-    "id": "188",
+    "id": "267",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "強大：弱小",
     "choices": {
       "A": "豊富：不足",
@@ -3193,13 +4536,13 @@
     "correct": "B"
   },
   {
-    "id": "189",
+    "id": "268",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "演奏：楽器",
     "choices": {
       "A": "調理：包丁",
@@ -3210,13 +4553,13 @@
     "correct": "A"
   },
   {
-    "id": "190",
+    "id": "269",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "本：知識",
     "choices": {
       "A": "車：移動",
@@ -3227,13 +4570,13 @@
     "correct": "A"
   },
   {
-    "id": "191",
+    "id": "270",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "麦：パン",
     "choices": {
       "A": "米：ご飯",
@@ -3244,13 +4587,13 @@
     "correct": "A"
   },
   {
-    "id": "192",
+    "id": "271",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "原因：結果",
     "choices": {
       "A": "努力：成功",
@@ -3261,13 +4604,13 @@
     "correct": "A"
   },
   {
-    "id": "193",
+    "id": "272",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "悲観：楽観",
     "choices": {
       "A": "冷静：沈着",
@@ -3278,13 +4621,13 @@
     "correct": "B"
   },
   {
-    "id": "194",
+    "id": "273",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "種：植物",
     "choices": {
       "A": "卵：鳥",
@@ -3295,13 +4638,13 @@
     "correct": "A"
   },
   {
-    "id": "195",
+    "id": "274",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "温暖：寒冷",
     "choices": {
       "A": "軽量：重量",
@@ -3312,13 +4655,13 @@
     "correct": "A"
   },
   {
-    "id": "196",
+    "id": "275",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "時計：時間",
     "choices": {
       "A": "温度計：温度",
@@ -3329,13 +4672,13 @@
     "correct": "A"
   },
   {
-    "id": "197",
+    "id": "276",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "医師：診察",
     "choices": {
       "A": "教師：授業",
@@ -3346,13 +4689,13 @@
     "correct": "A"
   },
   {
-    "id": "198",
+    "id": "277",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "強大：弱小",
     "choices": {
       "A": "豊富：不足",
@@ -3363,13 +4706,13 @@
     "correct": "B"
   },
   {
-    "id": "199",
+    "id": "278",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "演奏：楽器",
     "choices": {
       "A": "調理：包丁",
@@ -3380,13 +4723,13 @@
     "correct": "A"
   },
   {
-    "id": "200",
+    "id": "279",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "本：知識",
     "choices": {
       "A": "車：移動",
@@ -3397,13 +4740,13 @@
     "correct": "A"
   },
   {
-    "id": "201",
+    "id": "280",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "麦：パン",
     "choices": {
       "A": "米：ご飯",
@@ -3414,13 +4757,13 @@
     "correct": "A"
   },
   {
-    "id": "202",
+    "id": "281",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "原因：結果",
     "choices": {
       "A": "努力：成功",
@@ -3431,13 +4774,13 @@
     "correct": "A"
   },
   {
-    "id": "203",
+    "id": "282",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "悲観：楽観",
     "choices": {
       "A": "冷静：沈着",
@@ -3448,13 +4791,13 @@
     "correct": "B"
   },
   {
-    "id": "204",
+    "id": "283",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "種：植物",
     "choices": {
       "A": "卵：鳥",
@@ -3465,13 +4808,13 @@
     "correct": "A"
   },
   {
-    "id": "205",
+    "id": "284",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "温暖：寒冷",
     "choices": {
       "A": "軽量：重量",
@@ -3482,13 +4825,13 @@
     "correct": "A"
   },
   {
-    "id": "206",
+    "id": "285",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "警察官：警察署",
     "choices": {
       "A": "消防士：消防署",
@@ -3499,13 +4842,13 @@
     "correct": "A"
   },
   {
-    "id": "207",
+    "id": "286",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "作者：小説",
     "choices": {
       "A": "画家：絵画",
@@ -3516,13 +4859,13 @@
     "correct": "A"
   },
   {
-    "id": "208",
+    "id": "287",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "包丁：調理",
     "choices": {
       "A": "ハサミ：裁断",
@@ -3533,13 +4876,13 @@
     "correct": "A"
   },
   {
-    "id": "209",
+    "id": "288",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "駅：列車",
     "choices": {
       "A": "港：船舶",
@@ -3550,13 +4893,13 @@
     "correct": "A"
   },
   {
-    "id": "210",
+    "id": "289",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "感謝：お礼",
     "choices": {
       "A": "謝罪：おわび",
@@ -3567,13 +4910,13 @@
     "correct": "A"
   },
   {
-    "id": "211",
+    "id": "290",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "高価：安価",
     "choices": {
       "A": "巨大：微小",
@@ -3584,13 +4927,13 @@
     "correct": "B"
   },
   {
-    "id": "212",
+    "id": "291",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "晴天：雨天",
     "choices": {
       "A": "成功：失敗",
@@ -3601,13 +4944,13 @@
     "correct": "A"
   },
   {
-    "id": "213",
+    "id": "292",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "裁判官：判決",
     "choices": {
       "A": "医師：診断",
@@ -3618,13 +4961,13 @@
     "correct": "A"
   },
   {
-    "id": "214",
+    "id": "293",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "木材：机",
     "choices": {
       "A": "羊毛：セーター",
@@ -3635,13 +4978,13 @@
     "correct": "A"
   },
   {
-    "id": "215",
+    "id": "294",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "講義：大学",
     "choices": {
       "A": "診療：病院",
@@ -3652,13 +4995,13 @@
     "correct": "A"
   },
   {
-    "id": "216",
+    "id": "295",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "乾燥：湿潤",
     "choices": {
       "A": "上昇：下降",
@@ -3669,13 +5012,13 @@
     "correct": "A"
   },
   {
-    "id": "217",
+    "id": "296",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "需要：供給",
     "choices": {
       "A": "輸出：輸入",
@@ -3686,13 +5029,13 @@
     "correct": "A"
   },
   {
-    "id": "218",
+    "id": "297",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "弁護士：法律",
     "choices": {
       "A": "医師：医学",
@@ -3703,13 +5046,13 @@
     "correct": "A"
   },
   {
-    "id": "219",
+    "id": "298",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "始発：終着",
     "choices": {
       "A": "創業：廃業",
@@ -3720,13 +5063,13 @@
     "correct": "A"
   },
   {
-    "id": "220",
+    "id": "299",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "企業：利益",
     "choices": {
       "A": "学校：教育",
@@ -3737,13 +5080,13 @@
     "correct": "A"
   },
   {
-    "id": "221",
+    "id": "300",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "記者：取材",
     "choices": {
       "A": "探検家：調査",
@@ -3754,13 +5097,13 @@
     "correct": "A"
   },
   {
-    "id": "222",
+    "id": "301",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "牛乳：乳製品",
     "choices": {
       "A": "ワイン：酒類",
@@ -3771,13 +5114,13 @@
     "correct": "D"
   },
   {
-    "id": "223",
+    "id": "302",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "部品：機械",
     "choices": {
       "A": "煉瓦：建物",
@@ -3788,13 +5131,13 @@
     "correct": "A"
   },
   {
-    "id": "224",
+    "id": "303",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "大学：教授",
     "choices": {
       "A": "病院：医師",
@@ -3805,13 +5148,13 @@
     "correct": "A"
   },
   {
-    "id": "225",
+    "id": "304",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "読書：知識",
     "choices": {
       "A": "運動：体力",
@@ -3822,13 +5165,13 @@
     "correct": "A"
   },
   {
-    "id": "226",
+    "id": "305",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "黒字：赤字",
     "choices": {
       "A": "利益：損失",
@@ -3839,13 +5182,13 @@
     "correct": "A"
   },
   {
-    "id": "227",
+    "id": "306",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "輸送：トラック",
     "choices": {
       "A": "飛行：航空機",
@@ -3856,13 +5199,13 @@
     "correct": "C"
   },
   {
-    "id": "228",
+    "id": "307",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "講演：聴衆",
     "choices": {
       "A": "試合：観客",
@@ -3873,13 +5216,13 @@
     "correct": "A"
   },
   {
-    "id": "229",
+    "id": "308",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "契約：合意",
     "choices": {
       "A": "結婚：婚姻届",
@@ -3890,13 +5233,13 @@
     "correct": "A"
   },
   {
-    "id": "230",
+    "id": "309",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "呼吸：酸素",
     "choices": {
       "A": "燃焼：燃料",
@@ -3907,13 +5250,13 @@
     "correct": "A"
   },
   {
-    "id": "231",
+    "id": "310",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "地図：地理",
     "choices": {
       "A": "年表：歴史",
@@ -3924,13 +5267,13 @@
     "correct": "A"
   },
   {
-    "id": "232",
+    "id": "311",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "輸出：海外",
     "choices": {
       "A": "販売：顧客",
@@ -3941,13 +5284,13 @@
     "correct": "A"
   },
   {
-    "id": "233",
+    "id": "312",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "現金：支払い",
     "choices": {
       "A": "切符：乗車",
@@ -3958,13 +5301,13 @@
     "correct": "A"
   },
   {
-    "id": "234",
+    "id": "313",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "研究：発見",
     "choices": {
       "A": "挑戦：成功",
@@ -3975,13 +5318,13 @@
     "correct": "C"
   },
   {
-    "id": "235",
+    "id": "314",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "増加：減少",
     "choices": {
       "A": "長所：短所",
@@ -3992,13 +5335,13 @@
     "correct": "C"
   },
   {
-    "id": "236",
+    "id": "315",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "社長：会社",
     "choices": {
       "A": "校長：学校",
@@ -4009,13 +5352,13 @@
     "correct": "A"
   },
   {
-    "id": "237",
+    "id": "316",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "手紙：郵便局",
     "choices": {
       "A": "荷物：宅配便",
@@ -4026,13 +5369,13 @@
     "correct": "A"
   },
   {
-    "id": "238",
+    "id": "317",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "肯定：否定",
     "choices": {
       "A": "採用：不採用",
@@ -4043,13 +5386,13 @@
     "correct": "B"
   },
   {
-    "id": "239",
+    "id": "318",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "登山：山",
     "choices": {
       "A": "水泳：プール",
@@ -4060,13 +5403,13 @@
     "correct": "A"
   },
   {
-    "id": "240",
+    "id": "319",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "議員：議会",
     "choices": {
       "A": "社員：会社",
@@ -4077,13 +5420,13 @@
     "correct": "A"
   },
   {
-    "id": "241",
+    "id": "320",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "収入：支出",
     "choices": {
       "A": "輸入：輸出",
@@ -4094,13 +5437,13 @@
     "correct": "A"
   },
   {
-    "id": "242",
+    "id": "321",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "テレビ：映像",
     "choices": {
       "A": "ラジオ：音声",
@@ -4111,13 +5454,13 @@
     "correct": "A"
   },
   {
-    "id": "243",
+    "id": "322",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "道路：自動車",
     "choices": {
       "A": "線路：列車",
@@ -4127,13 +5470,13 @@
     "correct": "B"
   },
   {
-    "id": "244",
+    "id": "323",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "会議：決定",
     "choices": {
       "A": "裁判：判決",
@@ -4144,13 +5487,13 @@
     "correct": "A"
   },
   {
-    "id": "245",
+    "id": "324",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "天才：凡人",
     "choices": {
       "A": "富裕：貧困",
@@ -4160,13 +5503,13 @@
     "correct": "C"
   },
   {
-    "id": "246",
+    "id": "325",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "画家：絵筆",
     "choices": {
       "A": "作家：原稿用紙",
@@ -4176,13 +5519,13 @@
     "correct": "D"
   },
   {
-    "id": "247",
+    "id": "326",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "図書館：閲覧",
     "choices": {
       "A": "体育館：運動",
@@ -4192,13 +5535,13 @@
     "correct": "A"
   },
   {
-    "id": "248",
+    "id": "327",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "呼吸：肺",
     "choices": {
       "A": "思考：脳",
@@ -4208,13 +5551,13 @@
     "correct": "B"
   },
   {
-    "id": "249",
+    "id": "328",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 30,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "曖昧：明確",
     "choices": {
       "A": "膨張：収縮",
@@ -4224,13 +5567,13 @@
     "correct": "C"
   },
   {
-    "id": "250",
+    "id": "329",
     "category": "言語",
     "unit": "二語の関係",
     "difficulty": 2,
     "timeLimit": 25,
     "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
-    "premise": "", 
+    "premise": "",
     "question": "森林：樹木",
     "choices": {
       "A": "車庫：自動車",
@@ -4240,7 +5583,364 @@
     "correct": "B"
   },
   {
-    "id": "251",
+    "id": "330",
+    "category": "言語",
+    "unit": "二語の関係",
+    "difficulty": 3,
+    "timeLimit": 35,
+    "instruction": "次の二語の関係と同じ関係になるものを選びなさい。",
+    "premise": "",
+    "question": "受注：納品",
+    "choices": {
+      "A": "採用：入社",
+      "B": "契約：履行",
+      "C": "出願：受験",
+      "D": "研究：発表"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "331",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 当社は今年度、画期的な新製品の開発に着手した。\nイ. その結果、他社に先駆けて市場への投入を果たすことができた。\nウ. 開発チームは幾多の困難を乗り越え、試作品の完成を取り付けた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → ウ → イ",
+      "B": "ア → イ → ウ",
+      "C": "ウ → ア → イ",
+      "D": "イ → ウ → ア"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "332",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 当日は晴天にも恵まれ、多くの来場者で賑わった。\nイ. 参加者からは「ぜひ次回も開催してほしい」との声が相次いだ。\nウ. 来月、地域住民の交流を目的とした夏祭りが企画されている。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "ウ → ア → イ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "333",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 業務の効率化を図るため、ペーパーレス化を推進することになった。\nイ. 各部署での書類の電子化が進み、印刷コストが大幅に削減された。\nウ. この成果を受けて、来年度はさらに自動化システムの導入を進める予定だ。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "イ → ア → ウ",
+      "B": "ア → イ → ウ",
+      "C": "ウ → ア → イ",
+      "D": "ア → ウ → イ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "334",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 研修の最後には、チームごとに成果発表を行うプログラムが用意されている。\nイ. 受講者はまず、ビジネスマナーや基礎知識に関する講義を受ける。\nウ. 今年の新入社員研修は、実践的なワークショップを中心とした構成である。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ウ → ア",
+      "C": "ウ → ア → イ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "335",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 探査機から送られてきたデータにより、未知の鉱物の存在が確認された。\nイ. 国際宇宙機関は、新たな惑星探査プロジェクトの始動を発表した。\nウ. この発見は、宇宙の成り立ちを解明する手がかりになると期待されている。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "イ → ア → ウ",
+      "B": "ア → イ → ウ",
+      "C": "イ → ウ → ア",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "336",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. こうした習慣の定着が、児童の語彙力向上につながっているという。\nイ. 近年、小中学校において朝の読書運動が広がっている。\nウ. 生徒たちは登校後、授業が始まる前の10分間、好きな本を読む。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "イ → ウ → ア",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "337",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 移行後はデータ連携が円滑になり、全社的な生産性が向上した。\nイ. そこで、段階的な移行計画を立て、入念なテストを繰り返した。\nウ. 従来型の社内システムは老朽化が進み、障害頻発が懸念されていた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ウ → イ → ア",
+      "B": "ア → イ → ウ",
+      "C": "イ → ウ → ア",
+      "D": "ウ → ア → イ"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "338",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 市民ボランティアと共同で、清掃活動や植林活動を定期的に実施してきた。\nイ. このような地道な取り組みが評価され、自治体から環境賞を授与された。\nウ. その結果、地域の緑地面積が増加し、生態系の保護に貢献している。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ウ → ア → イ",
+      "B": "ア → ウ → イ",
+      "C": "イ → ア → ウ",
+      "D": "ア → イ → ウ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "339",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 今後は出社とのバランスを考慮した、フレキシブルな運用が期待される。\nイ. 在宅勤務の導入初期には、コミュニケーション不足を心配する声が多かった。\nウ. しかしオンライン会議ツールの普及により、実務上の不便はほとんど解消された。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "ウ → イ → ア",
+      "D": "イ → ウ → ア"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "340",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 若手職人の育成を狙い、体験型の講座やSNSでの情報発信を開始した。\nイ. その甲斐あって、近年では若年層のファンや後継者志望者が増えつつある。\nウ. 伝統的な工芸技術は、後継者不足により存続の危機に直面していた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "ウ → イ → ア",
+      "C": "ウ → ア → イ",
+      "D": "イ → ウ → ア"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "341",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 分析結果をもとに需要予測精度を向上させ、在庫ロスを半減させた。\nイ. 顧客データの分析処理に、AIアルゴリズムを試験導入することとなった。\nウ. 導入成功を受けて、今後は物流管理分野への展開も検討している。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "イ → ウ → ア",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "342",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 従業員の健康増進を目的に、定期的なストレスチェックを実施している。\nイ. メンタルヘルスの不調を未然に防ぐため、専門のカウンセラーも配置した。\nウ. この取り組みにより、休職率が前年度と比べて明確に低下した。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "ウ → ア → イ",
+      "D": "ア → ウ → イ"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "343",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 複合商業施設が開業し、週末には遠方からも多数の観光客が訪れている。\nイ. 住民の意見を採り入れながら、歩行者天国や緑地空間の整備を進めた。\nウ. 駅周辺の活性化を目的として、大規模な再開発計画がスタートした。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ウ → ア",
+      "C": "ウ → ア → イ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "344",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. そこで、若年層に人気のSNSを中心とした広告戦略へと方向転換を図った。\nイ. 従来のテレビCMによる広告手法では、若い世代への訴求力が伸び悩んでいた。\nウ. 結果としてブランド認知度が上昇し、新規顧客の獲得に結びついた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ウ → ア",
+      "C": "イ → ア → ウ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "345",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 現地のニーズに適した仕様変更を施すことで、初期のシェア獲得に成功した。\nイ. 今後は現地拠点の設置を視野に入れ、さらなる事業拡大を目指していく方針だ。\nウ. アジア市場への新規参入に伴い、綿密な市場調査が事前に執り行われた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → ウ → イ",
+      "B": "ウ → ア → イ",
+      "C": "イ → ア → ウ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "346",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. これにより、在庫の停滞が解消されてコスト削減の目途が立った。\nイ. グローバルな物流遅延リスクに対応するため、調達ルートの見直しを行った。\nウ. 複数の代替供給元を確保することで、欠品リスクを最小限に抑え込めた。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "イ → ウ → ア",
+      "B": "ア → イ → ウ",
+      "C": "ウ → イ → ア",
+      "D": "イ → ア → ウ"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "347",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 従来のトップダウン型経営から、社員の発案を尊重するボトムアップ型へ移行した。\nイ. 部署の垣根を越えたプロジェクトが自発的に生まれ、革新的なアイデアが蓄積された。\nウ. 社員の自主性を重んじる評価システムを整え、意欲的な挑戦を後押しした。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "ウ → ア → イ",
+      "D": "ア → ウ → イ"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "348",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 研究チームは触媒の合成に成功し、発電効率を従来比で大幅に引き上げた。\nイ. 二酸化炭素を排出しない次世代エネルギー技術の実用化研究が進められている。\nウ. 実用化に向けた最大の課題がクリアされ、商用化への期待が高まっている。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ウ → ア",
+      "C": "イ → ア → ウ",
+      "D": "ウ → ア → イ"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "349",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. 問い合わせ対応の回答時間を短縮したことで、顧客から高評価を獲得した。\nイ. 寄せられた意見を分類し、特に不満の多かったサポート体制の見直しに着手した。\nウ. サービス品質の向上を目的に、ユーザーを対象としたアンケート調査を実施した。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "ウ → イ → ア",
+      "C": "イ → ウ → ア",
+      "D": "ウ → ア → イ"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "350",
+    "category": "言語",
+    "unit": "文書整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "次のア〜ウの文を、論理的に最も適当な順序に並べ替えたものを選択してください。",
+    "premise": "ア. デジタル技術を活用した業務プロセスの刷新（DX）が急務となっている。\nイ. 専門の推進部署を立ち上げ、全社的なITリテラシーの向上研修を実施した。\nウ. 業務の自動化が進み、社員がより創造的なタスクに集中できる環境が整った。",
+    "question": "ア〜ウの正しい並び順を選択してください。",
+    "choices": {
+      "A": "ア → イ → ウ",
+      "B": "イ → ア → ウ",
+      "C": "ア → ウ → イ",
+      "D": "ウ → イ → ア"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "351",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 1,
@@ -4258,520 +5958,133 @@
     "correct": "B"
   },
   {
-    "id": "252",
+    "id": "352",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 50,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "運動不足は［1］［2］［3］［4］［5］高める",
+    "question": "新しい技術は［1］［2］［3］［4］［5］変えていく",
     "choices": {
-      "A": "生活習慣病のリスクを",
-      "B": "健康維持の観点から",
-      "C": "改善が必要である",
-      "D": "現代人にとって",
-      "E": "深刻な問題となっており"
+      "A": "私たちの生活を",
+      "B": "少しずつ",
+      "C": "社会の仕組みまで",
+      "D": "日常の習慣から",
+      "E": "大きく"
     },
     "correct": "C"
   },
   {
-    "id": "253",
+    "id": "353",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 1,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "イノベーションは［1］［2］［3］［4］［5］原動力となる",
+    "question": "旅人は［1］［2］［3］［4］［5］進んだ",
     "choices": {
-      "A": "既存の枠組みを超えた",
-      "B": "新たな価値を創出し",
-      "C": "企業や社会に変革をもたらす",
-      "D": "取り組みであるため",
-      "E": "持続的成長の"
+      "A": "遠くに見える塔を目指して",
+      "B": "静かな街道を",
+      "C": "ゆっくりと",
+      "D": "一歩ずつ",
+      "E": "歩き"
     },
     "correct": "D"
   },
   {
-    "id": "254",
+    "id": "354",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "情報化社会では［1］［2］［3］［4］［5］重要である",
+    "question": "研究会では［1］［2］［3］［4］［5］行われた",
     "choices": {
-      "A": "膨大な情報の中から",
-      "B": "必要な情報を選別し",
-      "C": "適切に活用する能力が",
-      "D": "求められるため",
-      "E": "情報リテラシーは"
+      "A": "参加者同士の",
+      "B": "活発な意見交換が",
+      "C": "休憩時間にも",
+      "D": "続き",
+      "E": "終日"
     },
-    "correct": "D"
+    "correct": "C"
   },
   {
-    "id": "255",
+    "id": "355",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "グローバル化は［1］［2］［3］［4］［5］加速させた",
+    "question": "ある町では［1］［2］［3］［4］［5］開かれた",
     "choices": {
-      "A": "国境を越えた",
-      "B": "人やモノの移動を",
-      "C": "活発化させることで",
-      "D": "経済活動の相互依存を"
+      "A": "毎年春になると",
+      "B": "大きな広場で",
+      "C": "地域の人々が集まる",
+      "D": "祭りが",
+      "E": "にぎやかに"
     },
     "correct": "E"
   },
   {
-    "id": "256",
+    "id": "356",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "リーダーシップとは［1］［2］［3］［4］［5］能力である",
+    "question": "図書館は［1］［2］［3］［4］［5］利用されている",
     "choices": {
-      "A": "組織の目標達成に向けて",
-      "B": "構成員を導き",
-      "C": "協力を促進しながら",
-      "D": "成果を生み出す"
+      "A": "学生だけでなく",
+      "B": "多くの市民にも",
+      "C": "親しまれ",
+      "D": "知識を得る場として",
+      "E": "長年"
     },
     "correct": "D"
   },
   {
-    "id": "257",
+    "id": "357",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "市場経済では［1］［2］［3］［4］［5］決定される",
+    "question": "旅人は［1］［2］［3］［4］［5］進んだ",
     "choices": {
-      "A": "需要と供給の関係によって",
-      "B": "商品の価格は",
-      "C": "絶えず変動しながら",
-      "D": "形成されるため"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "258",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 60,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "研究活動では［1］［2］［3］［4］［5］不可欠である",
-    "choices": {
-      "A": "先入観にとらわれず",
-      "B": "仮説を立て",
-      "C": "客観的な検証を行う姿勢が",
-      "D": "新たな知見を得るためには"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "259",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "多様性の尊重は［1］［2］［3］［4］［5］可能にする",
-    "choices": {
-      "A": "異なる価値観を認め",
-      "B": "多様な人材が活躍できる環境を整えることで",
-      "C": "組織の活性化を",
-      "D": "社会全体の発展にも"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "260",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "技術革新は［1］［2］［3］［4］［5］変化させる",
-    "choices": {
-      "A": "産業構造を",
-      "B": "大きく",
-      "C": "変革するとともに",
-      "D": "人々の生活様式を"
+      "A": "遠くに見える塔を目指して",
+      "B": "静かな街道を",
+      "C": "ゆっくりと",
+      "D": "一歩ずつ",
+      "E": "歩き"
     },
     "correct": "D"
   },
   {
-    "id": "261",
+    "id": "358",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
+    "difficulty": 1,
+    "timeLimit": 45,
     "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "民主主義は［1］［2］［3］［4］［5］制度である",
+    "question": "研究会では［1］［2］［3］［4］［5］行われた",
     "choices": {
-      "A": "市民の意思を政治に反映させる",
-      "B": "仕組みとして",
-      "C": "広く採用されている",
-      "D": "政治制度であり"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "262",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "環境負荷の低減には［1］［2］［3］［4］［5］必要がある",
-    "choices": {
-      "A": "資源の有効活用を進め",
-      "B": "廃棄物の発生を抑制する",
-      "C": "取り組みを継続的に",
-      "D": "行うことが"
+      "A": "参加者同士の",
+      "B": "活発な意見交換が",
+      "C": "休憩時間にも",
+      "D": "続き",
+      "E": "終日"
     },
     "correct": "C"
   },
   {
-    "id": "263",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "企業は［1］［2］［3］［4］［5］責任を負う",
-    "choices": {
-      "A": "利益追求だけでなく",
-      "B": "社会的影響を考慮し",
-      "C": "持続可能な発展に貢献する",
-      "D": "ことが求められるため"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "264",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "教育格差は［1］［2］［3］［4］［5］影響を及ぼす",
-    "choices": {
-      "A": "個人の将来だけでなく",
-      "B": "社会全体の発展にも",
-      "C": "大きな",
-      "D": "課題として認識されている"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "265",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "消費者行動は［1］［2］［3］［4］［5］左右される",
-    "choices": {
-      "A": "商品の品質だけでなく",
-      "B": "価格やブランドイメージにも",
-      "C": "大きく",
-      "D": "影響を受けるため"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "266",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "科学的思考とは［1］［2］［3］［4］［5］態度である",
-    "choices": {
-      "A": "事実に基づき",
-      "B": "論理的に考察し",
-      "C": "結論を導く",
-      "D": "姿勢を重視する"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "267",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "地方創生には［1］［2］［3］［4］［5］重要である",
-    "choices": {
-      "A": "地域資源を活用し",
-      "B": "独自の魅力を高める",
-      "C": "取り組みが",
-      "D": "長期的な視点で"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "268",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 65,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "SNSは［1］［2］［3］［4］［5］広げている",
-    "choices": {
-      "A": "情報共有を容易にし",
-      "B": "個人が発信者となる機会を",
-      "C": "増加させることで",
-      "D": "社会への影響力を"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "269",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "法の支配は［1］［2］［3］［4］［5］原則である",
-    "choices": {
-      "A": "権力の恣意的行使を防ぎ",
-      "B": "社会の公平性を保つ",
-      "C": "ために重要な",
-      "D": "民主社会の"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "270",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "企業競争力は［1］［2］［3］［4］［5］強化される",
-    "choices": {
-      "A": "優れた技術力と",
-      "B": "人材育成への投資によって",
-      "C": "継続的に",
-      "D": "市場での優位性が"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "271",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "災害対策では［1］［2］［3］［4］［5］重要となる",
-    "choices": {
-      "A": "発生後の対応だけでなく",
-      "B": "事前の備えを",
-      "C": "充実させることが",
-      "D": "被害軽減のために"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "272",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "経済成長は［1］［2］［3］［4］［5］向上させる",
-    "choices": {
-      "A": "国民所得を増加させ",
-      "B": "生活水準を",
-      "C": "全体として",
-      "D": "押し上げるため"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "273",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "国際協力は［1］［2］［3］［4］［5］不可欠である",
-    "choices": {
-      "A": "地球規模の課題を解決するには",
-      "B": "各国が連携し",
-      "C": "知識や資源を共有する",
-      "D": "取り組みが"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "274",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "企業文化は［1］［2］［3］［4］［5］形成される",
-    "choices": {
-      "A": "組織内で共有される価値観や",
-      "B": "行動様式の積み重ねによって",
-      "C": "長い年月をかけて",
-      "D": "徐々に"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "275",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "人的資本は［1］［2］［3］［4］［5］源泉となる",
-    "choices": {
-      "A": "知識や技能の蓄積によって",
-      "B": "企業価値を高める",
-      "C": "重要な",
-      "D": "競争力の"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "276",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "イノベーション創出には［1］［2］［3］［4］［5］求められる",
-    "choices": {
-      "A": "多様な視点を取り入れ",
-      "B": "異なる分野を融合する",
-      "C": "柔軟な発想が",
-      "D": "従来以上に"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "277",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "成熟社会では［1］［2］［3］［4］［5］重視される",
-    "choices": {
-      "A": "量的拡大よりも",
-      "B": "質的向上が",
-      "C": "より一層",
-      "D": "人々の幸福に直結するため"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "278",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 70,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "組織改編は［1］［2］［3］［4］［5］実施される",
-    "choices": {
-      "A": "経営環境の変化に対応し",
-      "B": "競争力向上を図るため",
-      "C": "必要に応じて",
-      "D": "戦略的に"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "279",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 75,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "人材育成は［1］［2］［3］［4］［5］投資である",
-    "choices": {
-      "A": "短期的な成果だけでなく",
-      "B": "将来の成長を見据えた",
-      "C": "長期的な",
-      "D": "組織への"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "280",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 75,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "意思決定においては［1］［2］［3］［4］［5］望ましい",
-    "choices": {
-      "A": "感情だけに左右されず",
-      "B": "客観的な情報を基に",
-      "C": "判断を行うことが",
-      "D": "より合理的で"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "281",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 3,
-    "timeLimit": 75,
-    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "持続可能な社会の実現には［1］［2］［3］［4］［5］必要となる",
-    "choices": {
-      "A": "経済と環境の両立を図り",
-      "B": "社会全体で協力する",
-      "C": "取り組みが",
-      "D": "不可欠で"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "282",
+    "id": "359",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4789,7 +6102,7 @@
     "correct": "A"
   },
   {
-    "id": "283",
+    "id": "360",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4807,7 +6120,7 @@
     "correct": "B"
   },
   {
-    "id": "284",
+    "id": "361",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4825,7 +6138,7 @@
     "correct": "A"
   },
   {
-    "id": "285",
+    "id": "362",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4843,7 +6156,7 @@
     "correct": "A"
   },
   {
-    "id": "286",
+    "id": "363",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4861,7 +6174,7 @@
     "correct": "A"
   },
   {
-    "id": "287",
+    "id": "364",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4879,7 +6192,7 @@
     "correct": "A"
   },
   {
-    "id": "288",
+    "id": "365",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4897,7 +6210,7 @@
     "correct": "A"
   },
   {
-    "id": "289",
+    "id": "366",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4915,7 +6228,7 @@
     "correct": "E"
   },
   {
-    "id": "290",
+    "id": "367",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4933,7 +6246,7 @@
     "correct": "A"
   },
   {
-    "id": "291",
+    "id": "368",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4951,7 +6264,7 @@
     "correct": "A"
   },
   {
-    "id": "292",
+    "id": "369",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4969,7 +6282,7 @@
     "correct": "E"
   },
   {
-    "id": "293",
+    "id": "370",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -4987,7 +6300,7 @@
     "correct": "E"
   },
   {
-    "id": "294",
+    "id": "371",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5005,7 +6318,7 @@
     "correct": "D"
   },
   {
-    "id": "295",
+    "id": "372",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5023,7 +6336,7 @@
     "correct": "E"
   },
   {
-    "id": "296",
+    "id": "373",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5041,7 +6354,7 @@
     "correct": "A"
   },
   {
-    "id": "297",
+    "id": "374",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5059,7 +6372,7 @@
     "correct": "C"
   },
   {
-    "id": "298",
+    "id": "375",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5077,7 +6390,7 @@
     "correct": "D"
   },
   {
-    "id": "299",
+    "id": "376",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
@@ -5095,335 +6408,1089 @@
     "correct": "B"
   },
   {
-    "id": "300",
+    "id": "377",
     "category": "言語",
     "unit": "文章整序",
     "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "ある町では［1］［2］［3］［4］［5］開かれた",
+    "choices": {
+      "A": "毎年春になると",
+      "B": "大きな広場で",
+      "C": "地域の人々が集まる",
+      "D": "祭りが",
+      "E": "にぎやかに"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "378",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "図書館は［1］［2］［3］［4］［5］利用されている",
+    "choices": {
+      "A": "学生だけでなく",
+      "B": "多くの市民にも",
+      "C": "親しまれ",
+      "D": "知識を得る場として",
+      "E": "長年"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "379",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "旅人は［1］［2］［3］［4］［5］進んだ",
+    "choices": {
+      "A": "遠くに見える塔を目指して",
+      "B": "静かな街道を",
+      "C": "ゆっくりと",
+      "D": "一歩ずつ",
+      "E": "歩き"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "380",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "研究会では［1］［2］［3］［4］［5］行われた",
+    "choices": {
+      "A": "参加者同士の",
+      "B": "活発な意見交換が",
+      "C": "休憩時間にも",
+      "D": "続き",
+      "E": "終日"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "381",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "ある町では［1］［2］［3］［4］［5］開かれた",
+    "choices": {
+      "A": "毎年春になると",
+      "B": "大きな広場で",
+      "C": "地域の人々が集まる",
+      "D": "祭りが",
+      "E": "にぎやかに"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "382",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "図書館は［1］［2］［3］［4］［5］利用されている",
+    "choices": {
+      "A": "学生だけでなく",
+      "B": "多くの市民にも",
+      "C": "親しまれ",
+      "D": "知識を得る場として",
+      "E": "長年"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "383",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 2,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "旅人は［1］［2］［3］［4］［5］進んだ",
+    "choices": {
+      "A": "遠くに見える塔を目指して",
+      "B": "静かな街道を",
+      "C": "ゆっくりと",
+      "D": "一歩ずつ",
+      "E": "歩き"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "384",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
     "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "運動不足は［1］［2］［3］［4］［5］高める",
+    "choices": {
+      "A": "生活習慣病のリスクを",
+      "B": "健康維持の観点から",
+      "C": "改善が必要である",
+      "D": "現代人にとって",
+      "E": "深刻な問題となっており"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "385",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
     "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "キャッシュレス決済は［1］［2］［3］［4］［5］拡大している",
+    "question": "イノベーションは［1］［2］［3］［4］［5］原動力となる",
     "choices": {
-      "A": "利便性の向上により",
-      "B": "利用者が増加し",
-      "C": "現金を持ち歩く必要がなくなったため",
-      "D": "急速に社会全体へ"
+      "A": "既存の枠組みを超えた",
+      "B": "新たな価値を創出し",
+      "C": "企業や社会に変革をもたらす",
+      "D": "取り組みであるため",
+      "E": "持続的成長の"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "386",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "情報化社会では［1］［2］［3］［4］［5］重要である",
+    "choices": {
+      "A": "膨大な情報の中から",
+      "B": "必要な情報を選別し",
+      "C": "適切に活用する能力が",
+      "D": "求められるため",
+      "E": "情報リテラシーは"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "387",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "グローバル化は［1］［2］［3］［4］［5］加速させた",
+    "choices": {
+      "A": "国境を越えた",
+      "B": "人やモノの移動を",
+      "C": "活発化させることで",
+      "D": "経済活動の相互依存を"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "388",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "リーダーシップとは［1］［2］［3］［4］［5］能力である",
+    "choices": {
+      "A": "組織の目標達成に向けて",
+      "B": "構成員を導き",
+      "C": "協力を促進しながら",
+      "D": "成果を生み出す"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "389",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "市場経済では［1］［2］［3］［4］［5］決定される",
+    "choices": {
+      "A": "需要と供給の関係によって",
+      "B": "商品の価格は",
+      "C": "絶えず変動しながら",
+      "D": "形成されるため"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "390",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 60,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "研究活動では［1］［2］［3］［4］［5］不可欠である",
+    "choices": {
+      "A": "先入観にとらわれず",
+      "B": "仮説を立て",
+      "C": "客観的な検証を行う姿勢が",
+      "D": "新たな知見を得るためには"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "391",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "多様性の尊重は［1］［2］［3］［4］［5］可能にする",
+    "choices": {
+      "A": "異なる価値観を認め",
+      "B": "多様な人材が活躍できる環境を整えることで",
+      "C": "組織の活性化を",
+      "D": "社会全体の発展にも"
     },
     "correct": "A"
   },
   {
-    "id": "301",
+    "id": "392",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "企業経営においては［1］［2］［3］［4］［5］重要である",
+    "question": "技術革新は［1］［2］［3］［4］［5］変化させる",
     "choices": {
-      "A": "市場環境の変化を把握し",
-      "B": "適切な戦略を立案することが",
-      "C": "競争力維持のために",
-      "D": "極めて"
+      "A": "産業構造を",
+      "B": "大きく",
+      "C": "変革するとともに",
+      "D": "人々の生活様式を"
     },
-    "correct": "B"
+    "correct": "D"
   },
   {
-    "id": "302",
+    "id": "393",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "防災意識の向上は［1］［2］［3］［4］［5］役立つ",
+    "question": "民主主義は［1］［2］［3］［4］［5］制度である",
     "choices": {
-      "A": "災害発生時の対応力を",
-      "B": "高めるだけでなく",
-      "C": "被害を最小限に抑えることにも",
-      "D": "大きく"
-    },
-    "correct": "A"
-  },
-  {
-    "id": "303",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "オンライン学習は［1］［2］［3］［4］［5］可能にしている",
-    "choices": {
-      "A": "時間や場所に制約されず",
-      "B": "学習機会を得られるため",
-      "C": "多様な人々の教育参加を",
-      "D": "より容易に"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "304",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "地域活性化には［1］［2］［3］［4］［5］求められる",
-    "choices": {
-      "A": "地域資源を生かした",
-      "B": "独自の取り組みが",
-      "C": "継続的な発展のために",
-      "D": "強く"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "305",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "消費者は［1］［2］［3］［4］［5］判断している",
-    "choices": {
-      "A": "商品の品質だけでなく",
-      "B": "価格やサービス内容も考慮して",
-      "C": "購入の可否を",
-      "D": "総合的に"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "306",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "職場における信頼関係は［1］［2］［3］［4］［5］築かれる",
-    "choices": {
-      "A": "日々の誠実な行動の積み重ねによって",
-      "B": "徐々に",
-      "C": "形成されるものであり",
-      "D": "長期間をかけて"
+      "A": "市民の意思を政治に反映させる",
+      "B": "仕組みとして",
+      "C": "広く採用されている",
+      "D": "政治制度であり"
     },
     "correct": "A"
   },
   {
-    "id": "307",
+    "id": "394",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "AI技術は［1］［2］［3］［4］［5］期待されている",
+    "question": "環境負荷の低減には［1］［2］［3］［4］［5］必要がある",
     "choices": {
-      "A": "業務効率化や",
-      "B": "新たなサービスの創出に",
-      "C": "貢献する可能性があるため",
-      "D": "今後さらに"
+      "A": "資源の有効活用を進め",
+      "B": "廃棄物の発生を抑制する",
+      "C": "取り組みを継続的に",
+      "D": "行うことが"
     },
     "correct": "C"
   },
   {
-    "id": "308",
+    "id": "395",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "読書習慣は［1］［2］［3］［4］［5］効果がある",
-    "choices": {
-      "A": "知識を増やすだけでなく",
-      "B": "語彙力や表現力を高める",
-      "C": "ことにも",
-      "D": "大きな"
-    },
-    "correct": "C"
-  },
-  {
-    "id": "309",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 50,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "企業の社会的責任は［1］［2］［3］［4］［5］認識されている",
+    "question": "企業は［1］［2］［3］［4］［5］責任を負う",
     "choices": {
       "A": "利益追求だけでなく",
-      "B": "社会への貢献も求められるものとして",
-      "C": "近年ますます重要であると",
-      "D": "広く"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "310",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "技術研修は［1］［2］［3］［4］［5］目的としている",
-    "choices": {
-      "A": "社員の能力向上を図り",
-      "B": "組織全体の生産性を高めることを",
-      "C": "主な"
-    },
-    "correct": "B"
-  },
-  {
-    "id": "311",
-    "category": "言語",
-    "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "健康管理には［1］［2］［3］［4］［5］欠かせない",
-    "choices": {
-      "A": "適度な運動と",
-      "B": "バランスのとれた食事が",
-      "C": "日常生活において"
+      "B": "社会的影響を考慮し",
+      "C": "持続可能な発展に貢献する",
+      "D": "ことが求められるため"
     },
     "correct": "C"
   },
   {
-    "id": "312",
+    "id": "396",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "環境教育は［1］［2］［3］［4］［5］促進する",
+    "question": "教育格差は［1］［2］［3］［4］［5］影響を及ぼす",
     "choices": {
-      "A": "自然環境への理解を深め",
-      "B": "持続可能な行動を選択する意識を",
-      "C": "社会全体で",
-      "D": "高く"
+      "A": "個人の将来だけでなく",
+      "B": "社会全体の発展にも",
+      "C": "大きな",
+      "D": "課題として認識されている"
     },
-    "correct": "B"
+    "correct": "C"
   },
   {
-    "id": "313",
+    "id": "397",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "観光資源の活用は［1］［2］［3］［4］［5］寄与する",
+    "question": "消費者行動は［1］［2］［3］［4］［5］左右される",
     "choices": {
-      "A": "地域の魅力を発信し",
-      "B": "来訪者を増加させることで",
-      "C": "経済活性化に",
-      "D": "大きく"
+      "A": "商品の品質だけでなく",
+      "B": "価格やブランドイメージにも",
+      "C": "大きく",
+      "D": "影響を受けるため"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "398",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "科学的思考とは［1］［2］［3］［4］［5］態度である",
+    "choices": {
+      "A": "事実に基づき",
+      "B": "論理的に考察し",
+      "C": "結論を導く",
+      "D": "姿勢を重視する"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "399",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "地方創生には［1］［2］［3］［4］［5］重要である",
+    "choices": {
+      "A": "地域資源を活用し",
+      "B": "独自の魅力を高める",
+      "C": "取り組みが",
+      "D": "長期的な視点で"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "400",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 65,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "SNSは［1］［2］［3］［4］［5］広げている",
+    "choices": {
+      "A": "情報共有を容易にし",
+      "B": "個人が発信者となる機会を",
+      "C": "増加させることで",
+      "D": "社会への影響力を"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "401",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "法の支配は［1］［2］［3］［4］［5］原則である",
+    "choices": {
+      "A": "権力の恣意的行使を防ぎ",
+      "B": "社会の公平性を保つ",
+      "C": "ために重要な",
+      "D": "民主社会の"
     },
     "correct": "A"
   },
   {
-    "id": "314",
+    "id": "402",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "組織運営では［1］［2］［3］［4］［5］重要となる",
+    "question": "企業競争力は［1］［2］［3］［4］［5］強化される",
     "choices": {
-      "A": "円滑な情報共有が",
-      "B": "意思決定の迅速化につながるため",
-      "C": "特に"
+      "A": "優れた技術力と",
+      "B": "人材育成への投資によって",
+      "C": "継続的に",
+      "D": "市場での優位性が"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "403",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "災害対策では［1］［2］［3］［4］［5］重要となる",
+    "choices": {
+      "A": "発生後の対応だけでなく",
+      "B": "事前の備えを",
+      "C": "充実させることが",
+      "D": "被害軽減のために"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "404",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "経済成長は［1］［2］［3］［4］［5］向上させる",
+    "choices": {
+      "A": "国民所得を増加させ",
+      "B": "生活水準を",
+      "C": "全体として",
+      "D": "押し上げるため"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "405",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "国際協力は［1］［2］［3］［4］［5］不可欠である",
+    "choices": {
+      "A": "地球規模の課題を解決するには",
+      "B": "各国が連携し",
+      "C": "知識や資源を共有する",
+      "D": "取り組みが"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "406",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "企業文化は［1］［2］［3］［4］［5］形成される",
+    "choices": {
+      "A": "組織内で共有される価値観や",
+      "B": "行動様式の積み重ねによって",
+      "C": "長い年月をかけて",
+      "D": "徐々に"
+    },
+    "correct": "B"
+  },
+  {
+    "id": "407",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "人的資本は［1］［2］［3］［4］［5］源泉となる",
+    "choices": {
+      "A": "知識や技能の蓄積によって",
+      "B": "企業価値を高める",
+      "C": "重要な",
+      "D": "競争力の"
     },
     "correct": "A"
   },
   {
-    "id": "315",
+    "id": "408",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "宇宙開発は［1］［2］［3］［4］［5］広げている",
+    "question": "イノベーション創出には［1］［2］［3］［4］［5］求められる",
     "choices": {
-      "A": "科学技術の進歩を促し",
-      "B": "人類の活動領域を",
-      "C": "さらに"
+      "A": "多様な視点を取り入れ",
+      "B": "異なる分野を融合する",
+      "C": "柔軟な発想が",
+      "D": "従来以上に"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "409",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "成熟社会では［1］［2］［3］［4］［5］重視される",
+    "choices": {
+      "A": "量的拡大よりも",
+      "B": "質的向上が",
+      "C": "より一層",
+      "D": "人々の幸福に直結するため"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "410",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 70,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "組織改編は［1］［2］［3］［4］［5］実施される",
+    "choices": {
+      "A": "経営環境の変化に対応し",
+      "B": "競争力向上を図るため",
+      "C": "必要に応じて",
+      "D": "戦略的に"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "411",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 75,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "人材育成は［1］［2］［3］［4］［5］投資である",
+    "choices": {
+      "A": "短期的な成果だけでなく",
+      "B": "将来の成長を見据えた",
+      "C": "長期的な",
+      "D": "組織への"
     },
     "correct": "B"
   },
   {
-    "id": "316",
+    "id": "412",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
+    "difficulty": 3,
+    "timeLimit": 75,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
     "premise": "［4］に当てはまるものを選びなさい",
-    "question": "物流網の発達は［1］［2］［3］［4］［5］可能にした",
+    "question": "意思決定においては［1］［2］［3］［4］［5］望ましい",
     "choices": {
-      "A": "商品の流通を効率化し",
-      "B": "全国規模での供給を",
-      "C": "安定的に"
+      "A": "感情だけに左右されず",
+      "B": "客観的な情報を基に",
+      "C": "判断を行うことが",
+      "D": "より合理的で"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "413",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 75,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "持続可能な社会の実現には［1］［2］［3］［4］［5］必要となる",
+    "choices": {
+      "A": "経済と環境の両立を図り",
+      "B": "社会全体で協力する",
+      "C": "取り組みが",
+      "D": "不可欠で"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "414",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "人は往々にして、［1］［2］［3］［4］［5］",
+    "question": "事の全体を判断しようとする。しかしながら、",
+    "choices": {
+      "B": "思いを致さなければならない。",
+      "C": "その背後に潜む事情にまで",
+      "D": "目の前に現れた事象のみをもって"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "415",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "学問において肝要なのは、［1］［2］［3］［4］［5］",
+    "question": "自ら問い直す姿勢である。",
+    "choices": {
+      "A": "その問いを深める過程においてこそ、",
+      "B": "なぜそのような事実が成り立つのかを",
+      "C": "既に知られた事実を覚えることのみならず、",
+      "D": "知識は生きたものとなる。"
     },
     "correct": "B"
   },
   {
-    "id": "317",
+    "id": "416",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "異文化交流は［1］［2］［3］［4］［5］つながる",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "静かな夜に一人で歩いていると、［1］［2］［3］［4］［5］",
+    "question": "そのとき私は、",
     "choices": {
-      "A": "相互理解を深め",
-      "B": "偏見や誤解を減らすことに",
-      "C": "大きく"
+      "A": "日常とは多くのものを見過ごすことによって",
+      "B": "妙に鮮明に耳へ届くことがある。",
+      "C": "成り立っているのではないかと思う。",
+      "D": "昼間には気にも留めなかった物音が"
     },
     "correct": "B"
   },
   {
-    "id": "318",
+    "id": "417",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "研究開発投資は［1］［2］［3］［4］［5］向上させる",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "社会の制度を論ずるに際しては、［1］［2］［3］［4］［5］",
+    "question": "それが現実の生活において",
     "choices": {
-      "A": "新技術の創出を通じて",
-      "B": "企業の競争力を",
-      "C": "長期的に"
+      "A": "見極める必要がある。",
+      "B": "いかなる作用を及ぼしているのかを",
+      "C": "制度そのものの合理性を検討するだけでは足りない。",
+      "D": "なぜなら、制度は人のために設けられるものだからである。"
     },
     "correct": "B"
   },
   {
-    "id": "319",
+    "id": "418",
     "category": "言語",
     "unit": "文章整序",
-    "difficulty": 2,
-    "timeLimit": 55,
-    "instruction": "Ａ～Ｅの文を［1］～［5］に入れて文の意味が通るようにしたとき",
-    "premise": "［4］に当てはまるものを選びなさい",
-    "question": "適切な目標設定は［1］［2］［3］［4］［5］高める",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "一見すると些細な出来事であっても、［1］［2］［3］［4］［5］",
+    "question": "そのような小さな契機の積み重ねによって形づくられるものなのだろう。",
     "choices": {
-      "A": "取り組むべき方向性を明確にし",
-      "B": "個人や組織の成果を",
-      "C": "効果的に"
+      "A": "後になって振り返れば、",
+      "B": "気づかされることがある。",
+      "C": "人生とは、",
+      "D": "それが大きな転機の端緒であったと"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "419",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "物事を深く考えようとするならば、［1］［2］［3］［4］［5］",
+    "question": "結論を急いで求めるのではなく、",
+    "choices": {
+      "A": "丁寧に見定めることが肝要である。",
+      "B": "いかに精緻な議論を重ねても実りは乏しい。",
+      "C": "まず何が問題なのかを",
+      "D": "問題の所在が曖昧なままでは、"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "420",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "情報が氾濫する今日においては、［1］［2］［3］［4］［5］",
+    "question": "自らの判断に必要なものを選び取ることである。",
+    "choices": {
+      "A": "むしろ重要なのは、",
+      "B": "必ずしも知性の証左とはならない。",
+      "C": "多くを知っていることそれ自体が",
+      "D": "得られた情報の真偽や背景を吟味し、"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "421",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "古い町並みを歩いていると、［1］［2］［3］［4］［5］",
+    "question": "そこに暮らした人々の営みが",
+    "choices": {
+      "A": "新しいものを取り入れることは必要であるが、",
+      "B": "過去の痕跡をすべて消し去ることが",
+      "C": "進歩を意味するわけではない。",
+      "D": "建物の一つ一つに刻まれているように感じられる。"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "422",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "対話とは、［1］［2］［3］［4］［5］",
+    "question": "手段ではない。",
+    "choices": {
+      "A": "相手の言葉に耳を傾けることによって、",
+      "B": "単に自分の考えを相手へ伝えるための",
+      "C": "契機ともなり得るのである。",
+      "D": "自分自身の考えの偏りに気づく"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "423",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "自然を前にすると、人はしばしば、［1］［2］［3］［4］［5］",
+    "question": "世界との関わり方を見直す契機となる。",
+    "choices": {
+      "A": "静かに思い知らされる。",
+      "B": "むしろ自らの存在を相対化することで、",
+      "C": "それは決して人間の価値を否定するものではなく、",
+      "D": "自らが世界の中心にいるわけではないことを"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "424",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "一つの政策を評価する際には、［1］［2］［3］［4］［5］",
+    "question": "複数の要因が絡み合う中で作用するからである。",
+    "choices": {
+      "A": "目に見える成果だけを取り上げるのではなく、",
+      "B": "意図せざる影響にも目を向けるべきである。",
+      "C": "その政策によって生じた",
+      "D": "なぜなら、社会における施策は、"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "425",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "努力という言葉を考えるとき、［1］［2］［3］［4］［5］",
+    "question": "目標に照らして方法を省み、",
+    "choices": {
+      "A": "努力と呼ぶのは適切ではない。",
+      "B": "ただ長い時間を費やすことのみを",
+      "C": "必要とあれば進む方向を改めることもまた、",
+      "D": "努力の一部と考えるべきであろう。"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "426",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "旅の記憶が不思議なのは、［1］［2］［3］［4］［5］",
+    "question": "長く心に残ることがある点である。",
+    "choices": {
+      "A": "予定された出来事だけが旅を形づくるのではない。",
+      "B": "偶然目にした風景のほうが",
+      "C": "そこで交わした何気ない会話や",
+      "D": "訪れた場所そのものよりも、"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "427",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "公共の利益を考える場合、［1］［2］［3］［4］［5］",
+    "question": "一部の人にとっての便益だけをもって",
+    "choices": {
+      "A": "互いの負担と利益を見極めながら",
+      "B": "全体の利益とみなすことはできない。",
+      "C": "異なる立場に置かれた人々の事情を考慮し、",
+      "D": "合意を形成していくことが求められる。"
     },
     "correct": "B"
+  },
+  {
+    "id": "428",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "歴史を学ぶ意義は、［1］［2］［3］［4］［5］",
+    "question": "何を選択し、その結果として何が生じたのかを",
+    "choices": {
+      "A": "過去の出来事を年代順に記憶することに",
+      "B": "尽きるものではない。",
+      "C": "当時の人々がいかなる状況に置かれ、",
+      "D": "考察することにこそ、その意義がある。"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "429",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "人間の判断には、［1］［2］［3］［4］［5］",
+    "question": "したがって、",
+    "choices": {
+      "A": "異なる見方に接することが重要なのである。",
+      "B": "過去の経験や先入観が影響を及ぼしている。",
+      "C": "自分の判断が常に中立であると思い込まず、",
+      "D": "本人が意識している以上に"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "430",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "技術が高度に発達した社会においても、［1］［2］［3］［4］［5］",
+    "question": "その目的の妥当性を吟味する責任は",
+    "choices": {
+      "A": "技術は目的を実現するための手段であって、",
+      "B": "技術そのものが決めてくれるわけではない。",
+      "C": "なお人間の側に残されている。",
+      "D": "人間が何を望ましいと考えるのかという問題までを"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "431",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "夕暮れどきの空を眺めていると、［1］［2］［3］［4］［5］",
+    "question": "ひとつの契機でもあるように",
+    "choices": {
+      "A": "思われることがある。",
+      "B": "単なる時間の区切りではなく、",
+      "C": "一日の終わりというものが、",
+      "D": "過ぎ去った出来事を静かに振り返るための"
+    },
+    "correct": "A"
+  },
+  {
+    "id": "432",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "成熟した社会とは、［1］［2］［3］［4］［5］",
+    "question": "意見の一致を容易に得られる社会ではなく、",
+    "choices": {
+      "A": "意見の相違が存在することを認めたうえで、",
+      "B": "互いの立場を尊重しながら",
+      "C": "共通の課題について議論を続けられる社会である。",
+      "D": "その意味で、対話の能力は"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "433",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 50,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき,［4］に当てはまるものを選びなさい",
+    "premise": "時の流れというものは、［1］［2］［3］［4］［5］",
+    "question": "人の記憶や経験によって",
+    "choices": {
+      "A": "過去を顧みることには",
+      "B": "異なる意味を帯びることがある。",
+      "C": "その一瞬一瞬においては、",
+      "D": "絶えず同じ方向へ進んでいるように見えて、"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "434",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "研究会では［1］［2］［3］［4］［5］行われた",
+    "choices": {
+      "A": "参加者同士の",
+      "B": "活発な意見交換が",
+      "C": "休憩時間にも",
+      "D": "続き",
+      "E": "終日"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "435",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "ある町では［1］［2］［3］［4］［5］開かれた",
+    "choices": {
+      "A": "毎年春になると",
+      "B": "大きな広場で",
+      "C": "地域の人々が集まる",
+      "D": "祭りが",
+      "E": "にぎやかに"
+    },
+    "correct": "E"
+  },
+  {
+    "id": "436",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "図書館は［1］［2］［3］［4］［5］利用されている",
+    "choices": {
+      "A": "学生だけでなく",
+      "B": "多くの市民にも",
+      "C": "親しまれ",
+      "D": "知識を得る場として",
+      "E": "長年"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "437",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "旅人は［1］［2］［3］［4］［5］進んだ",
+    "choices": {
+      "A": "遠くに見える塔を目指して",
+      "B": "静かな街道を",
+      "C": "ゆっくりと",
+      "D": "一歩ずつ",
+      "E": "歩き"
+    },
+    "correct": "D"
+  },
+  {
+    "id": "438",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "研究会では［1］［2］［3］［4］［5］行われた",
+    "choices": {
+      "A": "参加者同士の",
+      "B": "活発な意見交換が",
+      "C": "休憩時間にも",
+      "D": "続き",
+      "E": "終日"
+    },
+    "correct": "C"
+  },
+  {
+    "id": "439",
+    "category": "言語",
+    "unit": "文章整序",
+    "difficulty": 3,
+    "timeLimit": 45,
+    "instruction": "Ａ～Ｅの文を［1］［2］［3］［4］［5］に入れて文の意味が通るようにしたとき",
+    "premise": "［4］に当てはまるものを選びなさい",
+    "question": "ある町では［1］［2］［3］［4］［5］開かれた",
+    "choices": {
+      "A": "毎年春になると",
+      "B": "大きな広場で",
+      "C": "地域の人々が集まる",
+      "D": "祭りが",
+      "E": "にぎやかに"
+    },
+    "correct": "E"
   }
 ]
