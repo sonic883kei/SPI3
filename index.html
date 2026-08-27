@@ -1301,50 +1301,153 @@ function genSet1() {
             }
         }
 
-        // --- ⑨ 表の読み取り ---
-        function buildTableQuestion(level) {
-            const regionData = [
-                { region: 'A地区', val1: 120, val2: 150 },
-                { region: 'B地区', val1: 200, val2: 220 },
-                { region: 'C地区', val1: 80,  val2: 120 },
-                { region: 'D地区', val1: 150, val2: 180 }
-            ];
+ // --- ⑨ 表の読み取り (Table Reading Generator) ---
+function buildTableQuestion(level) {
+    // 1. 各区間の割合(%)を自動生成（合計100%になるように調整）
+const generateDist = () => {
+    // 1. 各区間の「重み」をランダムに決める(すべて正の整数)
+    const w1 = getRandomInt(15, 30);
+    const w2 = getRandomInt(30, 45);
+    const w3 = getRandomInt(20, 30);
+    const w4 = getRandomInt(5, 20);   // ~25点の重みも独立に用意する
+    const wSum = w1 + w2 + w3 + w4;
 
-            if (level === 1) {
-                const sumVal1 = regionData.reduce((acc, r) => acc + r.val1, 0);
-                return {
-                    unit: '表の読み取り', level: 1, badge: 'Lv.1 基本', title: '集計表の合計計算',
-                    text: `【地域別売上表 (単位: 万円)】<br>A地区: 120万円, B地区: 200万円, C地区: 80万円, D地区: 150万円`,
-                    prompt: '4地区の合計売上は何万円か。', correctAnswer: sumVal1, unitSuffix: '万円', step: 10,
-                    steps: [
-                        `ステップ1：表の各値を足し合わせる。<br><strong>120 + 200 + 80 + 150 = ${sumVal1}万円</strong>`
-                    ]
-                };
-            } else if (level === 2) {
-                const cGrowth = Math.round(((120 - 80) / 80) * 100);
-                return {
-                    unit: '表の読み取り', level: 2, badge: 'Lv.2 応用', title: '前年比増加率の計算',
-                    text: `【C地区の売上推移】<br>前年: 80万円, 今期: 120万円`,
-                    prompt: '前年からの増加率は何％か。', correctAnswer: cGrowth, unitSuffix: '％', step: 5,
-                    steps: [
-                        `ステップ1：増加額を求める。<br><strong>120万円 - 80万円 = 40万円</strong>`,
-                        `ステップ2：元になる値（前年）で割り100を掛ける。<br><strong>(40 ÷ 80) × 100 = 50％</strong>`
-                    ]
-                };
-            } else {
-                const total2 = regionData.reduce((acc, r) => acc + r.val2, 0);
-                const bShare = Math.round((220 / total2) * 100);
-                return {
-                    unit: '表の読み取り', level: 3, badge: 'Lv.3 高難度', title: '全体構成比（シェア）',
-                    text: `【今期の全社売上 (計: ${total2}万円)】<br>A: 150万円, B: 220万円, C: 120万円, D: 180万円`,
-                    prompt: 'B地区が全体に占める割合（構成比）は約何％か（四捨五入）。', correctAnswer: bShare, unitSuffix: '％', step: 1,
-                    steps: [
-                        `ステップ1：B地区の売上 ÷ 全体売上 を計算する。<br><strong>220 ÷ ${total2} ≒ 0.3283...</strong>`,
-                        `ステップ2：パーセント表示にし四捨五入する。<br><strong>約 ${bShare}％</strong>`
-                    ]
-                };
-            }
-        }
+    // 2. 重みの比率で100%を配分（丸め誤差は最後の区間に寄せて帳尻を合わせる）
+    let r1 = Math.round((w1 / wSum) * 100);
+    let r2 = Math.round((w2 / wSum) * 100);
+    let r3 = Math.round((w3 / wSum) * 100);
+    let r4 = 100 - (r1 + r2 + r3);   // 端数調整分のみここに集約される
+
+    return [r1, r2, r3, r4];
+};
+    const maleDist = generateDist();   // [76~, 51~75, 26~50, ~25]
+    const femaleDist = generateDist();
+
+    // 2. 人数の設定 (計算がシンプルになる数値)
+    const maleTotal = getRandomInt(3, 6) * 50;   // 150, 200, 250, 300など
+    const femaleTotal = getRandomInt(3, 6) * 50; 
+    const grandTotal = maleTotal + femaleTotal;
+
+    // 表のHTMLを作成
+    const tableHtml = `
+        <div class="overflow-x-auto my-3">
+            <table class="w-full text-xs text-center border-collapse border border-slate-700 bg-[#0f1423]">
+                <thead>
+                    <tr class="bg-slate-800 text-slate-300 border-b border-slate-700">
+                        <th class="p-2 border border-slate-700">得点</th>
+                        <th class="p-2 border border-slate-700">男子生徒 (%)</th>
+                        <th class="p-2 border border-slate-700">女子生徒 (%)</th>
+                    </tr>
+                </thead>
+                <tbody class="text-slate-200">
+                    <tr><td class="p-1.5 border border-slate-700 font-mono">76 ～</td><td class="p-1.5 border border-slate-700">${maleDist[0]}</td><td class="p-1.5 border border-slate-700">${femaleDist[0]}</td></tr>
+                    <tr><td class="p-1.5 border border-slate-700 font-mono">51 ～ 75</td><td class="p-1.5 border border-slate-700">${maleDist[1]}</td><td class="p-1.5 border border-slate-700">${femaleDist[1]}</td></tr>
+                    <tr><td class="p-1.5 border border-slate-700 font-mono">26 ～ 50</td><td class="p-1.5 border border-slate-700">${maleDist[2]}</td><td class="p-1.5 border border-slate-700">${femaleDist[2]}</td></tr>
+                    <tr><td class="p-1.5 border border-slate-700 font-mono">～ 25</td><td class="p-1.5 border border-slate-700">${maleDist[3]}</td><td class="p-1.5 border border-slate-700">${femaleDist[3]}</td></tr>
+                    <tr class="bg-slate-800/50 font-bold"><td class="p-1.5 border border-slate-700">合計</td><td class="p-1.5 border border-slate-700">100</td><td class="p-1.5 border border-slate-700">100</td></tr>
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    if (level === 1) {
+        // Lv.1: 単一カテゴリの人数計算
+        const male76Count = Math.round(maleTotal * (maleDist[0] / 100));
+        
+        return {
+            unit: '表の読み取り', level: 1,
+            badge: 'Lv.1 基本', title: '構成比からの人数計算',
+            text: `下の表はある学年のテストの得点を男女別に整理したものである。男子生徒は ${maleTotal}名、女子生徒は ${femaleTotal}名 である。<br>${tableHtml}`,
+            prompt: '76点以上の男子生徒は何人か。',
+            correctAnswer: male76Count, unitSuffix: '人', step: 5,
+            steps: [
+                `ステップ1：表から「76点以上」の男子の割合を確認します（<strong>${maleDist[0]}%</strong>）。`,
+                `ステップ2：男子全体の人数（${maleTotal}人）に割合を掛けます。`,
+                `ステップ3：<strong>${maleTotal} × ${(maleDist[0] / 100).toFixed(2)} = ${male76Count}人</strong> となります。`
+            ]
+        };
+    } else if (level === 2) {
+        // Lv.2: 例題画像と全く同じパターン（76点以上の全体割合 %）
+        const maleCount = Math.round(maleTotal * (maleDist[0] / 100));
+        const femaleCount = Math.round(femaleTotal * (femaleDist[0] / 100));
+        const combinedCount = maleCount + femaleCount;
+        
+        // 小数点第2位を四捨五入（＝第1位まで求める）
+        const exactPct = (combinedCount / grandTotal) * 100;
+        const roundedPct = Math.round(exactPct * 10) / 10;
+
+        // 選択肢の動的生成
+        const choices = [];
+        const baseValues = [
+            roundedPct,
+            Math.round((roundedPct - 1.2) * 10) / 10,
+            Math.round((roundedPct + 0.8) * 10) / 10,
+            Math.round((roundedPct + 1.5) * 10) / 10
+        ].sort((a, b) => a - b);
+
+        baseValues.forEach((val, i) => {
+            choices.push({
+                label: String.fromCharCode(65 + i),
+                value: val,
+                htmlText: `${val.toFixed(1)}%`,
+                isCorrect: val === roundedPct
+            });
+        });
+        // 「いずれでもない」の選択肢 E を付加（SPI実戦形式）
+        choices.push({ label: 'E', value: -1, htmlText: 'いずれでもない', isCorrect: false });
+
+        return {
+            unit: '表の読み取り', level: 2,
+            badge: 'Lv.2 応用', title: '全体における構成比（加重平均）',
+            text: `下の表はある学年のテストの得点を男女別に整理したものであり、男子生徒は ${maleTotal}名、女子生徒は ${femaleTotal}名 である。表の中の数字は%である。<br>${tableHtml}`,
+            prompt: '76点以上の男子生徒、女子生徒を合わせた人数は学年の生徒数全体の何%か。（必要なときは最後に小数点以下第2位を四捨五入すること）',
+            customChoices: choices,
+            steps: [
+                `ステップ1：76点以上の人数を男女別に求めます。<br>・男子：${maleTotal} × ${(maleDist[0]/100).toFixed(2)} = <strong>${maleCount}人</strong><br>・女子：${femaleTotal} × ${(femaleDist[0]/100).toFixed(2)} = <strong>${femaleCount}人</strong>`,
+                `ステップ2：合算した人数と、学年全体の人数（${maleTotal} + ${femaleTotal} = ${grandTotal}人）を求めます。<br>・合計人数：${maleCount} + ${femaleCount} = <strong>${combinedCount}人</strong>`,
+                `ステップ3：全体に対する割合を計算し、四捨五入します。<br>・${combinedCount} ÷ ${grandTotal} = ${(exactPct/100).toFixed(4)}... ⇒ <strong>${roundedPct}%</strong>`
+            ]
+        };
+    } else {
+        // Lv.3: 51点以上の全体の割合
+        const maleCount = Math.round(maleTotal * ((maleDist[0] + maleDist[1]) / 100));
+        const femaleCount = Math.round(femaleTotal * ((femaleDist[0] + femaleDist[1]) / 100));
+        const combinedCount = maleCount + femaleCount;
+        const exactPct = (combinedCount / grandTotal) * 100;
+        const roundedPct = Math.round(exactPct * 10) / 10;
+
+        const choices = [];
+        const baseValues = [
+            roundedPct,
+            Math.round((roundedPct - 1.5) * 10) / 10,
+            Math.round((roundedPct + 1.2) * 10) / 10,
+            Math.round((roundedPct + 2.1) * 10) / 10
+        ].sort((a, b) => a - b);
+
+        baseValues.forEach((val, i) => {
+            choices.push({
+                label: String.fromCharCode(65 + i),
+                value: val,
+                htmlText: `${val.toFixed(1)}%`,
+                isCorrect: val === roundedPct
+            });
+        });
+        choices.push({ label: 'E', value: -1, htmlText: 'いずれでもない', isCorrect: false });
+
+        return {
+            unit: '表の読み取り', level: 3,
+            badge: 'Lv.3 高難度', title: '複数区間の合成割合計算',
+            text: `下の表はある学年のテストの得点を男女別に整理したものであり、男子生徒は ${maleTotal}名、女子生徒は ${femaleTotal}名 である。<br>${tableHtml}`,
+            prompt: '51点以上（76点以上＋51〜75点）の生徒全員を合わせた人数は学年全体の何%か。（小数点以下第2位を四捨五入）',
+            customChoices: choices,
+            steps: [
+                `ステップ1：男子・女子それぞれの「51点以上」の割合を合算します。<br>・男子：${maleDist[0]}% + ${maleDist[1]}% = <strong>${maleDist[0]+maleDist[1]}%</strong><br>・女子：${femaleDist[0]}% + ${femaleDist[1]}% = <strong>${femaleDist[0]+femaleDist[1]}%</strong>`,
+                `ステップ2：実人数を求めます。<br>・男子：${maleTotal} × ${((maleDist[0]+maleDist[1])/100).toFixed(2)} = <strong>${maleCount}人</strong><br>・女子：${femaleTotal} × ${((femaleDist[0]+femaleDist[1])/100).toFixed(2)} = <strong>${femaleCount}人</strong>`,
+                `ステップ3：全体（${grandTotal}人）に対する割合を求めます。<br>・(${maleCount} + ${femaleCount}) ÷ ${grandTotal} = <strong>${roundedPct}%</strong>`
+            ]
+        };
+    }
+}
 
         function generateChoices(q) {
             if (q.customChoices) return q.customChoices;
