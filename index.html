@@ -704,16 +704,18 @@
         }
 
         function genSettlement2() {
-            const perPerson = getRandomInt(10, 30) * 100;
-            const total = perPerson * 3;
+            let paidP, paidQ, paidR, perPerson, total;
+            let tries = 0;
+            do {
+                perPerson = getRandomInt(10, 30) * 100;
+                total = perPerson * 3;
+                paidP = getRandomInt(Math.floor(perPerson / 100) + 5, Math.floor(total / 100) - 5) * 100;
+                const remaining = total - paidP;
+                paidQ = getRandomInt(1, Math.floor(remaining / 100) - 1) * 100;
+                paidR = remaining - paidQ;
+                tries++;
+            } while ((paidQ > perPerson || paidR > perPerson) && tries < 50);
 
-            const paidP = getRandomInt(Math.floor(perPerson / 100) + 5, Math.floor(total / 100) - 5) * 100;
-            const remaining = total - paidP;
-            
-            const paidQ = getRandomInt(1, Math.floor(remaining / 100) - 1) * 100;
-            const paidR = remaining - paidQ;
-
-            const receiveP = paidP - perPerson;
             const diffQ = paidQ - perPerson;
             const diffR = paidR - perPerson;
 
@@ -734,7 +736,7 @@
                 step: 100,
                 steps: [
                     `ステップ1：1人あたりの本来の負担額を計算する。<br><strong>${total.toLocaleString()}円 ÷ 3 = ${perPerson.toLocaleString()}円</strong>`,
-                    `ステップ2：Pの受け取るべき金額（受給額）を求める。<br><strong>${paidP.toLocaleString()}円 - ${perPerson.toLocaleString()}円 = ${receiveP.toLocaleString()}円（受け取る）</strong>`,
+                    `ステップ2：Pの受け取るべき金額（受給額）を求める。<br><strong>${paidP.toLocaleString()}円 - ${perPerson.toLocaleString()}円 = ${(paidP - perPerson).toLocaleString()}円（受け取る）</strong>`,
                     `ステップ3：${payerName} の不足額（支払うべき金額）を求める。<br><strong>${perPerson.toLocaleString()}円 - ${(payerName === 'Q' ? paidQ : paidR).toLocaleString()}円 = ${payerDiff.toLocaleString()}円</strong>`
                 ]
             };
@@ -745,7 +747,6 @@
             const sharedTotal = sharedPerPerson * 3;
             const personalA = getRandomInt(5, 15) * 100;
             const totalReceipt = sharedTotal + personalA;
-            const paidB = totalReceipt;
             const payAtoB = sharedPerPerson + personalA;
 
             return {
@@ -812,7 +813,6 @@
             const intermediate = Math.round(original * (1 - firstRate / 100));
             const secondRate = [10, 20, 25][getRandomInt(0, 2)];
             const finalPrice = Math.round(intermediate * (1 - secondRate / 100));
-            const totalDiscount = original - finalPrice;
 
             return {
                 unit: '料金割引', level: 3, badge: 'Lv.3 高難度', title: '連続割引の計算',
@@ -1166,7 +1166,7 @@
         function genProbability5() {
             return {
                 unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
-                text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が出たら左へ1（-1）進む。コインを4回投げた。`,
+                text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が来たら左へ1（-1）進む。コインを4回投げた。`,
                 prompt: '点Pが最終的に「+2」の位置にいる確率はいくらか。',
                 correctAnswer: 3, unitSuffix: '/8', isFraction: true,
                 customChoices: [
@@ -1540,6 +1540,16 @@
                 isCorrect: isCorrect
             });
 
+            // CBTモードの場合は1問ごとの正誤判定・解説を表示せず、即座に次の問題へ進む仕様
+            if (isCBTMode) {
+                if (cbtQuestionIndex >= cbtTotalQuestions) {
+                    finishCBTMode();
+                } else {
+                    generateNewQuestion();
+                }
+                return;
+            }
+
             const choiceButtons = document.querySelectorAll('.choice-btn');
             choiceButtons.forEach((btn, idx) => {
                 btn.disabled = true;
@@ -1567,11 +1577,6 @@
 
             document.getElementById('explanation-card').classList.remove('hidden');
             document.getElementById('explanation-card').scrollIntoView({ behavior: 'smooth' });
-
-            if (isCBTMode && cbtQuestionIndex >= cbtTotalQuestions) {
-                const nextBtn = document.querySelector('#explanation-card button');
-                if (nextBtn) nextBtn.innerHTML = `<span>CBT結果を見る</span><i class="fa-solid fa-flag-checkered"></i>`;
-            }
         }
 
         function startPracticeWithConfig() {
@@ -1784,6 +1789,7 @@
                 });
             }
 
+            document.getElementById('history-modal').classList.add('hidden'); // Fix typo in original or just call open
             document.getElementById('history-modal').classList.remove('hidden');
         }
 
