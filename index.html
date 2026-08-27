@@ -143,7 +143,6 @@
                     <span class="text-xs text-slate-400">ステップ 1/2</span>
                 </div>
 
-                <!-- Unit Choice Cards (9 Units) -->
                 <div class="mb-6">
                     <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">演習する単元</label>
                     <div class="grid grid-cols-2 gap-2" id="unit-selection-grid">
@@ -210,7 +209,6 @@
                     </div>
                 </div>
 
-                <!-- Level Choice Options -->
                 <div class="mb-8">
                     <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">難易度（レベル）</label>
                     <div class="grid grid-cols-4 gap-2" id="level-selection-grid">
@@ -236,7 +234,7 @@
             </div>
         </section>
 
-        <!-- 3. CBT MOCK EXAM DISPLAY -->
+        <!-- 3. CBT STATUS BAR -->
         <section id="cbt-status-bar" class="hidden mb-5 bg-[#141a2e] text-white rounded-3xl p-5 shadow-2xl border border-slate-800 max-w-2xl mx-auto w-full animate-fade-in">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 
@@ -320,7 +318,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5" id="choices-container">
-                    <!-- Choice Buttons dynamically rendered -->
                 </div>
             </div>
 
@@ -354,7 +351,6 @@
                 <h2 class="text-2xl font-extrabold text-white mt-2">CBT模擬試験 結果</h2>
             </div>
 
-            <!-- 一斉テスト実施日表示 -->
             <div id="cbt-sync-date-display" class="hidden text-center mb-4 text-xs font-bold text-indigo-300 bg-indigo-950/60 py-2.5 px-4 rounded-2xl border border-indigo-800/50">
                 <i class="fa-solid fa-calendar-day text-indigo-400 mr-1.5"></i>一斉テスト実施日: <span id="cbt-res-date-val"></span>
             </div>
@@ -374,7 +370,6 @@
                 </div>
             </div>
 
-            <!-- 結果コピーボタン (申告用) -->
             <div class="mb-4">
                 <button id="copy-cbt-result-btn" onclick="copyCBTResult()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition text-xs shadow-lg shadow-emerald-950/50 flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-copy"></i>
@@ -467,7 +462,6 @@
                     <i class="fa-solid fa-chevron-down text-indigo-400 text-xs"></i>
                 </button>
 
-                <!-- 一斉テスト用 日付選択エリア -->
                 <div id="sync-date-container" class="hidden bg-[#0f1423] p-3 rounded-2xl border border-indigo-800/60 space-y-2.5 animate-fade-in">
                     <label class="block text-[11px] font-bold text-slate-300">実施日付を選択:</label>
                     <input type="date" id="sync-date-picker" class="w-full bg-[#1b233a] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
@@ -505,7 +499,7 @@
         let isCBTMode = false;
         let cbtModeType = 'mini';
         let cbtTotalQuestions = 9;
-        let cbtMaxOverallTime = 720; // 12分 (12 * 60 = 720秒)
+        let cbtMaxOverallTime = 720;
         let cbtQuestionIndex = 0;
         let cbtCurrentLevel = 1;
         let cbtOverallTimerInterval = null;
@@ -516,7 +510,6 @@
         let globalHistory = [];
         let sessionAnswers = [];
 
-        // --- シード付き乱数ジェネレーター (Mulberry32 PRNG) ---
         let currentPRNG = Math.random;
 
         function stringToSeed(str) {
@@ -892,155 +885,123 @@
             };
         }
 
-// --- ⑤ 速さ Lv.1: 出会い算（基本） ---
-function genSpeed1() {
-    // 時間が整数（2〜5時間）になるよう逆算して距離を設定
-    const hours = getRandomInt(2, 5);
-    const speedA = getRandomInt(50, 80);
-    const speedB = getRandomInt(30, 50);
-    const sumSpeed = speedA + speedB;
-    const distance = sumSpeed * hours;
+        // --- ⑤ 速さ ---
+        function genSpeed1() {
+            const hours = getRandomInt(2, 5);
+            const speedA = getRandomInt(50, 80);
+            const speedB = getRandomInt(30, 50);
+            const sumSpeed = speedA + speedB;
+            const distance = sumSpeed * hours;
 
-    return {
-        unit: '速さ', level: 1, badge: 'Lv.1 基本', title: '出会い算の基本',
-        text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
-        prompt: '2人が出会うのは出発してから何時間後か。', 
-        correctAnswer: hours, 
-        unitSuffix: '時間後', 
-        step: 1,
-        steps: [
-            `ステップ1：2人の合算の速さ（1時間に縮まる距離）を求める。<br><strong>${speedA}km/h + ${speedB}km/h = ${sumSpeed}km/h</strong>`,
-            `ステップ2：全体の距離を合算の速さで割る。<br><strong>${distance}km ÷ ${sumSpeed}km/h = ${hours}時間後</strong>`
-        ]
-    };
-}
+            return {
+                unit: '速さ', level: 1, badge: 'Lv.1 基本', title: '出会い算の基本',
+                text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
+                prompt: '2人が出会うのは出発してから何時間後か。', 
+                correctAnswer: hours, 
+                unitSuffix: '時間後', 
+                step: 1,
+                steps: [
+                    `ステップ1：2人の合算の速さ（1時間に縮まる距離）を求める。<br><strong>${speedA}km/h + ${speedB}km/h = ${sumSpeed}km/h</strong>`,
+                    `ステップ2：全体の距離を合算の速さで割る。<br><strong>${distance}km ÷ ${sumSpeed}km/h = ${hours}時間後</strong>`
+                ]
+            };
+        }
 
-// --- ⑤ 速さ Lv.2: 旅人算（追いつき）＆ 平均の速さ ---
-function genSpeed2() {
-    const isCatchUp = Math.random() < 0.5;
+        function genSpeed2() {
+            const isCatchUp = Math.random() < 0.5;
 
-    if (isCatchUp) {
-        // 【パターンA】追いつき旅人算
-        const diffMinutes = [10, 15, 20, 30][getRandomInt(0, 3)]; // 先発のリード時間（分）
-        const speedWalk = 60; // 先発（徒歩）：分速60m
-        const leadDistance = speedWalk * diffMinutes; // リードしている距離
-        
-        // 追いつく時間（10〜30分）
-        const catchTime = [10, 15, 20, 30][getRandomInt(0, 3)]; 
-        // 追いつくために必要な速さの差 = リード距離 ÷ 時間
-        const speedDiff = leadDistance / catchTime;
-        const speedRun = speedWalk + speedDiff; // 後発（自転車・走る）：分速
+            if (isCatchUp) {
+                const diffMinutes = [10, 15, 20, 30][getRandomInt(0, 3)];
+                const speedWalk = 60;
+                const leadDistance = speedWalk * diffMinutes;
+                const catchTime = [10, 15, 20, 30][getRandomInt(0, 3)]; 
+                const speedDiff = leadDistance / catchTime;
+                const speedRun = speedWalk + speedDiff;
 
-        return {
-            unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '追いつき旅人算',
-            text: `Aが分速 ${speedWalk}m で出発した ${diffMinutes}分 後に、Bが同じ地点から分速 ${speedRun}m でAを追いかけた。`,
-            prompt: 'Bが出発してから何分後にAに追いつくか。',
-            correctAnswer: catchTime,
-            unitSuffix: '分後',
-            step: 1,
-            steps: [
-                `ステップ1：Bが出発するまでにAが進んだ距離（差）を求める。<br><strong>${speedWalk}m/分 × ${diffMinutes}分 = ${leadDistance}m</strong>`,
-                `ステップ2：1分間にBがAとの距離を縮める速さ（差）を求める。<br><strong>${speedRun}m/分 - ${speedWalk}m/分 = ${speedDiff}m/分</strong>`,
-                `ステップ3：追いつくのにかかる時間を求める。<br><strong>${leadDistance}m ÷ ${speedDiff}m/分 = ${catchTime}分後</strong>`
-            ]
-        };
-    } else {
-        // 【パターンB】往復の平均の速さ
-        // 片道の距離（km）
-        const distance = [60, 120, 180][getRandomInt(0, 2)];
-        const speedGoing = 60; // 行き：時速60km
-        const speedReturn = 40; // 帰り：時速40km
-        
-        const timeGoing = distance / speedGoing; // 行きの時間
-        const timeReturn = distance / speedReturn; // 帰りの時間
-        const totalDistance = distance * 2;
-        const totalTime = timeGoing + timeReturn;
-        
-        // 平均の速さ = 全距離 ÷ 全時間 ( (60*40*2)/(60+40) = 48km/h )
-        const avgSpeed = totalDistance / totalTime;
+                return {
+                    unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '追いつき旅人算',
+                    text: `Aが分速 ${speedWalk}m で出発した ${diffMinutes}分 後に、Bが同じ地点から分速 ${speedRun}m でAを追いかけた。`,
+                    prompt: 'Bが出発してから何分後にAに追いつくか。',
+                    correctAnswer: catchTime,
+                    unitSuffix: '分後',
+                    step: 1,
+                    steps: [
+                        `ステップ1：Bが出発するまでにAが進んだ距離（差）を求める。<br><strong>${speedWalk}m/分 × ${diffMinutes}分 = ${leadDistance}m</strong>`,
+                        `ステップ2：1分間にBがAとの距離を縮める速さ（差）を求める。<br><strong>${speedRun}m/分 - ${speedWalk}m/分 = ${speedDiff}m/分</strong>`,
+                        `ステップ3：追いつくのにかかる時間を求める。<br><strong>${leadDistance}m ÷ ${speedDiff}m/分 = ${catchTime}分後</strong>`
+                    ]
+                };
+            } else {
+                const distance = [60, 120, 180][getRandomInt(0, 2)];
+                const speedGoing = 60;
+                const speedReturn = 40;
+                const timeGoing = distance / speedGoing;
+                const timeReturn = distance / speedReturn;
+                const totalDistance = distance * 2;
+                const totalTime = timeGoing + timeReturn;
+                const avgSpeed = totalDistance / totalTime;
 
-        return {
-            unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '往復の平均速度',
-            text: `A地点とB地点の間（片道 ${distance}km）を往復した。行きは時速 ${speedGoing}km、帰りは時速 ${speedReturn}km で走った。`,
-            prompt: '往復の平均の速さは時速何kmか。',
-            correctAnswer: avgSpeed,
-            unitSuffix: 'km/h',
-            step: 1,
-            steps: [
-                `ステップ1：行きと帰りにかかる時間をそれぞれ求める。<br>行き：<strong>${distance}km ÷ ${speedGoing}km/h = ${timeGoing}時間</strong><br>帰り：<strong>${distance}km ÷ ${speedReturn}km/h = ${timeReturn}時間</strong>`,
-                `ステップ2：往復の全距離と合計時間を求める。<br>全距離：<strong>${distance}km × 2 = ${totalDistance}km</strong><br>全時間：<strong>${timeGoing} + ${timeReturn} = ${totalTime}時間</strong>`,
-                `ステップ3：全距離を全時間で割って平均速度を算出する。<br><strong>${totalDistance}km ÷ ${totalTime}時間 = ${avgSpeed}km/h</strong>`
-            ]
-        };
-    }
-}
+                return {
+                    unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '往復の平均速度',
+                    text: `A地点とB地点の間（片道 ${distance}km）を往復した。行きは時速 ${speedGoing}km、帰りは時速 ${speedReturn}km で走った。`,
+                    prompt: '往復の平均の速さは時速何kmか。',
+                    correctAnswer: avgSpeed,
+                    unitSuffix: 'km/h',
+                    step: 1,
+                    steps: [
+                        `ステップ1：行きと帰りにかかる時間をそれぞれ求める。<br>行き：<strong>${distance}km ÷ ${speedGoing}km/h = ${timeGoing}時間</strong><br>帰り：<strong>${distance}km ÷ ${speedReturn}km/h = ${timeReturn}時間</strong>`,
+                        `ステップ2：往復の全距離と合計時間を求める。<br>全距離：<strong>${distance}km × 2 = ${totalDistance}km</strong><br>全時間：<strong>${timeGoing} + ${timeReturn} = ${totalTime}時間</strong>`,
+                        `ステップ3：全距離を全時間で割って平均速度を算出する。<br><strong>${totalDistance}km ÷ ${totalTime}時間 = ${avgSpeed}km/h</strong>`
+                    ]
+                };
+            }
+        }
 
-// --- ⑤ 速さ Lv.3: 流水算 ＆ 通過算 ---
-function genSpeed3() {
-    const isRiver = Math.random() < 0.5;
+        function genSpeed3() {
+            const isRiver = Math.random() < 0.5;
 
-    if (isRiver) {
-        // 【パターンA】流水算（静水時の船速・川の流速）
-        const streamSpeed = getRandomInt(2, 5); // 川の流速 (km/h)
-        const boatSpeed = getRandomInt(12, 20); // 静水時の船速 (km/h)
-        
-        const downSpeed = boatSpeed + streamSpeed; // 下りの速さ
-        const upSpeed = boatSpeed - streamSpeed;   // 上りの速さ
-        
-        // 整数時間（2〜4時間）で進める川の長さ
-        const hours = getRandomInt(2, 4);
-        const distance = downSpeed * hours; 
-        
-        // 問い：同じ距離を「上る」のにかかる時間を求める
-        // 確実に割り切れる組み合わせを調整
-        const upHours = distance / upSpeed;
-        
-        // もし上り時間が整数にならない場合はシンプルな数値を再固定
-        const fixedBoat = 15;
-        const fixedStream = 3;
-        const fixedDown = 18; // 15 + 3
-        const fixedUp = 12;   // 15 - 3
-        const fixedDistance = 36; // 36km
-        
-        return {
-            unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '流水算（川の上り下り）',
-            text: `川に沿って ${fixedDistance}km 離れた2地点がある。静水での速さが時速 ${fixedBoat}km の船が、川を下るのに ${fixedDistance / fixedDown}時間 かかった。`,
-            prompt: 'この船が同じ区間を上るのにかかる時間は何時間か。',
-            correctAnswer: fixedDistance / fixedUp, // 3時間
-            unitSuffix: '時間',
-            step: 0.5,
-            steps: [
-                `ステップ1：川の下りの速さと、川の流速を求める。<br>下りの実質速さ：<strong>${fixedDistance}km ÷ ${fixedDistance / fixedDown}時間 = ${fixedDown}km/h</strong><br>川の流速：<strong>${fixedDown}km/h - ${fixedBoat}km/h = ${fixedStream}km/h</strong>`,
-                `ステップ2：川の上りの実質速さを求める。<br><strong>${fixedBoat}km/h - ${fixedStream}km/h = ${fixedUp}km/h</strong>`,
-                `ステップ3：上りにかかる時間を求める。<br><strong>${fixedDistance}km ÷ ${fixedUp}km/h = ${fixedDistance / fixedUp}時間</strong>`
-            ]
-        };
-    } else {
-        // 【パターンB】通過算（列車とトンネル）
-        const trainLength = [100, 120, 150, 200][getRandomInt(0, 3)]; // 電車の長さ(m)
-        const tunnelLength = [800, 1000, 1200][getRandomInt(0, 2)];   // トンネルの長さ(m)
-        const totalDistance = trainLength + tunnelLength;             // 走るべき全距離(m)
-        
-        // 秒速 (m/s)：20m/s = 72km/h, 25m/s = 90km/h
-        const speedMps = [20, 25][getRandomInt(0, 1)];
-        const speedKmh = speedMps * 3.6;
-        
-        const seconds = totalDistance / speedMps; // かかる時間（秒）
+            if (isRiver) {
+                const fixedBoat = 15;
+                const fixedStream = 3;
+                const fixedDown = 18;
+                const fixedUp = 12;
+                const fixedDistance = 36;
+                
+                return {
+                    unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '流水算（川の上り下り）',
+                    text: `川に沿って ${fixedDistance}km 離れた2地点がある。静水での速さが時速 ${fixedBoat}km の船が、川を下るのに ${fixedDistance / fixedDown}時間 かかった。`,
+                    prompt: 'この船が同じ区間を上るのにかかる時間は何時間か。',
+                    correctAnswer: fixedDistance / fixedUp,
+                    unitSuffix: '時間',
+                    step: 0.5,
+                    steps: [
+                        `ステップ1：川の下りの速さと、川の流速を求める。<br>下りの実質速さ：<strong>${fixedDistance}km ÷ ${fixedDistance / fixedDown}時間 = ${fixedDown}km/h</strong><br>川の流速：<strong>${fixedDown}km/h - ${fixedBoat}km/h = ${fixedStream}km/h</strong>`,
+                        `ステップ2：川の上りの実質速さを求める。<br><strong>${fixedBoat}km/h - ${fixedStream}km/h = ${fixedUp}km/h</strong>`,
+                        `ステップ3：上りにかかる時間を求める。<br><strong>${fixedDistance}km ÷ ${fixedUp}km/h = ${fixedDistance / fixedUp}時間</strong>`
+                    ]
+                };
+            } else {
+                const trainLength = [100, 120, 150, 200][getRandomInt(0, 3)];
+                const tunnelLength = [800, 1000, 1200][getRandomInt(0, 2)];
+                const totalDistance = trainLength + tunnelLength;
+                const speedMps = [20, 25][getRandomInt(0, 1)];
+                const speedKmh = speedMps * 3.6;
+                const seconds = totalDistance / speedMps;
 
-        return {
-            unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '通過算（列車とトンネル）',
-            text: `長さ ${trainLength}m の列車が、時速 ${speedKmh}km（秒速 ${speedMps}m）で走り、長さ ${tunnelLength}m のトンネルに入り始めてから完全に抜け出るまで進む。`,
-            prompt: 'トンネルを完全に抜け出るまでに何秒かかるか。',
-            correctAnswer: seconds,
-            unitSuffix: '秒',
-            step: 1,
-            steps: [
-                `ステップ1：列車が完全に抜け出るまでに進む総距離を求める。<br><strong>トンネルの長さ ${tunnelLength}m + 列車の長さ ${trainLength}m = ${totalDistance}m</strong>`,
-                `ステップ2：総距離を秒速で割って通過時間を計算する。<br><strong>${totalDistance}m ÷ ${speedMps}m/秒 = ${seconds}秒</strong>`
-            ]
-        };
-    }
-}
+                return {
+                    unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '通過算（列車とトンネル）',
+                    text: `長さ ${trainLength}m の列車が、時速 ${speedKmh}km（秒速 ${speedMps}m）で走り、長さ ${tunnelLength}m のトンネルに入り始めてから完全に抜け出るまで進む。`,
+                    prompt: 'トンネルを完全に抜け出るまでに何秒かかるか。',
+                    correctAnswer: seconds,
+                    unitSuffix: '秒',
+                    step: 1,
+                    steps: [
+                        `ステップ1：列車が完全に抜け出るまでに進む総距離を求める。<br><strong>トンネルの長さ ${tunnelLength}m + 列車の長さ ${trainLength}m = ${totalDistance}m</strong>`,
+                        `ステップ2：総距離を秒速で割って通過時間を計算する。<br><strong>${totalDistance}m ÷ ${speedMps}m/秒 = ${seconds}秒</strong>`
+                    ]
+                };
+            }
+        }
 
         // --- ⑥ 損益算 ---
         function genProfit1() {
@@ -1057,270 +1018,195 @@ function genSpeed3() {
                 ]
             };
         }
-// --- ⑥ 損益算 Lv.2: 分割販売（定価販売＋割引販売） ---
-function genProfit2() {
-    // 1個あたりの原価（100円〜500円）
-    const cost = getRandomInt(1, 5) * 100;
-    
-    // 見込み利益率（20%、30%、40%、50%）
-    const markupRate = [20, 30, 40, 50][getRandomInt(0, 3)];
-    const listPrice = Math.round(cost * (1 + markupRate / 100)); // 定価
-    
-    // 全体の仕入れ個数（100個）
-    const totalCount = 100;
-    const totalCost = cost * totalCount; // 総仕入れ額
-    
-    // 定価で売れた割合（60%〜80%）
-    const regularRatio = [60, 70, 80][getRandomInt(0, 2)];
-    const regularCount = totalCount * (regularRatio / 100);
-    const discountCount = totalCount - regularCount;
-    
-    // 残りの割引率（10%引き、20%引き、30%引き）
-    const discountRate = [10, 20, 30][getRandomInt(0, 2)];
-    const discountPrice = Math.round(listPrice * (1 - discountRate / 100)); // 割引売価
-    
-    // 売上総額と利益の計算
-    const salesRegular = listPrice * regularCount;
-    const salesDiscount = discountPrice * discountCount;
-    const totalSales = salesRegular + salesDiscount;
-    const totalProfit = totalSales - totalCost;
 
-    return {
-        unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価と割引での分割販売',
-        text: `1個 ${cost.toLocaleString()}円 で仕入れた商品を ${totalCount}個 用意し、原価の ${markupRate}% の利益を見込んで定価をつけた。<br>` +
-              `全体の ${regularRatio}%（${regularCount}個）は定価で売れ、残りの ${discountCount}個 は定価の ${discountRate}% 引きで販売した。`,
-        prompt: 'この商品の販売による全体での利益額はいくらか。',
-        correctAnswer: totalProfit,
-        unitSuffix: '円',
-        step: 100,
-        steps: [
-            `ステップ1：定価と割引売価をそれぞれ求める。<br>定価：<strong>${cost}円 × (1 + ${markupRate/100}) = ${listPrice.toLocaleString()}円</strong><br>割引売価：<strong>${listPrice}円 × (1 - ${discountRate/100}) = ${discountPrice.toLocaleString()}円</strong>`,
-            `ステップ2：定価販売と割引販売の合計売上額を計算する。<br>定価売上：<strong>${listPrice.toLocaleString()}円 × ${regularCount}個 = ${salesRegular.toLocaleString()}円</strong><br>割引売上：<strong>${discountPrice.toLocaleString()}円 × ${discountCount}個 = ${salesDiscount.toLocaleString()}円</strong><br>売上総額：<strong>${totalSales.toLocaleString()}円</strong>`,
-            `ステップ3：売上総額から総仕入れ額（原価）を引いて総利益を求める。<br>総仕入れ額：<strong>${cost}円 × ${totalCount}個 = ${totalCost.toLocaleString()}円</strong><br>利益：<strong>${totalSales.toLocaleString()}円 - ${totalCost.toLocaleString()}円 = ${totalProfit.toLocaleString()}円</strong>`
-        ]
-    };
-}
+        function genProfit2() {
+            const cost = getRandomInt(1, 5) * 100;
+            const markupRate = [20, 30, 40, 50][getRandomInt(0, 3)];
+            const listPrice = Math.round(cost * (1 + markupRate / 100));
+            const totalCount = 100;
+            const totalCost = cost * totalCount;
+            const regularRatio = [60, 70, 80][getRandomInt(0, 2)];
+            const regularCount = totalCount * (regularRatio / 100);
+            const discountCount = totalCount - regularCount;
+            const discountRate = [10, 20, 30][getRandomInt(0, 2)];
+            const discountPrice = Math.round(listPrice * (1 - discountRate / 100));
+            const salesRegular = listPrice * regularCount;
+            const salesDiscount = discountPrice * discountCount;
+            const totalSales = salesRegular + salesDiscount;
+            const totalProfit = totalSales - totalCost;
 
-// --- ⑥ 損益算 Lv.3: 目標利益率から処分価格の割引率を逆算 ---
-function genProfit3() {
-    // わかりやすく全体を100個として計算
-    const totalCount = 100;
-    
-    // 定価で売れた割合（70%）
-    const regularCount = 70;
-    const discountCount = 30;
-    
-    // 定価の利益率（50%増し：原価の1.5倍）
-    const markupRate = 50; 
-    
-    // 目標とする全体の利益率（例：26%、29%、32%など整数に収まる値を選択）
-    // 定価で 70個 × 1.5 = 105 の売上。
-    // 全体利益率 targetRate (%) のとき、必要な売上＝ 100 + targetRate
-    // 割引分 30個 で必要な売上＝ (100 + targetRate) - 105 = targetRate - 5
-    // 割引売価(原価比) = (targetRate - 5) / 30
-    // これが「定価(1.5)」に対していくら引きか：
-    // 例: targetRate = 26% の場合
-    // 全体売上 126。定価売上 105。残り売上 21。
-    // 割引売価 = 21 / 30 = 0.7 (原価の70%)
-    // 定価(1.5)に対する割合 = 0.7 / 1.5 = 7/15 （非割り切り回避のため固定セットから抽選）
+            return {
+                unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価と割引での分割販売',
+                text: `1個 ${cost.toLocaleString()}円 で仕入れた商品を ${totalCount}個 用意し、原価の ${markupRate}% の利益を見込んで定価をつけた。<br>` +
+                      `全体の ${regularRatio}%（${regularCount}個）は定価で売れ、残りの ${discountCount}個 は定価の ${discountRate}% 引きで販売した。`,
+                prompt: 'この商品の販売による全体での利益額はいくらか。',
+                correctAnswer: totalProfit,
+                unitSuffix: '円',
+                step: 100,
+                steps: [
+                    `ステップ1：定価と割引売価をそれぞれ求める。<br>定価：<strong>${cost}円 × (1 + ${markupRate/100}) = ${listPrice.toLocaleString()}円</strong><br>割引売価：<strong>${listPrice}円 × (1 - ${discountRate/100}) = ${discountPrice.toLocaleString()}円</strong>`,
+                    `ステップ2：定価販売と割引販売の合計売上額を計算する。<br>定価売上：<strong>${listPrice.toLocaleString()}円 × ${regularCount}個 = ${salesRegular.toLocaleString()}円</strong><br>割引売上：<strong>${discountPrice.toLocaleString()}円 × ${discountCount}個 = ${salesDiscount.toLocaleString()}円</strong><br>売上総額：<strong>${totalSales.toLocaleString()}円</strong>`,
+                    `ステップ3：売上総額から総仕入れ額（原価）を引いて総利益を求める。<br>総仕入れ額：<strong>${cost}円 × ${totalCount}個 = ${totalCost.toLocaleString()}円</strong><br>利益：<strong>${totalSales.toLocaleString()}円 - ${totalCost.toLocaleString()}円 = ${totalProfit.toLocaleString()}円</strong>`
+                ]
+            };
+        }
 
-    // きれいに割り切れるパターン設定
-    // 原価100、定価150（50%利益）
-    // 70個定価売上 = 10,500円
-    // パターン1: 割引率20%引き（売価120円） -> 30個売上3,600円 -> 総売上14,100円（原価10,000円） -> 全体利益41%
-    // パターン2: 割引率30%引き（売価105円） -> 30個売上3,150円 -> 総売上13,650円（原価10,000円） -> 全体利益36.5%
-    // パターン3: 割引率40%引き（売価90円）  -> 30個売上2,700円 -> 総売上13,200円（原価10,000円） -> 全体利益32%
-    // パターン4: 割引率50%引き（売価75円）  -> 30個売上2,250円 -> 総売上12,750円（原価10,000円） -> 全体利益27.5%
+        function genProfit3() {
+            const totalCount = 100;
+            const regularCount = 70;
+            const discountCount = 30;
+            const markupRate = 50; 
+            const patterns = [
+                { targetProfitPercent: 41, discountRate: 20, discountPriceRatio: 1.2 },
+                { targetProfitPercent: 32, discountRate: 40, discountPriceRatio: 0.9 }
+            ];
+            const selected = patterns[getRandomInt(0, patterns.length - 1)];
 
-    const patterns = [
-        { targetProfitPercent: 41, discountRate: 20, discountPriceRatio: 1.2 },
-        { targetProfitPercent: 32, discountRate: 40, discountPriceRatio: 0.9 }
-    ];
-    
-    const selected = patterns[getRandomInt(0, patterns.length - 1)];
+            return {
+                unit: '損益算', level: 3, badge: 'Lv.3 高難度', title: '目標利益からの割引率の逆算',
+                text: `ある商品を原価の ${markupRate}% の利益を見込んで定価をつけて販売した。<br>` +
+                      `仕入れた個数の ${regularCount}% が定価で売れたため、残りの ${discountCount}% を定価から一定の割合で割り引いてすべて売り切った。<br>` +
+                      `その結果、全体として仕入れ総額の ${selected.targetProfitPercent}% の利益を得ることができた。`,
+                prompt: '売れ残りを定価の何%引きで販売したか。',
+                correctAnswer: selected.discountRate,
+                unitSuffix: '%引き',
+                step: 5,
+                steps: [
+                    `ステップ1：商品1個の原価を100とし、全体量を100個として計算する。<br>仕入れ総額：<strong>100 × 100 = 10,000</strong><br>定価：<strong>100 × (1 + 0.5) = 150</strong>`,
+                    `ステップ2：全体で得た売上目標額と、定価で売れた分の売上額を求める。<br>目標売上総額：<strong>10,000 × (1 + ${selected.targetProfitPercent/100}) = ${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()}</strong><br>定価分の売上：<strong>150 × ${regularCount}個 = ${(150 * regularCount).toLocaleString()}</strong>`,
+                    `ステップ3：残りの ${discountCount}個 で必要な売上額と、その1個あたりの販売価格を求める。<br>残り分の売上額：<strong>${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()} - ${(150 * regularCount).toLocaleString()} = ${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()}</strong><br>割引後の売価：<strong>${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()} ÷ ${discountCount}個 = ${100 * selected.discountPriceRatio}</strong>`,
+                    `ステップ4：定価（150）に対する割引率を算出する。<br><strong>(150 - ${100 * selected.discountPriceRatio}) ÷ 150 = ${selected.discountRate / 100} （${selected.discountRate}%引き）</strong>`
+                ]
+            };
+        }
 
-    return {
-        unit: '損益算', level: 3, badge: 'Lv.3 高難度', title: '目標利益からの割引率の逆算',
-        text: `ある商品を原価の ${markupRate}% の利益を見込んで定価をつけて販売した。<br>` +
-              `仕入れた個数の ${regularCount}% が定価で売れたため、残りの ${discountCount}% を定価から一定の割合で割り引いてすべて売り切った。<br>` +
-              `その結果、全体として仕入れ総額の ${selected.targetProfitPercent}% の利益を得ることができた。`,
-        prompt: '売れ残りを定価の何%引きで販売したか。',
-        correctAnswer: selected.discountRate,
-        unitSuffix: '%引き',
-        step: 5,
-        steps: [
-            `ステップ1：商品1個の原価を100とし、全体量を100個として計算する。<br>仕入れ総額：<strong>100 × 100 = 10,000</strong><br>定価：<strong>100 × (1 + 0.5) = 150</strong>`,
-            `ステップ2：全体で得た売上目標額と、定価で売れた分の売上額を求める。<br>目標売上総額：<strong>10,000 × (1 + ${selected.targetProfitPercent/100}) = ${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()}</strong><br>定価分の売上：<strong>150 × ${regularCount}個 = ${(150 * regularCount).toLocaleString()}</strong>`,
-            `ステップ3：残りの ${discountCount}個 で必要な売上額と、その1個あたりの販売価格を求める。<br>残り分の売上額：<strong>${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()} - ${(150 * regularCount).toLocaleString()} = ${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()}</strong><br>割引後の売価：<strong>${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()} ÷ ${discountCount}個 = ${100 * selected.discountPriceRatio}</strong>`,
-            `ステップ4：定価（150）に対する割引率を算出する。<br><strong>(150 - ${100 * selected.discountPriceRatio}) ÷ 150 = ${selected.discountRate / 100} （${selected.discountRate}%引き）</strong>`
-        ]
-    };
-}
-// --- ⑦ 場合の数・確率 Lv.1: 条件付き順列（隣り合い） ---
-function genProbability1() {
-    // 男子3人、女子2人の並び替え（女子2人が必ず隣り合う）
-    // 男子: 3〜4人、女子: 2人で動的に生成
-    const menCount = getRandomInt(3, 4);
-    const womenCount = 2; // 女子2人は隣り合う
-    const totalPeople = menCount + womenCount;
+        // --- ⑦ 場合の数・確率 ---
+        function genProbability1() {
+            const menCount = getRandomInt(3, 4);
+            const womenCount = 2;
+            const totalPeople = menCount + womenCount;
+            function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+            const groupCount = menCount + 1;
+            const ways = factorial(groupCount) * factorial(womenCount);
 
-    // 計算ロジック: 女子2人を1グループとみなす -> (menCount + 1)! × 2!
-    function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
-    
-    const groupCount = menCount + 1;
-    const ways = factorial(groupCount) * factorial(womenCount);
+            return {
+                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '場合の数・特定要素の隣り合い',
+                text: `男子 ${menCount}人 と女子 ${womenCount}人 の合計 ${totalPeople}人 が一列に並ぶ。`,
+                prompt: '女子2人が必ず隣り合う並び方は何通りか。',
+                correctAnswer: ways,
+                unitSuffix: '通り',
+                step: 12,
+                steps: [
+                    `ステップ1：隣り合う女子2人を「1つのグループ」としてまとめる。<br>並べる対象は男子 ${menCount}人 ＋ 女子グループ1個 ＝ <strong>${groupCount}要素</strong>。`,
+                    `ステップ2：${groupCount}要素の並び方を計算する。<br><strong>${groupCount}! ＝ ${factorial(groupCount)}通り</strong>`,
+                    `ステップ3：女子グループ内での2人の並び替えを考慮する。<br><strong>2! ＝ 2通り</strong>`,
+                    `ステップ4：積の法則により全体を算出する。<br><strong>${factorial(groupCount)} × 2 ＝ ${ways}通り</strong>`
+                ]
+            };
+        }
 
-    return {
-        unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '場合の数・特定要素の隣り合い',
-        text: `男子 ${menCount}人 と女子 ${womenCount}人 の合計 ${totalPeople}人 が一列に並ぶ。`,
-        prompt: '女子2人が必ず隣り合う並び方は何通りか。',
-        correctAnswer: ways,
-        unitSuffix: '通り',
-        step: 12,
-        steps: [
-            `ステップ1：隣り合う女子2人を「1つのグループ」としてまとめる。<br>並べる対象は男子 ${menCount}人 ＋ 女子グループ1個 ＝ <strong>${groupCount}要素</strong>。`,
-            `ステップ2：${groupCount}要素の並び方を計算する。<br><strong>${groupCount}! ＝ ${factorial(groupCount)}通り</strong>`,
-            `ステップ3：女子グループ内での2人の並び替えを考慮する。<br><strong>2! ＝ 2通り</strong>`,
-            `ステップ4：積の法則により全体を算出する。<br><strong>${factorial(groupCount)} × 2 ＝ ${ways}通り</strong>`
-        ]
-    };
-}
+        function genProbability2() {
+            return {
+                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '確率・条件を満たす整数の構成',
+                text: `1, 2, 3, 4, 5 の数字が1文字ずつ書かれた5枚のカードから、同時に3枚を取り出して並べ、3桁の整数を作る。`,
+                prompt: 'できた整数が「偶数」である確率はいくらか。',
+                correctAnswer: 2, unitSuffix: '/5', isFraction: true,
+                customChoices: [
+                    { label: 'A', value: 1, htmlText: '1/5', isCorrect: false },
+                    { label: 'B', value: 2, htmlText: '2/5', isCorrect: true },
+                    { label: 'C', value: 3, htmlText: '1/2', isCorrect: false },
+                    { label: 'D', value: 4, htmlText: '3/5', isCorrect: false },
+                    { label: 'E', value: 5, htmlText: '2/3', isCorrect: false },
+                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+                ],
+                steps: [
+                    `ステップ1：作り得るすべての3桁の整数の個数（$_5P_3$）を求める。<br><strong>5 × 4 × 3 ＝ 60通り</strong>`,
+                    `ステップ2：偶数になる条件（一の位が 2 または 4）を満たす通り数を求める。<br>一の位の選び方：<strong>2通り</strong><br>百の位と十の位の選び方（残り4枚から2枚）：<strong>$_4P_2 ＝ 4 × 3 ＝ 12通り</strong><br>偶数の総数：<strong>2 × 12 ＝ 24通り</strong>`,
+                    `ステップ3：確率を算出する。<br><strong>24 / 60 ＝ 2/5（正解はB）</strong>`
+                ]
+            };
+        }
 
-// --- ⑦ 場合の数・確率 Lv.1: 条件付きカード並べ（偶数の算出） ---
-function genProbability2() {
-    // 1, 2, 3, 4, 5 の5枚から3枚を選んで3桁の整数を作る（偶数になる確率）
-    // 全体: 5P3 = 60通り
-    // 偶数: 一の位が2または4 (2通り) × 残り4P2 (12通り) = 24通り
-    // 確率: 24/60 = 2/5
-    
-    return {
-        unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '確率・条件を満たす整数の構成',
-        text: `1, 2, 3, 4, 5 の数字が1文字ずつ書かれた5枚のカードから、同時に3枚を取り出して並べ、3桁の整数を作る。`,
-        prompt: 'できた整数が「偶数」である確率はいくらか。',
-        correctAnswer: 2, unitSuffix: '/5', isFraction: true,
-        customChoices: [
-            { label: 'A', value: 1, htmlText: '1/5', isCorrect: false },
-            { label: 'B', value: 2, htmlText: '2/5', isCorrect: true },
-            { label: 'C', value: 3, htmlText: '1/2', isCorrect: false },
-            { label: 'D', value: 4, htmlText: '3/5', isCorrect: false },
-            { label: 'E', value: 5, htmlText: '2/3', isCorrect: false },
-            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-        ],
-        steps: [
-            `ステップ1：作り得るすべての3桁の整数の個数（$_5P_3$）を求める。<br><strong>5 × 4 × 3 ＝ 60通り</strong>`,
-            `ステップ2：偶数になる条件（一の位が 2 または 4）を満たす通り数を求める。<br>一の位の選び方：<strong>2通り</strong><br>百の位と十の位の選び方（残り4枚から2枚）：<strong>$_4P_2 ＝ 4 × 3 ＝ 12通り</strong><br>偶数の総数：<strong>2 × 12 ＝ 24通り</strong>`,
-            `ステップ3：確率を算出する。<br><strong>24 / 60 ＝ 2/5（正解はB）</strong>`
-        ]
-    };
-}
+        function genProbability3() {
+            return {
+                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '場合の数・順序が固定された順列',
+                text: `A, B, C, D, E, F の6人が一列に並ぶ。`,
+                prompt: 'AがBよりも常に前にいる並び方は何通りか。',
+                correctAnswer: 360, unitSuffix: '通り', step: 30,
+                steps: [
+                    `ステップ1：順序が固定されているAとBを「同じ記号（〇）」とみなす。`,
+                    `ステップ2：〇, 〇, C, D, E, F の6つの要素を並べる「同じものを含む順列」の考え方を用いる。<br><strong>6! ÷ 2!</strong>`,
+                    `ステップ3：計算する。<br><strong>720 ÷ 2 ＝ 360通り</strong>`
+                ]
+            };
+        }
 
-// --- ⑦ 場合の数・確率 Lv.2: 順序固定の順列（同じものを含む順列） ---
-function genProbability3() {
-    // A, B, C, D, E, F の6人が一列に並ぶ。ただし A は B より必ず前に並ぶ。
-    // 全体 6! / 2! = 360通り
-    
-    return {
-        unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '場合の数・順序が固定された順列',
-        text: `A, B, C, D, E, F の6人が一列に並ぶ。`,
-        prompt: 'AがBよりも常に前にいる並び方は何通りか。',
-        correctAnswer: 360, unitSuffix: '通り', step: 30,
-        steps: [
-            `ステップ1：順序が固定されているAとBを「同じ記号（〇）」とみなす。`,
-            `ステップ2：〇, 〇, C, D, E, F の6つの要素を並べる「同じものを含む順列」の考え方を用いる。<br><strong>6! ÷ 2!</strong>`,
-            `ステップ3：計算する。<br><strong>720 ÷ 2 ＝ 360通り</strong>`
-        ]
-    };
-}
+        function genProbability4() {
+            return {
+                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '確率・複数色の玉の同時抽出',
+                text: `赤玉4個、白玉3個の合計7個が入っている袋から、同時に3個の玉を取り出す。`,
+                prompt: '「赤玉がちょうど2個、白玉がちょうど1個」取り出される確率はいくらか。',
+                correctAnswer: 18, unitSuffix: '/35', isFraction: true,
+                customChoices: [
+                    { label: 'A', value: 1, htmlText: '12/35', isCorrect: false },
+                    { label: 'B', value: 2, htmlText: '16/35', isCorrect: false },
+                    { label: 'C', value: 3, htmlText: '18/35', isCorrect: true },
+                    { label: 'D', value: 4, htmlText: '4/7', isCorrect: false },
+                    { label: 'E', value: 5, htmlText: '22/35', isCorrect: false },
+                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+                ],
+                steps: [
+                    `ステップ1：7個から同時に3個を取り出す全組み合わせ（$_7C_3$）を求める。<br><strong>(7 × 6 × 5) ÷ (3 × 2 × 1) ＝ 35通り</strong>`,
+                    `ステップ2：条件を満たす選び方を計算する。<br>赤玉4個から2個を選ぶ（$_4C_2$）：<strong>(4 × 3) ÷ (2 × 1) ＝ 6通り</strong><br>白玉3個から1個を選ぶ（$_3C_1$）：<strong>3通り</strong><br>組合せの総数：<strong>6 × 3 ＝ 18通り</strong>`,
+                    `ステップ3：確率を求める。<br><strong>18 / 35（正解はC）</strong>`
+                ]
+            };
+        }
 
-// --- ⑦ 場合の数・確率 Lv.2: 非復元抽出での複数条件（組み合わせと確率） ---
-function genProbability4() {
-    // 赤玉4個、白玉3個が入った袋から同時に3個取り出す。
-    // 赤玉2個、白玉1個となる確率
-    // 全体: 7C3 = 35通り
-    // 該当: 4C2 × 3C1 = 6 × 3 = 18通り
-    // 確率: 18/35
-    
-    return {
-        unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '確率・複数色の玉の同時抽出',
-        text: `赤玉4個、白玉3個の合計7個が入っている袋から、同時に3個の玉を取り出す。`,
-        prompt: '「赤玉がちょうど2個、白玉がちょうど1個」取り出される確率はいくらか。',
-        correctAnswer: 18, unitSuffix: '/35', isFraction: true,
-        customChoices: [
-            { label: 'A', value: 1, htmlText: '12/35', isCorrect: false },
-            { label: 'B', value: 2, htmlText: '16/35', isCorrect: false },
-            { label: 'C', value: 3, htmlText: '18/35', isCorrect: true },
-            { label: 'D', value: 4, htmlText: '4/7', isCorrect: false },
-            { label: 'E', value: 5, htmlText: '22/35', isCorrect: false },
-            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-        ],
-        steps: [
-            `ステップ1：7個から同時に3個を取り出す全組み合わせ（$_7C_3$）を求める。<br><strong>(7 × 6 × 5) ÷ (3 × 2 × 1) ＝ 35通り</strong>`,
-            `ステップ2：条件を満たす選び方を計算する。<br>赤玉4個から2個を選ぶ（$_4C_2$）：<strong>(4 × 3) ÷ (2 × 1) ＝ 6通り</strong><br>白玉3個から1個を選ぶ（$_3C_1$）：<strong>3通り</strong><br>組合せの総数：<strong>6 × 3 ＝ 18通り</strong>`,
-            `ステップ3：確率を求める。<br><strong>18 / 35（正解はC）</strong>`
-        ]
-    };
-}
+        function genProbability5() {
+            return {
+                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
+                text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が出たら左へ1（-1）進む。コインを4回投げた。`,
+                prompt: '点Pが最終的に「+2」の位置にいる確率はいくらか。',
+                correctAnswer: 3, unitSuffix: '/8', isFraction: true,
+                customChoices: [
+                    { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
+                    { label: 'B', value: 2, htmlText: '5/16', isCorrect: false },
+                    { label: 'C', value: 3, htmlText: '3/8', isCorrect: true },
+                    { label: 'D', value: 4, htmlText: '7/16', isCorrect: false },
+                    { label: 'E', value: 5, htmlText: '1/2', isCorrect: false },
+                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+                ],
+                steps: [
+                    `ステップ1：表が出た回数を $x$ 回（裏は $4 - x$ 回）として、4回後の位置を表す式を立てる。<br><strong>位置 ＝ 2x - 1(4 - x) ＝ 3x - 4</strong>`,
+                    `ステップ2：位置が「+2」になる表の回数 $x$ を求める。<br><strong>3x - 4 ＝ 2  ⇒  3x ＝ 6  ⇒  x ＝ 2（表が2回、裏が2回）</strong>`,
+                    `ステップ3：反復試行の公式を用いて確率を計算する。<br>全事象：$2^4 ＝ 16通り$<br>表が2回出る出方：$_4C_2 ＝ 6通り$<br>確率は <strong>6 / 16 ＝ 3/8（正解はC）</strong>`
+                ]
+            };
+        }
 
-// --- ⑦ 場合の数・確率 Lv.3: 反復試行と動点（確率） ---
-function genProbability5() {
-    // 数直線上の原点Oから出発。コインを投げて表なら+2、裏なら-1移動。
-    // 4回投げたときに位置が「+2」にいる確率
-    // 表が x 回、裏が (4 - x) 回
-    // 位置: 2x - 1(4 - x) = 3x - 4 = 2  =>  3x = 6  =>  x = 2 (表が2回、裏が2回)
-    // 4C2 × (1/2)^4 = 6 / 16 = 3/8
-    
-    return {
-        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
-        text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が出たら左へ1（-1）進む。コインを4回投げた。`,
-        prompt: '点Pが最終的に「+2」の位置にいる確率はいくらか。',
-        correctAnswer: 3, unitSuffix: '/8', isFraction: true,
-        customChoices: [
-            { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
-            { label: 'B', value: 2, htmlText: '5/16', isCorrect: false },
-            { label: 'C', value: 3, htmlText: '3/8', isCorrect: true },
-            { label: 'D', value: 4, htmlText: '7/16', isCorrect: false },
-            { label: 'E', value: 5, htmlText: '1/2', isCorrect: false },
-            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-        ],
-        steps: [
-            `ステップ1：表が出た回数を $x$ 回（裏は $4 - x$ 回）として、4回後の位置を表す式を立てる。<br><strong>位置 ＝ 2x - 1(4 - x) ＝ 3x - 4</strong>`,
-            `ステップ2：位置が「+2」になる表の回数 $x$ を求める。<br><strong>3x - 4 ＝ 2  ⇒  3x ＝ 6  ⇒  x ＝ 2（表が2回、裏が2回）</strong>`,
-            `ステップ3：反復試行の公式を用いて確率を計算する。<br>全事象：$2^4 ＝ 16通り$<br>表が2回出る出方：$_4C_2 ＝ 6通り$<br>確率は <strong>6 / 16 ＝ 3/8（正解はC）</strong>`
-        ]
-    };
-}
+        function genProbability6() {
+            return {
+                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・条件付き確率（原因の探求）',
+                text: `ある製品を工場Aで 60%、工場Bで 40% 生産している。不良品の発生率は、工場Aが 2%、工場Bが 5% である。<br>出荷された製品の中からランダムに1個取り出したところ、不良品であった。`,
+                prompt: 'その不良品が「工場A」で生産されたものである確率はいくらか。',
+                correctAnswer: 3, unitSuffix: '/8', isFraction: true,
+                customChoices: [
+                    { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
+                    { label: 'B', value: 2, htmlText: '3/8', isCorrect: true },
+                    { label: 'C', value: 3, htmlText: '2/5', isCorrect: false },
+                    { label: 'D', value: 4, htmlText: '5/8', isCorrect: false },
+                    { label: 'E', value: 5, htmlText: '3/5', isCorrect: false },
+                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+                ],
+                steps: [
+                    `ステップ1：全体の中から「Aの不良品」と「Bの不良品」が発生する割合をそれぞれ計算する。<br>Aの不良品：<strong>0.60 × 0.02 ＝ 0.012（1.2%）</strong><br>Bの不良品：<strong>0.40 × 0.05 ＝ 0.020（2.0%）</strong>`,
+                    `ステップ2：取り出した製品が不良品である全体割合（分母）を求める。<br><strong>0.012 ＋ 0.020 ＝ 0.032（3.2%）</strong>`,
+                    `ステップ3：条件付き確率の公式（Aの不良品 ÷ 全体の不良品）を計算する。<br><strong>0.012 / 0.032 ＝ 12 / 32 ＝ 3/8（正解はB）</strong>`
+                ]
+            };
+        }
 
-// --- ⑦ 場合の数・確率 Lv.3: 条件付き確率（原因の確率） ---
-function genProbability6() {
-    // 工場Aと工場Bで同じ製品を作っている。
-    // Aの生産量割合: 60%, Bの生産量割合: 40%
-    // Aの不良品率: 2%, Bの不良品率: 5%
-    // 不良品が1個選ばれたとき、それがA工場で作られた確率
-    // P(A∩不良) = 0.60 × 0.02 = 0.012
-    // P(B∩不良) = 0.40 × 0.05 = 0.020
-    // 全不良率 = 0.032
-    // 求める条件付き確率 = 0.012 / 0.032 = 12/32 = 3/8
-    
-    return {
-        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・条件付き確率（原因の探求）',
-        text: `ある製品を工場Aで 60%、工場Bで 40% 生産している。不良品の発生率は、工場Aが 2%、工場Bが 5% である。<br>出荷された製品の中からランダムに1個取り出したところ、不良品であった。`,
-        prompt: 'その不良品が「工場A」で生産されたものである確率はいくらか。',
-        correctAnswer: 3, unitSuffix: '/8', isFraction: true,
-        customChoices: [
-            { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
-            { label: 'B', value: 2, htmlText: '3/8', isCorrect: true },
-            { label: 'C', value: 3, htmlText: '2/5', isCorrect: false },
-            { label: 'D', value: 4, htmlText: '5/8', isCorrect: false },
-            { label: 'E', value: 5, htmlText: '3/5', isCorrect: false },
-            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-        ],
-        steps: [
-            `ステップ1：全体の中から「Aの不良品」と「Bの不良品」が発生する割合をそれぞれ計算する。<br>Aの不良品：<strong>0.60 × 0.02 ＝ 0.012（1.2%）</strong><br>Bの不良品：<strong>0.40 × 0.05 ＝ 0.020（2.0%）</strong>`,
-            `ステップ2：取り出した製品が不良品である全体割合（分母）を求める。<br><strong>0.012 ＋ 0.020 ＝ 0.032（3.2%）</strong>`,
-            `ステップ3：条件付き確率の公式（Aの不良品 ÷ 全体の不良品）を計算する。<br><strong>0.012 / 0.032 ＝ 12 / 32 ＝ 3/8（正解はB）</strong>`
-        ]
-    };
-}
         // --- ⑧ 推論 ---
         function buildLogicalQuestion(level) {
             const subjects = [
@@ -1495,17 +1381,21 @@ function genProbability6() {
                 if (targetLvl === 2) return genInstallment2();
                 return genInstallment3();
             } else if (selectedUnit === 'speed') {
-                if (targetLvl === 1) return genspeed1();
-                if (targetLvl === 2) return genspeed2();
-                return gengenspeed3();
+                if (targetLvl === 1) return genSpeed1();
+                if (targetLvl === 2) return genSpeed2();
+                return genSpeed3();
             } else if (selectedUnit === 'profit') {
-                if (targetLvl === 1) return genprofit1();
-                if (targetLvl === 2) return genprofit2();
-                return genprofit3();
+                if (targetLvl === 1) return genProfit1();
+                if (targetLvl === 2) return genProfit2();
+                return genProfit3();
             } else {
-                if (targetLvl === 1) return genProbability1();
-                if (targetLvl === 2) return genProbability2();
-                return genProbability3();
+                if (targetLvl === 1) {
+                    return getRand() < 0.5 ? genProbability1() : genProbability2();
+                } else if (targetLvl === 2) {
+                    return getRand() < 0.5 ? genProbability3() : genProbability4();
+                } else {
+                    return getRand() < 0.5 ? genProbability5() : genProbability6();
+                }
             }
         }
 
@@ -1612,113 +1502,89 @@ function genProbability6() {
 
             currentQuestion.choices.forEach((choice, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'choice-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] hover:border-indigo-500/50 text-slate-100 font-medium text-xs md:text-sm transition flex items-center justify-between text-left group shadow-sm';
-                btn.onclick = () => selectChoice(idx);
+                btn.className = 'choice-btn p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] hover:border-indigo-500/50 text-slate-100 font-medium text-xs md:text-sm transition flex items-center justify-between text-left group';
                 btn.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <span class="w-7 h-7 rounded-xl bg-slate-800 border border-slate-700 text-indigo-300 font-bold flex items-center justify-center shrink-0 group-hover:border-indigo-500/50">
-                            ${choice.label}
-                        </span>
+                        <span class="w-7 h-7 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center text-xs font-bold shrink-0">${choice.label}</span>
                         <span>${choice.htmlText}</span>
                     </div>
-                    <i class="fa-regular fa-circle text-slate-600 group-hover:text-indigo-400 transition"></i>
+                    <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-indigo-400 transition-colors text-xs"></i>
                 `;
+                btn.onclick = () => checkAnswer(choice);
                 container.appendChild(btn);
             });
 
-            startQuestionTimer();
-        }
-
-        function selectChoice(idx) {
-            if (isAnswered) return;
-            const selectedChoice = currentQuestion.choices[idx];
-            checkAnswer(selectedChoice);
+            if (!isCBTMode) {
+                startQuestionTimer();
+            }
         }
 
         function checkAnswer(selectedChoice) {
+            if (isAnswered) return;
             isAnswered = true;
+
             if (questionTimerInterval) clearInterval(questionTimerInterval);
 
-            const isCorrect = selectedChoice ? selectedChoice.isCorrect : false;
-            const correctChoice = currentQuestion.choices.find(c => c.isCorrect);
-
             totalCount++;
+            const isCorrect = selectedChoice && selectedChoice.isCorrect;
             if (isCorrect) correctCount++;
 
             if (isCBTMode) {
-                if (isCorrect && cbtCurrentLevel < 3) {
-                    cbtCurrentLevel++;
-                } else if (!isCorrect && cbtCurrentLevel > 1) {
-                    cbtCurrentLevel--;
-                }
+                if (isCorrect && cbtCurrentLevel < 3) cbtCurrentLevel++;
+                else if (!isCorrect && cbtCurrentLevel > 1) cbtCurrentLevel--;
             }
 
-            const ansRecord = {
-                qIndex: isCBTMode ? cbtQuestionIndex : totalCount,
-                unit: currentQuestion.unit,
-                level: currentQuestion.level,
-                question: currentQuestion.text,
-                prompt: currentQuestion.prompt,
-                userChoiceLabel: selectedChoice ? selectedChoice.label : '未解答',
-                userChoiceText: selectedChoice ? selectedChoice.htmlText : '時間切れ',
-                correctChoiceLabel: correctChoice ? correctChoice.label : '',
-                correctChoiceText: correctChoice ? correctChoice.htmlText : '',
-                isCorrect: isCorrect,
-                steps: currentQuestion.steps
-            };
-            sessionAnswers.push(ansRecord);
-            addGlobalHistory({ unit: currentQuestion.unit, prompt: currentQuestion.prompt, isCorrect: isCorrect });
+            sessionAnswers.push({
+                question: currentQuestion,
+                selected: selectedChoice,
+                isCorrect: isCorrect
+            });
 
-            if (isCBTMode) {
-                generateNewQuestion();
-                return;
-            }
-
-            const container = document.getElementById('choices-container');
-            const btns = container.querySelectorAll('.choice-btn');
-
-            currentQuestion.choices.forEach((choice, idx) => {
-                const btn = btns[idx];
-                if (!btn) return;
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            choiceButtons.forEach((btn, idx) => {
                 btn.disabled = true;
-
-                if (choice.isCorrect) {
-                    btn.className = 'p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-950/40 text-emerald-200 font-bold text-xs md:text-sm flex items-center justify-between text-left shadow-lg';
-                    btn.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>`;
-                } else if (selectedChoice && choice.value === selectedChoice.value) {
-                    btn.className = 'p-3.5 rounded-2xl border-2 border-rose-500 bg-rose-950/40 text-rose-200 font-bold text-xs md:text-sm flex items-center justify-between text-left shadow-lg';
-                    btn.innerHTML += `<i class="fa-solid fa-circle-xmark text-rose-400 text-base"></i>`;
+                const choiceObj = currentQuestion.choices[idx];
+                if (choiceObj.isCorrect) {
+                    btn.className = 'p-3.5 rounded-2xl border border-emerald-500 bg-emerald-950/60 text-emerald-200 font-medium text-xs md:text-sm flex items-center justify-between text-left';
+                } else if (selectedChoice && selectedChoice.label === choiceObj.label) {
+                    btn.className = 'p-3.5 rounded-2xl border border-rose-500 bg-rose-950/60 text-rose-200 font-medium text-xs md:text-sm flex items-center justify-between text-left';
                 } else {
-                    btn.className = 'p-3.5 rounded-2xl border border-slate-800 bg-[#121726] text-slate-500 text-xs md:text-sm opacity-50 flex items-center justify-between text-left';
+                    btn.className = 'p-3.5 rounded-2xl border border-slate-800 bg-[#161d31] text-slate-500 font-medium text-xs md:text-sm flex items-center justify-between text-left opacity-60';
                 }
             });
 
-            const banner = document.getElementById('result-banner');
+            const resultBanner = document.getElementById('result-banner');
             if (isCorrect) {
-                banner.className = 'rounded-2xl p-4 mb-5 flex items-center space-x-3 bg-emerald-950/80 border border-emerald-500/40 text-emerald-200';
-                banner.innerHTML = `<i class="fa-solid fa-circle-check text-2xl text-emerald-400 shrink-0"></i><div><h4 class="font-bold text-sm">正解！</h4><p class="text-xs text-emerald-300/80">素晴らしい解法アプローチです。</p></div>`;
+                resultBanner.className = 'rounded-2xl p-4 mb-5 flex items-center space-x-3 bg-emerald-950/80 border border-emerald-800/80 text-emerald-300';
+                resultBanner.innerHTML = `<i class="fa-solid fa-circle-check text-2xl text-emerald-400"></i><div><h4 class="font-bold text-sm">正解です！</h4><p class="text-xs text-emerald-200/80">お見事に正解しました。</p></div>`;
             } else {
-                banner.className = 'rounded-2xl p-4 mb-5 flex items-center space-x-3 bg-rose-950/80 border border-rose-500/40 text-rose-200';
-                banner.innerHTML = `<i class="fa-solid fa-circle-xmark text-2xl text-rose-400 shrink-0"></i><div><h4 class="font-bold text-sm">${selectedChoice ? '不正解' : '時間切れ'}</h4><p class="text-xs text-rose-300/80">正解は ${correctChoice ? correctChoice.label + '（' + correctChoice.htmlText + '）' : ''} です。解説を確認しましょう。</p></div>`;
+                resultBanner.className = 'rounded-2xl p-4 mb-5 flex items-center space-x-3 bg-rose-950/80 border border-rose-800/80 text-rose-300';
+                resultBanner.innerHTML = `<i class="fa-solid fa-circle-xmark text-2xl text-rose-400"></i><div><h4 class="font-bold text-sm">不正解...</h4><p class="text-xs text-rose-200/80">下の解説を確認して理解を深めましょう。</p></div>`;
             }
 
             const expContent = document.getElementById('explanation-content');
-            expContent.innerHTML = currentQuestion.steps.map(s => `<div class="p-3 bg-[#1b233a] rounded-xl border border-slate-800">${s}</div>`).join('');
+            expContent.innerHTML = currentQuestion.steps.map((step, i) => `<div class="p-3 bg-[#1b233a] rounded-xl border border-slate-800">${step}</div>`).join('');
 
             document.getElementById('explanation-card').classList.remove('hidden');
+            document.getElementById('explanation-card').scrollIntoView({ behavior: 'smooth' });
+
+            if (isCBTMode && cbtQuestionIndex >= cbtTotalQuestions) {
+                const nextBtn = document.querySelector('#explanation-card button');
+                if (nextBtn) nextBtn.innerHTML = `<span>CBT結果を見る</span><i class="fa-solid fa-flag-checkered"></i>`;
+            }
         }
 
         function startPracticeWithConfig() {
-            initPRNG(null);
-            isCBTMode = false;
-            sessionAnswers = [];
-            hideAllViews();
             updateActiveConfigBadge();
+            hideAllViews();
             document.getElementById('view-practice').classList.remove('hidden');
-            const banner = document.getElementById('practice-config-banner');
-            if (banner) banner.classList.remove('hidden');
+            document.getElementById('practice-config-banner').classList.remove('hidden');
             const changeBtn = document.getElementById('nav-change-config-btn');
             if (changeBtn) changeBtn.classList.remove('hidden');
+
+            totalCount = 0;
+            correctCount = 0;
+            sessionAnswers = [];
             generateNewQuestion();
         }
 
@@ -1732,80 +1598,72 @@ function genProbability6() {
 
         function toggleSyncDateSection() {
             const container = document.getElementById('sync-date-container');
-            const picker = document.getElementById('sync-date-picker');
-            
-            if (container.classList.contains('hidden')) {
-                container.classList.remove('hidden');
-                if (!picker.value) {
-                    const today = new Date().toISOString().split('T')[0];
-                    picker.value = today;
-                }
-            } else {
-                container.classList.add('hidden');
+            container.classList.toggle('hidden');
+            if (!container.classList.contains('hidden')) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                const picker = document.getElementById('sync-date-picker');
+                if (picker && !picker.value) picker.value = todayStr;
             }
         }
 
-        function startSyncCBTMode() {
-            const dateVal = document.getElementById('sync-date-picker').value;
-            if (!dateVal) {
-                alert('日付を選択してください。');
-                return;
-            }
-            startCBTMode('sync', dateVal);
-        }
-
-        function startCBTMode(type, syncDateStr = null) {
+        function startCBTMode(mode) {
             closeCBTModal();
             isCBTMode = true;
-            cbtModeType = type;
-            cbtSyncDate = syncDateStr;
-
-            const allUnits = ['set', 'settlement', 'discount', 'installment', 'speed', 'profit', 'probability', 'logical', 'table'];
-
-            if (type === 'sync') {
-                initPRNG(`CBT-SYNC-${syncDateStr}`);
-                cbtTotalQuestions = 9;
-                cbtMaxOverallTime = 720;
-                cbtUnitQueue = shuffleArray([...allUnits]);
-            } else if (type === 'mini') {
-                initPRNG(null);
-                cbtTotalQuestions = 9;
-                cbtMaxOverallTime = 720;
-                cbtUnitQueue = shuffleArray([...allUnits]);
-            } else {
-                initPRNG(null);
-                cbtTotalQuestions = 20;
-                cbtMaxOverallTime = 1200;
-                cbtUnitQueue = shuffleArray([...allUnits, ...allUnits, allUnits[getRandomInt(0, 8)], allUnits[getRandomInt(0, 8)]]);
-            }
-
-            cbtOverallRemainingTime = cbtMaxOverallTime;
+            cbtModeType = mode;
             cbtQuestionIndex = 0;
             cbtCurrentLevel = 1;
+            correctCount = 0;
+            totalCount = 0;
             sessionAnswers = [];
 
+            if (mode === 'mini' || mode === 'sync') {
+                cbtTotalQuestions = 9;
+                cbtMaxOverallTime = 720;
+                cbtOverallRemainingTime = 720;
+                cbtUnitQueue = shuffleArray(['set', 'settlement', 'discount', 'installment', 'speed', 'profit', 'probability', 'logical', 'table']);
+            } else {
+                cbtTotalQuestions = 20;
+                cbtMaxOverallTime = 1200;
+                cbtOverallRemainingTime = 1200;
+                cbtUnitQueue = [];
+                for (let i = 0; i < 20; i++) {
+                    cbtUnitQueue.push('all');
+                }
+            }
+
             hideAllViews();
-            document.getElementById('cbt-status-bar').classList.remove('hidden');
             document.getElementById('view-practice').classList.remove('hidden');
+            document.getElementById('cbt-status-bar').classList.remove('hidden');
             document.getElementById('practice-config-banner').classList.add('hidden');
+
+            const changeBtn = document.getElementById('nav-change-config-btn');
+            if (changeBtn) changeBtn.classList.add('hidden');
 
             startCBTOverallTimer();
             generateNewQuestion();
         }
 
+        function startSyncCBTMode() {
+            const picker = document.getElementById('sync-date-picker');
+            const dateVal = picker ? picker.value : '';
+            if (!dateVal) {
+                alert('実施日付を選択してください。');
+                return;
+            }
+            cbtSyncDate = dateVal;
+            initPRNG(dateVal);
+            startCBTMode('sync');
+        }
+
         function updateCBTUI() {
             const badge = document.getElementById('cbt-mode-badge');
-            
             if (badge) {
-                if (cbtModeType === 'sync') {
-                    badge.className = 'px-2.5 py-0.5 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full text-xs font-bold inline-flex items-center';
-                    badge.innerHTML = `<i class="fa-solid fa-users mr-1.5"></i> 一斉テスト (${cbtSyncDate})`;
-                } else if (cbtModeType === 'mini') {
-                    badge.className = 'px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-bold inline-flex items-center';
-                    badge.innerHTML = `<i class="fa-solid fa-laptop-code mr-1.5"></i> ミニテスト`;
+                if (cbtModeType === 'mini') {
+                    badge.innerHTML = `<i class="fa-solid fa-laptop-code mr-1.5"></i> ミニテスト (${cbtQuestionIndex}/${cbtTotalQuestions})`;
+                } else if (cbtModeType === 'sync') {
+                    badge.innerHTML = `<i class="fa-solid fa-users mr-1.5"></i> 一斉テスト (${cbtQuestionIndex}/${cbtTotalQuestions})`;
                 } else {
-                    badge.className = 'px-2.5 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-bold inline-flex items-center';
-                    badge.innerHTML = `<i class="fa-solid fa-graduation-cap mr-1.5"></i> フル模擬試験`;
+                    badge.innerHTML = `<i class="fa-solid fa-laptop-code mr-1.5"></i> フル模擬 (${cbtQuestionIndex}/${cbtTotalQuestions})`;
                 }
             }
 
@@ -1819,6 +1677,8 @@ function genProbability6() {
         function exitCBTMode() {
             if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
             if (questionTimerInterval) clearInterval(questionTimerInterval);
+            isCBTMode = false;
+            currentPRNG = Math.random;
             goToLanding();
         }
 
@@ -1829,129 +1689,70 @@ function genProbability6() {
             hideAllViews();
             document.getElementById('cbt-result-card').classList.remove('hidden');
 
-            const score = sessionAnswers.filter(a => a.isCorrect).length;
-            const accuracy = sessionAnswers.length > 0 ? Math.round((score / sessionAnswers.length) * 100) : 0;
-
-            document.getElementById('cbt-res-score').innerText = `${score} / ${cbtTotalQuestions}`;
+            const accuracy = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+            document.getElementById('cbt-res-score').innerText = `${correctCount} / ${totalCount}`;
             document.getElementById('cbt-res-accuracy').innerText = `${accuracy} %`;
             document.getElementById('cbt-res-final-lvl').innerText = `Lv.${cbtCurrentLevel}`;
 
-            const syncDateDisplay = document.getElementById('cbt-sync-date-display');
-            if (cbtSyncDate) {
+            const syncDisp = document.getElementById('cbt-sync-date-display');
+            if (cbtSyncDate && syncDisp) {
+                syncDisp.classList.remove('hidden');
                 document.getElementById('cbt-res-date-val').innerText = cbtSyncDate;
-                syncDateDisplay.classList.remove('hidden');
-            } else {
-                syncDateDisplay.classList.add('hidden');
+            } else if (syncDisp) {
+                syncDisp.classList.add('hidden');
             }
+
+            const record = {
+                date: new Date().toLocaleString(),
+                mode: cbtSyncDate ? `一斉テスト (${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フル模擬試験'),
+                score: `${correctCount}/${totalCount}`,
+                accuracy: `${accuracy}%`
+            };
+            globalHistory.unshift(record);
+            if (globalHistory.length > 10) globalHistory.pop();
+            saveGlobalHistory();
+            currentPRNG = Math.random;
         }
 
         function copyCBTResult() {
-            const score = sessionAnswers.filter(a => a.isCorrect).length;
-            
-            let dateStr = cbtSyncDate;
-            if (!dateStr) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                dateStr = `${yyyy}-${mm}-${dd}`;
-            }
+            const scoreText = document.getElementById('cbt-res-score').innerText;
+            const accText = document.getElementById('cbt-res-accuracy').innerText;
+            const lvlText = document.getElementById('cbt-res-final-lvl').innerText;
+            const dateStr = cbtSyncDate ? ` [一斉テスト日: ${cbtSyncDate}]` : '';
 
-            const textToCopy = `実施日：${dateStr}\n得点：${score} / ${cbtTotalQuestions}\n判定レベル：Lv.${cbtCurrentLevel}`;
+            const textToCopy = `【SPI非言語 CBT模擬試験結果${dateStr}】\n正解数: ${scoreText}\n正解率: ${accText}\n到達レベル: ${lvlText}\n#SPI非言語 #演習アプリ`;
 
-            const textarea = document.createElement('textarea');
-            textarea.value = textToCopy;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-
-            try {
-                document.execCommand('copy');
-            } catch (err) {
-                console.error('Copy failed', err);
-            }
-            document.body.removeChild(textarea);
-
-            const btn = document.getElementById('copy-cbt-result-btn');
-            if (btn) {
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = `<i class="fa-solid fa-check text-emerald-300"></i><span>コピーしました！</span>`;
-                btn.classList.add('ring-2', 'ring-emerald-400');
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.classList.remove('ring-2', 'ring-emerald-400');
-                }, 2000);
-            }
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.getElementById('copy-cbt-result-btn');
+                const origHtml = btn.innerHTML;
+                btn.innerHTML = `<i class="fa-solid fa-check"></i><span>結果をコピーしました！</span>`;
+                setTimeout(() => { btn.innerHTML = origHtml; }, 2000);
+            });
         }
 
         function openReviewModal() {
-            const list = document.getElementById('session-review-list');
-            list.innerHTML = '';
-
-            document.getElementById('review-count-info').innerText = `全 ${sessionAnswers.length} 問の履歴`;
+            const listContainer = document.getElementById('session-review-list');
+            listContainer.innerHTML = '';
 
             if (sessionAnswers.length === 0) {
-                list.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">今回のセッションで解いた問題はありません。</div>`;
+                listContainer.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">今回のセッションでの回答履歴はまだありません。</div>`;
             } else {
                 sessionAnswers.forEach((ans, idx) => {
-                    const card = document.createElement('div');
-                    card.className = 'bg-[#141a2e] p-4 rounded-2xl border border-slate-800 space-y-3 text-xs md:text-sm animate-fade-in shadow-md';
-                    
-                    const stepsHtml = ans.steps.map(s => `
-                        <div class="p-2.5 bg-[#0f1423] rounded-xl border border-slate-800/80 text-slate-300 text-xs leading-relaxed mb-1.5">
-                            ${s}
+                    const item = document.createElement('div');
+                    item.className = `p-3.5 rounded-2xl border text-xs ${ans.isCorrect ? 'bg-emerald-950/30 border-emerald-800/60' : 'bg-rose-950/30 border-rose-800/60'}`;
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center mb-1.5 font-bold">
+                            <span class="${ans.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">第${idx + 1}問: ${ans.isCorrect ? '正解' : '不正解'}</span>
+                            <span class="text-slate-400">${ans.question.unit} / ${ans.question.badge}</span>
                         </div>
-                    `).join('');
-
-                    card.innerHTML = `
-                        <div class="flex items-center justify-between pb-2 border-b border-slate-800/60">
-                            <div class="flex items-center space-x-2">
-                                <span class="${ans.isCorrect ? 'bg-emerald-950 text-emerald-400 border-emerald-800/60' : 'bg-rose-950 text-rose-400 border-rose-800/60'} px-2.5 py-0.5 rounded-md text-[11px] font-extrabold border">
-                                    ${ans.isCorrect ? '正解' : '不正解'}
-                                </span>
-                                <span class="text-slate-400 text-xs font-semibold">${ans.unit} / Lv.${ans.level}</span>
-                            </div>
-                            <span class="text-slate-500 text-xs font-mono font-bold">#${ans.qIndex || (idx + 1)}</span>
-                        </div>
-
-                        <div class="text-slate-200 leading-relaxed font-medium">
-                            ${ans.question}
-                        </div>
-
-                        <div class="bg-[#1b233a] border-l-2 border-indigo-500 p-2.5 rounded-r-xl font-semibold text-indigo-200 text-xs">
-                            ${ans.prompt}
-                        </div>
-
-                        <div class="bg-[#0f1423] p-3 rounded-xl border border-slate-800 space-y-1.5">
-                            <div class="flex justify-between items-center text-xs">
-                                <span class="text-slate-400">あなたの解答:</span>
-                                <span class="${ans.isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">
-                                    ${ans.userChoiceLabel ? ans.userChoiceLabel + ': ' : ''}${ans.userChoiceText}
-                                </span>
-                            </div>
-                            <div class="flex justify-between items-center text-xs pt-1.5 border-t border-slate-800/60">
-                                <span class="text-slate-400">正解:</span>
-                                <span class="text-emerald-400 font-bold">
-                                    ${ans.correctChoiceLabel ? ans.correctChoiceLabel + ': ' : ''}${ans.correctChoiceText}
-                                </span>
-                            </div>
-                        </div>
-
-                        <details class="group pt-1">
-                            <summary class="cursor-pointer text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center space-x-1 select-none transition">
-                                <i class="fa-solid fa-caret-right group-open:rotate-90 transition-transform"></i>
-                                <span>解説・ステップを表示</span>
-                            </summary>
-                            <div class="mt-2.5 pt-2 border-t border-slate-800/60 space-y-1">
-                                ${stepsHtml}
-                            </div>
-                        </details>
+                        <p class="text-slate-200 font-medium mb-1 line-clamp-2">${ans.question.text}</p>
+                        <p class="text-slate-400">あなたの回答: <span class="font-bold text-white">${ans.selected ? ans.selected.htmlText : '時間切れ'}</span> (正解: <span class="font-bold text-emerald-300">${ans.question.correctAnswer} ${ans.question.unitSuffix || ''}</span>)</p>
                     `;
-                    list.appendChild(card);
+                    listContainer.appendChild(item);
                 });
             }
 
+            document.getElementById('review-count-info').innerText = `全 ${sessionAnswers.length} 問の履歴`;
             document.getElementById('review-modal').classList.remove('hidden');
         }
 
@@ -1960,7 +1761,29 @@ function genProbability6() {
         }
 
         function openHistoryModal() {
-            renderGlobalHistory();
+            const list = document.getElementById('global-history-list');
+            list.innerHTML = '';
+
+            if (globalHistory.length === 0) {
+                list.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">学習履歴はありません。</div>`;
+            } else {
+                globalHistory.forEach((h) => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-[#1b233a] p-3 rounded-xl border border-slate-800 flex justify-between items-center text-xs';
+                    div.innerHTML = `
+                        <div>
+                            <span class="font-bold text-indigo-300 block mb-0.5">${h.mode}</span>
+                            <span class="text-[10px] text-slate-400">${h.date}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-white block">${h.score}</span>
+                            <span class="text-[10px] text-emerald-400">${h.accuracy}</span>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            }
+
             document.getElementById('history-modal').classList.remove('hidden');
         }
 
@@ -1968,50 +1791,34 @@ function genProbability6() {
             document.getElementById('history-modal').classList.add('hidden');
         }
 
-        function addGlobalHistory(item) {
-            globalHistory.unshift(item);
-            if (globalHistory.length > 10) globalHistory.pop();
+        function saveGlobalHistory() {
+            try {
+                localStorage.setItem('spi_global_history', JSON.stringify(globalHistory));
+            } catch (e) {}
         }
 
-        function renderGlobalHistory() {
-            const container = document.getElementById('global-history-list');
-            container.innerHTML = '';
-
-            if (globalHistory.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">履歴がありません。</p>`;
-                return;
-            }
-
-            globalHistory.forEach((h, i) => {
-                const item = document.createElement('div');
-                item.className = 'bg-[#1b233a] p-3 rounded-xl border border-slate-800 text-xs flex justify-between items-center';
-                item.innerHTML = `
-                    <div>
-                        <span class="font-bold text-indigo-300 mr-2">${h.unit}</span>
-                        <span class="text-slate-400 truncate inline-block max-w-[180px] align-bottom">${h.prompt}</span>
-                    </div>
-                    <span class="${h.isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold">
-                        ${h.isCorrect ? '○' : '×'}
-                    </span>
-                `;
-                container.appendChild(item);
-            });
+        function loadGlobalHistory() {
+            try {
+                const saved = localStorage.getItem('spi_global_history');
+                if (saved) globalHistory = JSON.parse(saved);
+            } catch (e) {}
         }
 
         function clearGlobalHistory() {
             globalHistory = [];
-            renderGlobalHistory();
+            saveGlobalHistory();
+            openHistoryModal();
         }
 
         function resetStats() {
-            totalCount = 0;
-            correctCount = 0;
+            sessionAnswers = [];
             globalHistory = [];
-            renderGlobalHistory();
+            saveGlobalHistory();
+            alert('学習成績・履歴をクリアしました。');
         }
 
         window.onload = function() {
-            goToLanding();
+            loadGlobalHistory();
         };
     </script>
 </body>
