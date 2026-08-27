@@ -478,6 +478,27 @@
         </div>
     </div>
 
+    <!-- Fallback Text Modal for Clipboard Restricted Environments -->
+    <div id="fallback-copy-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-[#141a2e] rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-700 space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-copy text-emerald-400 mr-2"></i>結果テキストのコピー
+                </h3>
+                <button onclick="closeFallbackModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-300">お使いの環境ではクリップボードAPIへの直接アクセスが制限されています。以下のテキストエリアを選択してコピーしてください。</p>
+            <textarea id="fallback-copy-textarea" readonly class="w-full h-32 bg-[#0f1423] border border-slate-700 rounded-xl p-3 text-xs text-slate-100 focus:outline-none select-all"></textarea>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeFallbackModal()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2 px-4 rounded-xl">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-[#0b0f19] border-t border-slate-800/80 py-3 text-center text-[11px] text-slate-500">
         <p>SPI非言語演習 Web App</p>
     </footer>
@@ -617,24 +638,25 @@
         }
 
         // --- 集合 (Set) ---
-        function genSet1() {
-            const total = getRandomInt(30, 50);
-            const likeA = getRandomInt(15, 25);
-            const likeB = getRandomInt(12, 20);
-            const both = getRandomInt(5, Math.min(likeA, likeB) - 2);
-            const union = likeA + likeB - both;
-            const neither = total - union;
+function genSet1() {
+    const likeA = getRandomInt(15, 25);
+    const likeB = getRandomInt(12, 20);
+    const both = getRandomInt(5, Math.min(likeA, likeB) - 2);
+    const union = likeA + likeB - both;
 
-            return {
-                unit: '集合', level: 1, badge: 'Lv.1 基本', title: '2つの要素の集合（ベン図）',
-                text: `${total}人の学生にアンケートを行ったところ、サッカーが好きな人は ${likeA}人、バスケットボールが好きな人は ${likeB}人、両方好きな人は ${both}人 であった。`,
-                prompt: 'どちらも好きではない人は何人か。', correctAnswer: neither, unitSuffix: '人', step: 1,
-                steps: [
-                    `ステップ1：少なくともどちらか一方が好きな人数（和集合）を計算する。<br><strong>${likeA} + ${likeB} - ${both} = ${union}人</strong>`,
-                    `ステップ2：全体から和集合を引いて「どちらも好きでない人数」を求める。<br><strong>${total} - ${union} = ${neither}人</strong>`
-                ]
-            };
-        }
+    const neither = getRandomInt(3, 15);   // どちらも好きでない人数を先に決める
+    const total = union + neither;         // totalは逆算するので必ず整合する
+
+    return {
+        unit: '集合', level: 1, badge: 'Lv.1 基本', title: '2つの要素の集合（ベン図）',
+        text: `${total}人の学生にアンケートを行ったところ、サッカーが好きな人は ${likeA}人、バスケットボールが好きな人は ${likeB}人、両方好きな人は ${both}人 であった。`,
+        prompt: 'どちらも好きではない人は何人か。', correctAnswer: neither, unitSuffix: '人', step: 1,
+        steps: [
+            `ステップ1：少なくともどちらか一方が好きな人数（和集合）を計算する。<br><strong>${likeA} + ${likeB} - ${both} = ${union}人</strong>`,
+            `ステップ2：全体から和集合を引いて「どちらも好きでない人数」を求める。<br><strong>${total} - ${union} = ${neither}人</strong>`
+        ]
+    };
+}
 
         function genSet2() {
             const total = 100;
@@ -1540,7 +1562,6 @@
                 isCorrect: isCorrect
             });
 
-            // CBTモードの場合は1問ごとの正誤判定・解説を表示せず、即座に次の問題へ進む仕様
             if (isCBTMode) {
                 if (cbtQuestionIndex >= cbtTotalQuestions) {
                     finishCBTMode();
@@ -1683,7 +1704,6 @@
             if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             isCBTMode = false;
-            currentPRNG = Math.random;
             goToLanding();
         }
 
@@ -1694,71 +1714,158 @@
             hideAllViews();
             document.getElementById('cbt-result-card').classList.remove('hidden');
 
-            const accuracy = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
-            document.getElementById('cbt-res-score').innerText = `${correctCount} / ${totalCount}`;
+            const totalQ = sessionAnswers.length;
+            const correctQ = sessionAnswers.filter(a => a.isCorrect).length;
+            const accuracy = totalQ > 0 ? Math.round((correctQ / totalQ) * 100) : 0;
+
+            document.getElementById('cbt-res-score').innerText = `${correctQ} / ${totalQ}`;
             document.getElementById('cbt-res-accuracy').innerText = `${accuracy} %`;
             document.getElementById('cbt-res-final-lvl').innerText = `Lv.${cbtCurrentLevel}`;
 
-            const syncDisp = document.getElementById('cbt-sync-date-display');
-            if (cbtSyncDate && syncDisp) {
-                syncDisp.classList.remove('hidden');
+            const syncDisplay = document.getElementById('cbt-sync-date-display');
+            if (cbtSyncDate) {
+                syncDisplay.classList.remove('hidden');
                 document.getElementById('cbt-res-date-val').innerText = cbtSyncDate;
-            } else if (syncDisp) {
-                syncDisp.classList.add('hidden');
+            } else {
+                syncDisplay.classList.add('hidden');
             }
 
             const record = {
-                date: new Date().toLocaleString(),
-                mode: cbtSyncDate ? `一斉テスト (${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フル模擬試験'),
-                score: `${correctCount}/${totalCount}`,
-                accuracy: `${accuracy}%`
+                date: new Date().toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                mode: isCBTMode ? (cbtModeType === 'sync' ? `一斉テスト(${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フル模擬')) : '通常演習',
+                score: `${correctQ}/${totalQ} (${accuracy}%)`,
+                level: `Lv.${cbtCurrentLevel}`
             };
+
             globalHistory.unshift(record);
             if (globalHistory.length > 10) globalHistory.pop();
             saveGlobalHistory();
-            currentPRNG = Math.random;
         }
 
         function copyCBTResult() {
             const scoreText = document.getElementById('cbt-res-score').innerText;
             const accText = document.getElementById('cbt-res-accuracy').innerText;
             const lvlText = document.getElementById('cbt-res-final-lvl').innerText;
-            const dateStr = cbtSyncDate ? ` [一斉テスト日: ${cbtSyncDate}]` : '';
-
-            const textToCopy = `【SPI非言語 CBT模擬試験結果${dateStr}】\n正解数: ${scoreText}\n正解率: ${accText}\n到達レベル: ${lvlText}\n#SPI非言語 #演習アプリ`;
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const btn = document.getElementById('copy-cbt-result-btn');
-                const origHtml = btn.innerHTML;
-                btn.innerHTML = `<i class="fa-solid fa-check"></i><span>結果をコピーしました！</span>`;
-                setTimeout(() => { btn.innerHTML = origHtml; }, 2000);
-            });
+            const modeName = cbtModeType === 'sync' ? `一斉テスト(${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フル模擬');
+            
+            const textToCopy = `【SPI非言語 ${modeName} 結果】\n正解数: ${scoreText}\n正解率: ${accText}\n到達レベル: ${lvlText}\n日時: ${new Date().toLocaleString()}`;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopySuccessFeedback();
+                }).catch(() => {
+                    showFallbackCopyModal(textToCopy);
+                });
+            } else {
+                showFallbackCopyModal(textToCopy);
+            }
         }
 
+        function showCopySuccessFeedback() {
+            const btn = document.getElementById('copy-cbt-result-btn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check mr-1.5"></i>コピーしました！`;
+            setTimeout(() => btn.innerHTML = orig, 2000);
+        }
+
+        function showFallbackCopyModal(text) {
+            const textarea = document.getElementById('fallback-copy-textarea');
+            if (textarea) {
+                textarea.value = text;
+                document.getElementById('fallback-copy-modal').classList.remove('hidden');
+                textarea.select();
+            }
+        }
+
+        function closeFallbackModal() {
+            document.getElementById('fallback-copy-modal').classList.add('hidden');
+        }
+
+        // --- REVIEW MODAL WITH ACCORDION STEPS ---
         function openReviewModal() {
             const listContainer = document.getElementById('session-review-list');
+            const countInfo = document.getElementById('review-count-info');
+            
             listContainer.innerHTML = '';
+            countInfo.innerText = `全 ${sessionAnswers.length} 問の履歴`;
 
             if (sessionAnswers.length === 0) {
-                listContainer.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">今回のセッションでの回答履歴はまだありません。</div>`;
-            } else {
-                sessionAnswers.forEach((ans, idx) => {
-                    const item = document.createElement('div');
-                    item.className = `p-3.5 rounded-2xl border text-xs ${ans.isCorrect ? 'bg-emerald-950/30 border-emerald-800/60' : 'bg-rose-950/30 border-rose-800/60'}`;
-                    item.innerHTML = `
-                        <div class="flex justify-between items-center mb-1.5 font-bold">
-                            <span class="${ans.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">第${idx + 1}問: ${ans.isCorrect ? '正解' : '不正解'}</span>
-                            <span class="text-slate-400">${ans.question.unit} / ${ans.question.badge}</span>
-                        </div>
-                        <p class="text-slate-200 font-medium mb-1 line-clamp-2">${ans.question.text}</p>
-                        <p class="text-slate-400">あなたの回答: <span class="font-bold text-white">${ans.selected ? ans.selected.htmlText : '時間切れ'}</span> (正解: <span class="font-bold text-emerald-300">${ans.question.correctAnswer} ${ans.question.unitSuffix || ''}</span>)</p>
-                    `;
-                    listContainer.appendChild(item);
-                });
+                listContainer.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">今回のセッションでの解答履歴はまだありません。</div>`;
+                document.getElementById('review-modal').classList.remove('hidden');
+                return;
             }
 
-            document.getElementById('review-count-info').innerText = `全 ${sessionAnswers.length} 問の履歴`;
+            sessionAnswers.forEach((item, index) => {
+                const q = item.question;
+                const sel = item.selected;
+                const isCorr = item.isCorrect;
+
+                const card = document.createElement('div');
+                card.className = 'bg-[#141a2e] rounded-2xl p-4 border border-slate-800 space-y-3';
+
+                const headerHTML = `
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-0.5 rounded font-bold ${isCorr ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}">
+                                ${isCorr ? '正解' : '不正解'}
+                            </span>
+                            <span class="text-slate-400 font-bold">第${index + 1}問 (${q.unit})</span>
+                        </div>
+                        <span class="text-[11px] text-slate-400">${q.badge}</span>
+                    </div>
+                    <div class="text-xs font-bold text-slate-200">
+                        ${q.title}
+                    </div>
+                `;
+
+                const questionTextHTML = `
+                    <div class="bg-[#1b233a] p-3 rounded-xl border border-slate-800/80 text-xs text-slate-300 leading-relaxed">
+                        <p class="font-medium text-slate-100 mb-1.5">${q.text}</p>
+                        <p class="text-indigo-300 font-bold">【問題】${q.prompt}</p>
+                    </div>
+                `;
+
+                const choiceHTML = `
+                    <div class="text-[11px] space-y-1 bg-[#1b233a]/60 p-2.5 rounded-xl border border-slate-800">
+                        <div class="text-slate-400 font-semibold">あなたの解答: <span class="${isCorr ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}">${sel ? `${sel.label}. ${sel.htmlText}` : '未回答（時間切れ）'}</span></div>
+                        ${!isCorr ? `<div class="text-slate-400 font-semibold">正解: <span class="text-emerald-400 font-bold">${q.choices.find(c => c.isCorrect)?.label}. ${q.choices.find(c => c.isCorrect)?.htmlText}</span></div>` : ''}
+                    </div>
+                `;
+
+                const accordionId = `review-accordion-${index}`;
+                let stepsHTML = '';
+                if (q.steps && q.steps.length > 0) {
+                    const stepsContent = q.steps.map((step, sIdx) => `<div class="p-2.5 bg-[#0f1423] rounded-lg border border-slate-800 text-[11px] text-slate-300 mb-1.5">${step}</div>`).join('');
+                    stepsHTML = `
+                        <div class="pt-1">
+                            <button onclick="toggleReviewAccordion('${accordionId}', this)" class="w-full text-left py-2 px-3 rounded-xl bg-indigo-950/40 hover:bg-indigo-900/40 border border-indigo-800/50 text-xs font-bold text-indigo-200 flex items-center justify-between transition">
+                                <span class="flex items-center"><i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>解法・解説ステップを見る</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
+                            </button>
+                            <div id="${accordionId}" class="hidden mt-2 space-y-1.5 pl-1 animate-fade-in">
+                                ${stepsContent}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = headerHTML + questionTextHTML + choiceHTML + stepsHTML;
+                listContainer.appendChild(card);
+            });
+
             document.getElementById('review-modal').classList.remove('hidden');
+        }
+
+        function toggleReviewAccordion(id, btnElement) {
+            const contentEl = document.getElementById(id);
+            const iconEl = btnElement.querySelector('.fa-chevron-down');
+            if (contentEl.classList.contains('hidden')) {
+                contentEl.classList.remove('hidden');
+                if (iconEl) iconEl.style.transform = 'rotate(180deg)';
+            } else {
+                contentEl.classList.add('hidden');
+                if (iconEl) iconEl.style.transform = 'rotate(0deg)';
+            }
         }
 
         function closeReviewModal() {
@@ -1766,35 +1873,52 @@
         }
 
         function openHistoryModal() {
-            const list = document.getElementById('global-history-list');
-            list.innerHTML = '';
-
-            if (globalHistory.length === 0) {
-                list.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">学習履歴はありません。</div>`;
-            } else {
-                globalHistory.forEach((h) => {
-                    const div = document.createElement('div');
-                    div.className = 'bg-[#1b233a] p-3 rounded-xl border border-slate-800 flex justify-between items-center text-xs';
-                    div.innerHTML = `
-                        <div>
-                            <span class="font-bold text-indigo-300 block mb-0.5">${h.mode}</span>
-                            <span class="text-[10px] text-slate-400">${h.date}</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-white block">${h.score}</span>
-                            <span class="text-[10px] text-emerald-400">${h.accuracy}</span>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
-
-            document.getElementById('history-modal').classList.add('hidden'); // Fix typo in original or just call open
+            renderGlobalHistoryList();
             document.getElementById('history-modal').classList.remove('hidden');
         }
 
         function closeHistoryModal() {
             document.getElementById('history-modal').classList.add('hidden');
+        }
+
+        function renderGlobalHistoryList() {
+            const listEl = document.getElementById('global-history-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+
+            if (globalHistory.length === 0) {
+                listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">保存された学習履歴はありません。</div>`;
+                return;
+            }
+
+            globalHistory.forEach((rec, idx) => {
+                const item = document.createElement('div');
+                item.className = 'bg-[#1b233a] p-3 rounded-2xl border border-slate-700/80 flex items-center justify-between text-xs';
+                item.innerHTML = `
+                    <div>
+                        <div class="font-bold text-white mb-0.5">${rec.mode}</div>
+                        <div class="text-[10px] text-slate-400">${rec.date}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-emerald-400">${rec.score}</div>
+                        <div class="text-[10px] text-purple-300 font-bold">${rec.level}</div>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
+        function clearGlobalHistory() {
+            globalHistory = [];
+            localStorage.removeItem('spi_global_history');
+            renderGlobalHistoryList();
+        }
+
+        function resetStats() {
+            if (confirm('学習履歴や成績データをクリアしますか？')) {
+                clearGlobalHistory();
+                alert('成績データをクリアしました。');
+            }
         }
 
         function saveGlobalHistory() {
@@ -1806,25 +1930,15 @@
         function loadGlobalHistory() {
             try {
                 const saved = localStorage.getItem('spi_global_history');
-                if (saved) globalHistory = JSON.parse(saved);
+                if (saved) {
+                    globalHistory = JSON.parse(saved);
+                }
             } catch (e) {}
-        }
-
-        function clearGlobalHistory() {
-            globalHistory = [];
-            saveGlobalHistory();
-            openHistoryModal();
-        }
-
-        function resetStats() {
-            sessionAnswers = [];
-            globalHistory = [];
-            saveGlobalHistory();
-            alert('学習成績・履歴をクリアしました。');
         }
 
         window.onload = function() {
             loadGlobalHistory();
+            goToLanding();
         };
     </script>
 </body>
