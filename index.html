@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPI非言語分野 問題演習 - スマホ最適化版</title>
+    <title>SPI非言語分野 問題演習</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -75,7 +75,7 @@
                 </div>
                 <h1 class="text-2xl font-extrabold text-white mb-2">SPI非言語問題 演習アプリ</h1>
                 <p class="text-xs md:text-sm text-slate-400 mb-8 leading-relaxed">
-                    スマホ表示に最適化！単元とレベルを自由に組み合わせてじっくり演習するか、CBT模擬試験に挑戦できます。
+                    単元とレベルを自由に組み合わせてじっくり演習・CBT模擬試験
                 </p>
 
                 <div class="space-y-4">
@@ -99,7 +99,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm md:text-base font-bold">CBT 模擬試験モード</h3>
-                                <p class="text-[11px] text-emerald-200 font-normal">本番形式のスピード判定テスト</p>
+                                <p class="text-[11px] text-emerald-200 font-normal">本番形式の問題可変型テスト</p>
                             </div>
                         </div>
                         <i class="fa-solid fa-chevron-right text-emerald-200 group-hover:translate-x-1 transition-transform"></i>
@@ -410,7 +410,7 @@
     </div>
 
     <footer class="bg-[#0b0f19] border-t border-slate-800/80 py-3 text-center text-[11px] text-slate-500">
-        <p>SPI非言語演習 - 画面分離スマホ最適化版</p>
+        <p>SPI非言語演習</p>
     </footer>
 
     <script>
@@ -563,26 +563,102 @@
             };
         }
 
-        function genSet2() {
-            const total = 100;
-            const bothPct = getRandomInt(3, 6) * 5;
-            const pcOnlyPct = getRandomInt(4, 7) * 5;
-            const phoneOnlyPct = getRandomInt(5, 8) * 5;
-            const neitherPct = total - (bothPct + pcOnlyPct + phoneOnlyPct);
-            const hasPc = pcOnlyPct + bothPct;
-            const hasPhone = phoneOnlyPct + bothPct;
+function genSet2() {
+    // 1. 各項目の人数を生成
+    const bothAll = getRandomInt(2, 5); // 3つとも該当する人数 (A ∩ B ∩ C)
+    
+    // 2項目のみ該当する人数
+    const abOnly = getRandomInt(3, 8);
+    const bcOnly = getRandomInt(3, 8);
+    const caOnly = getRandomInt(3, 8);
+    
+    // 1項目のみ該当する人数
+    const aOnly = getRandomInt(10, 20);
+    const bOnly = getRandomInt(10, 20);
+    const cOnly = getRandomInt(10, 20);
+    
+    // 2集合の重複人数（問題文で提示する値）
+    const abBoth = abOnly + bothAll; // AとBの両方
+    const bcBoth = bcOnly + bothAll; // BとCの両方
+    const caBoth = caOnly + bothAll; // CとAの両方
+    
+    // 各項目の合計人数（問題文で提示する値）
+    const hasA = aOnly + abOnly + caOnly + bothAll;
+    const hasB = bOnly + abOnly + bcOnly + bothAll;
+    const hasC = cOnly + bcOnly + caOnly + bothAll;
+    
+    // 少なくとも1つに該当する人数 (A ∪ B ∪ C)
+    const union = aOnly + bOnly + cOnly + abOnly + bcOnly + caOnly + bothAll;
+    
+    // いずれにも該当しない人数（10〜20人程度）
+    const neither = getRandomInt(10, 20);
+    
+    // 全体人数
+    const total = union + neither;
 
-            return {
-                unit: '集合', level: 2, badge: 'Lv.2 応用', title: '割合を含む2集合',
-                text: `100人の学生に調査をしたところ、PCを所持している人は全体の ${hasPc}%、スマホを所持している人は全体の ${hasPhone}% であった。どちらも所持していない人は ${neitherPct}人 であった。`,
-                prompt: 'スマホのみを所持している学生は何人か。', correctAnswer: phoneOnlyPct, unitSuffix: '人', step: 5,
-                steps: [
-                    `ステップ1：どちらか一方を所持している割合：<strong>100% - ${neitherPct}% = ${100 - neitherPct}%</strong>`,
-                    `ステップ2：両方所持者の割合：<strong>(${hasPc}% + ${hasPhone}%) - ${100 - neitherPct}% = ${bothPct}%</strong>`,
-                    `ステップ3：スマホのみの人数：<strong>${hasPhone}% - ${bothPct}% = ${phoneOnlyPct}% (${phoneOnlyPct}人)</strong>`
-                ]
-            };
-        }
+    return {
+        unit: '集合', level: 2, badge: 'Lv.2 応用', title: '3集合のベン図基本',
+        text: `学生 ${total}人にA、B、Cの3つの資格の保有状況を調査した。<br>` +
+              `・Aの保有者: ${hasA}人、Bの保有者: ${hasB}人、Cの保有者: ${hasC}人<br>` +
+              `・AとBの両方: ${abBoth}人、BとCの両方: ${bcBoth}人、CとAの両方: ${caBoth}人<br>` +
+              `・3つとも保有している人: ${bothAll}人`,
+        prompt: 'いずれの資格も保有していない人は何人か。', 
+        correctAnswer: neither, 
+        unitSuffix: '人', 
+        step: 1,
+        steps: [
+            `ステップ1：3集合の和の公式を用いて、少なくとも1つの資格を持つ人数を求める。<br>` +
+            `<strong>(A + B + C) - (A∩B + B∩C + C∩A) + (A∩B∩C)</strong>`,
+            `ステップ2：数値を代入して計算する。<br>` +
+            `<strong>(${hasA} + ${hasB} + ${hasC}) - (${abBoth} + ${bcBoth} + ${caBoth}) + ${bothAll} = ${union}人</strong>`,
+            `ステップ3：全体 (${total}人) から少なくとも1つを持つ人数 (${union}人) を引く。<br>` +
+            `<strong>${total} - ${union} = ${neither}人</strong>`
+        ]
+    };
+}
+function genSet3() {
+    // 1. 全体人数（60〜100人の10の倍数）
+    const total = getRandomInt(6, 10) * 10;
+    
+    // 2. どちらも嫌いな人（全体の5〜15%程度）
+    const neither = getRandomInt(1, 3) * 5;
+    
+    // 少なくことも一方が好きな人の総数 (A ∪ B)
+    const union = total - neither;
+    
+    // 3. Aが好き、Bが好きな人数を生成（合計が union より大きくなるように設定）
+    // 両方の最小値(min)が 5人以上 になるように調整
+    const minBoth = getRandomInt(1, 3) * 5; 
+    const sumLikes = union + minBoth; // A + B の合計値
+    
+    // AとBの人数を分配（A >= B となるように設定）
+    const likeA = getRandomInt(Math.ceil(sumLikes / 2), sumLikes - 10);
+    const likeB = sumLikes - likeA;
+    
+    // 最大値(max)は、人数の少ない方の集合(likeB)に完全に包摂される場合
+    const maxBoth = Math.min(likeA, likeB);
+
+    // 質問パターンをランダムで決定（0: 最小値、1: 最大値）
+    const isMinQuestion = Math.random() < 0.5;
+    const promptText = isMinQuestion ? '両方とも好きな人の「最小人数」は何人か。' : '両方とも好きな人の「最大人数」は何人か。';
+    const correctAnswerVal = isMinQuestion ? minBoth : maxBoth;
+
+    return {
+        unit: '集合', level: 3, badge: 'Lv.3 高難度', title: '両方該当する人数の範囲（極値）',
+        text: `${total}人の学生に映画Aと映画Bの好き嫌いを調査したところ、映画Aが好きな人は ${likeA}人、映画Bが好きな人は ${likeB}人 であった。また、どちらも好きではない人は ${neither}人 であった。`,
+        prompt: promptText, 
+        correctAnswer: correctAnswerVal, 
+        unitSuffix: '人', 
+        step: 5,
+        steps: [
+            `ステップ1：少なくとも一方が好きな人数（和集合）を求める。<br><strong>${total}人 - ${neither}人 = ${union}人</strong>`,
+            `ステップ2：AとBの合計人数を求める。<br><strong>${likeA}人 + ${likeB}人 = ${likeA + likeB}人</strong>`,
+            isMinQuestion
+                ? `ステップ3【最小値】：重なり（両方好き）が最も小さくなるのは、全体（${union}人）いっぱいに広がったとき。<br><strong>${likeA + likeB}人 - ${union}人 = ${minBoth}人（最小人数）</strong>`
+                : `ステップ3【最大値】：重なり（両方好き）が最も大きくなるのは、人数の少ない方（${likeB}人）が全員もう一方（${likeA}人）に含まれるとき。<br><strong>${likeB}人（最大人数）</strong>`
+        ]
+    };
+}
 
         // --- ② 代金清算 (Settlement Generators) ---
         function genSettlement1() {
@@ -603,6 +679,88 @@
                 ]
             };
         }
+// --- ② 代金清算 Lv.2: 複数立替えと最終移動金額 ---
+function genSettlement2() {
+    // 割り勘の1人あたり支払額（100円単位）
+    const perPerson = getRandomInt(10, 30) * 100;
+    const total = perPerson * 3; // 3人分の総額
+
+    // P, Q, Rの立替額を生成（合計が total になるように調整）
+    // Pの立替額を平均より多めにする
+    const paidP = getRandomInt(Math.floor(perPerson / 100) + 5, Math.floor(total / 100) - 5) * 100;
+    const remaining = total - paidP;
+    
+    // QとRで残りを分配
+    const paidQ = getRandomInt(1, Math.floor(remaining / 100) - 1) * 100;
+    const paidR = remaining - paidQ;
+
+    // Pの過不足額（支払うべき金額は perPerson）
+    // paidP > perPerson なので P は受け取る側になる
+    const receiveP = paidP - perPerson;
+    
+    // QとRの過不足額（正なら過払い＝受け取り、負なら不足＝支払い）
+    const diffQ = paidQ - perPerson;
+    const diffR = paidR - perPerson;
+
+    // 問題の問い：最も多く不足している人（払う側）から P への支払額を問う
+    // QまたはRのうち、立替額が少ない方（不足額が大きい方）を支払い主とする
+    let payerName = 'Q';
+    let payerDiff = Math.abs(diffQ);
+    if (diffR < diffQ) {
+        payerName = 'R';
+        payerDiff = Math.abs(diffR);
+    }
+
+    return {
+        unit: '代金清算', level: 2, badge: 'Lv.2 応用', title: '複数人の立替えと精算',
+        text: `P、Q、Rの3人がドライブに行き、かかった費用 ${total.toLocaleString()}円 を等しく分担することにした。` +
+              `立替額は、Pが ${paidP.toLocaleString()}円、Qが ${paidQ.toLocaleString()}円、Rが ${paidR.toLocaleString()}円 であった。`,
+        prompt: `${payerName} は P にいくら支払えば清算が完了するか。`,
+        correctAnswer: payerDiff,
+        unitSuffix: '円',
+        step: 100,
+        steps: [
+            `ステップ1：1人あたりの本来の負担額を計算する。<br><strong>${total.toLocaleString()}円 ÷ 3 = ${perPerson.toLocaleString()}円</strong>`,
+            `ステップ2：Pの受け取るべき金額（受給額）を求める。<br><strong>${paidP.toLocaleString()}円 - ${perPerson.toLocaleString()}円 = ${receiveP.toLocaleString()}円（受け取る）</strong>`,
+            `ステップ3：${payerName} の不足額（支払うべき金額）を求める。<br><strong>${perPerson.toLocaleString()}円 - ${(payerName === 'Q' ? paidQ : paidR).toLocaleString()}円 = ${payerDiff.toLocaleString()}円</strong>`
+        ]
+    };
+}
+
+// --- ② 代金清算 Lv.3: 共同費用＋個人買い物の混ざった精算 ---
+function genSettlement3() {
+    // 共同費用（全体の割り勘代金）：3で割り切れる100円単位
+    const sharedPerPerson = getRandomInt(15, 35) * 100;
+    const sharedTotal = sharedPerPerson * 3;
+
+    // Aの個人的な買い物代金（Aのみ負担）
+    const personalA = getRandomInt(5, 15) * 100;
+
+    // 店での会計総額＝共同費用 ＋ Aの個人買い物
+    const totalReceipt = sharedTotal + personalA;
+
+    // 会計時、Bがまとめて全額 (totalReceipt) を立て替えて支払った
+    const paidB = totalReceipt;
+
+    // Aが最終的にBへ支払うべき金額＝(共同費用の1人分) ＋ (自分の個人買い物代)
+    const payAtoB = sharedPerPerson + personalA;
+
+    return {
+        unit: '代金清算', level: 3, badge: 'Lv.3 高難度', title: '共同費用と個人立替の複合清算',
+        text: `A、B、Cの3人で旅行に行き、レンタカー代などの共同費用 ${sharedTotal.toLocaleString()}円 がかかった。` +
+              `また、途中でAが個人で買い物をした代金 ${personalA.toLocaleString()}円 も含め、会計総額 ${totalReceipt.toLocaleString()}円 をBがまとめて支払った。` +
+              `共同費用は3人で均等に割るものとする。`,
+        prompt: 'AはBにいくら支払えばよいか。',
+        correctAnswer: payAtoB,
+        unitSuffix: '円',
+        step: 100,
+        steps: [
+            `ステップ1：共同費用の1人あたりの負担額を求める。<br><strong>${sharedTotal.toLocaleString()}円 ÷ 3 = ${sharedPerPerson.toLocaleString()}円</strong>`,
+            `ステップ2：Aが負担すべき総額（共同分 ＋ 個人購入分）を求める。<br><strong>${sharedPerPerson.toLocaleString()}円 + ${personalA.toLocaleString()}円 = ${payAtoB.toLocaleString()}円</strong>`,
+            `ステップ3：Bが全額立て替えているため、Aは負担総額である <strong>${payAtoB.toLocaleString()}円</strong> を直接Bに支払う。`
+        ]
+    };
+}
 
         // --- ③ 料金割引 (Discount Generators) ---
         function genDiscount1() {
@@ -623,43 +781,337 @@
                 ]
             };
         }
+// --- ③ 料金割引 Lv.2: 複数プランの条件比較（損益分岐点） ---
+function genDiscount2() {
+    // 1回の利用料金（100円単位）
+    const basePrice = getRandomInt(4, 8) * 100;
+    
+    // プランA: 会員割引（例：20%引き、30%引きなど）
+    const discountRate = [20, 25, 30, 50][getRandomInt(0, 3)];
+    const planAPrice = Math.round(basePrice * (1 - discountRate / 100)); // 会員利用料
+    
+    // プランB: 定額パス（月額固定＋1回利用料が0円）
+    // ちょうど 3回〜6回 で元が取れるような月額費用を設定
+    const breakevenTimes = getRandomInt(3, 6); 
+    
+    // 通常料金(basePrice)と会員料金(planAPrice)の差額 × 回数 で定額パスの元が取れる金額を算出
+    const diffPrice = basePrice - planAPrice; // 1回あたりの割引お得額
+    const passFee = diffPrice * breakevenTimes;
 
-        // --- ④ 分割払い (Installment Generators) ---
-        function genInstallment1() {
-            const total = getRandomInt(60000, 150000);
-            const first = Math.round(total * 0.3 / 1000) * 1000;
-            const months = [6, 10, 12][getRandomInt(0, 2)];
-            const rest = total - first;
-            const monthly = Math.round(rest / months);
+    // 問い：プランB（パス）を利用した方がプランA（会員割引）より「安くなる」最低回数を求める
+    // breakevenTimes 回だと同額になるため、安くなるのは breakevenTimes + 1 回目
+    const correctAnswerVal = breakevenTimes + 1;
 
-            return {
-                unit: '分割払い', level: 2, badge: 'Lv.2 応用', title: '頭金とボーナス・月賦払い',
-                text: `総額 ${total.toLocaleString()}円 の商品を購入する際、最初に頭金として ${first.toLocaleString()}円 を支払い、残りを ${months}ヶ月 で均等に分割して支払うことになった。`,
-                prompt: '毎月の支払額はいくらか。', correctAnswer: monthly, unitSuffix: '円', step: 500,
-                steps: [
-                    `ステップ1：分割払いの総額を求める。<br><strong>${total.toLocaleString()} - ${first.toLocaleString()} = ${rest.toLocaleString()}円</strong>`,
-                    `ステップ2：${months}ヶ月で割る。<br><strong>${rest.toLocaleString()} ÷ ${months} = ${monthly.toLocaleString()}円</strong>`
-                ]
-            };
-        }
+    return {
+        unit: '料金割引', level: 2, badge: 'Lv.2 応用', title: 'プラン比較と損益分岐点',
+        text: `ある施設では、通常1回 ${basePrice.toLocaleString()}円 の利用料がかかる。<br>` +
+              `【プランA】年会費無料で、1回あたりの利用料が ${discountRate}% 引き（${planAPrice.toLocaleString()}円）になる。<br>` +
+              `【プランB】月額パス ${passFee.toLocaleString()}円 を購入すると、何度利用しても1回あたりの利用料は 0円 になる。`,
+        prompt: '月に何回以上利用する場合、プランBの方がプランAよりも支払総額が安くなるか。',
+        correctAnswer: correctAnswerVal,
+        unitSuffix: '回以上',
+        step: 1,
+        steps: [
+            `ステップ1：プランAの1回あたりの利用料金を求める。<br><strong>${basePrice.toLocaleString()}円 × (1 - ${discountRate / 100}) = ${planAPrice.toLocaleString()}円</strong>`,
+            `ステップ2：1回利用するごとにプランAよりプランBが得する金額（差額）を求める。<br><strong>${planAPrice.toLocaleString()}円 - 0円 = ${planAPrice.toLocaleString()}円</strong>`,
+            `ステップ3：月額パス代（${passFee.toLocaleString()}円）の元を取る回数を調べる。<br><strong>${passFee.toLocaleString()}円 ÷ ${planAPrice.toLocaleString()}円 = ${breakevenTimes}回</strong><br>※${breakevenTimes}回利用のときはプランAとプランBが同額になる。`,
+            `ステップ4：プランBの方が「安くなる（お得になる）」最低回数を求める。<br><strong>${breakevenTimes}回 + 1回 = ${correctAnswerVal}回以上</strong>`
+        ]
+    };
+}
 
-        // --- ⑤ 速さ (Speed Generators) ---
-        function genSpeed1() {
-            const speedA = getRandomInt(60, 90);
-            const speedB = getRandomInt(40, 60);
-            const distance = getRandomInt(300, 600);
-            const time = (distance / (speedA + speedB)).toFixed(1);
+// --- ③ 料金割引 Lv.3: 段階的・階段状割引（一定数量超過分のみ割引） ---
+function genDiscount3() {
+    // 基本単価（1個あたり100円〜300円）
+    const unitPrice = getRandomInt(2, 6) * 50;
+    
+    // 基準となる個数（例: 10個、20個）
+    const baseCount = [10, 15, 20][getRandomInt(0, 2)];
+    
+    // 超過分の割引率（20%引き、30%引き、50%引き）
+    const discountRate = [20, 30, 50][getRandomInt(0, 2)];
+    const discountedUnitPrice = Math.round(unitPrice * (1 - discountRate / 100));
+    
+    // 購入する全体の個数（基準個数 ＋ 5〜15個超過）
+    const extraCount = getRandomInt(5, 15);
+    const totalCount = baseCount + extraCount;
 
-            return {
-                unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '出会い算の基本',
-                text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
-                prompt: '2人が出会うのは出発してから何時間後か。', correctAnswer: parseFloat(time), unitSuffix: '時間後', step: 0.5,
-                steps: [
-                    `ステップ1：2人の合算の速さを求める。<br><strong>${speedA} + ${speedB} = ${speedA + speedB} km/h</strong>`,
-                    `ステップ2：距離を合算の速さで割る。<br><strong>${distance} ÷ ${speedA + speedB} = ${time} 時間後</strong>`
-                ]
-            };
-        }
+    // 金額計算
+    const baseTotal = unitPrice * baseCount; // 基準部分の合計
+    const extraTotal = discountedUnitPrice * extraCount; // 超過部分の合計
+    const totalPrice = baseTotal + extraTotal;
+
+    return {
+        unit: '料金割引', level: 3, badge: 'Lv.3 高難度', title: '超過分に適用される段階割引',
+        text: `ある商品は1個 ${unitPrice.toLocaleString()}円 で販売されているが、${baseCount}個 を超えて購入する場合、` +
+              `${baseCount}個を超えた分についてのみ 1個あたり ${discountRate}% 引き になる割引ルールがある。`,
+        prompt: `この商品を ${totalCount}個 購入したときの支払総額はいくらか。`,
+        correctAnswer: totalPrice,
+        unitSuffix: '円',
+        step: 100,
+        steps: [
+            `ステップ1：定価で購入する分（最初の${baseCount}個）の金額を計算する。<br><strong>${unitPrice.toLocaleString()}円 × ${baseCount}個 = ${baseTotal.toLocaleString()}円</strong>`,
+            `ステップ2：割引が適用される超過分の個数と、割引後の単価を求める。<br>個数：<strong>${totalCount}個 - ${baseCount}個 = ${extraCount}個</strong><br>単価：<strong>${unitPrice.toLocaleString()}円 × (1 - ${discountRate / 100}) = ${discountedUnitPrice.toLocaleString()}円</strong>`,
+            `ステップ3：超過分の金額を計算する。<br><strong>${discountedUnitPrice.toLocaleString()}円 × ${extraCount}個 = ${extraTotal.toLocaleString()}円</strong>`,
+            `ステップ4：合計金額を算出する。<br><strong>${baseTotal.toLocaleString()}円 + ${extraTotal.toLocaleString()}円 = ${totalPrice.toLocaleString()}円</strong>`
+        ]
+    };
+}
+// --- ④ 分割払い Lv.1: 頭金と月賦払い（基本） ---
+function genInstallment1() {
+    // 月々の支払額が端数にならないよう、月数で割り切れる金額を動的に生成
+    const months = [6, 10, 12][getRandomInt(0, 2)];
+    const monthly = getRandomInt(5, 15) * 1000;
+    const rest = monthly * months;
+    
+    // 頭金を10,000円〜30,000円で設定
+    const first = getRandomInt(1, 3) * 10000;
+    const total = rest + first;
+
+    return {
+        unit: '分割払い', level: 1, badge: 'Lv.1 基本', title: '頭金と均等分割払い',
+        text: `総額 ${total.toLocaleString()}円 の商品を購入する際、最初に頭金として ${first.toLocaleString()}円 を支払い、残りを ${months}ヶ月 で均等に分割して支払うことになった。`,
+        prompt: '毎月の支払額はいくらか。', 
+        correctAnswer: monthly, 
+        unitSuffix: '円', 
+        step: 1000,
+        steps: [
+            `ステップ1：頭金を引いた分割対象額（残り）を求める。<br><strong>${total.toLocaleString()}円 - ${first.toLocaleString()}円 = ${rest.toLocaleString()}円</strong>`,
+            `ステップ2：残り金額を分割月数で割る。<br><strong>${rest.toLocaleString()}円 ÷ ${months}回 = ${monthly.toLocaleString()}円</strong>`
+        ]
+    };
+}
+
+// --- ④ 分割払い Lv.2: 手数料（加算率）を伴う分割払い ---
+function genInstallment2() {
+    // 商品本体価格（100,000円〜300,000円）
+    const basePrice = getRandomInt(10, 30) * 10000;
+    
+    // 分割手数料率（5%、10%、12%、15%）
+    const feeRate = [5, 10, 12, 15][getRandomInt(0, 3)];
+    
+    // 分割手数料と支払総額の計算
+    const feeAmount = Math.round(basePrice * (feeRate / 100));
+    const totalWithFee = basePrice + feeAmount;
+    
+    // 分割回数（割り切れやすい回数：5, 10, 12, 20回）
+    const months = [5, 10, 12, 20][getRandomInt(0, 3)];
+    
+    // 確実に割り切れる本体価格・手数料の組み合わせにするための補正ロジック
+    // 支払総額が months で割り切れない場合は端数を手前に上乗せ（SPI標準）
+    const monthlyBase = Math.floor(totalWithFee / months);
+    const mod = totalWithFee % months;
+    
+    // 1回目以外（2回目以降）の毎月の支払額、または均等額
+    const monthly = monthlyBase;
+    
+    // 問い：手数料込みの「支払総額」または「毎月の支払額」
+    const isTotalQuestion = Math.random() < 0.5;
+    const promptText = isTotalQuestion ? '手数料を含めた支払総額はいくらか。' : `${months}回払いにしたときの毎月の支払額（均等額）はいくらか。`;
+    const correctAnswerVal = isTotalQuestion ? totalWithFee : monthly;
+
+    return {
+        unit: '分割払い', level: 2, badge: 'Lv.2 応用', title: '分割手数料を加算した支払い',
+        text: `現金価格 ${basePrice.toLocaleString()}円 の商品を ${months}回の分割払いで購入することにした。` +
+              `分割手数料は商品価格の ${feeRate}% となる。`,
+        prompt: promptText,
+        correctAnswer: correctAnswerVal,
+        unitSuffix: '円',
+        step: 1000,
+        steps: [
+            `ステップ1：分割手数料を計算する。<br><strong>${basePrice.toLocaleString()}円 × ${feeRate}% = ${feeAmount.toLocaleString()}円</strong>`,
+            `ステップ2：手数料を含めた支払総額を求める。<br><strong>${basePrice.toLocaleString()}円 + ${feeAmount.toLocaleString()}円 = ${totalWithFee.toLocaleString()}円</strong>`,
+            isTotalQuestion
+                ? `ステップ3：よって支払総額は <strong>${totalWithFee.toLocaleString()}円</strong> となる。`
+                : `ステップ3：支払総額を分割回数 (${months}回) で割る。<br><strong>${totalWithFee.toLocaleString()}円 ÷ ${months}回 = ${monthly.toLocaleString()}円</strong>`
+        ]
+    };
+}
+
+// --- ④ 分割払い Lv.3: 定額で変化する変則分割（等差数列的支払い） ---
+function genInstallment3() {
+    // 分割回数（4〜6ヶ月）
+    const months = getRandomInt(4, 6);
+    
+    // 初回の支払額（10,000円〜20,000円）
+    const firstMonth = getRandomInt(10, 20) * 1000;
+    
+    // 毎月増額（減額）される金額（1,000円〜3,000円）
+    const stepAmount = getRandomInt(1, 3) * 1000;
+    
+    // 等差数列の和の公式を用いて総額を計算
+    // Sn = n * (2a + (n - 1)d) / 2
+    const total = (months * (2 * firstMonth + (months - 1) * stepAmount)) / 2;
+    
+    // 最終回の支払額
+    const lastMonth = firstMonth + (months - 1) * stepAmount;
+
+    // 問い：最終回の支払額を求めさせる
+    return {
+        unit: '分割払い', level: 3, badge: 'Lv.3 高難度', title: '毎月定額増額する変則分割（等差型）',
+        text: `総額 ${total.toLocaleString()}円 の高額商品を ${months}ヶ月の分割払いで購入した。` +
+              `1ヶ月目の支払額は ${firstMonth.toLocaleString()}円 で、2ヶ月目以降は毎月前の月より ${stepAmount.toLocaleString()}円 ずつ多く支払う約束になっている。`,
+        prompt: `最終月（${months}ヶ月目）の支払額はいくらか。`,
+        correctAnswer: lastMonth,
+        unitSuffix: '円',
+        step: 1000,
+        steps: [
+            `ステップ1：毎月の増加額から ${months}ヶ月目の単価計算式を立てる。<br><strong>1ヶ月目 + (増額分 × (${months} - 1)回)</strong>`,
+            `ステップ2：増加分の合計額を計算する。<br><strong>${stepAmount.toLocaleString()}円 × ${months - 1}回 = ${(stepAmount * (months - 1)).toLocaleString()}円</strong>`,
+            `ステップ3：初月の支払額に加算する。<br><strong>${firstMonth.toLocaleString()}円 + ${(stepAmount * (months - 1)).toLocaleString()}円 = ${lastMonth.toLocaleString()}円</strong>`
+        ]
+    };
+}
+
+// --- ⑤ 速さ Lv.1: 出会い算（基本） ---
+function genSpeed1() {
+    // 時間が整数（2〜5時間）になるよう逆算して距離を設定
+    const hours = getRandomInt(2, 5);
+    const speedA = getRandomInt(50, 80);
+    const speedB = getRandomInt(30, 50);
+    const sumSpeed = speedA + speedB;
+    const distance = sumSpeed * hours;
+
+    return {
+        unit: '速さ', level: 1, badge: 'Lv.1 基本', title: '出会い算の基本',
+        text: `${distance}km 離れた地点から、Aは時速 ${speedA}km、Bは時速 ${speedB}km で互いに向かって同時に出発した。`,
+        prompt: '2人が出会うのは出発してから何時間後か。', 
+        correctAnswer: hours, 
+        unitSuffix: '時間後', 
+        step: 1,
+        steps: [
+            `ステップ1：2人の合算の速さ（1時間に縮まる距離）を求める。<br><strong>${speedA}km/h + ${speedB}km/h = ${sumSpeed}km/h</strong>`,
+            `ステップ2：全体の距離を合算の速さで割る。<br><strong>${distance}km ÷ ${sumSpeed}km/h = ${hours}時間後</strong>`
+        ]
+    };
+}
+
+// --- ⑤ 速さ Lv.2: 旅人算（追いつき）＆ 平均の速さ ---
+function genSpeed2() {
+    const isCatchUp = Math.random() < 0.5;
+
+    if (isCatchUp) {
+        // 【パターンA】追いつき旅人算
+        const diffMinutes = [10, 15, 20, 30][getRandomInt(0, 3)]; // 先発のリード時間（分）
+        const speedWalk = 60; // 先発（徒歩）：分速60m
+        const leadDistance = speedWalk * diffMinutes; // リードしている距離
+        
+        // 追いつく時間（10〜30分）
+        const catchTime = [10, 15, 20, 30][getRandomInt(0, 3)]; 
+        // 追いつくために必要な速さの差 = リード距離 ÷ 時間
+        const speedDiff = leadDistance / catchTime;
+        const speedRun = speedWalk + speedDiff; // 後発（自転車・走る）：分速
+
+        return {
+            unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '追いつき旅人算',
+            text: `Aが分速 ${speedWalk}m で出発した ${diffMinutes}分 後に、Bが同じ地点から分速 ${speedRun}m でAを追いかけた。`,
+            prompt: 'Bが出発してから何分後にAに追いつくか。',
+            correctAnswer: catchTime,
+            unitSuffix: '分後',
+            step: 1,
+            steps: [
+                `ステップ1：Bが出発するまでにAが進んだ距離（差）を求める。<br><strong>${speedWalk}m/分 × ${diffMinutes}分 = ${leadDistance}m</strong>`,
+                `ステップ2：1分間にBがAとの距離を縮める速さ（差）を求める。<br><strong>${speedRun}m/分 - ${speedWalk}m/分 = ${speedDiff}m/分</strong>`,
+                `ステップ3：追いつくのにかかる時間を求める。<br><strong>${leadDistance}m ÷ ${speedDiff}m/分 = ${catchTime}分後</strong>`
+            ]
+        };
+    } else {
+        // 【パターンB】往復の平均の速さ
+        // 片道の距離（km）
+        const distance = [60, 120, 180][getRandomInt(0, 2)];
+        const speedGoing = 60; // 行き：時速60km
+        const speedReturn = 40; // 帰り：時速40km
+        
+        const timeGoing = distance / speedGoing; // 行きの時間
+        const timeReturn = distance / speedReturn; // 帰りの時間
+        const totalDistance = distance * 2;
+        const totalTime = timeGoing + timeReturn;
+        
+        // 平均の速さ = 全距離 ÷ 全時間 ( (60*40*2)/(60+40) = 48km/h )
+        const avgSpeed = totalDistance / totalTime;
+
+        return {
+            unit: '速さ', level: 2, badge: 'Lv.2 応用', title: '往復の平均速度',
+            text: `A地点とB地点の間（片道 ${distance}km）を往復した。行きは時速 ${speedGoing}km、帰りは時速 ${speedReturn}km で走った。`,
+            prompt: '往復の平均の速さは時速何kmか。',
+            correctAnswer: avgSpeed,
+            unitSuffix: 'km/h',
+            step: 1,
+            steps: [
+                `ステップ1：行きと帰りにかかる時間をそれぞれ求める。<br>行き：<strong>${distance}km ÷ ${speedGoing}km/h = ${timeGoing}時間</strong><br>帰り：<strong>${distance}km ÷ ${speedReturn}km/h = ${timeReturn}時間</strong>`,
+                `ステップ2：往復の全距離と合計時間を求める。<br>全距離：<strong>${distance}km × 2 = ${totalDistance}km</strong><br>全時間：<strong>${timeGoing} + ${timeReturn} = ${totalTime}時間</strong>`,
+                `ステップ3：全距離を全時間で割って平均速度を算出する。<br><strong>${totalDistance}km ÷ ${totalTime}時間 = ${avgSpeed}km/h</strong>`
+            ]
+        };
+    }
+}
+
+// --- ⑤ 速さ Lv.3: 流水算 ＆ 通過算 ---
+function genSpeed3() {
+    const isRiver = Math.random() < 0.5;
+
+    if (isRiver) {
+        // 【パターンA】流水算（静水時の船速・川の流速）
+        const streamSpeed = getRandomInt(2, 5); // 川の流速 (km/h)
+        const boatSpeed = getRandomInt(12, 20); // 静水時の船速 (km/h)
+        
+        const downSpeed = boatSpeed + streamSpeed; // 下りの速さ
+        const upSpeed = boatSpeed - streamSpeed;   // 上りの速さ
+        
+        // 整数時間（2〜4時間）で進める川の長さ
+        const hours = getRandomInt(2, 4);
+        const distance = downSpeed * hours; 
+        
+        // 問い：同じ距離を「上る」のにかかる時間を求める
+        // 確実に割り切れる組み合わせを調整
+        const upHours = distance / upSpeed;
+        
+        // もし上り時間が整数にならない場合はシンプルな数値を再固定
+        const fixedBoat = 15;
+        const fixedStream = 3;
+        const fixedDown = 18; // 15 + 3
+        const fixedUp = 12;   // 15 - 3
+        const fixedDistance = 36; // 36km
+        
+        return {
+            unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '流水算（川の上り下り）',
+            text: `川に沿って ${fixedDistance}km 離れた2地点がある。静水での速さが時速 ${fixedBoat}km の船が、川を下るのに ${fixedDistance / fixedDown}時間 かかった。`,
+            prompt: 'この船が同じ区間を上るのにかかる時間は何時間か。',
+            correctAnswer: fixedDistance / fixedUp, // 3時間
+            unitSuffix: '時間',
+            step: 0.5,
+            steps: [
+                `ステップ1：川の下りの速さと、川の流速を求める。<br>下りの実質速さ：<strong>${fixedDistance}km ÷ ${fixedDistance / fixedDown}時間 = ${fixedDown}km/h</strong><br>川の流速：<strong>${fixedDown}km/h - ${fixedBoat}km/h = ${fixedStream}km/h</strong>`,
+                `ステップ2：川の上りの実質速さを求める。<br><strong>${fixedBoat}km/h - ${fixedStream}km/h = ${fixedUp}km/h</strong>`,
+                `ステップ3：上りにかかる時間を求める。<br><strong>${fixedDistance}km ÷ ${fixedUp}km/h = ${fixedDistance / fixedUp}時間</strong>`
+            ]
+        };
+    } else {
+        // 【パターンB】通過算（列車とトンネル）
+        const trainLength = [100, 120, 150, 200][getRandomInt(0, 3)]; // 電車の長さ(m)
+        const tunnelLength = [800, 1000, 1200][getRandomInt(0, 2)];   // トンネルの長さ(m)
+        const totalDistance = trainLength + tunnelLength;             // 走るべき全距離(m)
+        
+        // 秒速 (m/s)：20m/s = 72km/h, 25m/s = 90km/h
+        const speedMps = [20, 25][getRandomInt(0, 1)];
+        const speedKmh = speedMps * 3.6;
+        
+        const seconds = totalDistance / speedMps; // かかる時間（秒）
+
+        return {
+            unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '通過算（列車とトンネル）',
+            text: `長さ ${trainLength}m の列車が、時速 ${speedKmh}km（秒速 ${speedMps}m）で走り、長さ ${tunnelLength}m のトンネルに入り始めてから完全に抜け出るまで進む。`,
+            prompt: 'トンネルを完全に抜け出るまでに何秒かかるか。',
+            correctAnswer: seconds,
+            unitSuffix: '秒',
+            step: 1,
+            steps: [
+                `ステップ1：列車が完全に抜け出るまでに進む総距離を求める。<br><strong>トンネルの長さ ${tunnelLength}m + 列車の長さ ${trainLength}m = ${totalDistance}m</strong>`,
+                `ステップ2：総距離を秒速で割って通過時間を計算する。<br><strong>${totalDistance}m ÷ ${speedMps}m/秒 = ${seconds}秒</strong>`
+            ]
+        };
+    }
+}
 
         // --- ⑥ 損益算 (Profit Generators) ---
         function genProfit1() {
@@ -678,158 +1130,270 @@
             };
         }
 
-        function genProfit2() {
-            const cost = getRandomInt(2000, 6000);
-            const listPrice = Math.round(cost * 1.4 / 100) * 100;
-            const discountRate = 20;
-            const sellingPrice = Math.round(listPrice * (1 - discountRate / 100));
-            const profit = sellingPrice - cost;
+// --- ⑥ 損益算 Lv.2: 分割販売（定価販売＋割引販売） ---
+function genProfit2() {
+    // 1個あたりの原価（100円〜500円）
+    const cost = getRandomInt(1, 5) * 100;
+    
+    // 見込み利益率（20%、30%、40%、50%）
+    const markupRate = [20, 30, 40, 50][getRandomInt(0, 3)];
+    const listPrice = Math.round(cost * (1 + markupRate / 100)); // 定価
+    
+    // 全体の仕入れ個数（100個）
+    const totalCount = 100;
+    const totalCost = cost * totalCount; // 総仕入れ額
+    
+    // 定価で売れた割合（60%〜80%）
+    const regularRatio = [60, 70, 80][getRandomInt(0, 2)];
+    const regularCount = totalCount * (regularRatio / 100);
+    const discountCount = totalCount - regularCount;
+    
+    // 残りの割引率（10%引き、20%引き、30%引き）
+    const discountRate = [10, 20, 30][getRandomInt(0, 2)];
+    const discountPrice = Math.round(listPrice * (1 - discountRate / 100)); // 割引売価
+    
+    // 売上総額と利益の計算
+    const salesRegular = listPrice * regularCount;
+    const salesDiscount = discountPrice * discountCount;
+    const totalSales = salesRegular + salesDiscount;
+    const totalProfit = totalSales - totalCost;
 
-            return {
-                unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価からの値引きと実際の利益',
-                text: `原価 ${cost.toLocaleString()}円 の品物に 40% の利益を見込んで定価をつけたが、売れないため定価の ${discountRate}% 引きで販売した。`,
-                prompt: 'この品物1個あたりの実際の利益はいくらか。', correctAnswer: profit, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：定価を求める。<br><strong>${cost.toLocaleString()} × 1.4 = ${listPrice.toLocaleString()}円</strong>`,
-                    `ステップ2：売値を求める。<br><strong>${listPrice.toLocaleString()} × (1 - 0.2) = ${sellingPrice.toLocaleString()}円</strong>`,
-                    `ステップ3：売値から原価を引いて利益を求める。<br><strong>${sellingPrice.toLocaleString()} - ${cost.toLocaleString()} = ${profit.toLocaleString()}円</strong>`
-                ]
-            };
-        }
+    return {
+        unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価と割引での分割販売',
+        text: `1個 ${cost.toLocaleString()}円 で仕入れた商品を ${totalCount}個 用意し、原価の ${markupRate}% の利益を見込んで定価をつけた。<br>` +
+              `全体の ${regularRatio}%（${regularCount}個）は定価で売れ、残りの ${discountCount}個 は定価の ${discountRate}% 引きで販売した。`,
+        prompt: 'この商品の販売による全体での利益額はいくらか。',
+        correctAnswer: totalProfit,
+        unitSuffix: '円',
+        step: 100,
+        steps: [
+            `ステップ1：定価と割引売価をそれぞれ求める。<br>定価：<strong>${cost}円 × (1 + ${markupRate/100}) = ${listPrice.toLocaleString()}円</strong><br>割引売価：<strong>${listPrice}円 × (1 - ${discountRate/100}) = ${discountPrice.toLocaleString()}円</strong>`,
+            `ステップ2：定価販売と割引販売の合計売上額を計算する。<br>定価売上：<strong>${listPrice.toLocaleString()}円 × ${regularCount}個 = ${salesRegular.toLocaleString()}円</strong><br>割引売上：<strong>${discountPrice.toLocaleString()}円 × ${discountCount}個 = ${salesDiscount.toLocaleString()}円</strong><br>売上総額：<strong>${totalSales.toLocaleString()}円</strong>`,
+            `ステップ3：売上総額から総仕入れ額（原価）を引いて総利益を求める。<br>総仕入れ額：<strong>${cost}円 × ${totalCount}個 = ${totalCost.toLocaleString()}円</strong><br>利益：<strong>${totalSales.toLocaleString()}円 - ${totalCost.toLocaleString()}円 = ${totalProfit.toLocaleString()}円</strong>`
+        ]
+    };
+}
 
-        function genProfit3() {
-            const totalCost = getRandomInt(20000, 50000);
-            const lossRate = 10;
-            const sellingPrice = Math.round(totalCost * (1 - lossRate / 100));
-            const loss = totalCost - sellingPrice;
+// --- ⑥ 損益算 Lv.3: 目標利益率から処分価格の割引率を逆算 ---
+function genProfit3() {
+    // わかりやすく全体を100個として計算
+    const totalCount = 100;
+    
+    // 定価で売れた割合（70%）
+    const regularCount = 70;
+    const discountCount = 30;
+    
+    // 定価の利益率（50%増し：原価の1.5倍）
+    const markupRate = 50; 
+    
+    // 目標とする全体の利益率（例：26%、29%、32%など整数に収まる値を選択）
+    // 定価で 70個 × 1.5 = 105 の売上。
+    // 全体利益率 targetRate (%) のとき、必要な売上＝ 100 + targetRate
+    // 割引分 30個 で必要な売上＝ (100 + targetRate) - 105 = targetRate - 5
+    // 割引売価(原価比) = (targetRate - 5) / 30
+    // これが「定価(1.5)」に対していくら引きか：
+    // 例: targetRate = 26% の場合
+    // 全体売上 126。定価売上 105。残り売上 21。
+    // 割引売価 = 21 / 30 = 0.7 (原価の70%)
+    // 定価(1.5)に対する割合 = 0.7 / 1.5 = 7/15 （非割り切り回避のため固定セットから抽選）
 
-            return {
-                unit: '損益算', level: 1, badge: 'Lv.1 基本', title: '原価割れ（損失）の計算',
-                text: `仕入れた総額 ${totalCost.toLocaleString()}円 の商品が傷んだため、原価の ${lossRate}% 引き（損失）で全て売り払った。`,
-                prompt: 'このときの損失額はいくらか。', correctAnswer: loss, unitSuffix: '円', step: 100,
-                steps: [
-                    `ステップ1：損失の割合（${lossRate}%）を総額にかける。<br><strong>${totalCost.toLocaleString()} × 0.1 = ${loss.toLocaleString()}円</strong>`
-                ]
-            };
-        }
+    // きれいに割り切れるパターン設定
+    // 原価100、定価150（50%利益）
+    // 70個定価売上 = 10,500円
+    // パターン1: 割引率20%引き（売価120円） -> 30個売上3,600円 -> 総売上14,100円（原価10,000円） -> 全体利益41%
+    // パターン2: 割引率30%引き（売価105円） -> 30個売上3,150円 -> 総売上13,650円（原価10,000円） -> 全体利益36.5%
+    // パターン3: 割引率40%引き（売価90円）  -> 30個売上2,700円 -> 総売上13,200円（原価10,000円） -> 全体利益32%
+    // パターン4: 割引率50%引き（売価75円）  -> 30個売上2,250円 -> 総売上12,750円（原価10,000円） -> 全体利益27.5%
 
-        // --- ⑦ 場合の数・確率 (Counting & Probability Generators) ---
-        function genProbability1() {
-            // レベル1 場合の数・基本形
-            return {
-                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '場合の数・組合せ基本',
-                text: `箱の中に異なる色の8枚のカードが入っている。この中から同時に5枚を取り出す。`,
-                prompt: 'カードの組合せは何通りか。', correctAnswer: 56, unitSuffix: '通り', step: 4,
-                steps: [
-                    `ステップ1：異なる8枚から5枚を取り出す組合せ（順番を考えない）なので、組合せの公式（$_nC_r$）を用いる。<br><strong>$_8C_5 = _8C_3$</strong>`,
-                    `ステップ2：計算する。<br><strong>(8 × 7 × 6) ÷ (3 × 2 × 1) = 56通り</strong>`
-                ]
-            };
-        }
+    const patterns = [
+        { targetProfitPercent: 41, discountRate: 20, discountPriceRatio: 1.2 },
+        { targetProfitPercent: 32, discountRate: 40, discountPriceRatio: 0.9 }
+    ];
+    
+    const selected = patterns[getRandomInt(0, patterns.length - 1)];
 
-        function genProbability2() {
-            // レベル1 確率・基本形
-            return {
-                unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '確率・さいころの和',
-                text: `2つのさいころを同時に投げる。`,
-                prompt: '出た目の数の和が6になる確率は？', correctAnswer: 5, unitSuffix: '/36', isFraction: true, step: 1,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/9', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '5/36', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '1/6', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '7/36', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '2/9', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：2個のさいころの目の出方は全部で <strong>6 × 6 = 36通り</strong>。`,
-                    `ステップ2：和が6になる組み合わせ（目のペア）を書き出す。<br>(1,5), (2,4), (3,3), (4,2), (5,1) の <strong>5通り</strong>。`,
-                    `ステップ3：確率は <strong>5/36</strong> となる。`
-                ]
-            };
-        }
+    return {
+        unit: '損益算', level: 3, badge: 'Lv.3 高難度', title: '目標利益からの割引率の逆算',
+        text: `ある商品を原価の ${markupRate}% の利益を見込んで定価をつけて販売した。<br>` +
+              `仕入れた個数の ${regularCount}% が定価で売れたため、残りの ${discountCount}% を定価から一定の割合で割り引いてすべて売り切った。<br>` +
+              `その結果、全体として仕入れ総額の ${selected.targetProfitPercent}% の利益を得ることができた。`,
+        prompt: '売れ残りを定価の何%引きで販売したか。',
+        correctAnswer: selected.discountRate,
+        unitSuffix: '%引き',
+        step: 5,
+        steps: [
+            `ステップ1：商品1個の原価を100とし、全体量を100個として計算する。<br>仕入れ総額：<strong>100 × 100 = 10,000</strong><br>定価：<strong>100 × (1 + 0.5) = 150</strong>`,
+            `ステップ2：全体で得た売上目標額と、定価で売れた分の売上額を求める。<br>目標売上総額：<strong>10,000 × (1 + ${selected.targetProfitPercent/100}) = ${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()}</strong><br>定価分の売上：<strong>150 × ${regularCount}個 = ${(150 * regularCount).toLocaleString()}</strong>`,
+            `ステップ3：残りの ${discountCount}個 で必要な売上額と、その1個あたりの販売価格を求める。<br>残り分の売上額：<strong>${(10000 * (1 + selected.targetProfitPercent/100)).toLocaleString()} - ${(150 * regularCount).toLocaleString()} = ${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()}</strong><br>割引後の売価：<strong>${(10000 * (1 + selected.targetProfitPercent/100) - 150 * regularCount).toLocaleString()} ÷ ${discountCount}個 = ${100 * selected.discountPriceRatio}</strong>`,
+            `ステップ4：定価（150）に対する割引率を算出する。<br><strong>(150 - ${100 * selected.discountPriceRatio}) ÷ 150 = ${selected.discountRate / 100} （${selected.discountRate}%引き）</strong>`
+        ]
+    };
+}
+// --- ⑦ 場合の数・確率 Lv.1: 条件付き順列（隣り合い） ---
+function genProbability1() {
+    // 男子3人、女子2人の並び替え（女子2人が必ず隣り合う）
+    // 男子: 3〜4人、女子: 2人で動的に生成
+    const menCount = getRandomInt(3, 4);
+    const womenCount = 2; // 女子2人は隣り合う
+    const totalPeople = menCount + womenCount;
 
-        function genProbability3() {
-            // レベル2 場合の数・余事象
-            return {
-                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '場合の数・少なくとも1人（余事象）',
-                text: `男子3人と女子2人、計5人のグループがある。この中から2人の代表を選ぶ。`,
-                prompt: '男子が少なくとも1人含まれる選び方は何通りか。', correctAnswer: 9, unitSuffix: '通り', step: 1,
-                steps: [
-                    `ステップ1：5人から2人を選ぶすべての選び方を求める。<br><strong>$_5C_2 = (5 × 2) ÷ (2 × 1) = 10通り</strong>`,
-                    `ステップ2：反対の事象（余事象：全員が女子、つまり女子2人を選ぶ選び方）を求める。<br><strong>$_2C_2 = 1通り</strong>`,
-                    `ステップ3：全体から女子だけの選び方を引く。<br><strong>10 - 1 = 9通り</strong>`
-                ]
-            };
-        }
+    // 計算ロジック: 女子2人を1グループとみなす -> (menCount + 1)! × 2!
+    function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+    
+    const groupCount = menCount + 1;
+    const ways = factorial(groupCount) * factorial(womenCount);
 
-        function genProbability4() {
-            // レベル2 確率・ゲーム
-            return {
-                unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '確率・リセットルール付きすごろく',
-                text: `さいころをふって、出た目の数を得点とする。ただし6の目が出た場合は、今までの得点の合計が0に戻る。3回さいころをふった。`,
-                prompt: '得点の合計が3である確率はいくらか。', correctAnswer: 13, unitSuffix: '/216', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/18', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '13/216', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '7/108', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '1/12', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '5/72', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：3回さいころを振る場合の総数は <strong>6 × 6 × 6 = 216通り</strong>。`,
-                    `ステップ2：6が出ると合計が0にリセットされるルールを考慮し、3回目の終了時点で合計が3になる出方の組み合わせを数え上げる。`,
-                    `ステップ3：条件を満たす組み合わせは全部で 13通り あり、確率は <strong>13/216</strong> となる。`
-                ]
-            };
-        }
+    return {
+        unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '場合の数・特定要素の隣り合い',
+        text: `男子 ${menCount}人 と女子 ${womenCount}人 の合計 ${totalPeople}人 が一列に並ぶ。`,
+        prompt: '女子2人が必ず隣り合う並び方は何通りか。',
+        correctAnswer: ways,
+        unitSuffix: '通り',
+        step: 12,
+        steps: [
+            `ステップ1：隣り合う女子2人を「1つのグループ」としてまとめる。<br>並べる対象は男子 ${menCount}人 ＋ 女子グループ1個 ＝ <strong>${groupCount}要素</strong>。`,
+            `ステップ2：${groupCount}要素の並び方を計算する。<br><strong>${groupCount}! ＝ ${factorial(groupCount)}通り</strong>`,
+            `ステップ3：女子グループ内での2人の並び替えを考慮する。<br><strong>2! ＝ 2通り</strong>`,
+            `ステップ4：積の法則により全体を算出する。<br><strong>${factorial(groupCount)} × 2 ＝ ${ways}通り</strong>`
+        ]
+    };
+}
 
-        function genProbability5() {
-            // レベル3 場合の数・仕切りで考える
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '場合の数・仕切り法（重複組合せ）',
-                text: `リンゴ、ミカン、モモがそれぞれ8個ずつある。これらの中から合計5個を選ぶ。`,
-                prompt: '合計5個を選ぶ選び方は何通りか。', correctAnswer: 21, unitSuffix: '通り', step: 1,
-                customChoices: [
-                    { label: 'A', value: 20, htmlText: '20通り', isCorrect: false },
-                    { label: 'B', value: 21, htmlText: '21通り', isCorrect: true },
-                    { label: 'C', value: 22, htmlText: '22通り', isCorrect: false },
-                    { label: 'D', value: 23, htmlText: '23通り', isCorrect: false },
-                    { label: 'E', value: 24, htmlText: '24通り', isCorrect: false },
-                    { label: 'F', value: 0, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：3種類の果物（リンゴ、ミカン、モモ）から合計5個を選ぶ重複組合せ（$_3H_5$）の問題である。`,
-                    `ステップ2：仕切り（バー）の考え方を用いる。5個の丸（○）と2本の仕切り（|）の並び替えの総数に置き換える。<br><strong>$_{3+5-1}C_5 = _7C_5 = _7C_2$</strong>`,
-                    `ステップ3：計算する。<br><strong>(7 × 6) ÷ (2 × 1) = 21通り（正解はB）</strong>`
-                ]
-            };
-        }
+// --- ⑦ 場合の数・確率 Lv.1: 条件付きカード並べ（偶数の算出） ---
+function genProbability2() {
+    // 1, 2, 3, 4, 5 の5枚から3枚を選んで3桁の整数を作る（偶数になる確率）
+    // 全体: 5P3 = 60通り
+    // 偶数: 一の位が2または4 (2通り) × 残り4P2 (12通り) = 24通り
+    // 確率: 24/60 = 2/5
+    
+    return {
+        unit: '場合の数・確率', level: 1, badge: 'Lv.1 基本', title: '確率・条件を満たす整数の構成',
+        text: `1, 2, 3, 4, 5 の数字が1文字ずつ書かれた5枚のカードから、同時に3枚を取り出して並べ、3桁の整数を作る。`,
+        prompt: 'できた整数が「偶数」である確率はいくらか。',
+        correctAnswer: 2, unitSuffix: '/5', isFraction: true,
+        customChoices: [
+            { label: 'A', value: 1, htmlText: '1/5', isCorrect: false },
+            { label: 'B', value: 2, htmlText: '2/5', isCorrect: true },
+            { label: 'C', value: 3, htmlText: '1/2', isCorrect: false },
+            { label: 'D', value: 4, htmlText: '3/5', isCorrect: false },
+            { label: 'E', value: 5, htmlText: '2/3', isCorrect: false },
+            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+        ],
+        steps: [
+            `ステップ1：作り得るすべての3桁の整数の個数（$_5P_3$）を求める。<br><strong>5 × 4 × 3 ＝ 60通り</strong>`,
+            `ステップ2：偶数になる条件（一の位が 2 または 4）を満たす通り数を求める。<br>一の位の選び方：<strong>2通り</strong><br>百の位と十の位の選び方（残り4枚から2枚）：<strong>$_4P_2 ＝ 4 × 3 ＝ 12通り</strong><br>偶数の総数：<strong>2 × 12 ＝ 24通り</strong>`,
+            `ステップ3：確率を算出する。<br><strong>24 / 60 ＝ 2/5（正解はB）</strong>`
+        ]
+    };
+}
 
-        function genProbability6() {
-            // レベル3 確率・反復試行
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・非復元抽出の連続',
-                text: `7本のうち3本が当たりのくじがある。このくじをAとBがこの順に1本ずつ引く（引いたくじはもとに戻さない）。`,
-                prompt: '2人とも当たりを引かない確率は？', correctAnswer: 2, unitSuffix: '/7', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/7', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '2/7', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '3/14', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '4/21', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '3/7', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：総本数7本のうち当たりが3本なので、外れくじは <strong>7 - 3 = 4本</strong>。`,
-                    `ステップ2：1人目のAが外れを引く確率は <strong>4/7</strong>。`,
-                    `ステップ3：Aが外れを引いたあと、残りは6本中外れが3本なので、2人目のBが外れを引く確率は <strong>3/6 = 1/2</strong>。`,
-                    `ステップ4：2人がともに外れを引く確率は、それぞれの確率の積となる。<br><strong>4/7 × 1/2 = 4/14 = 2/7（正解はB）</strong>`
-                ]
-            };
-        }
+// --- ⑦ 場合の数・確率 Lv.2: 順序固定の順列（同じものを含む順列） ---
+function genProbability3() {
+    // A, B, C, D, E, F の6人が一列に並ぶ。ただし A は B より必ず前に並ぶ。
+    // 全体 6! / 2! = 360通り
+    
+    return {
+        unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '場合の数・順序が固定された順列',
+        text: `A, B, C, D, E, F の6人が一列に並ぶ。`,
+        prompt: 'AがBよりも常に前にいる並び方は何通りか。',
+        correctAnswer: 360, unitSuffix: '通り', step: 30,
+        steps: [
+            `ステップ1：順序が固定されているAとBを「同じ記号（〇）」とみなす。`,
+            `ステップ2：〇, 〇, C, D, E, F の6つの要素を並べる「同じものを含む順列」の考え方を用いる。<br><strong>6! ÷ 2!</strong>`,
+            `ステップ3：計算する。<br><strong>720 ÷ 2 ＝ 360通り</strong>`
+        ]
+    };
+}
 
+// --- ⑦ 場合の数・確率 Lv.2: 非復元抽出での複数条件（組み合わせと確率） ---
+function genProbability4() {
+    // 赤玉4個、白玉3個が入った袋から同時に3個取り出す。
+    // 赤玉2個、白玉1個となる確率
+    // 全体: 7C3 = 35通り
+    // 該当: 4C2 × 3C1 = 6 × 3 = 18通り
+    // 確率: 18/35
+    
+    return {
+        unit: '場合の数・確率', level: 2, badge: 'Lv.2 応用', title: '確率・複数色の玉の同時抽出',
+        text: `赤玉4個、白玉3個の合計7個が入っている袋から、同時に3個の玉を取り出す。`,
+        prompt: '「赤玉がちょうど2個、白玉がちょうど1個」取り出される確率はいくらか。',
+        correctAnswer: 18, unitSuffix: '/35', isFraction: true,
+        customChoices: [
+            { label: 'A', value: 1, htmlText: '12/35', isCorrect: false },
+            { label: 'B', value: 2, htmlText: '16/35', isCorrect: false },
+            { label: 'C', value: 3, htmlText: '18/35', isCorrect: true },
+            { label: 'D', value: 4, htmlText: '4/7', isCorrect: false },
+            { label: 'E', value: 5, htmlText: '22/35', isCorrect: false },
+            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+        ],
+        steps: [
+            `ステップ1：7個から同時に3個を取り出す全組み合わせ（$_7C_3$）を求める。<br><strong>(7 × 6 × 5) ÷ (3 × 2 × 1) ＝ 35通り</strong>`,
+            `ステップ2：条件を満たす選び方を計算する。<br>赤玉4個から2個を選ぶ（$_4C_2$）：<strong>(4 × 3) ÷ (2 × 1) ＝ 6通り</strong><br>白玉3個から1個を選ぶ（$_3C_1$）：<strong>3通り</strong><br>組合せの総数：<strong>6 × 3 ＝ 18通り</strong>`,
+            `ステップ3：確率を求める。<br><strong>18 / 35（正解はC）</strong>`
+        ]
+    };
+}
+
+// --- ⑦ 場合の数・確率 Lv.3: 反復試行と動点（確率） ---
+function genProbability5() {
+    // 数直線上の原点Oから出発。コインを投げて表なら+2、裏なら-1移動。
+    // 4回投げたときに位置が「+2」にいる確率
+    // 表が x 回、裏が (4 - x) 回
+    // 位置: 2x - 1(4 - x) = 3x - 4 = 2  =>  3x = 6  =>  x = 2 (表が2回、裏が2回)
+    // 4C2 × (1/2)^4 = 6 / 16 = 3/8
+    
+    return {
+        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
+        text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が出たら左へ1（-1）進む。コインを4回投げた。`,
+        prompt: '点Pが最終的に「+2」の位置にいる確率はいくらか。',
+        correctAnswer: 3, unitSuffix: '/8', isFraction: true,
+        customChoices: [
+            { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
+            { label: 'B', value: 2, htmlText: '5/16', isCorrect: false },
+            { label: 'C', value: 3, htmlText: '3/8', isCorrect: true },
+            { label: 'D', value: 4, htmlText: '7/16', isCorrect: false },
+            { label: 'E', value: 5, htmlText: '1/2', isCorrect: false },
+            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+        ],
+        steps: [
+            `ステップ1：表が出た回数を $x$ 回（裏は $4 - x$ 回）として、4回後の位置を表す式を立てる。<br><strong>位置 ＝ 2x - 1(4 - x) ＝ 3x - 4</strong>`,
+            `ステップ2：位置が「+2」になる表の回数 $x$ を求める。<br><strong>3x - 4 ＝ 2  ⇒  3x ＝ 6  ⇒  x ＝ 2（表が2回、裏が2回）</strong>`,
+            `ステップ3：反復試行の公式を用いて確率を計算する。<br>全事象：$2^4 ＝ 16通り$<br>表が2回出る出方：$_4C_2 ＝ 6通り$<br>確率は <strong>6 / 16 ＝ 3/8（正解はC）</strong>`
+        ]
+    };
+}
+
+// --- ⑦ 場合の数・確率 Lv.3: 条件付き確率（原因の確率） ---
+function genProbability6() {
+    // 工場Aと工場Bで同じ製品を作っている。
+    // Aの生産量割合: 60%, Bの生産量割合: 40%
+    // Aの不良品率: 2%, Bの不良品率: 5%
+    // 不良品が1個選ばれたとき、それがA工場で作られた確率
+    // P(A∩不良) = 0.60 × 0.02 = 0.012
+    // P(B∩不良) = 0.40 × 0.05 = 0.020
+    // 全不良率 = 0.032
+    // 求める条件付き確率 = 0.012 / 0.032 = 12/32 = 3/8
+    
+    return {
+        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・条件付き確率（原因の探求）',
+        text: `ある製品を工場Aで 60%、工場Bで 40% 生産している。不良品の発生率は、工場Aが 2%、工場Bが 5% である。<br>出荷された製品の中からランダムに1個取り出したところ、不良品であった。`,
+        prompt: 'その不良品が「工場A」で生産されたものである確率はいくらか。',
+        correctAnswer: 3, unitSuffix: '/8', isFraction: true,
+        customChoices: [
+            { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
+            { label: 'B', value: 2, htmlText: '3/8', isCorrect: true },
+            { label: 'C', value: 3, htmlText: '2/5', isCorrect: false },
+            { label: 'D', value: 4, htmlText: '5/8', isCorrect: false },
+            { label: 'E', value: 5, htmlText: '3/5', isCorrect: false },
+            { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
+        ],
+        steps: [
+            `ステップ1：全体の中から「Aの不良品」と「Bの不良品」が発生する割合をそれぞれ計算する。<br>Aの不良品：<strong>0.60 × 0.02 ＝ 0.012（1.2%）</strong><br>Bの不良品：<strong>0.40 × 0.05 ＝ 0.020（2.0%）</strong>`,
+            `ステップ2：取り出した製品が不良品である全体割合（分母）を求める。<br><strong>0.012 ＋ 0.020 ＝ 0.032（3.2%）</strong>`,
+            `ステップ3：条件付き確率の公式（Aの不良品 ÷ 全体の不良品）を計算する。<br><strong>0.012 / 0.032 ＝ 12 / 32 ＝ 3/8（正解はB）</strong>`
+        ]
+    };
+}
         function generateChoices(q) {
             //            if (q.customChoices) return q.customChoices;
             const correctVal = q.correctAnswer;
@@ -874,11 +1438,11 @@
         }
 
         function generateNewQuestion() {
-            const setPool = [genSet1, genSet2];
-            const settlementPool = [genSettlement1];
-            const discountPool = [genDiscount1];
-            const installmentPool = [genInstallment1];
-            const speedPool = [genSpeed1];
+            const setPool = [genSet1, genSet2, genSet3];
+            const settlementPool = [genSettlement1, genSettlement2, genSettlement3];
+            const discountPool = [genDiscount1, genDiscount2, genDiscount3];
+            const installmentPool = [genInstallment1, genInstallment2, genInstallment3];
+            const speedPool = [genSpeed1, genSpeed2, genSpeed3];
             const profitPool = [genProfit1, genProfit2, genProfit3];
             const probabilityPool = [genProbability1, genProbability2, genProbability3, genProbability4, genProbability5, genProbability6];
             
