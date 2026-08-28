@@ -1279,20 +1279,42 @@
 
         // --- 推論 ---
         function buildLogicalQuestion(level) {
-            const subjects = [
-                { p: '運動習慣がある', q: '体力が向上する' },
-                { p: 'プログラミングを学ぶ', q: '論理的思考力が身につく' },
-                { p: '十分な睡眠をとる', q: '集中力が高まる' }
-            ];
+const subjects = [
+    { p: '運動習慣がある',            pNeg: '運動習慣がない',
+      q: '体力が向上する',            qNeg: '体力が向上しない' },
+    { p: 'プログラミングを学ぶ',       pNeg: 'プログラミングを学ばない',
+      q: '論理的思考力が身につく',     qNeg: '論理的思考力が身につかない' },
+    { p: '十分な睡眠をとる',          pNeg: '十分な睡眠をとらない',
+      q: '集中力が高まる',            qNeg: '集中力が高まらない' },
+    { p: '資格試験に合格する',        pNeg: '資格試験に合格しない',
+      q: '昇進の対象になる',          qNeg: '昇進の対象にならない' },
+    { p: '締め切りを守る',            pNeg: '締め切りを守らない',
+      q: '信頼を得られる',            qNeg: '信頼を得られない' },
+    { p: '野菜を多く食べる',          pNeg: '野菜を多く食べない',
+      q: '免疫力が高まる',            qNeg: '免疫力が高まらない' },
+    { p: '貯蓄を計画的に行う',        pNeg: '貯蓄を計画的に行わない',
+      q: '将来の不安が減る',          qNeg: '将来の不安が減らない' },
+    { p: '会議に遅刻する',            pNeg: '会議に遅刻しない',
+      q: '評価が下がる',              qNeg: '評価が下がらない' },
+    { p: '新しい言語を習得する',       pNeg: '新しい言語を習得しない',
+      q: '海外での就業機会が広がる',   qNeg: '海外での就業機会が広がらない' },
+    { p: '顧客からの意見を聞く',       pNeg: '顧客からの意見を聞かない',
+      q: '商品の改善につながる',       qNeg: '商品の改善につながらない' },
+    { p: '予算を超過する',            pNeg: '予算を超過しない',
+      q: '計画の見直しが必要になる',   qNeg: '計画の見直しが必要にならない' },
+    { p: '練習を怠る',                pNeg: '練習を怠らない',
+      q: '上達が遅れる',              qNeg: '上達が遅れない' },
+    { p: '説明が丁寧である',          pNeg: '説明が丁寧でない',
+      q: '相手に誤解が生まれる',       qNeg: '相手に誤解が生まれない' }
+];
             const elem = subjects[getRandomInt(0, subjects.length - 1)];
 
             if (level === 1) {
                 const choices = [
-                    { label: 'A', value: 'A', htmlText: `「${elem.q}でない」ならば「${elem.p}でない」`, isCorrect: true },
-                    { label: 'B', value: 'B', htmlText: `「${elem.p}でない」ならば「${elem.q}でない」`, isCorrect: false },
-                    { label: 'C', value: 'C', htmlText: `「${elem.q}」ならば「${elem.p}」である`, isCorrect: false },
-                    { label: 'D', value: 'D', htmlText: `「${elem.p}」ならば「${elem.q}でない」`, isCorrect: false },
-                    { label: 'E', value: 'E', htmlText: 'いずれも該当しない', isCorrect: false }
+{ label: 'A', htmlText: `「${elem.qNeg}」ならば「${elem.pNeg}」`, isCorrect: true },
+{ label: 'B', htmlText: `「${elem.pNeg}」ならば「${elem.qNeg}」`, isCorrect: false },
+{ label: 'C', htmlText: `「${elem.q}」ならば「${elem.p}」である`, isCorrect: false },
+{ label: 'D', htmlText: `「${elem.p}」ならば「${elem.qNeg}」`, isCorrect: false },
                 ];
                 return {
                     unit: '推論', level: 1, badge: 'Lv.1 基本', title: '命題の対偶',
@@ -1305,10 +1327,10 @@
                 };
             } else if (level === 2) {
                 const choices = [
-                    { label: 'A', value: 'A', htmlText: `「${elem.q}でない」ならば「${elem.p}でない」`, isCorrect: true },
-                    { label: 'B', value: 'B', htmlText: `「${elem.q}」ならば「${elem.p}」である`, isCorrect: false },
-                    { label: 'C', value: 'C', htmlText: `「${elem.p}でない」ならば「${elem.q}でない」`, isCorrect: false },
-                    { label: 'D', value: 'D', htmlText: 'どちらの結論も導けない', isCorrect: false }
+{ label: 'A', htmlText: `「${elem.qNeg}」ならば「${elem.pNeg}」`, isCorrect: true },
+{ label: 'B', htmlText: `「${elem.q}」ならば「${elem.p}」である`, isCorrect: false },
+{ label: 'C', htmlText: `「${elem.pNeg}」ならば「${elem.qNeg}」`, isCorrect: false },
+{ label: 'D', htmlText: 'どちらの結論も導けない', isCorrect: false }
                 ];
                 return {
                     unit: '推論', level: 2, badge: 'Lv.2 応用', title: '対偶と推論の応用',
