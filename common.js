@@ -59,26 +59,51 @@ function generateChoices(q) {
     const unitSuffix = q.unitSuffix || '';
     const step = q.step || 1;
 
+    const NONE_OF_ABOVE_RATE = 0.12;
+
+    // 12%でFを正解にする
+    const useNoneOfAbove = getRand() < NONE_OF_ABOVE_RATE;
+
     let pool = new Set();
-    pool.add(correctVal);
+
+    // 通常問題では正解を選択肢に含める
+    if (!useNoneOfAbove) {
+        pool.add(correctVal);
+    }
 
     let attempts = 0;
+
     while (pool.size < 5 && attempts < 100) {
         attempts++;
-        const offset = (getRandomInt(1, 4) * (getRand() < 0.5 ? 1 : -1)) * step;
+
+        const offset =
+            (getRandomInt(1, 4) * (getRand() < 0.5 ? 1 : -1)) * step;
+
         const candidate = correctVal + offset;
-        if (candidate > 0) pool.add(candidate);
+
+        if (candidate > 0 && candidate !== correctVal) {
+            pool.add(candidate);
+        }
     }
 
     const arr = Array.from(pool).sort((a, b) => a - b);
-    return arr.map((val, idx) => ({
+
+    const choices = arr.map((val, idx) => ({
         label: String.fromCharCode(65 + idx),
         value: val,
         htmlText: `${val.toLocaleString()} ${unitSuffix}`,
-        isCorrect: val === correctVal
+        isCorrect: !useNoneOfAbove && val === correctVal
     }));
-}
 
+    choices.push({
+        label: 'F',
+        value: null,
+        htmlText: 'いずれでもない',
+        isCorrect: useNoneOfAbove
+    });
+
+    return choices;
+}
 function generateQuestionByConfig(unit, level) {
     let selectedUnit = unit;
     if (unit === 'all') {
