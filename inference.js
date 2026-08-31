@@ -123,10 +123,10 @@ function genInference1() {
         text: `P, Q, R, S の4人の体重について次のことがわかっている。<br><br>` +
               `(i) Q の方が S より ${diffQS}kg 重い。<br>` +
               `(ii) P と R の体重の平均は ${avgPR}kg である。<br>` +
-              `(iii) 4人の体重の平均は ${avg4}kg である。`,
-        prompt: '次の推論ア、イの正誤を考え、正しいものを選択肢A〜Iから選びなさい。<br>' +
-                '<strong>ア：PかRのどちらかが一番重い</strong><br>' +
-                '<strong>イ：Sが一番軽い</strong>',
+              `(iii) 4人の体重の平均は ${avg4}kg である。<br><br>` +
+              `<strong>ア：PかRのどちらかが一番重い</strong><br>` +
+              `<strong>イ：Sが一番軽い</strong>`,
+        prompt: '次の推論ア、イの正誤を考え、正しいものを選択肢A〜Iから選びなさい。',
         customChoices: shuffleArray(customChoices),
         steps: [
             `ステップ1：条件式を立てる。<br>(i) Q = S + ${diffQS}<br>(ii) P + R = ${avgPR} × 2 = ${sumPR}kg<br>(iii) 4人の合計 = ${avg4} × 4 = ${totalWeight}kg`,
