@@ -290,12 +290,9 @@
 
             currentQuestion.choices.forEach((choice) => {
                 const btn = document.createElement('button');
-                btn.className = 'choice-btn p-3.5 rounded-xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] text-slate-200 text-xs md:text-sm font-medium transition text-left flex items-start space-x-2.5 w-full';
+                btn.className = 'choice-btn p-3.5 rounded-xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] text-slate-200 text-xs md:text-sm font-medium transition text-left w-full';
                 btn.onclick = () => checkAnswer(choice);
-                btn.innerHTML = `
-                    <span class="w-6 h-6 rounded-lg bg-indigo-950 text-indigo-400 font-bold flex items-center justify-center shrink-0 border border-indigo-800/50 text-xs">${choice.label}</span>
-                    <span class="pt-0.5">${choice.htmlText}</span>
-                `;
+                btn.innerHTML = `<span>${choice.htmlText}</span>`;
                 container.appendChild(btn);
             });
 

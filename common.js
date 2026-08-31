@@ -58,52 +58,39 @@ function generateChoices(q) {
     const correctVal = q.correctAnswer;
     const unitSuffix = q.unitSuffix || '';
     const step = q.step || 1;
-
-    const NONE_OF_ABOVE_RATE = 0.12;
-
-    // 12%でFを正解にする
-    const useNoneOfAbove = getRand() < NONE_OF_ABOVE_RATE;
+    // 「いずれでもない」を全単元共通で末尾に追加する。一定確率でこれ自体が正解になる
+    const isNoneCorrect = getRand() < 0.15;
+    // 実際のSPIは設問によって選択肢数が異なるため、ここでも3〜6個の範囲で変動させる
+    const targetCount = getRandomInt(3, 6);
 
     let pool = new Set();
-
-    // 通常問題では正解を選択肢に含める
-    if (!useNoneOfAbove) {
-        pool.add(correctVal);
-    }
+    if (!isNoneCorrect) pool.add(correctVal);
 
     let attempts = 0;
-
-    while (pool.size < 5 && attempts < 100) {
+    while (pool.size < targetCount && attempts < 100) {
         attempts++;
-
-        const offset =
-            (getRandomInt(1, 4) * (getRand() < 0.5 ? 1 : -1)) * step;
-
+        const offset = (getRandomInt(1, 4) * (getRand() < 0.5 ? 1 : -1)) * step;
         const candidate = correctVal + offset;
-
-        if (candidate > 0 && candidate !== correctVal) {
-            pool.add(candidate);
-        }
+        if (candidate > 0 && candidate !== correctVal) pool.add(candidate);
     }
+    // 候補の幅が狭く1つも集まらなかった場合の保険（最低1つは実数の選択肢を用意する）
+    if (pool.size === 0) pool.add(correctVal + step);
 
     const arr = Array.from(pool).sort((a, b) => a - b);
-
-    const choices = arr.map((val, idx) => ({
-        label: String.fromCharCode(65 + idx),
+    // タップ式なのでA〜Fのような文字ラベルは付与しない（選択肢数も可変でよい）
+    const choices = arr.map((val) => ({
         value: val,
         htmlText: `${val.toLocaleString()} ${unitSuffix}`,
-        isCorrect: !useNoneOfAbove && val === correctVal
+        isCorrect: !isNoneCorrect && val === correctVal
     }));
-
     choices.push({
-        label: 'F',
-        value: null,
+        value: 'none',
         htmlText: 'いずれでもない',
-        isCorrect: useNoneOfAbove
+        isCorrect: isNoneCorrect
     });
-
     return choices;
 }
+
 function generateQuestionByConfig(unit, level) {
     let selectedUnit = unit;
     if (unit === 'all') {
