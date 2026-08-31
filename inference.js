@@ -111,7 +111,7 @@ function genInference1() {
     const customChoices = Object.keys(optionTexts).map(label => ({
         label,
         value: label,
-        htmlText: `${label}. ${optionTexts[label]}`,
+        htmlText: optionTexts[label],
         isCorrect: label === answerKey
     }));
 
