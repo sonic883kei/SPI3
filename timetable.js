@@ -111,8 +111,15 @@ function buildNumericChoicesWithNone(correctVal, offsets, unitSuffix, decimals) 
         htmlText: `${fmt(val)} ${unitSuffix}`,
         isCorrect: !isFCorrect && val === correctVal
     }));
-    choices.push({ label: 'E', value: 'none', htmlText: 'いずれでもない', isCorrect: isFCorrect });
-    return choices;
+    // 「いずれでもない」はここでは含めない。シャッフル後に呼び出し側で末尾固定として追加する
+    return { choices, isNoneCorrect: isFCorrect };
+}
+
+// シャッフル後の配列の末尾に「いずれでもない」を固定で追加するヘルパー
+function appendNoneChoiceFixed(choices, isNoneCorrect) {
+    const shuffled = shuffleArray(choices);
+    shuffled.push({ label: 'E', value: 'none', htmlText: 'いずれでもない', isCorrect: isNoneCorrect });
+    return shuffled;
 }
 
 function genTimetable1() {
@@ -127,13 +134,13 @@ function genTimetable1() {
     const correctSpeed = target.leg.speed;
 
     const tableHtml = buildTimetableHtml(t, null);
-    const choices = buildNumericChoicesWithNone(correctSpeed, [-0.4, -0.2, 0.2, 0.4], 'km/時', 1);
+    const { choices, isNoneCorrect } = buildNumericChoicesWithNone(correctSpeed, [-0.4, -0.2, 0.2, 0.4], 'km/時', 1);
 
     return {
         unit: '速さ(時刻表)', level: 1, badge: 'Lv.1 基本', title: '時刻表からの平均速度',
         text: `P地点からQ地点を通ってR地点に進み、同じ道を通ってP地点に戻った。その時の時刻は次の通りであった。PQ間の距離は${t.distPQ}km、QR間の距離は${t.distQR}kmであった。${tableHtml}`,
         prompt: `${target.from}地点から${target.to}地点までの平均時速はいくらか。`,
-        customChoices: shuffleArray(choices),
+        customChoices: appendNoneChoiceFixed(choices, isNoneCorrect),
         steps: [
             `ステップ1：${target.from}地点を${formatClock(target.fromTime)}に出発し、${target.to}地点に${formatClock(target.toTime)}に到着しているので、所要時間は<strong>${target.leg.duration}分</strong>。`,
             `ステップ2：距離を時間(時間単位)で割る。<br><strong>${target.dist}km ÷ (${target.leg.duration}/60)時間 = ${correctSpeed}km/時</strong>`
@@ -157,13 +164,12 @@ function genTimetable2() {
         htmlText: formatClock(val),
         isCorrect: !isFCorrect && val === t.arriveP2
     }));
-    choices.push({ label: 'E', value: 'none', htmlText: 'いずれでもない', isCorrect: isFCorrect });
 
     return {
         unit: '速さ(時刻表)', level: 2, badge: 'Lv.2 応用', title: '時刻表の空欄計算',
         text: `P地点からQ地点を通ってR地点に進み、同じ道を通ってP地点に戻った。PQ間の距離は${t.distPQ}kmであり、帰りのQP間は平均時速${speed}kmで移動した。${tableHtml}`,
         prompt: 'P地点に到着する時刻（表の空欄）はいつか。',
-        customChoices: shuffleArray(choices),
+        customChoices: appendNoneChoiceFixed(choices, isFCorrect),
         steps: [
             `ステップ1：帰りのQP間の所要時間を求める。<br><strong>${t.distPQ}km ÷ ${speed}km/時 × 60 = ${t.legPQback.duration}分</strong>`,
             `ステップ2：Q地点の出発時刻(${formatClock(t.departQ2)})に所要時間を足す。<br><strong>${formatClock(t.departQ2)} + ${t.legPQback.duration}分 = ${correctTimeStr}</strong>`
@@ -189,13 +195,12 @@ function genTimetable3() {
         htmlText: `${val.toFixed(1)} km/時`,
         isCorrect: !isFCorrect && val === correctSpeed
     }));
-    choices.push({ label: 'E', value: 'none', htmlText: 'いずれでもない', isCorrect: isFCorrect });
 
     return {
         unit: '速さ(時刻表)', level: 3, badge: 'Lv.3 高難度', title: '往復の平均速度（時刻表）',
         text: `P地点からQ地点まで（片道${t.distPQ}km）を往復した。時刻は次の通りであった。${tableHtml}`,
         prompt: 'PQ間の往復全体の平均時速はいくらか。',
-        customChoices: shuffleArray(choices),
+        customChoices: appendNoneChoiceFixed(choices, isFCorrect),
         steps: [
             `ステップ1：行き・帰りそれぞれの所要時間を時刻表から求める。<br>行き：<strong>${t.legPQgo.duration}分</strong>　帰り：<strong>${t.legPQback.duration}分</strong>`,
             `ステップ2：往復の合計距離と合計時間を求める。<br>合計距離：<strong>${totalDistance}km</strong>　合計時間：<strong>${totalTime}分</strong>`,
