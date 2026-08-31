@@ -269,6 +269,16 @@
                 }
             }
 
+            // 「現在の設定」バナーはCBTモード（模擬試験）では不要なため非表示にする
+            const practiceConfigBanner = document.getElementById('practice-config-banner');
+            if (practiceConfigBanner) {
+                if (isCBTMode) {
+                    practiceConfigBanner.classList.add('hidden');
+                } else {
+                    practiceConfigBanner.classList.remove('hidden');
+                }
+            }
+
             document.getElementById('unit-badge').innerText = currentQuestion.unit;
             document.getElementById('q-badge').innerText = currentQuestion.badge;
             document.getElementById('q-pattern-title').innerText = currentQuestion.title;
@@ -320,9 +330,12 @@
                 } else {
                     if (cbtCurrentLevel > 1) cbtCurrentLevel--;
                 }
+                // CBTモードでは1問ごとの正誤・解説を表示せず、直ちに次の問題に進む
+                generateNewQuestion();
+                return;
             }
 
-            // 解説・結果の表示
+            // 解説・結果の表示（通常演習モードのみ）
             const resultBanner = document.getElementById('result-banner');
             if (isCorrect) {
                 resultBanner.className = 'rounded-2xl p-4 mb-5 flex items-center space-x-3 bg-emerald-950/80 border border-emerald-700/60 text-emerald-200';
@@ -382,7 +395,10 @@
             if (type === 'mini') {
                 cbtTotalQuestions = 9;
                 cbtMaxOverallTime = 720; // 12分
-                cbtUnitQueue = shuffleArray(['set', 'settlement', 'discount', 'installment', 'speed', 'timetable', 'profit', 'probability', 'logical', 'inference', 'table']);
+                // 9カテゴリを必ず1問ずつ出題。⑤速さ・⑧推論は①②のどちらかをランダムに選ぶ
+                const speedUnit = getRand() < 0.5 ? 'speed' : 'timetable';
+                const inferenceUnit = getRand() < 0.5 ? 'logical' : 'inference';
+                cbtUnitQueue = shuffleArray(['set', 'settlement', 'discount', 'installment', speedUnit, 'profit', 'probability', inferenceUnit, 'table']);
             } else {
                 cbtTotalQuestions = 20;
                 cbtMaxOverallTime = 1200; // 20分
@@ -422,7 +438,10 @@
             cbtTotalQuestions = 9;
             cbtMaxOverallTime = 720;
             cbtOverallRemainingTime = cbtMaxOverallTime;
-            cbtUnitQueue = shuffleArray(['set', 'settlement', 'discount', 'installment', 'speed', 'timetable', 'profit', 'probability', 'logical', 'inference', 'table']);
+            // 9カテゴリを必ず1問ずつ出題。⑤速さ・⑧推論は①②のどちらかをランダムに選ぶ（日付シードで全国同一）
+            const syncSpeedUnit = getRand() < 0.5 ? 'speed' : 'timetable';
+            const syncInferenceUnit = getRand() < 0.5 ? 'logical' : 'inference';
+            cbtUnitQueue = shuffleArray(['set', 'settlement', 'discount', 'installment', syncSpeedUnit, 'profit', 'probability', syncInferenceUnit, 'table']);
 
             hideAllViews();
             document.getElementById('cbt-status-bar').classList.remove('hidden');

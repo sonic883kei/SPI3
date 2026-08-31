@@ -295,6 +295,19 @@
         <!-- 4. PRACTICE VIEW -->
         <section id="view-practice" class="hidden w-full animate-fade-in max-w-2xl mx-auto my-auto">
             
+            <div id="practice-config-banner" class="mb-4 bg-[#141a2e] rounded-xl px-4 py-2.5 border border-slate-800 flex justify-between items-center text-xs">
+                <div class="flex items-center space-x-2">
+                    <span class="text-slate-400">現在の設定:</span>
+                    <span id="active-config-badge" class="px-2.5 py-0.5 rounded-md bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/50">
+                        全単元 / 全レベル
+                    </span>
+                </div>
+                <button onclick="goToSelectScreen()" class="text-indigo-400 hover:text-indigo-300 font-bold flex items-center space-x-1">
+                    <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                    <span>変更</span>
+                </button>
+            </div>
+
             <!-- Question Card -->
             <div id="question-card" class="bg-[#141a2e] rounded-3xl p-5 md:p-7 shadow-xl border border-slate-800 relative overflow-hidden mb-5">
                 <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-4">
@@ -513,10 +526,10 @@
                 </button>
 
                 <div id="sync-date-container" class="hidden bg-[#0f1423] p-3 rounded-2xl border border-indigo-800/60 space-y-2.5 animate-fade-in">
-                    <label class="block text-[11px] font-bold text-slate-300">実施日:</label>
+                    <label class="block text-[11px] font-bold text-slate-300">実施日付を選択:</label>
                     <input type="date" id="sync-date-picker" class="w-full bg-[#1b233a] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
                     <button onclick="startSyncCBTMode()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow transition">
-                        テストを始める
+                        この日付で一斉テスト開始
                     </button>
                 </div>
 
