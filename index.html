@@ -76,6 +76,10 @@
             </div>
             
             <div class="flex items-center space-x-3">
+                <button onclick="resetStats()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 py-1.5 px-3 rounded-xl transition flex items-center space-x-1">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden sm:inline">成績クリア</span>
+                </button>
                 <button onclick="openHistoryModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-1.5 px-3 rounded-xl transition flex items-center space-x-1">
                     <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
                     <span class="inline">履歴</span>
@@ -122,21 +126,6 @@
                             </div>
                         </div>
                         <i class="fa-solid fa-chevron-right text-emerald-200 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                </div>
-
-                <div class="mt-8 pt-5 border-t border-slate-800 flex justify-center items-center space-x-3 flex-wrap gap-y-2">
-                    <button onclick="openStatsModal()" class="text-xs text-amber-300 hover:text-amber-200 bg-amber-950/60 px-3 py-2 rounded-xl border border-amber-700/60 transition flex items-center space-x-1.5">
-                        <i class="fa-solid fa-chart-pie text-amber-400"></i>
-                        <span>成績分析 (正答率・解答時間)</span>
-                    </button>
-                    <button onclick="openHistoryModal()" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
-                        <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
-                        <span>学習履歴 (直近10回)</span>
-                    </button>
-                    <button onclick="resetStats()" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
-                        <i class="fa-solid fa-rotate-right"></i>
-                        <span>成績クリア</span>
                     </button>
                 </div>
             </div>
@@ -243,7 +232,7 @@
                             Lv.2 応用
                         </button>
                         <button onclick="selectConfigLevel('3')" data-level="3" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
-                            Lv.3 発展
+                            Lv.3 高難度
                         </button>
                     </div>
                 </div>
