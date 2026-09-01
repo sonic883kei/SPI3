@@ -1,6 +1,19 @@
 /**
  * common.js
  * 乱数エンジン・共通選択肢生成・出題オーケストレーター
+ *
+ * 依存関係:
+ *   - index.html から、js/algorithms/ 配下の他ファイルより "先に" 読み込むこと。
+ *     （通常の<script>タグ。let/function宣言はページ全体のグローバルスコープを共有するため、
+ *      読み込み順さえ守れば同一ディレクトリの他ファイルから直接呼び出せる）
+ *
+ * このファイルが公開する関数（ui.js から呼ばれるもの）:
+ *   - initPRNG(seedStr)         CBT日付同期モードなどで乱数シードを固定する
+ *   - shuffleArray(array)       配列シャッフル（CBT出題順の決定などに使用）
+ *   - generateQuestionByConfig(unit, level)  設定に応じた問題を1問生成する
+ *
+ * 新しい単元を追加した場合は、下記 generateQuestionByConfig() の
+ * ①units配列 と ②if/elseの分岐 の両方に追記すること。
  */
 
 let currentPRNG = Math.random;
@@ -45,7 +58,9 @@ function generateChoices(q) {
     const correctVal = q.correctAnswer;
     const unitSuffix = q.unitSuffix || '';
     const step = q.step || 1;
+    // 「いずれでもない」を全単元共通で末尾に追加する。一定確率でこれ自体が正解になる
     const isNoneCorrect = getRand() < 0.15;
+    // 実際のSPIは設問によって選択肢数が異なるため、ここでも3〜6個の範囲で変動させる
     const targetCount = getRandomInt(3, 6);
 
     let pool = new Set();
@@ -58,9 +73,11 @@ function generateChoices(q) {
         const candidate = correctVal + offset;
         if (candidate > 0 && candidate !== correctVal) pool.add(candidate);
     }
+    // 候補の幅が狭く1つも集まらなかった場合の保険（最低1つは実数の選択肢を用意する）
     if (pool.size === 0) pool.add(correctVal + step);
 
     const arr = Array.from(pool).sort((a, b) => a - b);
+    // タップ式なのでA〜Fのような文字ラベルは付与しない（選択肢数も可変でよい）
     const choices = arr.map((val) => ({
         value: val,
         htmlText: `${val.toLocaleString()} ${unitSuffix}`,
@@ -84,41 +101,40 @@ function generateQuestionByConfig(unit, level) {
     let targetLvl = level === 'all' ? getRandomInt(1, 3) : parseInt(level);
 
     if (selectedUnit === 'table') {
-        return typeof buildTableQuestion === 'function' ? buildTableQuestion(targetLvl) : genSet1();
+        return buildTableQuestion(targetLvl);
     } else if (selectedUnit === 'logical') {
-        return typeof buildLogicalQuestion === 'function' ? buildLogicalQuestion(targetLvl) : genSet1();
+        return buildLogicalQuestion(targetLvl);
     } else if (selectedUnit === 'inference') {
-        return typeof genInference1 === 'function' ? genInference1() : genSet1();
+        return genInference1();
     } else if (selectedUnit === 'set') {
         if (targetLvl === 1) return genSet1();
         if (targetLvl === 2) return genSet2();
         return genSet3();
     } else if (selectedUnit === 'settlement') {
-        if (targetLvl === 1) return typeof genSettlement1 === 'function' ? genSettlement1() : genSet1();
-        if (targetLvl === 2) return typeof genSettlement2 === 'function' ? genSettlement2() : genSet2();
-        return typeof genSettlement3 === 'function' ? genSettlement3() : genSet3();
+        if (targetLvl === 1) return genSettlement1();
+        if (targetLvl === 2) return genSettlement2();
+        return genSettlement3();
     } else if (selectedUnit === 'discount') {
-        if (targetLvl === 1) return typeof genDiscount1 === 'function' ? genDiscount1() : genSet1();
-        if (targetLvl === 2) return typeof genDiscount2 === 'function' ? genDiscount2() : genSet2();
-        return typeof genDiscount3 === 'function' ? genDiscount3() : genSet3();
+        if (targetLvl === 1) return genDiscount1();
+        if (targetLvl === 2) return genDiscount2();
+        return genDiscount3();
     } else if (selectedUnit === 'installment') {
-        if (targetLvl === 1) return typeof genInstallment1 === 'function' ? genInstallment1() : genSet1();
-        if (targetLvl === 2) return typeof genInstallment2 === 'function' ? genInstallment2() : genSet2();
-        return typeof genInstallment3 === 'function' ? genInstallment3() : genSet3();
+        if (targetLvl === 1) return genInstallment1();
+        if (targetLvl === 2) return genInstallment2();
+        return genInstallment3();
     } else if (selectedUnit === 'speed') {
-        if (targetLvl === 1) return typeof genSpeed1 === 'function' ? genSpeed1() : genSet1();
-        if (targetLvl === 2) return typeof genSpeed2 === 'function' ? genSpeed2() : genSet2();
-        return typeof genSpeed3 === 'function' ? genSpeed3() : genSet3();
+        if (targetLvl === 1) return genSpeed1();
+        if (targetLvl === 2) return genSpeed2();
+        return genSpeed3();
     } else if (selectedUnit === 'timetable') {
-        if (targetLvl === 1) return typeof genTimetable1 === 'function' ? genTimetable1() : genSet1();
-        if (targetLvl === 2) return typeof genTimetable2 === 'function' ? genTimetable2() : genSet2();
-        return typeof genTimetable3 === 'function' ? genTimetable3() : genSet3();
+        if (targetLvl === 1) return genTimetable1();
+        if (targetLvl === 2) return genTimetable2();
+        return genTimetable3();
     } else if (selectedUnit === 'profit') {
-        if (targetLvl === 1) return typeof genProfit1 === 'function' ? genProfit1() : genSet1();
-        if (targetLvl === 2) return typeof genProfit2 === 'function' ? genProfit2() : genSet2();
-        return typeof genProfit3 === 'function' ? genProfit3() : genSet3();
+        if (targetLvl === 1) return genProfit1();
+        if (targetLvl === 2) return genProfit2();
+        return genProfit3();
     } else {
-        if (typeof genProbability1 !== 'function') return genSet1();
         if (targetLvl === 1) {
             return getRand() < 0.5 ? genProbability1() : genProbability2();
         } else if (targetLvl === 2) {
