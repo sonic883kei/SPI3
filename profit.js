@@ -39,15 +39,16 @@
             return {
                 unit: '損益算', level: 2, badge: 'Lv.2 応用', title: '定価と割引での分割販売',
                 text: `1個 ${cost.toLocaleString()}円 で仕入れた商品を ${totalCount}個 用意し、原価の ${markupRate}% の利益を見込んで定価をつける。<br>` +
-                      `全体の ${regularRatio}%（${regularCount}個）は定価で売れ、残りの ${discountCount}個 は定価の ${discountRate}% 引きで販売した。`,
+                      `全体の ${regularRatio}% は定価で売れ、残りの ${100 - regularRatio}% は定価の ${discountRate}% 引きで販売した。`,
                 prompt: 'この商品の販売による全体での利益額はいくらか。',
                 correctAnswer: totalProfit,
                 unitSuffix: '円',
                 step: 100,
                 steps: [
                     `ステップ1：定価と割引売価をそれぞれ求める。<br>定価：<strong>${cost}円 × (1 + ${markupRate/100}) = ${listPrice.toLocaleString()}円</strong><br>割引売価：<strong>${listPrice}円 × (1 - ${discountRate/100}) = ${discountPrice.toLocaleString()}円</strong>`,
-                    `ステップ2：定価販売と割引販売の合計売上額を計算する。<br>定価売上：<strong>${listPrice.toLocaleString()}円 × ${regularCount}個 = ${salesRegular.toLocaleString()}円</strong><br>割引売上：<strong>${discountPrice.toLocaleString()}円 × ${discountCount}個 = ${salesDiscount.toLocaleString()}円</strong><br>売上総額：<strong>${totalSales.toLocaleString()}円</strong>`,
-                    `ステップ3：売上総額から総仕入れ額（原価）を引いて総利益を求める。<br>総仕入れ額：<strong>${cost}円 × ${totalCount}個 = ${totalCost.toLocaleString()}円</strong><br>利益：<strong>${totalSales.toLocaleString()}円 - ${totalCost.toLocaleString()}円 = ${totalProfit.toLocaleString()}円</strong>`
+                    `ステップ2：定価販売と割引販売それぞれの個数を求める。<br>定価販売：<strong>${totalCount}個 × ${regularRatio}% = ${regularCount}個</strong><br>割引販売：<strong>${totalCount}個 - ${regularCount}個 = ${discountCount}個</strong>`,
+                    `ステップ3：定価販売と割引販売の合計売上額を計算する。<br>定価売上：<strong>${listPrice.toLocaleString()}円 × ${regularCount}個 = ${salesRegular.toLocaleString()}円</strong><br>割引売上：<strong>${discountPrice.toLocaleString()}円 × ${discountCount}個 = ${salesDiscount.toLocaleString()}円</strong><br>売上総額：<strong>${totalSales.toLocaleString()}円</strong>`,
+                    `ステップ4：売上総額から総仕入れ額（原価）を引いて総利益を求める。<br>総仕入れ額：<strong>${cost}円 × ${totalCount}個 = ${totalCost.toLocaleString()}円</strong><br>利益：<strong>${totalSales.toLocaleString()}円 - ${totalCost.toLocaleString()}円 = ${totalProfit.toLocaleString()}円</strong>`
                 ]
             };
         }

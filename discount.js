@@ -32,15 +32,16 @@
             return {
                 unit: '料金割引', level: 2, badge: 'Lv.2 応用', title: 'プラン比較と損益分岐点',
                 text: `ある施設では、通常1回 ${basePrice.toLocaleString()}円 の利用料がかかる。<br>` +
-                      `【プランA】年会費無料で、1回あたりの利用料が ${discountRate}% 引き（${planAPrice.toLocaleString()}円）になる。<br>` +
+                      `【プランA】年会費無料で、1回あたりの利用料が ${discountRate}% 引きになる。<br>` +
                       `【プランB】月額パス ${passFee.toLocaleString()}円 を購入すると、何度利用しても1回あたりの利用料は 0円 になる。`,
                 prompt: '月に何回以上利用する場合、プランBの方がプランAよりも支払総額が安くなるか。',
                 correctAnswer: correctAnswerVal,
                 unitSuffix: '回以上',
                 step: 1,
                 steps: [
-                    `ステップ1：プランBがプランAよりも安くなる損益分岐点を計算する。<br><strong>月額パス費用 ÷ 1回あたりの差額 ＝ ${breakevenTimes}回</strong>`,
-                    `ステップ2：したがって、<strong>${correctAnswerVal}回以上</strong>利用する場合にプランBの方がお得になる。`
+                    `ステップ1：プランAの1回あたりの利用料を求める。<br><strong>${basePrice.toLocaleString()}円 × (1 - ${discountRate/100}) = ${planAPrice.toLocaleString()}円</strong>`,
+                    `ステップ2：プランBがプランAよりも安くなる損益分岐点を計算する。<br><strong>月額パス費用 ÷ 1回あたりの差額 ＝ ${breakevenTimes}回</strong>`,
+                    `ステップ3：したがって、<strong>${correctAnswerVal}回以上</strong>利用する場合にプランBの方がお得になる。`
                 ]
             };
         }

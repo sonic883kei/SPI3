@@ -109,14 +109,15 @@
 
                 return {
                     unit: '速さ', level: 3, badge: 'Lv.3 高難度', title: '通過算（列車とトンネル）',
-                    text: `長さ ${trainLength}m の列車が、時速 ${speedKmh}km（秒速 ${speedMps}m）で走り、長さ ${tunnelLength}m のトンネルに入り始めてから完全に抜け出るまで進む。`,
+                    text: `長さ ${trainLength}m の列車が、時速 ${speedKmh}km で走り、長さ ${tunnelLength}m のトンネルに入り始めてから完全に抜け出るまで進む。`,
                     prompt: 'トンネルを完全に抜け出るまでに何秒かかるか。',
                     correctAnswer: seconds,
                     unitSuffix: '秒',
                     step: 1,
                     steps: [
-                        `ステップ1：列車が完全に抜け出るまでに進む総距離を求める。<br><strong>トンネルの長さ ${tunnelLength}m + 列車の長さ ${trainLength}m = ${totalDistance}m</strong>`,
-                        `ステップ2：総距離を秒速で割って通過時間を計算する。<br><strong>${totalDistance}m ÷ ${speedMps}m/秒 = ${seconds}秒</strong>`
+                        `ステップ1：時速を秒速に変換する。<br><strong>${speedKmh}km/h ÷ 3.6 = ${speedMps}m/秒</strong>`,
+                        `ステップ2：列車が完全に抜け出るまでに進む総距離を求める。<br><strong>トンネルの長さ ${tunnelLength}m + 列車の長さ ${trainLength}m = ${totalDistance}m</strong>`,
+                        `ステップ3：総距離を秒速で割って通過時間を計算する。<br><strong>${totalDistance}m ÷ ${speedMps}m/秒 = ${seconds}秒</strong>`
                     ]
                 };
             }
