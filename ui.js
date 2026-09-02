@@ -110,6 +110,12 @@
             document.getElementById('cbt-result-card').classList.add('hidden');
             const changeBtn = document.getElementById('nav-change-config-btn');
             if (changeBtn) changeBtn.classList.add('hidden');
+            // 演習中(通常/CBT問わず)は問題に集中させるため、振り返り・分析・成績クリア・履歴をいったん隠す。
+            // トップ画面・単元選択画面に戻ったときだけ goToLanding()/goToSelectScreen() 側で再表示する。
+            ['nav-review-btn', 'nav-stats-btn', 'nav-reset-btn', 'nav-history-btn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.add('hidden');
+            });
         }
 
         function goToLanding() {
@@ -118,6 +124,10 @@
             isCBTMode = false;
             hideAllViews();
             document.getElementById('view-landing').classList.remove('hidden');
+            ['nav-review-btn', 'nav-stats-btn', 'nav-reset-btn', 'nav-history-btn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('hidden');
+            });
         }
 
         function goToSelectScreen() {
@@ -126,6 +136,10 @@
             isCBTMode = false;
             hideAllViews();
             document.getElementById('view-select').classList.remove('hidden');
+            ['nav-review-btn', 'nav-stats-btn', 'nav-reset-btn', 'nav-history-btn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('hidden');
+            });
         }
 
         function selectConfigUnit(unit) {
@@ -476,8 +490,8 @@
         // ここで計算する「認定Lv」は試験終了後にのみ算出する別の評価軸。
         // 到達しただけでなく、各難易度をどれだけの問題数・正答率でこなしたかを条件にする。
         const CERTIFIED_LEVEL_LABELS = {
-            1: '基本',
-            2: 'Lv.2の問題に挑戦できる',
+            1: '基本問題をある程度解ける',
+            2: 'Lv.2の問題にも対応できる',
             3: 'Lv.2の問題にある程度対応できる',
             4: 'Lv.2の問題を安定して処理できる',
             5: 'Lv.3の問題にも対応できる',
