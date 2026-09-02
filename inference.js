@@ -1,14 +1,13 @@
 /**
  * inference.js
- * 単元: ⑧ 推論②（数量推理・平均と推論）※新規追加
- * 依存: js/algorithms/common.js（getRand, getRandomInt）を先に読み込むこと
- * 提供関数: genInference1
+ * 単元: ⑧ 推論②（数量推理）
+ * 依存: js/algorithms/common.js（getRand, getRandomInt, shuffleArray）を先に読み込むこと
+ * 提供関数: genInference1（Lv.2）, genInference2（Lv.3・新規追加）
  *
  * unit キーは 'inference'。既存の ⑧推論（buildLogicalQuestion, unitキー 'logical'）とは
  * 別単元として common.js の generateQuestionByConfig に登録済み。
- * index.html の単元選択ボタンと ui.js の UNIT_MAP / UNIT_KEYS への追加はまだ未対応（要フォローアップ）。
  *
- * 移植メモ:
+ * 移植メモ（genInference1）:
  *   元コード（ユーザー提供）は Math.random() を直接使用し、返り値の形式も
  *   アプリの他アルゴリズム（unit/level/badge/customChoices/steps）と異なっていたため、
  *   以下の2点のみ変更している。計算式・正誤判定ロジックは一切変更していない。
@@ -134,6 +133,79 @@ function genInference1() {
             `ステップ3【推論アの検証】：P + R = ${sumPR}kg なので、PかRの一方を大きくすれば必ずQ(${weightQ}kg)を超えられる。<br>よって「PかRのどちらかが一番重い」は<strong>必ず正しい</strong>。`,
             `ステップ4【推論イの検証】：Sの体重は${weightS}kg。PとRの合計は${sumPR}kgなので、配分次第でSが最小になる場合とならない場合がある（例: P=${Math.floor(sumPR/2)}kg, R=${Math.ceil(sumPR/2)}kgならSが最小だが、P=10kg, R=${sumPR-10}kgならPの方が軽くなる）。<br>よって「Sが一番軽い」は<strong>どちらともいえない</strong>。`,
             `したがって、正解は <strong>${answerKey}</strong> です。`
+        ]
+    };
+}
+
+function genInference2() {
+    // --------------------------------------------------
+    // 1. 「個別の値は一意に定まらないが合計だけは確実に定まる」性質を持つ
+    //    4つの整数の組を、条件を満たすまで生成する。
+    // --------------------------------------------------
+    // 4人がそれぞれ持つ個数(a<=b<=c<=d)から、異なる2人を選ぶ6通りの和を作ると、
+    // 昇順に並べたとき (最小+最大)=(2番目小+2番目大)=(3番目小+3番目大)=4人の合計 という性質が常に成り立つ。
+    // 一方、中央の2つの和がそれぞれ「最小+最大」「2番目+3番目」のどちらに対応するかは
+    // 一般に2通りの解釈が可能で、個別の値は特定できない場合がある（＝この設問の核心）。
+    let a, b, c, d, s1, s2, s3, s4, s5, s6, total;
+    let aA, bA, cA, dA, aB, bB, cB, dB;
+    let attempts = 0;
+    let valid = false;
+
+    const isValidQuad = (a2, b2, c2, d2) =>
+        Number.isInteger(a2) && Number.isInteger(b2) && Number.isInteger(c2) && Number.isInteger(d2) &&
+        a2 >= 1 && a2 <= b2 && b2 <= c2 && c2 <= d2;
+
+    do {
+        attempts++;
+        const raw = new Set();
+        while (raw.size < 4) raw.add(getRandomInt(5, 40));
+        const vals = Array.from(raw).sort((x, y) => x - y);
+        [a, b, c, d] = vals;
+
+        const sums = [a + b, a + c, a + d, b + c, b + d, c + d].sort((x, y) => x - y);
+        [s1, s2, s3, s4, s5, s6] = sums;
+        total = s1 + s6;
+
+        // ケースA：中央の小さい方(s3)が「最小+最大」、大きい方(s4)が「2番目+3番目」に対応すると仮定
+        bA = (s1 + s5 - s3) / 2;
+        aA = s1 - bA; cA = s2 - s1 + bA; dA = s5 - bA;
+        // ケースB：s3とs4の対応を入れ替えた場合
+        bB = (s1 + s5 - s4) / 2;
+        aB = s1 - bB; cB = s2 - s1 + bB; dB = s5 - bB;
+
+        valid = isValidQuad(aA, bA, cA, dA) && isValidQuad(aB, bB, cB, dB) &&
+            !(aA === aB && bA === bB && cA === cB && dA === dB);
+    } while (!valid && attempts < 500);
+
+    if (!valid) {
+        // 保険（理論上ほぼ到達しない）：画像の実例をそのまま使用
+        s1 = 20; s2 = 22; s3 = 24; s4 = 26; s5 = 28; s6 = 30; total = 50;
+        aA = 8; bA = 12; cA = 14; dA = 16;
+        aB = 9; bB = 11; cB = 13; dB = 17;
+    }
+
+    // --------------------------------------------------
+    // 2. 選択肢：個別の値に関する主張は4つとも「確実ではない」、合計のみが「確実」
+    // --------------------------------------------------
+    const rawChoices = [
+        { text: `最も多くミカンを持っている者のミカンの個数は${dA}個である。`, isCorrect: false },
+        { text: `2番目に多く持っている者のミカンの個数は${cA}個である。`, isCorrect: false },
+        { text: `3番目に多く持っている者のミカンの個数は${bA}個である。`, isCorrect: false },
+        { text: `ミカンを持っている数が最小の者のミカンの個数は${aA}個である。`, isCorrect: false },
+        { text: `4人の持っているミカンの個数を合計すると${total}個である。`, isCorrect: true }
+    ];
+    const customChoices = rawChoices.map(c => ({ value: c.text, htmlText: c.text, isCorrect: c.isCorrect }));
+
+    return {
+        unit: '推論(数量推理)', level: 3, badge: 'Lv.3 高難度', title: '数量推理（組み合わせと合計）',
+        text: `4人がそれぞれ、ミカンを何個か持っている。この4人から異なる2人を選ぶ6通りの組合せを作り、選んだ2人の持っているミカンの個数を合計してみたところ、少ない順に ${s1}個、${s2}個、${s3}個、${s4}個、${s5}個、${s6}個 となった。`,
+        prompt: 'このとき、確実にいえることとして、最も妥当なのはどれか。',
+        customChoices: shuffleArray(customChoices),
+        steps: [
+            `ステップ1：6通りの和をすべて足すと、4人それぞれの個数がちょうど3回ずつ現れるので、合計は「4人の合計 × 3」になる。<br><strong>${s1} + ${s2} + ${s3} + ${s4} + ${s5} + ${s6} = ${s1 + s2 + s3 + s4 + s5 + s6}</strong>`,
+            `ステップ2：4人の合計を求める。<br><strong>${s1 + s2 + s3 + s4 + s5 + s6} ÷ 3 = ${total}個</strong>`,
+            `ステップ3：最小の和（${s1}個）は最も少ない2人、最大の和（${s6}個）は最も多い2人の組み合わせなので、常に「最小の和＋最大の和＝4人の合計」が成り立つ（${s1} + ${s6} = ${s1 + s6}）。同様に2番目・3番目に小さい和と大きい和の組み合わせも、それぞれ4人の合計と一致する。`,
+            `ステップ4：一方で、中央の2つの和（${s3}個・${s4}個）がそれぞれ「最小＋最大」の組と「2番目＋3番目」の組のどちらに対応するかは、この情報だけでは特定できない。実際、${aA}・${bA}・${cA}・${dA}個の組み合わせでも、${aB}・${bB}・${cB}・${dB}個の組み合わせでも、同じ6つの和が得られてしまう。<br>よって個々の人数は確定できず、確実にいえるのは<strong>「合計は${total}個」</strong>のみである。`
         ]
     };
 }

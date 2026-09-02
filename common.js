@@ -105,6 +105,7 @@ function generateQuestionByConfig(unit, level) {
     } else if (selectedUnit === 'logical') {
         return buildLogicalQuestion(targetLvl);
     } else if (selectedUnit === 'inference') {
+        if (targetLvl === 3) return genInference2();
         return genInference1();
     } else if (selectedUnit === 'set') {
         if (targetLvl === 1) return genSet1();
