@@ -138,6 +138,7 @@
                     <h2 class="text-lg font-extrabold text-white flex items-center">
                         <i class="fa-solid fa-sliders text-indigo-400 mr-2"></i>単元・レベルの選択
                     </h2>
+                    <span class="text-xs text-slate-400">ステップ 1/2</span>
                 </div>
 
                 <div class="mb-6">
@@ -231,7 +232,7 @@
                             Lv.2 応用
                         </button>
                         <button onclick="selectConfigLevel('3')" data-level="3" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
-                            Lv.3 発展
+                            Lv.3 高難度
                         </button>
                     </div>
                 </div>
@@ -379,6 +380,12 @@
                 </div>
             </div>
 
+            <div id="cbt-res-certified-block" class="hidden text-center mb-4 bg-purple-950/40 border border-purple-800/50 rounded-2xl py-3.5 px-4">
+                <span class="text-[10px] font-bold text-purple-300 block mb-1">認定レベル（フル模試のみ算出）</span>
+                <p class="text-2xl font-black text-purple-300" id="cbt-res-certified-lvl">Lv.1</p>
+                <p class="text-[11px] text-purple-200/80 mt-1" id="cbt-res-certified-label"></p>
+            </div>
+
             <div class="mb-4">
                 <button id="copy-cbt-result-btn" onclick="copyCBTResult()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition text-xs shadow-lg shadow-emerald-950/50 flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-copy"></i>
@@ -500,7 +507,7 @@
             <div class="space-y-3 mt-4">
                 <button onclick="startCBTMode('mini')" class="w-full text-left p-3.5 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/40 transition">
                     <h4 class="font-bold text-white text-xs">ミニテスト (9問 / 12分)</h4>
-                    <p class="text-[10px] text-slate-400 mt-0.5">各単元から1問ずつ出題</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">全9単元から重複なしで1問ずつ出題</p>
                 </button>
 
                 <button onclick="toggleSyncDateSection()" class="w-full text-left p-3.5 rounded-2xl border border-indigo-500/50 bg-indigo-950/40 hover:bg-indigo-900/40 transition flex items-center justify-between">
@@ -508,7 +515,7 @@
                         <h4 class="font-bold text-indigo-200 text-xs flex items-center">
                             <i class="fa-solid fa-users text-indigo-400 mr-1.5"></i>一斉テストモード (9問 / 12分)
                         </h4>
-                        <p class="text-[10px] text-indigo-300/80 mt-0.5">共通問題を出題</p>
+                        <p class="text-[10px] text-indigo-300/80 mt-0.5">指定日付で全9単元から共通問題を出題</p>
                     </div>
                     <i class="fa-solid fa-chevron-down text-indigo-400 text-xs"></i>
                 </button>
@@ -551,7 +558,7 @@
     </div>
 
     <footer class="bg-[#0b0f19] border-t border-slate-800/80 py-3 text-center text-[11px] text-slate-500">
-        <p>麻生公務員専門学校北九州校　2026</p>
+        <p>SPI非言語演習 Web App</p>
     </footer>
 
     <!-- SCRIPT LOGIC (単元別の作問アルゴリズム + ui.js。全てindex.htmlと同一ディレクトリに配置する前提) -->
@@ -571,4 +578,3 @@
     <script src="ui.js"></script>
 </body>
 </html>
-    <!-- このアプリは麻生公務員専門学校北九州校　世永大一朗が作成しました -->

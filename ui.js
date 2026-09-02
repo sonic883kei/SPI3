@@ -188,8 +188,10 @@
 
         function startQuestionTimer() {
             if (questionTimerInterval) clearInterval(questionTimerInterval);
-            maxQuestionTime = 90;
-            remainingQuestionTime = 90;
+            // レベル別の制限時間：Lv.1=60秒 / Lv.2=90秒 / Lv.3=120秒
+            const timeByLevel = { 1: 60, 2: 90, 3: 120 };
+            maxQuestionTime = timeByLevel[currentQuestion.level] || 90;
+            remainingQuestionTime = maxQuestionTime;
 
             const timerBar = document.getElementById('timer-bar');
             if (timerBar) {
@@ -469,6 +471,62 @@
             }
         }
 
+        // 認定レベル（Lv.1〜7）の算出。フル模試モード限定。
+        // 「現在Lv（cbtCurrentLevel）」は出題エンジンの内部状態（最後に到達した難易度）であり、
+        // ここで計算する「認定Lv」は試験終了後にのみ算出する別の評価軸。
+        // 到達しただけでなく、各難易度を安定して解けているか（最低挑戦数＋正答率）を条件にする。
+        const CERTIFIED_LEVEL_LABELS = {
+            1: '基本問題をある程度解ける',
+            2: '基本問題を安定して解ける',
+            3: '複数段階の問題にも対応できる',
+            4: '複数段階の問題を安定して処理できる',
+            5: '応用・複合問題にも対応できる',
+            6: '応用・複合問題を安定して処理できる',
+            7: '応用・複合問題を高精度・高速で処理できる'
+        };
+
+        function calcCertifiedLevel() {
+            const timeByLevel = { 1: 60, 2: 90, 3: 120 };
+            const byLevel = {
+                1: { attempts: 0, correct: 0, totalTime: 0 },
+                2: { attempts: 0, correct: 0, totalTime: 0 },
+                3: { attempts: 0, correct: 0, totalTime: 0 }
+            };
+            sessionAnswers.forEach(ans => {
+                const lvl = ans.question.level;
+                if (!byLevel[lvl]) return;
+                byLevel[lvl].attempts++;
+                if (ans.isCorrect) byLevel[lvl].correct++;
+                byLevel[lvl].totalTime += ans.timeSpent;
+            });
+
+            const acc = lvl => byLevel[lvl].attempts > 0 ? byLevel[lvl].correct / byLevel[lvl].attempts : 0;
+            const avgTime = lvl => byLevel[lvl].attempts > 0 ? byLevel[lvl].totalTime / byLevel[lvl].attempts : Infinity;
+
+            const MIN_STABLE_ATTEMPTS = 3; // この回数以上挑戦していないと「安定」の判定材料にしない
+            const STABLE_ACC = 0.7;
+            const HIGH_ACC = 0.9;
+
+            let level;
+            if (byLevel[3].attempts >= MIN_STABLE_ATTEMPTS && acc(3) >= HIGH_ACC && avgTime(3) <= timeByLevel[3] * 0.7) {
+                level = 7; // Lv.3を高精度・高速で処理できる
+            } else if (byLevel[3].attempts >= MIN_STABLE_ATTEMPTS && acc(3) >= STABLE_ACC) {
+                level = 6; // Lv.3を安定して処理できる
+            } else if (byLevel[3].attempts >= 1) {
+                level = 5; // Lv.3にも対応できる
+            } else if (byLevel[2].attempts >= MIN_STABLE_ATTEMPTS && acc(2) >= STABLE_ACC) {
+                level = 4; // Lv.2を安定して処理できる
+            } else if (byLevel[2].attempts >= 1) {
+                level = 3; // Lv.2にも対応できる
+            } else if (byLevel[1].attempts >= MIN_STABLE_ATTEMPTS && acc(1) >= STABLE_ACC) {
+                level = 2; // Lv.1を安定して解ける
+            } else {
+                level = 1; // 基本問題をある程度解ける
+            }
+
+            return { level, label: CERTIFIED_LEVEL_LABELS[level], byLevel };
+        }
+
         function finishCBTMode() {
             if (questionTimerInterval) clearInterval(questionTimerInterval);
             if (cbtOverallTimerInterval) clearInterval(cbtOverallTimerInterval);
@@ -486,6 +544,22 @@
             if (accuracyElem) accuracyElem.innerText = `${accPct} %`;
             if (lvlElem) lvlElem.innerText = `Lv.${cbtCurrentLevel}`;
 
+            // 認定レベルはフル模試モードのみ算出・表示する（ミニ/一斉は9問しかなく信頼性が低いため対象外）
+            const certifiedBlock = document.getElementById('cbt-res-certified-block');
+            let certifiedResult = null;
+            if (cbtModeType === 'full') {
+                certifiedResult = calcCertifiedLevel();
+                if (certifiedBlock) {
+                    certifiedBlock.classList.remove('hidden');
+                    const certLvlElem = document.getElementById('cbt-res-certified-lvl');
+                    const certLabelElem = document.getElementById('cbt-res-certified-label');
+                    if (certLvlElem) certLvlElem.innerText = `Lv.${certifiedResult.level}`;
+                    if (certLabelElem) certLabelElem.innerText = certifiedResult.label;
+                }
+            } else if (certifiedBlock) {
+                certifiedBlock.classList.add('hidden');
+            }
+
             const syncDateDisp = document.getElementById('cbt-sync-date-display');
             if (cbtModeType === 'sync' && cbtSyncDate) {
                 if (syncDateDisp) syncDateDisp.classList.remove('hidden');
@@ -500,7 +574,8 @@
                 type: cbtModeType === 'sync' ? `一斉(${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニ' : 'フル'),
                 score: `${correctCount}/${totalCount}`,
                 accuracy: `${accPct}%`,
-                finalLevel: `Lv.${cbtCurrentLevel}`
+                finalLevel: `Lv.${cbtCurrentLevel}`,
+                certifiedLevel: certifiedResult ? `Lv.${certifiedResult.level}` : null
             };
             globalHistory.unshift(record);
             if (globalHistory.length > 10) globalHistory.pop();
@@ -512,7 +587,11 @@
         function copyCBTResult() {
             const accPct = Math.round((correctCount / Math.max(1, totalCount)) * 100);
             const modeText = cbtModeType === 'sync' ? `一斉テスト (${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フルテスト');
-            const text = `【SPI非言語 CBT模擬試験結果】\n形式: ${modeText}\n正解数: ${correctCount} / ${totalCount}\n正解率: ${accPct}%\n到達レベル: Lv.${cbtCurrentLevel}`;
+            let text = `【SPI非言語 CBT模擬試験結果】\n形式: ${modeText}\n正解数: ${correctCount} / ${totalCount}\n正解率: ${accPct}%\n到達レベル: Lv.${cbtCurrentLevel}`;
+            if (cbtModeType === 'full') {
+                const cert = calcCertifiedLevel();
+                text += `\n認定レベル: Lv.${cert.level}（${cert.label}）`;
+            }
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
@@ -651,13 +730,27 @@
                 sessionAnswers.forEach((ans, idx) => {
                     const card = document.createElement('div');
                     card.className = `p-3.5 rounded-2xl border text-xs ${ans.isCorrect ? 'bg-emerald-950/30 border-emerald-800/40' : 'bg-rose-950/30 border-rose-800/40'}`;
+
+                    const correctChoice = (ans.question.choices || []).find(c => c.isCorrect);
+                    const correctText = correctChoice ? correctChoice.htmlText : '(データなし)';
+                    const stepsHtml = (ans.question.steps || []).map(s => `<p class="mb-1.5">${s}</p>`).join('');
+
                     card.innerHTML = `
                         <div class="flex justify-between items-center mb-2">
                             <span class="font-bold text-slate-200">問 ${idx + 1} (${ans.question.unit} - ${ans.question.badge})</span>
                             <span class="font-bold ${ans.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${ans.isCorrect ? '正解' : '不正解'} (${ans.timeSpent}秒)</span>
                         </div>
-                        <p class="text-slate-300 mb-2 leading-relaxed">${ans.question.prompt}</p>
-                        <p class="text-slate-400 text-[11px]">選択した回答: <span class="text-white font-bold">${ans.selected ? ans.selected.htmlText : '未選択'}</span></p>
+                        <p class="text-slate-400 mb-1.5 leading-relaxed">${ans.question.text || ''}</p>
+                        <p class="text-slate-300 mb-2 leading-relaxed font-medium">${ans.question.prompt}</p>
+                        <p class="text-slate-400 text-[11px] mb-1">選択した回答: <span class="text-white font-bold">${ans.selected ? ans.selected.htmlText : '未選択'}</span></p>
+                        <p class="text-slate-400 text-[11px] mb-2">正答: <span class="text-emerald-300 font-bold">${correctText}</span></p>
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('i').classList.toggle('fa-rotate-180')" class="w-full flex items-center justify-between text-[11px] text-indigo-300 hover:text-indigo-200 bg-indigo-950/40 border border-indigo-800/40 rounded-lg px-2.5 py-1.5 transition">
+                            <span>解説を見る</span>
+                            <i class="fa-solid fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="hidden mt-2 pt-2 border-t border-slate-700/60 text-slate-300 text-[11px] leading-relaxed">
+                            ${stepsHtml}
+                        </div>
                     `;
                     container.appendChild(card);
                 });
