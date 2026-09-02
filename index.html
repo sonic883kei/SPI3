@@ -1,1666 +1,581 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>知識分野○×演習 - 対戦モード</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --card: #222536;
-    --border: #2e3248;
-    --accent: #5b8ef0;
-    --accent2: #7c5cf5;
-    --correct: #2ecc71;
-    --wrong: #e74c3c;
-    --text: #e8eaf0;
-    --sub: #8b90aa;
-    --radius: 12px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    overflow-x: hidden;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPI非言語分野 演習＆CBT模擬試験</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans JP', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s ease-in-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
 
-  header {
-    width: 100%;
-    max-width: 800px;
-    padding: 15px 0;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 16px;
-  }
-  header h1 { font-size: 24px; color: var(--text); font-weight: bold; }
-
-  .container {
-    width: 100%;
-    max-width: 800px;
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    position: relative;
-  }
-
-  .screen { display: none; }
-  .active { display: block; }
-
-  /* ===== ポータル（設定）画面 ===== */
-  .setting-group { margin-bottom: 20px; }
-  .setting-label {
-    font-size: 14px;
-    color: var(--sub);
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  .grid-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 10px;
-  }
-  .grid-subjects {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
-  }
-  .option-btn {
-    background: var(--card);
-    border: 2px solid var(--border);
-    color: var(--text);
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-    transition: all 0.2s ease;
-    text-align: center;
-  }
-  .option-btn:hover { border-color: var(--accent); }
-  .option-btn.selected {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-color: transparent;
-    color: #ffffff;
-  }
-
-  .start-btn-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-    margin-top: 24px;
-  }
-  .primary-btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #ffffff;
-    border: none;
-    padding: 14px 40px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(124, 92, 245, 0.4);
-    transition: transform 0.2s, opacity 0.2s;
-    width: 100%;
-    max-width: 320px;
-    text-align: center;
-  }
-  .primary-btn:hover { transform: translateY(-2px); }
-  .vs-btn {
-    background: linear-gradient(135deg, #f39c12, #e74c3c);
-    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
-  }
-
-  /* ===== クイズ画面 ===== */
-  .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    color: var(--sub);
-    font-size: 14px;
-  }
-  .progress-container {
-    width: 100%;
-    height: 6px;
-    background: var(--border);
-    border-radius: 3px;
-    margin-bottom: 18px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    transition: width 0.3s ease;
-  }
-  .question-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    min-height: 120px;
-    font-size: 17px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .ox-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .ox-btn {
-    height: 100%;
-    min-height: 60px;
-    font-size: 32px;
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    color: #ffffff;
-    transition: opacity 0.2s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-  }
-  .ox-btn:active { transform: scale(0.96); }
-  .btn-o { background: var(--correct); box-shadow: 0 6px 15px rgba(46, 204, 113, 0.25); }
-  .btn-x { background: var(--wrong); box-shadow: 0 6px 15px rgba(231, 76, 60, 0.25); }
-  .ox-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  /* ===== フィードバック・解説 ===== */
-  .feedback-box {
-    display: none;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 16px;
-    border-left: 6px solid var(--border);
-    margin-bottom: 20px;
-  }
-  .feedback-box.correct { border-left-color: var(--correct); }
-  .feedback-box.wrong { border-left-color: var(--wrong); }
-  .feedback-title { font-size: 18px; font-weight: bold; margin-bottom: 6px; }
-  .feedback-box.correct .feedback-title { color: var(--correct); }
-  .feedback-box.wrong .feedback-title { color: var(--wrong); }
-  .explanation-text { font-size: 14px; line-height: 1.5; color: #d1d5db; }
-
-  /* ===== 結果画面 ===== */
-  .result-screen { text-align: center; }
-  .result-score { font-size: 56px; font-weight: bold; margin: 12px 0; color: var(--accent); }
-  .result-eval { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
-  .result-detail { color: var(--sub); margin-bottom: 24px; }
-  .result-actions {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .secondary-btn {
-    background: var(--card);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 12px 24px;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .secondary-btn:hover { background: var(--border); }
-
-  /* ===== 得点履歴 ===== */
-  .history-section {
-    margin-top: 28px;
-    text-align: left;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
-  }
-  .history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  .history-header .setting-label { margin-bottom: 0; }
-  .history-clear-btn {
-    background: none;
-    border: none;
-    color: var(--sub);
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .history-clear-btn:hover { color: var(--wrong); }
-  .history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .history-table th, .history-table td {
-    padding: 10px 8px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .history-table th {
-    color: var(--sub);
-    font-weight: bold;
-    font-size: 11px;
-  }
-  .history-row {
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  .history-row:hover {
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  /* ===== 認証画面 ===== */
-  .auth-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.88);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  .auth-dialog {
-    background: #11141d;
-    width: 90%;
-    max-width: 380px;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .auth-icon-box {
-    width: 50px;
-    height: 50px;
-    background: #191c28;
-    border: 1px solid rgba(124, 92, 245, 0.2);
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .lock-icon {
-    width: 20px;
-    height: 20px;
-    stroke: var(--accent2);
-    fill: none;
-    stroke-width: 2;
-  }
-  .auth-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 8px;
-  }
-  .auth-description {
-    font-size: 13px;
-    color: #8b90aa;
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-  .pin-input-area {
-    width: 100%;
-    position: relative;
-    margin-bottom: 20px;
-  }
-  .pin-input {
-    width: 100%;
-    height: 48px;
-    background: #191c28;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    font-size: 28px;
-    color: transparent;
-    text-align: center;
-    letter-spacing: 0.5em;
-    caret-color: #ffffff;
-  }
-  .pin-input:focus {
-    outline: none;
-    border-color: rgba(124, 92, 245, 0.5);
-  }
-  .pin-dots {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-  }
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #3c4155;
-    margin: 0 6px;
-  }
-  .dot.active { background: #ffffff; }
-  .auth-submit-btn {
-    width: 100%;
-    height: 48px;
-    background: var(--accent2);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .auth-error-text {
-    font-size: 12px;
-    color: var(--wrong);
-    margin-top: 10px;
-    display: none;
-  }
-
-  /* ===== 対戦モードレイアウトスタイル ===== */
-  .vs-layout-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
-    width: 100vw;
-    width: 100dvw;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 500;
-    background: #090a0f;
-    overflow: hidden;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: env(safe-area-inset-left, 0px);
-    padding-right: env(safe-area-inset-right, 0px);
-  }
-
-  .player-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 8px 12px;
-    position: relative;
-    box-sizing: border-box;
-    transition: background-color 0.15s ease;
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .player1-area {
-    transform: rotate(180deg);
-    border-bottom: 2px solid #202435;
-    background-color: #0f111a;
-  }
-
-  .player2-area {
-    background-color: #0c0d15;
-  }
-
-  .divider-bar {
-    height: 38px;
-    flex-shrink: 0;
-    background: #151824;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 12px;
-    font-weight: bold;
-    color: #fff;
-    border-top: 2px solid #2e3248;
-    border-bottom: 2px solid #2e3248;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    z-index: 510;
-    position: relative;
-  }
-
-  .vs-status-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: var(--sub);
-    flex-shrink: 0;
-    padding-bottom: 4px;
-  }
-
-  .vs-question-card {
-    background: #1c1e2d;
-    border: 1px solid #2e3248;
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    flex: 1;
-    margin: 6px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 15px;
-    line-height: 1.4;
-    color: #fff;
-    overflow-y: auto;
-    min-height: 0;
-  }
-
-  .vs-ox-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    height: 64px;
-    flex-shrink: 0;
-  }
-
-  .countdown-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    background: rgba(10, 11, 16, 0.95);
-    z-index: 600;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-  }
-  .countdown-number {
-    font-size: 120px;
-    font-weight: 900;
-    background: linear-gradient(135deg, #f39c12, #e74c3c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: pulse 1s ease infinite;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(0.8); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(0.8); opacity: 0.5; }
-  }
-
-  .flash-correct {
-    background-color: rgba(46, 204, 113, 0.15) !important;
-  }
-  .flash-wrong {
-    background-color: rgba(231, 76, 60, 0.15) !important;
-  }
-
-  .waiting-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(26, 29, 39, 0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    border-radius: var(--radius);
-  }
-
-  .vs-summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-    text-align: left;
-  }
-  .vs-summary-table th, .vs-summary-table td {
-    padding: 10px 8px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .vs-summary-table th {
-    background: var(--card);
-    color: var(--sub);
-  }
-  .badge {
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-    color: #fff;
-    display: inline-block;
-  }
-  .badge-correct { background-color: var(--correct); }
-  .badge-wrong { background-color: var(--wrong); }
-
-  .detail-modal-dialog {
-    background: #11141d;
-    width: 95%;
-    max-width: 600px;
-    max-height: 85vh;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .detail-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
-    margin-bottom: 16px;
-  }
-  .detail-modal-body {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-
-  /* 追加: 共通の小ボタン */
-  .small-nav-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--border);
-    color: #c5c9de;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .small-nav-btn:hover {
-    background: var(--accent);
-    color: #fff;
-  }
-</style>
+        #explanation-content strong {
+            color: #c7d2fe;
+            font-weight: 700;
+            background-color: rgba(99, 102, 241, 0.2);
+            padding: 4px 8px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 6px;
+            border: 1px solid rgba(129, 140, 248, 0.4);
+            font-family: monospace, sans-serif;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col justify-between">
 
-<header id="main-header">
-  <h1 id="app-title">知識分野○×演習</h1>
-</header>
+    <!-- HEADER -->
+    <header class="bg-[#111827]/90 backdrop-blur-md text-white border-b border-slate-800/80 sticky top-0 z-40">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <button onclick="goToLanding()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 py-1.5 px-3 rounded-xl text-xs transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-house text-indigo-400"></i>
+                    <span class="hidden sm:inline">トップ</span>
+                </button>
+                
+                <button id="nav-change-config-btn" onclick="goToSelectScreen()" class="hidden bg-indigo-950/80 hover:bg-indigo-900/80 text-indigo-200 border border-indigo-700/60 py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-sliders text-indigo-400"></i>
+                    <span>単元・レベル変更</span>
+                </button>
 
-<div class="container" id="main-container">
-  
-  <!-- ポータル（設定）画面 -->
-  <div id="portal-screen" class="screen active">
-    <div class="setting-group">
-      <div class="setting-label">演習科目を選択</div>
-      <div class="grid-subjects" id="subject-selector">
-        <div class="option-btn" data-subject="seiji">政治</div>
-        <div class="option-btn" data-subject="keizai">経済</div>
-        <div class="option-btn" data-subject="sekaishi">世界史</div>
-        <div class="option-btn" data-subject="nihonshi">日本史</div>
-        <div class="option-btn" data-subject="chiri">地理</div>
-        <div class="option-btn" data-subject="seibutsu">生物</div>
-        <div class="option-btn" data-subject="chigaku">地学</div>
-        <div class="option-btn" data-subject="kagaku">化学</div>
-        <div class="option-btn" data-subject="butsuri">物理</div>
-        <div class="option-btn selected" data-subject="shisou">思想</div>
-      </div>
-    </div>
+                <button id="nav-review-btn" onclick="openReviewModal()" class="text-xs bg-indigo-950/80 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/60 py-1.5 px-3 rounded-xl transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-list-check text-indigo-400"></i>
+                    <span>回答振り返り</span>
+                </button>
 
-    <div class="setting-group" id="normal-count-group">
-      <div class="setting-label">出題問題数</div>
-      <div class="grid-options" id="count-selector">
-        <div class="option-btn" data-count="10">10問</div>
-        <div class="option-btn selected" data-count="20">20問</div>
-        <div class="option-btn" data-count="30">30問</div>
-        <div class="option-btn" data-count="50">50問</div>
-        <div class="option-btn" data-count="all">全問</div>
-      </div>
-    </div>
-
-    <div class="setting-group" id="normal-order-group">
-      <div class="setting-label">出題順序</div>
-      <div class="grid-options" id="order-selector">
-        <div class="option-btn selected" data-order="random">ランダム</div>
-        <div class="option-btn" data-order="sequence">順番通り</div>
-      </div>
-    </div>
-
-    <div class="start-btn-container">
-      <button class="primary-btn" onclick="loadAndStartQuiz(false)">通常演習を開始する</button>
-      <button class="primary-btn vs-btn" onclick="loadAndStartQuiz(true)">🔥 対戦モードを開始する</button>
-      <!-- 追加: トップページから直近の得点記録を見るボタン -->
-      <button class="secondary-btn" style="margin-top: 6px; width: 100%; max-width: 320px;" onclick="openHistoryModalFromPortal()">📜 直近の得点記録を見る</button>
-    </div>
-  </div>
-
-  <!-- 通常クイズ画面 -->
-  <div id="quiz-screen" class="screen">
-    <div class="quiz-header">
-      <span id="quiz-title-display">科目: 未選択</span>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <span id="progress-text">0 / 0 問</span>
-        <!-- 追加:演習中のトップページに戻るボタン -->
-        <button class="small-nav-btn" onclick="confirmReturnHome()">🏠 トップへ</button>
-      </div>
-    </div>
-    <div class="progress-container">
-      <div id="progress-fill" class="progress-fill"></div>
-    </div>
-
-    <div class="question-box" id="question-text">
-      問題文がここに表示されます。
-    </div>
-
-    <div class="ox-container" style="height: 80px;">
-      <button class="ox-btn btn-o" onclick="handleAnswer('○')">○</button>
-      <button class="ox-btn btn-x" onclick="handleAnswer('×')">×</button>
-    </div>
-
-    <div id="feedback-box" class="feedback-box">
-      <div id="feedback-title" class="feedback-title">正解！</div>
-      <div id="explanation-text" class="explanation-text">解説文がここに表示されます。</div>
-      <div style="text-align: right; margin-top: 16px;">
-        <button class="primary-btn" style="padding: 10px 24px; font-size: 14px; width: auto;" onclick="nextQuestion()">次へ進む</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 通常結果画面 / 対戦結果画面共通 -->
-  <div id="result-screen" class="screen result-screen">
-    <div id="result-mode-title" style="font-size: 18px; color: var(--sub);">演習終了</div>
-    <div class="result-score" id="result-pct">0%</div>
-    <div class="result-eval" id="result-title">ここに評価</div>
-    <div class="result-detail" id="result-sub">0 / 0 問正解</div>
-
-    <!-- 対戦結果用の詳細コンポーネント -->
-    <div id="vs-result-details" style="display: none; margin-bottom: 24px;">
-      <h3 class="text-left font-bold text-lg mb-2 text-yellow-400">📊 対戦解答詳細</h3>
-      <div class="overflow-x-auto">
-        <table class="vs-summary-table">
-          <thead>
-            <tr>
-              <th width="8%">No.</th>
-              <th width="52%">問題</th>
-              <th width="20%">プレイヤー1</th>
-              <th width="20%">プレイヤー2</th>
-            </tr>
-          </thead>
-          <tbody id="vs-summary-rows">
-            <!-- 動的に挿入 -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="result-actions">
-      <button class="secondary-btn" id="btn-back-portal" onclick="backToPortal()">科目選択へ戻る</button>
-      <button class="primary-btn" id="btn-retry" onclick="retryQuiz()">同じ設定で再挑戦</button>
-    </div>
-
-    <!-- 得点履歴（通常用のみ表示） -->
-    <div class="history-section" id="history-panel">
-      <div class="history-header">
-        <div class="setting-label">直近の得点記録（最大10件 / タップして間違えた問題を確認）</div>
-        <button class="history-clear-btn" onclick="clearHistory()">記録を削除</button>
-      </div>
-      <div id="history-container"></div>
-    </div>
-  </div>
-
-  <!-- フッターを追加 -->
-  <footer style="text-align: center; margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--sub);">
-    麻生公務員専門学校北九州校　2026
-  </footer>
-
-</div>
-
-<!-- 対戦用カウントダウンオーバーレイ -->
-<div id="countdown-overlay" class="countdown-overlay" style="display: none;">
-  <div class="text-xl mb-4 tracking-wider text-yellow-500 font-bold">READY?</div>
-  <div id="countdown-text" class="countdown-number">5</div>
-  <div class="text-sm mt-4 text-gray-400">スマホを間に挟んで向かい合ってください！</div>
-</div>
-
-<!-- 対戦用フルスクリーン画面 -->
-<div id="vs-game-container" class="vs-layout-container" style="display: none;">
-  
-  <!-- プレイヤー1（画面上部・180度反転） -->
-  <div id="p1-area" class="player-area player1-area">
-    <div class="vs-status-bar">
-      <span id="p1-subject-title">科目: 物理</span>
-      <span id="p1-progress">1 / 10 問</span>
-    </div>
-    
-    <div id="p1-question-card" class="vs-question-card">
-      問題文がここに表示されます。
-    </div>
-    
-    <div class="vs-ox-container">
-      <button class="ox-btn btn-x" onclick="handleVsAnswer(1, '×')">×</button>
-      <button class="ox-btn btn-o" onclick="handleVsAnswer(1, '○')">○</button>
-    </div>
-
-    <!-- P1完了時の待機画面 -->
-    <div id="p1-waiting" class="waiting-overlay" style="display: none;">
-      <span class="text-yellow-400 font-bold text-xl">解答完了！</span>
-      <span class="text-sm text-gray-300 mt-2">対戦相手が解き終わるのを待っています...</span>
-    </div>
-  </div>
-
-  <!-- 中央仕切りバー（タイマー＆進捗） -->
-  <div class="divider-bar">
-    <div style="font-size: 11px; color: #e74c3c; display: flex; align-items: center; gap: 4px;">
-      <span>TIME</span>
-      <span id="vs-timer-text" style="font-family: monospace; font-size: 18px; color: #fff;">60.0</span>
-    </div>
-    <div style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: #a29bfe; display: flex; align-items: center; gap: 8px;">
-      <span>VS MODE</span>
-      <!-- 追加: 対戦モード内のトップに戻るボタン -->
-      <button class="small-nav-btn" style="padding: 2px 8px; font-size: 10px;" onclick="confirmReturnHome(true)">🏠 中断</button>
-    </div>
-    <div id="vs-timer-bar" style="position: absolute; bottom: 0; left: 0; height: 3px; background: #e74c3c; width: 100%; transition: width 0.1s linear;"></div>
-  </div>
-
-  <!-- プレイヤー2（画面下部・正対表示） -->
-  <div id="p2-area" class="player-area player2-area">
-    <div class="vs-status-bar">
-      <span id="p2-subject-title">科目: 物理</span>
-      <span id="p2-progress">1 / 10 問</span>
-    </div>
-    
-    <div id="p2-question-card" class="vs-question-card">
-      問題文がここに表示されます。
-    </div>
-    
-    <div class="vs-ox-container">
-      <button class="ox-btn btn-o" onclick="handleVsAnswer(2, '○')">○</button>
-      <button class="ox-btn btn-x" onclick="handleVsAnswer(2, '×')">×</button>
-    </div>
-
-    <!-- P2完了時の待機画面 -->
-    <div id="p2-waiting" class="waiting-overlay" style="display: none;">
-      <span class="text-yellow-400 font-bold text-xl">解答完了！</span>
-      <span class="text-sm text-gray-300 mt-2">対戦相手が解き終わるのを待っています...</span>
-    </div>
-  </div>
-</div>
-
-<!-- 認証オーバーレイ -->
-<div id="auth-overlay" class="auth-overlay">
-  <div class="auth-dialog">
-    <div class="auth-icon-box">
-      <svg class="lock-icon" viewBox="0 0 24 24">
-        <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-      </svg>
-    </div>
-    <div class="auth-title">学生認証</div>
-    <div class="auth-description">在籍生専用システムです。暗証番号を入力してください。</div>
-    
-    <div class="pin-input-area">
-      <input type="password" id="pin-input" class="pin-input" maxlength="4" pattern="\d*">
-      <div id="pin-dots" class="pin-dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-
-    <button id="auth-submit-btn" class="auth-submit-btn" onclick="submitPin()">認証する</button>
-    <div id="auth-error-text" class="auth-error-text">暗証番号が正しくありません</div>
-  </div>
-</div>
-
-<!-- 履歴詳細モーダル / ポータル用履歴確認モーダル共通 -->
-<div id="detail-modal" class="auth-overlay" style="display: none;">
-  <div class="detail-modal-dialog">
-    <div class="detail-modal-header">
-      <div>
-        <h3 style="font-size: 18px; font-weight: bold; color: #ffffff;" id="detail-modal-subject">科目名</h3>
-        <p id="detail-modal-date" style="font-size: 11px; color: var(--sub); margin-top: 4px;">実施日時</p>
-      </div>
-      <button onclick="closeDetailModal()" style="background: none; border: none; color: var(--sub); font-size: 24px; cursor: pointer;">&times;</button>
-    </div>
-    <div class="detail-modal-body" id="detail-modal-content">
-      <!-- 動的挿入 -->
-    </div>
-    <div style="text-align: right; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
-      <button class="secondary-btn" style="padding: 10px 24px; font-size: 14px;" onclick="closeDetailModal()">閉じる</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  const EMBEDDED_QUESTIONS = {
-    seiji: [
-      { q: "日本国憲法は、天皇を「国事行為を行うのみの象徴」と規定している。", a: "○", ex: "憲法第4条に、天皇は憲法の定める国事に関する行為のみを行い、国政に関する権能を有しないと定められています。" },
-      { q: "衆議院の解散は、内閣総理大臣の専権事項ではなく、衆議院の決議のみによって行われる。", a: "×", ex: "憲法第7条に基づき、内閣の助言と承認を得て天皇によって行われます。" },
-      { q: "日本の参議院議員の任期は、衆議院と同じく4年である。", a: "×", ex: "参議院議員の任期は6年で、3年ごとに半数が改選されます。" },
-      { q: "内閣総理大臣は、国会議員の中から国会の議決によって指名される。", a: "○", ex: "憲法第67条に基づき、国会議員の中から指名されます。" },
-      { q: "国会は、国の唯一の立法機関である。", a: "○", ex: "憲法第41条により国会は国の唯一の立法機関であると規定されています。" }
-    ],
-    keizai: [
-      { q: "インフレーションとは、物価が継続的に下落し、貨幣価値が上昇する現象である。", a: "×", ex: "デフレーションの定義です。インフレは物価上昇です。" },
-      { q: "GDPには、日本国籍を持つ人が海外で生産した価値も含まれる。", a: "×", ex: "国内で生産された総額であるため、海外分は含みません。" },
-      { q: "日本銀行の買いオペは、市場の資金量を増やす効果がある。", a: "○", ex: "民間銀行から国債を買い取り資金を供給します。" },
-      { q: "需要が供給を上回る場合は価格が上昇する傾向がある。", a: "○", ex: "需要と供給の基本原則です。" },
-      { q: "独占禁止法の運用を行う機関は、公正取引委員会である。", a: "○", ex: "内閣府の外局として設置されています。" }
-    ],
-    sekaishi: [
-      { q: "古代エジプトの神聖文字は、シャンポリオンによって解読された。", a: "○", ex: "ロゼッタ・ストーンをヒントに解読されました。" },
-      { q: "アケメネス朝ペルシアを滅ぼしたのは、マケドニアのアレクサンドロス大王である。", a: "○", ex: "前330年に滅ぼしました。" },
-      { q: "西ローマ帝国は、476年にオドアケルによって滅ぼされた。", a: "○", ex: "ゲルマン人傭兵隊長により滅亡しました。" },
-      { q: "唐の建国者は太宗（李世民）である。", a: "×", ex: "建国者は高祖（李淵）です。" },
-      { q: "十字軍運動のきっかけは、セルジューク朝の聖地エルサレム占領などである。", a: "○", ex: "教皇ウルバヌス2世が提唱しました。" }
-    ],
-    nihonshi: [
-      { q: "聖徳太子が制定した冠位十二階は、個人の才能や功績を重んじる制度であった。", a: "○", ex: "氏姓制度にとらわれない画期的な制度でした。" },
-      { q: "壬申の乱で勝利し、天武天皇として即位したのは大海人皇子である。", a: "○", ex: "天智天皇の弟です。" },
-      { q: "平清盛が太政大臣に就任したのは、鎌倉幕府成立後である。", a: "×", ex: "鎌倉幕府成立よりも前の1167年です。" },
-      { q: "建武の新政を開始したのは足利尊氏である。", a: "×", ex: "後醍醐天皇による親政です。" },
-      { q: "豊臣秀吉の太閤検地では、全国の土地の生産力を石高で表した。", a: "○", ex: "石高制の基礎となりました。" }
-    ],
-    chiri: [
-      { q: "赤道の緯度は0度、北極点の緯度は北緯90度である。", a: "○", ex: "緯度の基本定義です。" },
-      { q: "ケッペンの気候区分において、砂漠気候やステップ気候は乾燥帯（B）に含まれる。", a: "○", ex: "降水量の少ない地域です。" },
-      { q: "エルニーニョ現象とは太平洋赤道域の海面水温が平年より低くなる現象である。", a: "×", ex: "水温が高くなる現象です。" },
-      { q: "フィヨルドは、氷河によって削られた谷に海水が入り込んでできた湾である。", a: "○", ex: "ノルウェー等で見られます。" },
-      { q: "世界で最も人口が多い国は、近年インドが中国を追い抜き世界一となっている。", a: "○", ex: "国連推計等による近年の動向です。" }
-    ],
-    seibutsu: [
-      { q: "植物細胞と動物細胞の共通点として、どちらにも細胞壁が存在する。", a: "×", ex: "細胞壁は植物細胞にのみ存在します。" },
-      { q: "光合成を行う細胞小器官は葉緑体である。", a: "○", ex: "光エネルギーを化学エネルギーに変換します。" },
-      { q: "DNAの二重らせん構造において、アデニンは常にグアニンと結合する。", a: "×", ex: "アデニンはチミンと結合します。" },
-      { q: "インスリンは膵臓のランゲルハンス島B細胞から分泌され血糖値を下げる。", a: "○", ex: "血糖調節ホルモンです。" },
-      { q: "ヒトの体細胞における染色体の数は通常46本である。", a: "○", ex: "23対の染色体を持ちます。" }
-    ],
-    chigaku: [
-      { q: "地球の内部構造において、最も外側を地殻、最も内側を核と呼ぶ。", a: "○", ex: "同心円状の構造です。" },
-      { q: "日本列島の近くにある太平洋プレートはユーラシアプレートの下へ沈み込んでいる。", a: "○", ex: "海溝での沈み込み帯です。" },
-      { q: "震度とは地震そのものの規模（エネルギー）の大きさを表す数値である。", a: "×", ex: "規模はマグニチュードであり、震度は揺れの強さです。" },
-      { q: "気圧は標高が高くなるほど低くなるが、対流圏の気温も標高が高くなるほど下がる。", a: "○", ex: "高度に伴う気温低下が起きます。" },
-      { q: "温暖前線が通過するときは一般的に激しい夕立（強雨）となる。", a: "×", ex: "激しい雨は主に寒冷前線通過時です。" }
-    ],
-    kagaku: [
-      { q: "原子の中心には原子核があり、その周りをマイナスの電荷を持つ電子が回っている。", a: "○", ex: "原子の基本構造です。" },
-      { q: "水に溶かしたときに電流を通す物質を電解質、通さない物質を非電解質と呼ぶ。", a: "○", ex: "溶液の電気伝導性による分類です。" },
-      { q: "pH値において7が中性であり、7より小さいほどアルカリ性が強くなる。", a: "×", ex: "7より小さいほど酸性が強くなります。" },
-      { q: "ドライアイスは酸素が固体になったものである。", a: "×", ex: "二酸化炭素の固体です。" },
-      { q: "ダイヤモンドと黒鉛はどちらも炭素のみからなる同素体である。", a: "○", ex: "同じ元素で異なる結晶構造を持ちます。" }
-    ],
-    butsuri: [
-      { q: "オームの法則は、電流が電圧に比例し、抵抗に反比例するという関係を示す。", a: "○", ex: "回路計算の基本です。" },
-      { q: "作用・反作用の法則によれば、力は常に逆向きで同じ大きさのペアで発生する。", a: "○", ex: "ニュートンの第3法則です。" },
-      { q: "真空中で羽毛と鉄球を同時に落とした場合、重い鉄球の方が先に底に到達する。", a: "×", ex: "空気抵抗がない真空中では同時に落下します。" },
-      { q: "音波は空気中を伝わる横波の一種である。", a: "×", ex: "音波は縦波（疎密波）です。" },
-      { q: "凸レンズに光を通したときレンズの軸に平行な光が集まる点を焦点と呼ぶ。", a: "○", ex: "レンズの光学的な特徴です。" }
-    ],
-    shisou: [
-      { q: "ソクラテスは、人間にとって最も大切なことは単に生きることではなく「よく生きること」であると説いた。", a: "○", ex: "無知の知の自覚とともに魂の配慮を説きました。" },
-      { q: "「万物の流転」を説き、万物の根源を「火」とした思想家はヘラクレイトスである。", a: "○", ex: "動的な世界観を提唱しました。" },
-      { q: "プラトンは、不完全な現実世界を超えた永遠不変の真理の世界をイデア界と呼んだ。", a: "○", ex: "イデア論の核心です。" },
-      { q: "仏教の開祖ブッダは、過酷な苦行のみが最終的な悟りを開く唯一の道であると結論づけた。", a: "×", ex: "苦行を否定し、両極端を避ける「中道」を説きました。" },
-      { q: "キリスト教の隣人愛を説いたイエスは、親しい人々だけを愛せよと教えた。", a: "×", ex: "敵をも愛す無条件の愛（アガペー）を説きました。" }
-    ]
-  };
-
-  const CORRECT_PIN = "1234";
-  const AUTH_SESSION_KEY = "quiz_authenticated";
-
-  const authOverlay = document.getElementById('auth-overlay');
-  const pinInput = document.getElementById('pin-input');
-  const pinDots = document.getElementById('pin-dots').children;
-  const authErrorText = document.getElementById('auth-error-text');
-
-  pinInput.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/\D/g, '');
-    const length = e.target.value.length;
-    authErrorText.style.display = "none";
-
-    for (let i = 0; i < 4; i++) {
-      if (i < length) {
-        pinDots[i].classList.add('active');
-      } else {
-        pinDots[i].classList.remove('active');
-      }
-    }
-
-    if (length === 4) {
-      setTimeout(submitPin, 150);
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    if (sessionStorage.getItem(AUTH_SESSION_KEY) === "true") {
-      authOverlay.style.display = "none";
-      initAppSettings();
-    } else {
-      pinInput.focus();
-    }
-  });
-
-  function submitPin() {
-    const userPin = pinInput.value;
-    if (userPin === CORRECT_PIN) {
-      sessionStorage.setItem(AUTH_SESSION_KEY, "true");
-      authOverlay.style.display = "none";
-      initAppSettings();
-    } else {
-      authErrorText.style.display = "block";
-      pinInput.value = "";
-      for (let i = 0; i < 4; i++) {
-        pinDots[i].classList.remove('active');
-      }
-      pinInput.focus();
-    }
-  }
-
-  function initAppSettings() {
-    setupSelector("subject-selector", "subject", (val) => { selectedSubject = val; });
-    setupSelector("count-selector", "count", (val) => { selectedCount = val; });
-    setupSelector("order-selector", "order", (val) => { selectedOrder = val; });
-  }
-
-  let selectedSubject = "shisou";
-  let selectedCount = "20";
-  let selectedOrder = "random";
-
-  let masterQuestions = [];
-  let testPool = [];
-  let currentIdx = 0;
-  let correctCount = 0;
-  let sessionWrongQuestions = []; 
-  let isVsMode = false;
-
-  let vsTimer = null;
-  let vsTimeLeft = 60.0;
-  let vsStartTime = 0;
-  
-  const p1 = {
-    questions: [],
-    idx: 0,
-    answers: [],
-    correctCount: 0,
-    finished: false,
-    finishTime: null
-  };
-
-  const p2 = {
-    questions: [],
-    idx: 0,
-    answers: [],
-    correctCount: 0,
-    finished: false,
-    finishTime: null
-  };
-
-  const HISTORY_KEY = "quizScoreHistory";
-  const HISTORY_MAX = 10;
-
-  function loadHistory() {
-    try {
-      const raw = localStorage.getItem(HISTORY_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function saveHistoryRecord(record) {
-    try {
-      const history = loadHistory();
-      history.unshift(record);          
-      const trimmed = history.slice(0, HISTORY_MAX); 
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
-    } catch (e) {}
-  }
-
-  function clearHistory() {
-    if (!confirm("保存されている得点記録をすべて削除します。よろしいですか？")) return;
-    localStorage.removeItem(HISTORY_KEY);
-    renderHistory();
-    // モーダルが開いている場合は更新
-    if (document.getElementById("detail-modal").style.display === "flex") {
-      openHistoryModalFromPortal();
-    }
-  }
-
-  function renderHistory() {
-    const container = document.getElementById("history-container");
-    const history = loadHistory();
-
-    if (history.length === 0) {
-      container.innerHTML = `<div class="history-empty text-gray-500 py-3">まだ記録がありません。</div>`;
-      return;
-    }
-
-    const rows = history.map((r, idx) => `
-      <tr class="history-row" onclick="openDetailModal(${idx})">
-        <td>${escapeHtml(r.date)}</td>
-        <td>${escapeHtml(r.subjectLabel)}</td>
-        <td>${r.correct} / ${r.total}</td>
-        <td>${r.pct}%</td>
-      </tr>
-    `).join("");
-
-    container.innerHTML = `
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>日時</th>
-            <th>科目</th>
-            <th>正答数/問題数</th>
-            <th>正答率</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
-  }
-
-  // 追加: トップページから得点記録一覧を開く処理
-  function openHistoryModalFromPortal() {
-    const history = loadHistory();
-    document.getElementById("detail-modal-subject").textContent = "直近の得点記録一覧";
-    document.getElementById("detail-modal-date").textContent = "最大10件の履歴を表示（行をタップして詳細確認）";
-
-    const contentArea = document.getElementById("detail-modal-content");
-    contentArea.innerHTML = "";
-
-    if (history.length === 0) {
-      contentArea.innerHTML = `
-        <div style="text-align: center; padding: 40px 20px; color: var(--sub); font-size: 14px;">
-          まだ記録がありません。演習を行うとここに記録が表示されます。
+                <button id="nav-stats-btn" onclick="openStatsModal()" class="text-xs bg-amber-950/80 hover:bg-amber-900/80 text-amber-300 border border-amber-700/60 py-1.5 px-3 rounded-xl transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-chart-pie text-amber-400"></i>
+                    <span>分析</span>
+                </button>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <button id="nav-reset-btn" onclick="resetStats()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 py-1.5 px-3 rounded-xl transition flex items-center space-x-1">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden sm:inline">成績クリア</span>
+                </button>
+                <button id="nav-history-btn" onclick="openHistoryModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-1.5 px-3 rounded-xl transition flex items-center space-x-1">
+                    <i class="fa-solid fa-clock-rotate-left text-teal-400"></i>
+                    <span class="inline">履歴</span>
+                </button>
+            </div>
         </div>
-      `;
-    } else {
-      const historyListContainer = document.createElement("div");
-      
-      const rows = history.map((r, idx) => `
-        <tr class="history-row" onclick="openDetailModal(${idx})">
-          <td>${escapeHtml(r.date)}</td>
-          <td>${escapeHtml(r.subjectLabel)}</td>
-          <td>${r.correct} / ${r.total}</td>
-          <td>${r.pct}%</td>
-        </tr>
-      `).join("");
+    </header>
 
-      historyListContainer.innerHTML = `
-        <div class="flex justify-end mb-2">
-          <button class="history-clear-btn" onclick="clearHistory()">記録を削除</button>
+    <main class="max-w-3xl mx-auto w-full px-4 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- 1. LANDING VIEW -->
+        <section id="view-landing" class="w-full animate-fade-in my-auto">
+            <div class="bg-[#141a2e] rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-800 text-center max-w-lg mx-auto">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 mb-4 border border-indigo-500/20">
+                    <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white mb-2">SPI非言語問題 演習アプリ</h1>
+                <p class="text-xs md:text-sm text-slate-400 mb-8 leading-relaxed">
+                    単元とレベルを自由に組み合わせてじっくり演習・CBT模擬試験
+                </p>
+
+                <div class="space-y-4">
+                    <button onclick="goToSelectScreen()" class="w-full p-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold transition flex items-center justify-between group shadow-lg shadow-indigo-950/50">
+                        <div class="flex items-center space-x-3 text-left">
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm md:text-base font-bold">通常 問題演習モード</h3>
+                                <p class="text-[11px] text-indigo-200 font-normal">単元とレベルを選んで集中演習</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-indigo-200 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <button onclick="openCBTModal()" class="w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition flex items-center justify-between group shadow-lg shadow-emerald-950/50">
+                        <div class="flex items-center space-x-3 text-left">
+                            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm md:text-base font-bold">CBT 模擬試験モード</h3>
+                                <p class="text-[11px] text-emerald-200 font-normal">本番形式の問題可変型テスト</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-emerald-200 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. UNIT & LEVEL SELECT VIEW -->
+        <section id="view-select" class="hidden w-full animate-fade-in max-w-xl mx-auto">
+            <div class="bg-[#141a2e] rounded-3xl p-6 shadow-xl border border-slate-800">
+                <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
+                    <h2 class="text-lg font-extrabold text-white flex items-center">
+                        <i class="fa-solid fa-sliders text-indigo-400 mr-2"></i>単元・レベルの選択
+                    </h2>
+                    <span class="text-xs text-slate-400">ステップ 1/2</span>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">演習する単元</label>
+                    <div class="grid grid-cols-2 gap-2" id="unit-selection-grid">
+                        <button onclick="selectConfigUnit('all')" data-unit="all" class="cfg-unit-btn p-3 rounded-2xl border text-left transition flex items-center space-x-2.5 bg-indigo-600 border-indigo-400 text-white font-bold">
+                            <i class="fa-solid fa-layer-group text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">全単元 混合</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('set')" data-unit="set" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-diagram-project text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">① 集合</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('settlement')" data-unit="settlement" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-calculator text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">② 代金清算</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('discount')" data-unit="discount" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-tags text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">③ 料金割引</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('installment')" data-unit="installment" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-credit-card text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">④ 分割払い</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('speed')" data-unit="speed" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-gauge-high text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑤ 速さ①</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('timetable')" data-unit="timetable" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-train-subway text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑤ 速さ②(時刻表)</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('profit')" data-unit="profit" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-coins text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑥ 損益算</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('probability')" data-unit="probability" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-dice text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑦ 場合の数・確率</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('logical')" data-unit="logical" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-brain text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑧ 推論①</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('inference')" data-unit="inference" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-weight-scale text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑧ 推論②(数量推理)</div>
+                            </div>
+                        </button>
+                        <button onclick="selectConfigUnit('table')" data-unit="table" class="cfg-unit-btn p-3 rounded-2xl border border-slate-700 bg-[#1b233a] text-slate-300 text-left transition flex items-center space-x-2.5 hover:border-slate-600">
+                            <i class="fa-solid fa-table-cells text-indigo-400 text-base"></i>
+                            <div>
+                                <div class="text-xs font-bold">⑨ 表の読み取り</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2.5">難易度（レベル）</label>
+                    <div class="grid grid-cols-4 gap-2" id="level-selection-grid">
+                        <button onclick="selectConfigLevel('all')" data-level="all" class="cfg-lvl-btn p-2.5 rounded-xl border border-indigo-400 bg-indigo-600 text-white text-xs font-bold text-center">
+                            全レベル
+                        </button>
+                        <button onclick="selectConfigLevel('1')" data-level="1" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
+                            Lv.1 基本
+                        </button>
+                        <button onclick="selectConfigLevel('2')" data-level="2" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
+                            Lv.2 応用
+                        </button>
+                        <button onclick="selectConfigLevel('3')" data-level="3" class="cfg-lvl-btn p-2.5 rounded-xl border border-slate-700 bg-[#1b233a] text-slate-300 text-xs font-bold text-center hover:border-slate-600">
+                            Lv.3 高難度
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="startPracticeWithConfig()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-sm shadow-lg shadow-indigo-950/60 transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>この条件で演習を始める</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. CBT STATUS BAR -->
+        <section id="cbt-status-bar" class="hidden mb-5 bg-[#141a2e] text-white rounded-3xl p-5 shadow-2xl border border-slate-800 max-w-2xl mx-auto w-full animate-fade-in">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                
+                <div class="relative w-24 h-24 flex items-center justify-center shrink-0">
+                    <svg class="w-full h-full" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" stroke="#1e293b" stroke-width="8" fill="transparent" />
+                        <circle id="cbt-circle-outer" class="progress-ring-circle" cx="60" cy="60" r="50" 
+                                stroke="#10b981" stroke-width="8" fill="transparent" 
+                                stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="0" />
+                        
+                        <circle cx="60" cy="60" r="36" stroke="#1e293b" stroke-width="8" fill="transparent" />
+                        <circle id="cbt-circle-inner" class="progress-ring-circle" cx="60" cy="60" r="36" 
+                                stroke="#6366f1" stroke-width="8" fill="transparent" 
+                                stroke-linecap="round" stroke-dasharray="226.19" stroke-dashoffset="226.19" />
+                    </svg>
+                </div>
+
+                <div class="flex-grow text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start space-x-2">
+                        <span id="cbt-mode-badge" class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-bold inline-flex items-center">
+                            <i class="fa-solid fa-laptop-code mr-1.5"></i> ミニテスト
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">制限時間以内に解答してください</span>
+                    </div>
+                </div>
+
+                <div class="shrink-0 w-full sm:w-auto">
+                    <button onclick="exitCBTMode()" class="w-full sm:w-auto bg-slate-800/90 hover:bg-rose-950/50 hover:text-rose-300 text-slate-400 border border-slate-700/80 hover:border-rose-800/60 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-rectangle-xmark"></i>
+                        <span>テスト中断</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. PRACTICE VIEW -->
+        <section id="view-practice" class="hidden w-full animate-fade-in max-w-2xl mx-auto my-auto">
+            
+            <div id="practice-config-banner" class="mb-4 bg-[#141a2e] rounded-xl px-4 py-2.5 border border-slate-800 flex justify-between items-center text-xs">
+                <div class="flex items-center space-x-2">
+                    <span class="text-slate-400">現在の設定:</span>
+                    <span id="active-config-badge" class="px-2.5 py-0.5 rounded-md bg-indigo-950 text-indigo-300 font-bold border border-indigo-800/50">
+                        全単元 / 全レベル
+                    </span>
+                </div>
+                <button onclick="goToSelectScreen()" class="text-indigo-400 hover:text-indigo-300 font-bold flex items-center space-x-1">
+                    <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                    <span>変更</span>
+                </button>
+            </div>
+
+            <!-- Question Card -->
+            <div id="question-card" class="bg-[#141a2e] rounded-3xl p-5 md:p-7 shadow-xl border border-slate-800 relative overflow-hidden mb-5">
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-4">
+                    <div id="timer-bar" class="bg-indigo-500 h-full w-full transition-all duration-100 linear"></div>
+                </div>
+
+                <div id="q-meta-header" class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 text-xs">
+                    <div class="flex items-center space-x-2">
+                        <span id="unit-badge" class="px-2.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-200 border border-slate-700">
+                            単元
+                        </span>
+                        <span id="q-badge" class="px-2.5 py-0.5 rounded-full font-bold bg-indigo-950 text-indigo-300 border border-indigo-800/50">
+                            Lv.1
+                        </span>
+                    </div>
+                    <span id="q-pattern-title" class="text-slate-400 font-medium truncate max-w-[200px]">
+                        パターン名
+                    </span>
+                </div>
+
+                <div class="text-slate-100 text-sm md:text-base leading-relaxed font-medium mb-5" id="q-text">
+                    問題を取得しています...
+                </div>
+
+                <div class="bg-[#1c243c] border-l-4 border-indigo-500 p-3.5 rounded-r-xl mb-5">
+                    <p class="font-bold text-indigo-200 text-xs md:text-sm" id="q-prompt">
+                        ---
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5" id="choices-container">
+                </div>
+            </div>
+
+            <!-- Explanation Card -->
+            <div id="explanation-card" class="hidden bg-[#141a2e] rounded-3xl p-5 md:p-7 shadow-xl border border-slate-800 animate-fade-in mb-5">
+                <div id="result-banner" class="rounded-2xl p-4 mb-5 flex items-center space-x-3">
+                </div>
+
+                <h3 class="text-base font-bold text-slate-100 mb-3 flex items-center">
+                    <i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>解法・解説ステップ
+                </h3>
+
+                <div class="space-y-3 text-xs md:text-sm text-slate-300 leading-relaxed mb-6" id="explanation-content">
+                </div>
+
+                <div class="pt-3 border-t border-slate-800 flex justify-end">
+                    <button onclick="generateNewQuestion()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center space-x-2 shadow-md shadow-indigo-950/50">
+                        <span>次の問題に進む</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CBT RESULT CARD VIEW -->
+        <section id="cbt-result-card" class="hidden bg-[#141a2e] rounded-3xl p-6 md:p-8 shadow-xl border border-slate-800 max-w-2xl mx-auto w-full animate-fade-in">
+            <div class="text-center pb-5 border-b border-slate-800 mb-6">
+                <span class="px-3 py-1 bg-emerald-950/80 text-emerald-400 border border-emerald-800/50 rounded-full text-xs font-bold">
+                    CBT TEST RESULT
+                </span>
+                <h2 class="text-2xl font-extrabold text-white mt-2">CBT模擬試験 結果</h2>
+            </div>
+
+            <div id="cbt-sync-date-display" class="hidden text-center mb-4 text-xs font-bold text-indigo-300 bg-indigo-950/60 py-2.5 px-4 rounded-2xl border border-indigo-800/50">
+                <i class="fa-solid fa-calendar-day text-indigo-400 mr-1.5"></i>一斉テスト実施日: <span id="cbt-res-date-val"></span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">正解数</span>
+                    <p class="text-xl font-black text-indigo-400" id="cbt-res-score">0 / 10</p>
+                </div>
+                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">正解率</span>
+                    <p class="text-xl font-black text-emerald-400" id="cbt-res-accuracy">0 %</p>
+                </div>
+                <div class="bg-[#1b233a] p-3.5 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">全体の解答時間</span>
+                    <p class="text-xl font-black text-purple-400" id="cbt-res-total-time">0分00秒</p>
+                </div>
+            </div>
+
+            <div id="cbt-res-certified-block" class="hidden text-center mb-4 bg-purple-950/40 border border-purple-800/50 rounded-2xl py-3.5 px-4">
+                <span class="text-[10px] font-bold text-purple-300 block mb-1">認定レベル（フル模試のみ算出）</span>
+                <p class="text-2xl font-black text-purple-300" id="cbt-res-certified-lvl">Lv.1</p>
+                <p class="text-[11px] text-purple-200/80 mt-1" id="cbt-res-certified-label"></p>
+            </div>
+
+            <div class="mb-4">
+                <button id="copy-cbt-result-btn" onclick="copyCBTResult()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold transition text-xs shadow-lg shadow-emerald-950/50 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-copy"></i>
+                    <span>結果をコピー (申告用)</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="openReviewModal()" class="w-full py-3.5 rounded-2xl bg-indigo-950 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 font-bold transition text-xs shadow-lg flex items-center justify-center space-x-1.5">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>回答振り返り</span>
+                </button>
+                <button onclick="goToLanding()" class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition text-xs shadow-lg">
+                    トップ画面に戻る
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODALS -->
+    <!-- STATS MODAL (単元別・レベル別正答率/解答時間分析) -->
+    <div id="stats-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 md:p-4 animate-fade-in">
+        <div class="bg-[#0f1423] rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl border border-slate-800 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800/80 mb-4">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-chart-pie text-amber-400 mr-2.5"></i>単元別・レベル別 成績分析
+                </h3>
+                <button onclick="closeStatsModal()" class="text-slate-400 hover:text-slate-200 p-1.5 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- 全体サマリー -->
+            <div class="grid grid-cols-3 gap-3 mb-4 shrink-0">
+                <div class="bg-[#1b233a] p-3 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">総回答数</span>
+                    <p id="stats-total-count" class="text-lg font-black text-indigo-400">0問</p>
+                </div>
+                <div class="bg-[#1b233a] p-3 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">全体正答率</span>
+                    <p id="stats-overall-accuracy" class="text-lg font-black text-emerald-400">0%</p>
+                </div>
+                <div class="bg-[#1b233a] p-3 rounded-2xl border border-slate-800 text-center">
+                    <span class="text-[10px] font-bold text-slate-400 block mb-0.5">平均解答時間</span>
+                    <p id="stats-overall-avg-time" class="text-lg font-black text-amber-400">0.0秒</p>
+                </div>
+            </div>
+
+            <!-- 分析テーブル表示エリア -->
+            <div class="overflow-y-auto flex-grow pr-1 space-y-4" id="stats-content-list">
+                <!-- 動的にテーブルが読み込まれます -->
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex justify-between items-center shrink-0">
+                <span class="text-[11px] text-slate-400">演習データからリアルタイム自動算出</span>
+                <button onclick="closeStatsModal()" class="bg-[#5046e5] hover:bg-[#4338ca] text-white text-xs font-bold py-2.5 px-6 rounded-xl transition shadow-lg shadow-indigo-950/60">
+                    閉じる
+                </button>
+            </div>
         </div>
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>日時</th>
-              <th>科目</th>
-              <th>正答数/問題数</th>
-              <th>正答率</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      `;
-      contentArea.appendChild(historyListContainer);
-    }
+    </div>
 
-    document.getElementById("detail-modal").style.display = "flex";
-  }
-
-  function openDetailModal(idx) {
-    const history = loadHistory();
-    const record = history[idx];
-    if (!record) return;
-
-    document.getElementById("detail-modal-subject").textContent = record.subjectLabel + " の詳細結果";
-    document.getElementById("detail-modal-date").textContent = "実施日時: " + record.date + " | 正解率: " + record.pct + "% (" + record.correct + " / " + record.total + "問)";
-
-    const contentArea = document.getElementById("detail-modal-content");
-    contentArea.innerHTML = "";
-
-    const wrongList = record.wrongQuestions || [];
-
-    if (wrongList.length === 0) {
-      if (record.correct === record.total) {
-        contentArea.innerHTML = `
-          <div style="text-align: center; padding: 40px 20px; color: var(--correct); font-weight: bold; font-size: 16px;">
-            🎉 すばらしい！この回は全問正解です！
-          </div>
-        `;
-      } else {
-        contentArea.innerHTML = `
-          <div style="text-align: center; padding: 40px 20px; color: var(--sub); font-size: 14px;">
-            この学習記録には間違えた問題のデータが含まれていません。
-          </div>
-        `;
-      }
-    } else {
-      wrongList.forEach((item, i) => {
-        const card = document.createElement("div");
-        card.className = "detail-question-card bg-slate-800 p-4 rounded-lg mb-3 border border-slate-700";
-        card.innerHTML = `
-          <div class="detail-question-title flex items-start gap-2 mb-2">
-            <span style="color: var(--wrong); font-weight: bold;">✕ Q${i + 1}</span>
-            <span class="text-white">${escapeHtml(item.q)}</span>
-          </div>
-          <div class="detail-answer-box text-sm text-green-400 font-bold mb-1 pl-5">
-            正解: ${escapeHtml(item.a)}
-          </div>
-          <div class="detail-explanation-box text-xs text-gray-400 pl-5 border-t border-slate-700 pt-2 mt-2 leading-relaxed">
-            解説: ${escapeHtml(item.ex || "解説はありません。")}
-          </div>
-        `;
-        contentArea.appendChild(card);
-      });
-    }
-
-    document.getElementById("detail-modal").style.display = "flex";
-  }
-
-  function closeDetailModal() {
-    document.getElementById("detail-modal").style.display = "none";
-  }
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, m => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    }[m]));
-  }
-
-  function setupSelector(containerId, dataKey, callback) {
-    const container = document.getElementById(containerId);
-    if (!container) return; 
-    container.addEventListener("click", (e) => {
-      const btn = e.target.closest(".option-btn");
-      if (!btn) return;
-      container.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-      callback(btn.dataset[dataKey]);
-    });
-    const initialSelected = container.querySelector(".option-btn.selected");
-    if (initialSelected && initialSelected.dataset[dataKey]) {
-      callback(initialSelected.dataset[dataKey]);
-    }
-  }
-
-  async function loadAndStartQuiz(vsModeActive = false) {
-    if (!selectedSubject) {
-      showMessageBox("演習を行う科目を選択してください。");
-      return;
-    }
-
-    isVsMode = vsModeActive;
-
-    try {
-      const response = await fetch(`${selectedSubject}.json`);
-      if (response.ok) {
-        masterQuestions = await response.json();
-      } else {
-        masterQuestions = EMBEDDED_QUESTIONS[selectedSubject] || [];
-      }
-    } catch (error) {
-      masterQuestions = EMBEDDED_QUESTIONS[selectedSubject] || [];
-    }
-
-    if (!masterQuestions || masterQuestions.length === 0) {
-      showMessageBox("指定した科目の問題データが見つかりませんでした。");
-      return;
-    }
-
-    if (isVsMode) {
-      startVsCountdown();
-    } else {
-      initQuizPool();
-    }
-  }
-
-  function showMessageBox(msg) {
-    const modal = document.getElementById("detail-modal");
-    document.getElementById("detail-modal-subject").textContent = "お知らせ";
-    document.getElementById("detail-modal-date").textContent = "";
-    const content = document.getElementById("detail-modal-content");
-    content.innerHTML = `<div class="text-center py-6 text-yellow-400 font-bold text-lg">${escapeHtml(msg)}</div>`;
-    modal.style.display = "flex";
-  }
-
-  function initQuizPool() {
-    let pool = [...masterQuestions];
-
-    if (selectedOrder === "random") {
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-    }
-
-    if (selectedCount !== "all") {
-      const limit = parseInt(selectedCount, 10);
-      if (!isNaN(limit)) {
-        pool = pool.slice(0, limit);
-      }
-    }
-
-    testPool = pool;
-    currentIdx = 0;
-    correctCount = 0;
-    sessionWrongQuestions = []; 
-
-    document.getElementById("portal-screen").classList.remove("active");
-    document.getElementById("quiz-screen").classList.add("active");
-    document.getElementById("history-panel").style.display = "block";
-    document.getElementById("vs-result-details").style.display = "none";
-    document.getElementById("result-mode-title").textContent = "演習終了";
-    
-    const subjectText = document.querySelector(`#subject-selector [data-subject="${selectedSubject}"]`).textContent;
-    document.getElementById("quiz-title-display").textContent = `科目: ${subjectText}`;
-
-    showQuestion();
-  }
-
-  function showQuestion() {
-    document.getElementById("feedback-box").style.display = "none";
-    toggleOXButtons(true);
-
-    const qNum = currentIdx + 1;
-    document.getElementById("progress-text").textContent = `${qNum} / ${testPool.length} 問`;
-    
-    const pct = (currentIdx / testPool.length) * 100;
-    document.getElementById("progress-fill").style.width = `${pct}%`;
-    document.getElementById("question-text").textContent = testPool[currentIdx].q;
-  }
-
-  function toggleOXButtons(enabled) {
-    document.querySelectorAll("#quiz-screen .ox-btn").forEach(btn => btn.disabled = !enabled);
-  }
-
-  function handleAnswer(userAns) {
-    toggleOXButtons(false); 
-    
-    const currentQ = testPool[currentIdx];
-    const isCorrect = (userAns === currentQ.a);
-
-    if (isCorrect) {
-      correctCount++;
-    } else {
-      sessionWrongQuestions.push({
-        q: currentQ.q,
-        a: currentQ.a,
-        ex: currentQ.ex || "解説はありません。"
-      });
-    }
-
-    const fbBox = document.getElementById("feedback-box");
-    const fbTitle = document.getElementById("feedback-title");
-    const fbExpl = document.getElementById("explanation-text");
-
-    fbBox.className = "feedback-box " + (isCorrect ? "correct" : "wrong");
-    fbTitle.textContent = isCorrect ? "正解！すばらしい！" : "残念 不正解…";
-    fbExpl.textContent = currentQ.ex || "解説はありません。";
-    
-    fbBox.style.display = "block";
-  }
-
-  function nextQuestion() {
-    currentIdx++;
-    if (currentIdx < testPool.length) {
-      showQuestion();
-    } else {
-      showResult();
-    }
-  }
-
-  // 追加: 演習中断してトップ画面に戻る処理
-  function confirmReturnHome(isVs = false) {
-    if (confirm("演習を中断してトップページに戻りますか？（現在の進捗は保存されません）")) {
-      if (isVs) {
-        if (vsTimer) clearInterval(vsTimer);
-        document.getElementById("vs-game-container").style.display = "none";
-        document.getElementById("main-header").style.display = "block";
-      } else {
-        document.getElementById("quiz-screen").classList.remove("active");
-      }
-      document.getElementById("portal-screen").classList.add("active");
-    }
-  }
-
-  function startVsCountdown() {
-    const portal = document.getElementById("portal-screen");
-    const countdownOverlay = document.getElementById("countdown-overlay");
-    const countdownText = document.getElementById("countdown-text");
-    
-    portal.classList.remove("active");
-    countdownOverlay.style.display = "flex";
-    
-    let count = 5;
-    countdownText.textContent = count;
-    
-    const interval = setInterval(() => {
-      count--;
-      if (count > 0) {
-        countdownText.textContent = count;
-      } else if (count === 0) {
-        countdownText.textContent = "START!";
-      } else {
-        clearInterval(interval);
-        countdownOverlay.style.display = "none";
-        initVsGame();
-      }
-    }, 1000);
-  }
-
-  function initVsGame() {
-    let poolP1 = [...masterQuestions];
-
-    for (let i = poolP1.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [poolP1[i], poolP1[j]] = [poolP1[j], poolP1[i]];
-    }
-
-    poolP1 = poolP1.slice(0, 10);
-    let poolP2 = [...poolP1];
-
-    const subjectText = document.querySelector(`#subject-selector [data-subject="${selectedSubject}"]`).textContent;
-
-    p1.questions = poolP1;
-    p1.idx = 0;
-    p1.answers = [];
-    p1.correctCount = 0;
-    p1.finished = false;
-    p1.finishTime = null;
-    document.getElementById("p1-subject-title").textContent = `科目: ${subjectText}`;
-    document.getElementById("p1-waiting").style.display = "none";
-
-    p2.questions = poolP2;
-    p2.idx = 0;
-    p2.answers = [];
-    p2.correctCount = 0;
-    p2.finished = false;
-    p2.finishTime = null;
-    document.getElementById("p2-subject-title").textContent = `科目: ${subjectText}`;
-    document.getElementById("p2-waiting").style.display = "none";
-
-    updateVsQuestion(1);
-    updateVsQuestion(2);
-
-    document.getElementById("main-header").style.display = "none";
-    document.getElementById("vs-game-container").style.display = "flex";
-
-    vsTimeLeft = 60.0;
-    vsStartTime = Date.now();
-    document.getElementById("vs-timer-text").textContent = vsTimeLeft.toFixed(1);
-    document.getElementById("vs-timer-bar").style.width = "100%";
-
-    if (vsTimer) clearInterval(vsTimer);
-    
-    vsTimer = setInterval(() => {
-      const elapsed = (Date.now() - vsStartTime) / 1000;
-      vsTimeLeft = 60.0 - elapsed;
-      
-      if (vsTimeLeft <= 0) {
-        vsTimeLeft = 0;
-        document.getElementById("vs-timer-text").textContent = "0.0";
-        document.getElementById("vs-timer-bar").style.width = "0%";
-        clearInterval(vsTimer);
-        endVsGame(true);
-      } else {
-        document.getElementById("vs-timer-text").textContent = vsTimeLeft.toFixed(1);
-        document.getElementById("vs-timer-bar").style.width = `${(vsTimeLeft / 60.0) * 100}%`;
-      }
-    }, 100);
-  }
-
-  function updateVsQuestion(playerNum) {
-    const p = (playerNum === 1) ? p1 : p2;
-    const progressEl = document.getElementById(`p${playerNum}-progress`);
-    const qCardEl = document.getElementById(`p${playerNum}-question-card`);
-
-    if (p.idx < p.questions.length) {
-      progressEl.textContent = `${p.idx + 1} / ${p.questions.length} 問`;
-      qCardEl.textContent = p.questions[p.idx].q;
-    } else {
-      p.finished = true;
-      if (!p.finishTime) {
-        p.finishTime = Date.now();
-      }
-      document.getElementById(`p${playerNum}-waiting`).style.display = "flex";
-      
-      if (p1.finished && p2.finished) {
-        clearInterval(vsTimer);
-        endVsGame(false);
-      }
-    }
-  }
-
-  function handleVsAnswer(playerNum, userAns) {
-    const p = (playerNum === 1) ? p1 : p2;
-    if (p.finished || p.idx >= p.questions.length) return;
-
-    const currentQ = p.questions[p.idx];
-    const isCorrect = (userAns === currentQ.a);
-    const timeStamp = Date.now();
-
-    if (isCorrect) {
-      p.correctCount++;
-    }
-
-    p.answers.push({
-      qIdx: p.idx,
-      userAns: userAns,
-      isCorrect: isCorrect,
-      timestamp: timeStamp
-    });
-
-    const areaEl = document.getElementById(`p${playerNum}-area`);
-    const flashClass = isCorrect ? "flash-correct" : "flash-wrong";
-    areaEl.classList.add(flashClass);
-    setTimeout(() => {
-      areaEl.classList.remove(flashClass);
-    }, 150);
-
-    p.idx++;
-    updateVsQuestion(playerNum);
-  }
-
-  function endVsGame(isTimeout = false) {
-    document.getElementById("vs-game-container").style.display = "none";
-    document.getElementById("main-header").style.display = "block";
-    
-    document.getElementById("quiz-screen").classList.remove("active");
-    document.getElementById("result-screen").classList.add("active");
-    document.getElementById("history-panel").style.display = "none";
-    document.getElementById("vs-result-details").style.display = "block";
-
-    document.getElementById("result-mode-title").textContent = "⚔️ 対戦結果 ⚔️";
-
-    const p1Score = p1.correctCount;
-    const p2Score = p2.correctCount;
-    const totalQCount = p1.questions.length;
-
-    const p1Duration = p1.finishTime ? (p1.finishTime - vsStartTime) / 1000 : 60.0;
-    const p2Duration = p2.finishTime ? (p2.finishTime - vsStartTime) / 1000 : 60.0;
-
-    let winner = 0;
-    let winReason = "";
-
-    if (p1Score > p2Score) {
-      winner = 1;
-      winReason = "正解数でプレイヤー1の勝利！";
-    } else if (p2Score > p1Score) {
-      winner = 2;
-      winReason = "正解数でプレイヤー2の勝利！";
-    } else {
-      if (!isTimeout) {
-        if (p1Duration < p2Duration) {
-          winner = 1;
-          winReason = `同点ですが、解答完了が ${ (p2Duration - p1Duration).toFixed(1) } 秒早かったプレイヤー1の勝利！`;
-        } else if (p2Duration < p1Duration) {
-          winner = 2;
-          winReason = `同点ですが、解答完了が ${ (p1Duration - p2Duration).toFixed(1) } 秒早かったプレイヤー2の勝利！`;
-        } else {
-          winner = 0;
-          winReason = "同点かつ完全に同時に終わったため、引き分け！";
-        }
-      } else {
-        const p1LastAns = p1.answers[p1.answers.length - 1];
-        const p2LastAns = p2.answers[p2.answers.length - 1];
-
-        if (p1.idx > p2.idx) {
-          winner = 1;
-          winReason = "同点ですが、より多くの問題を解き進めていたプレイヤー1の勝利！";
-        } else if (p2.idx > p1.idx) {
-          winner = 2;
-          winReason = "同点ですが、より多くの問題を解き進めていたプレイヤー2の勝利！";
-        } else if (p1LastAns && p2LastAns) {
-          if (p1LastAns.timestamp < p2LastAns.timestamp) {
-            winner = 1;
-            winReason = "同点ですが、最新解答のペースが早かったプレイヤー1の勝利！";
-          } else if (p2LastAns.timestamp < p1LastAns.timestamp) {
-            winner = 2;
-            winReason = "同点ですが、最新解答のペースが早かったプレイヤー2の勝利！";
-          } else {
-            winner = 0;
-            winReason = "同点かつタイムアップのため、引き分け！";
-          }
-        } else {
-          winner = 0;
-          winReason = "両者未解答のまま時間切れとなりました（引き分け）。";
-        }
-      }
-    }
-
-    const scoreTitleEl = document.getElementById("result-pct");
-    const evalEl = document.getElementById("result-title");
-    const subEl = document.getElementById("result-sub");
-
-    if (winner === 1) {
-      scoreTitleEl.innerHTML = `<span class="text-green-400">P1 WIN!</span>`;
-      evalEl.textContent = `👑 プレイヤー1の勝利`;
-    } else if (winner === 2) {
-      scoreTitleEl.innerHTML = `<span class="text-blue-400">P2 WIN!</span>`;
-      evalEl.textContent = `👑 プレイヤー2の勝利`;
-    } else {
-      scoreTitleEl.innerHTML = `<span class="text-gray-400">DRAW</span>`;
-      evalEl.textContent = `🤝 引き分け`;
-    }
-
-    subEl.innerHTML = `
-      <div class="flex justify-around text-sm border-t border-b border-slate-700 py-3 my-2 max-w-md mx-auto">
-        <div>
-          <p class="font-bold text-green-400">プレイヤー1</p>
-          <p class="text-lg font-bold">${p1Score} / ${totalQCount}問 正解</p>
-          <p class="text-xs text-gray-400">タイム: ${p1Duration.toFixed(1)} 秒</p>
+    <!-- REVIEW MODAL -->
+    <div id="review-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 md:p-4 animate-fade-in">
+        <div class="bg-[#0f1423] rounded-3xl max-w-xl w-full p-4 md:p-6 shadow-2xl border border-slate-800 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800/80 mb-4">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-list-check text-indigo-400 mr-2.5"></i>回答振り返り (今回のセッション)
+                </h3>
+                <button onclick="closeReviewModal()" class="text-slate-400 hover:text-slate-200 p-1.5 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto space-y-4 flex-grow pr-1.5" id="session-review-list"></div>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex justify-between items-center shrink-0">
+                <span class="text-xs font-semibold text-slate-400" id="review-count-info">全 0 問の履歴</span>
+                <button onclick="closeReviewModal()" class="bg-[#5046e5] hover:bg-[#4338ca] text-white text-xs font-bold py-2.5 px-6 rounded-xl transition shadow-lg shadow-indigo-950/60">
+                    閉じる
+                </button>
+            </div>
         </div>
-        <div class="border-r border-slate-700"></div>
-        <div>
-          <p class="font-bold text-blue-400">プレイヤー2</p>
-          <p class="text-lg font-bold">${p2Score} / ${totalQCount}問 正解</p>
-          <p class="text-xs text-gray-400">タイム: ${p2Duration.toFixed(1)} 秒</p>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-[#141a2e] rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-700 max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-clock-rotate-left text-teal-400 mr-2"></i>直近10回の履歴
+                </h3>
+                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto space-y-2 flex-grow pr-1" id="global-history-list"></div>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                <button onclick="clearGlobalHistory()" class="text-xs text-rose-400 hover:text-rose-300">
+                    <i class="fa-solid fa-trash mr-1"></i>全消去
+                </button>
+                <button onclick="closeHistoryModal()" class="bg-slate-800 text-white text-xs font-bold py-2 px-4 rounded-xl border border-slate-700">
+                    閉じる
+                </button>
+            </div>
         </div>
-      </div>
-      <p class="text-yellow-400 font-bold mt-2 text-sm">${winReason}</p>
-    `;
+    </div>
 
-    const summaryRowsContainer = document.getElementById("vs-summary-rows");
-    summaryRowsContainer.innerHTML = "";
+    <!-- CBT Modal -->
+    <div id="cbt-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-[#141a2e] rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-700">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-laptop-code text-emerald-400 mr-2"></i>CBT模擬試験の選択
+                </h3>
+                <button onclick="closeCBTModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <div class="space-y-3 mt-4">
+                <button onclick="startCBTMode('mini')" class="w-full text-left p-3.5 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-900/40 transition">
+                    <h4 class="font-bold text-white text-xs">ミニテスト (9問 / 12分)</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">全9単元から重複なしで1問ずつ出題</p>
+                </button>
 
-    p1.questions.forEach((qItem, idx) => {
-      const p1AnsObj = p1.answers.find(a => a.qIdx === idx);
-      const p2AnsObj = p2.answers.find(a => a.qIdx === idx);
+                <button onclick="toggleSyncDateSection()" class="w-full text-left p-3.5 rounded-2xl border border-indigo-500/50 bg-indigo-950/40 hover:bg-indigo-900/40 transition flex items-center justify-between">
+                    <div>
+                        <h4 class="font-bold text-indigo-200 text-xs flex items-center">
+                            <i class="fa-solid fa-users text-indigo-400 mr-1.5"></i>一斉テストモード (9問 / 12分)
+                        </h4>
+                        <p class="text-[10px] text-indigo-300/80 mt-0.5">指定日付で全9単元から共通問題を出題</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-indigo-400 text-xs"></i>
+                </button>
 
-      const p1Text = p1AnsObj 
-        ? `${p1AnsObj.userAns} (${p1AnsObj.isCorrect ? '○' : '×'})` 
-        : "未解答";
-      const p1BadgeClass = p1AnsObj 
-        ? (p1AnsObj.isCorrect ? 'badge-correct' : 'badge-wrong') 
-        : 'bg-gray-600';
+                <div id="sync-date-container" class="hidden bg-[#0f1423] p-3 rounded-2xl border border-indigo-800/60 space-y-2.5 animate-fade-in">
+                    <label class="block text-[11px] font-bold text-slate-300">実施日付を選択:</label>
+                    <input type="date" id="sync-date-picker" class="w-full bg-[#1b233a] border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    <button onclick="startSyncCBTMode()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow transition">
+                        この日付で一斉テスト開始
+                    </button>
+                </div>
 
-      const p2Text = p2AnsObj 
-        ? `${p2AnsObj.userAns} (${p2AnsObj.isCorrect ? '○' : '×'})` 
-        : "未解答";
-      const p2BadgeClass = p2AnsObj 
-        ? (p2AnsObj.isCorrect ? 'badge-correct' : 'badge-wrong') 
-        : 'bg-gray-600';
+                <button onclick="startCBTMode('full')" class="w-full text-left p-3.5 rounded-2xl border border-slate-700 bg-[#1b233a] hover:bg-[#232c48] transition">
+                    <h4 class="font-bold text-white text-xs">フル模擬試験 (20問 / 20分)</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">本番さながらの総合テスト（ランダム）</p>
+                </button>
+            </div>
+        </div>
+    </div>
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="text-gray-400 font-bold">Q${idx + 1}</td>
-        <td class="text-left text-white font-semibold text-xs py-2">${escapeHtml(qItem.q)}<br><span class="text-[10px] text-gray-400 font-normal">正解: ${qItem.a}</span></td>
-        <td><span class="badge ${p1BadgeClass}">${p1Text}</span></td>
-        <td><span class="badge ${p2BadgeClass}">${p2Text}</span></td>
-      `;
-      summaryRowsContainer.appendChild(row);
-    });
-  }
+    <!-- Fallback Text Modal for Clipboard Restricted Environments -->
+    <div id="fallback-copy-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-[#141a2e] rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-700 space-y-4">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+                <h3 class="text-base font-extrabold text-white flex items-center">
+                    <i class="fa-solid fa-copy text-emerald-400 mr-2"></i>結果テキストのコピー
+                </h3>
+                <button onclick="closeFallbackModal()" class="text-slate-400 hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-300">お使いの環境ではクリップボードAPIへの直接アクセスが制限されています。以下のテキストエリアを選択してコピーしてください。</p>
+            <textarea id="fallback-copy-textarea" readonly class="w-full h-32 bg-[#0f1423] border border-slate-700 rounded-xl p-3 text-xs text-slate-100 focus:outline-none select-all"></textarea>
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeFallbackModal()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2 px-4 rounded-xl">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
 
-  function showResult() {
-    document.getElementById("quiz-screen").classList.remove("active");
-    document.getElementById("result-screen").classList.add("active");
+    <footer class="bg-[#0b0f19] border-t border-slate-800/80 py-3 text-center text-[11px] text-slate-500">
+        <p>麻生公務員専門学校北九州校　2026</p>
+    </footer>
 
-    document.getElementById("progress-fill").style.width = "100%";
-
-    const pct = Math.round((correctCount / testPool.length) * 100);
-    document.getElementById("result-pct").textContent = pct + "%";
-
-    let title = "";
-    let sub = `正解数: ${correctCount} / ${testPool.length} 問`;
-
-    if (pct >= 90) { title = "優秀（合格圏内）"; }
-    else if (pct >= 70) { title = "良好（標準レベル）"; }
-    else if (pct >= 50) { title = "要復習（知識定着不足）"; }
-    else { title = "基礎確認（テキストの再読が必要です）"; }
-
-    document.getElementById("result-title").textContent = title;
-    document.getElementById("result-sub").textContent = sub;
-
-    const subjectLabel = document.querySelector(`#subject-selector [data-subject="${selectedSubject}"]`)?.textContent || selectedSubject;
-    saveHistoryRecord({
-      date: new Date().toLocaleString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }),
-      subjectLabel: subjectLabel,
-      correct: correctCount,
-      total: testPool.length,
-      pct: pct,
-      wrongQuestions: [...sessionWrongQuestions] 
-    });
-    renderHistory();
-  }
-
-  function backToPortal() {
-    document.getElementById("result-screen").classList.remove("active");
-    document.getElementById("portal-screen").classList.add("active");
-  }
-
-  function retryQuiz() {
-    document.getElementById("result-screen").classList.remove("active");
-    if (isVsMode) {
-      startVsCountdown();
-    } else {
-      initQuizPool();
-    }
-  }
-</script>
+    <!-- SCRIPT LOGIC (単元別の作問アルゴリズム + ui.js。全てindex.htmlと同一ディレクトリに配置する前提) -->
+    <!-- common.js は他の単元別ファイルが依存するため、必ず最初に読み込むこと -->
+    <script src="common.js"></script>
+    <script src="set.js"></script>
+    <script src="settlement.js"></script>
+    <script src="discount.js"></script>
+    <script src="installment.js"></script>
+    <script src="speed.js"></script>
+    <script src="timetable.js"></script>
+    <script src="profit.js"></script>
+    <script src="probability.js"></script>
+    <script src="logical.js"></script>
+    <script src="inference.js"></script>
+    <script src="table.js"></script>
+    <script src="ui.js"></script>
 </body>
 </html>
+    <!-- このアプリは麻生公務員専門学校北九州校　教務　世永大一朗によって作成されました。無断使用を禁止します。 -->
