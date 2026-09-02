@@ -474,15 +474,15 @@
         // 認定レベル（Lv.1〜7）の算出。フル模試モード限定。
         // 「現在Lv（cbtCurrentLevel）」は出題エンジンの内部状態（最後に到達した難易度）であり、
         // ここで計算する「認定Lv」は試験終了後にのみ算出する別の評価軸。
-        // 到達しただけでなく、各難易度を安定して解けているか（最低挑戦数＋正答率）を条件にする。
+        // 到達しただけでなく、各難易度をどれだけの問題数・正答率でこなしたかを条件にする。
         const CERTIFIED_LEVEL_LABELS = {
             1: '基本問題をある程度解ける',
-            2: '基本問題を安定して解ける',
-            3: '複数段階の問題にも対応できる',
-            4: '複数段階の問題を安定して処理できる',
-            5: '応用・複合問題にも対応できる',
-            6: '応用・複合問題を安定して処理できる',
-            7: '応用・複合問題を高精度・高速で処理できる'
+            2: 'Lv.2の問題にも対応できる',
+            3: 'Lv.2の問題にある程度対応できる',
+            4: 'Lv.2の問題を安定して処理できる',
+            5: 'Lv.3の問題にも対応できる',
+            6: 'Lv.3の問題を安定して処理できる',
+            7: 'Lv.3の問題を高精度・高速で処理できる'
         };
 
         function calcCertifiedLevel() {
@@ -503,23 +503,22 @@
             const acc = lvl => byLevel[lvl].attempts > 0 ? byLevel[lvl].correct / byLevel[lvl].attempts : 0;
             const avgTime = lvl => byLevel[lvl].attempts > 0 ? byLevel[lvl].totalTime / byLevel[lvl].attempts : Infinity;
 
-            const MIN_STABLE_ATTEMPTS = 3; // この回数以上挑戦していないと「安定」の判定材料にしない
             const STABLE_ACC = 0.7;
             const HIGH_ACC = 0.9;
 
             let level;
-            if (byLevel[3].attempts >= MIN_STABLE_ATTEMPTS && acc(3) >= HIGH_ACC && avgTime(3) <= timeByLevel[3] * 0.7) {
-                level = 7; // Lv.3を高精度・高速で処理できる
-            } else if (byLevel[3].attempts >= MIN_STABLE_ATTEMPTS && acc(3) >= STABLE_ACC) {
-                level = 6; // Lv.3を安定して処理できる
-            } else if (byLevel[3].attempts >= 1) {
-                level = 5; // Lv.3にも対応できる
-            } else if (byLevel[2].attempts >= MIN_STABLE_ATTEMPTS && acc(2) >= STABLE_ACC) {
-                level = 4; // Lv.2を安定して処理できる
-            } else if (byLevel[2].attempts >= 1) {
-                level = 3; // Lv.2にも対応できる
-            } else if (byLevel[1].attempts >= MIN_STABLE_ATTEMPTS && acc(1) >= STABLE_ACC) {
-                level = 2; // Lv.1を安定して解ける
+            if (byLevel[3].attempts >= 10 && acc(3) >= HIGH_ACC && avgTime(3) <= timeByLevel[3] * 0.7) {
+                level = 7; // Lv.3を10問以上・正答率90%以上・平均解答時間が制限の70%以内
+            } else if (byLevel[3].attempts >= 10 && acc(3) >= STABLE_ACC) {
+                level = 6; // Lv.3を10問以上・正答率70%以上
+            } else if (byLevel[3].attempts >= 8) {
+                level = 5; // Lv.3に8問以上到達
+            } else if (byLevel[2].attempts >= 8 && acc(2) >= STABLE_ACC) {
+                level = 4; // Lv.2を8問以上・正答率70%以上
+            } else if (byLevel[2].attempts >= 5 && acc(2) >= STABLE_ACC) {
+                level = 3; // Lv.2を5問以上・正答率70%以上
+            } else if (byLevel[2].attempts >= 3) {
+                level = 2; // Lv.2に3問以上到達
             } else {
                 level = 1; // 基本問題をある程度解ける
             }
@@ -536,13 +535,16 @@
 
             const scoreElem = document.getElementById('cbt-res-score');
             const accuracyElem = document.getElementById('cbt-res-accuracy');
-            const lvlElem = document.getElementById('cbt-res-final-lvl');
+            const totalTimeElem = document.getElementById('cbt-res-total-time');
 
             const accPct = Math.round((correctCount / Math.max(1, totalCount)) * 100);
+            const totalElapsedSec = Math.max(0, cbtMaxOverallTime - cbtOverallRemainingTime);
+            const elapsedMin = Math.floor(totalElapsedSec / 60);
+            const elapsedSec = Math.round(totalElapsedSec % 60);
 
             if (scoreElem) scoreElem.innerText = `${correctCount} / ${totalCount}`;
             if (accuracyElem) accuracyElem.innerText = `${accPct} %`;
-            if (lvlElem) lvlElem.innerText = `Lv.${cbtCurrentLevel}`;
+            if (totalTimeElem) totalTimeElem.innerText = `${elapsedMin}分${String(elapsedSec).padStart(2, '0')}秒`;
 
             // 認定レベルはフル模試モードのみ算出・表示する（ミニ/一斉は9問しかなく信頼性が低いため対象外）
             const certifiedBlock = document.getElementById('cbt-res-certified-block');
@@ -574,7 +576,7 @@
                 type: cbtModeType === 'sync' ? `一斉(${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニ' : 'フル'),
                 score: `${correctCount}/${totalCount}`,
                 accuracy: `${accPct}%`,
-                finalLevel: `Lv.${cbtCurrentLevel}`,
+                totalTime: `${elapsedMin}分${String(elapsedSec).padStart(2, '0')}秒`,
                 certifiedLevel: certifiedResult ? `Lv.${certifiedResult.level}` : null
             };
             globalHistory.unshift(record);
@@ -587,7 +589,10 @@
         function copyCBTResult() {
             const accPct = Math.round((correctCount / Math.max(1, totalCount)) * 100);
             const modeText = cbtModeType === 'sync' ? `一斉テスト (${cbtSyncDate})` : (cbtModeType === 'mini' ? 'ミニテスト' : 'フルテスト');
-            let text = `【SPI非言語 CBT模擬試験結果】\n形式: ${modeText}\n正解数: ${correctCount} / ${totalCount}\n正解率: ${accPct}%\n到達レベル: Lv.${cbtCurrentLevel}`;
+            const totalElapsedSec = Math.max(0, cbtMaxOverallTime - cbtOverallRemainingTime);
+            const copyElapsedMin = Math.floor(totalElapsedSec / 60);
+            const copyElapsedSec = Math.round(totalElapsedSec % 60);
+            let text = `【SPI非言語 CBT模擬試験結果】\n形式: ${modeText}\n正解数: ${correctCount} / ${totalCount}\n正解率: ${accPct}%\n全体の解答時間: ${copyElapsedMin}分${String(copyElapsedSec).padStart(2, '0')}秒`;
             if (cbtModeType === 'full') {
                 const cert = calcCertifiedLevel();
                 text += `\n認定レベル: Lv.${cert.level}（${cert.label}）`;
@@ -785,7 +790,8 @@
                         </div>
                         <div class="text-right">
                             <span class="font-bold text-white mr-2">${item.score}</span>
-                            <span class="text-emerald-400 font-bold">${item.accuracy}</span>
+                            <span class="text-emerald-400 font-bold mr-2">${item.accuracy}</span>
+                            <span class="text-purple-300 font-bold">${item.totalTime || ''}</span>
                         </div>
                     `;
                     container.appendChild(row);
