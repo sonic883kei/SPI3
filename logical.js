@@ -357,7 +357,7 @@ function buildLogicalQuestion(level) {
             { label: 'B', value: 'B', htmlText: `${rTrue}ならば、${pTrue}`, isCorrect: false },
             { label: 'C', value: 'C', htmlText: `${pFalse}ならば、${rFalse}`, isCorrect: false },
             { label: 'D', value: 'D', htmlText: `${qFalse}ならば、${rFalse}`, isCorrect: false },
-            { label: 'E', value: 'E', htmlText: 'どちらの結論も導けない', isCorrect: false }
+            { label: 'E', value: 'E', htmlText: 'いずれの結論も導けない', isCorrect: false }
         ];
 
         return {
