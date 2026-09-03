@@ -137,9 +137,11 @@ function generateQuestionByConfig(unit, level) {
         return genProfit3();
     } else {
         if (targetLvl === 1) {
-            return getRand() < 0.5 ? genProbability1() : genProbability2();
+            const fns = [genProbability1a, genProbability1b, genProbability1c, genProbability2a, genProbability2b, genProbability2c];
+            return fns[getRandomInt(0, fns.length - 1)]();
         } else if (targetLvl === 2) {
-            return getRand() < 0.5 ? genProbability3() : genProbability4();
+            const fns = [genProbability3a, genProbability3b, genProbability3c, genProbability4a, genProbability4b, genProbability4c];
+            return fns[getRandomInt(0, fns.length - 1)]();
         } else {
             return getRand() < 0.5 ? genProbability5() : genProbability6();
         }
