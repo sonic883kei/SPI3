@@ -375,49 +375,78 @@ function genProbability4c() {
 }
 
 // ============================================================
-// レベル3（無変更）
+// レベル3（2026-08改訂: 完全固定だったのを乱数化）
 // ============================================================
 
-        function genProbability5() {
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
-                text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ2（+2）、裏が来たら左へ1（-1）進む。コインを4回投げた。`,
-                prompt: '点Pが最終的に「+2」の位置にいる確率はいくらか。',
-                correctAnswer: 3, unitSuffix: '/8', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '5/16', isCorrect: false },
-                    { label: 'C', value: 3, htmlText: '3/8', isCorrect: true },
-                    { label: 'D', value: 4, htmlText: '7/16', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '1/2', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：表が出た回数を $x$ 回（裏は $4 - x$ 回）として、4回後の位置を表す式を立てる。<br><strong>位置 ＝ 2x - 1(4 - x) ＝ 3x - 4</strong>`,
-                    `ステップ2：位置が「+2」になる表の回数 $x$ を求める。<br><strong>3x - 4 ＝ 2  ⇒  3x ＝ 6  ⇒  x ＝ 2（表が2回、裏が2回）</strong>`,
-                    `ステップ3：反復試行の公式を用いて確率を計算する。<br>全事象：$2^4 ＝ 16通り$<br>表が2回出る出方：$_4C_2 ＝ 6通り$<br>確率は <strong>6 / 16 ＝ 3/8（正解はC）</strong>`
-                ]
-            };
-        }
+function genProbability5() {
+    // 反復試行と数直線上の動点：投げる回数・前進歩数・後退歩数をすべて可変にする
+    const n = getRandomInt(4, 6);       // コインを投げる回数
+    const f = getRandomInt(2, 4);       // 表が出たときに進む歩数
+    const b = getRandomInt(1, 3);       // 裏が出たときに戻る歩数
+    const x = getRandomInt(1, n - 1);   // 表が出た回数（0回・全部表は除外し、典型的な設問にする）
 
-        function genProbability6() {
-            return {
-                unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・条件付き確率（原因の探求）',
-                text: `ある製品を工場Aで 60%、工場Bで 40% 生産している。不良品の発生率は、工場Aが 2%、工場Bが 5% である。<br>出荷された製品の中からランダムに1個取り出したところ、不良品であった。`,
-                prompt: 'その不良品が「工場A」で生産されたものである確率はいくらか。',
-                correctAnswer: 3, unitSuffix: '/8', isFraction: true,
-                customChoices: [
-                    { label: 'A', value: 1, htmlText: '1/4', isCorrect: false },
-                    { label: 'B', value: 2, htmlText: '3/8', isCorrect: true },
-                    { label: 'C', value: 3, htmlText: '2/5', isCorrect: false },
-                    { label: 'D', value: 4, htmlText: '5/8', isCorrect: false },
-                    { label: 'E', value: 5, htmlText: '3/5', isCorrect: false },
-                    { label: 'F', value: 6, htmlText: 'いずれでもない', isCorrect: false }
-                ],
-                steps: [
-                    `ステップ1：全体の中から「Aの不良品」と「Bの不良品」が発生する割合をそれぞれ計算する。<br>Aの不良品：<strong>0.60 × 0.02 ＝ 0.012（1.2%）</strong><br>Bの不良品：<strong>0.40 × 0.05 ＝ 0.020（2.0%）</strong>`,
-                    `ステップ2：取り出した製品が不良品である全体割合（分母）を求める。<br><strong>0.012 ＋ 0.020 ＝ 0.032（3.2%）</strong>`,
-                    `ステップ3：条件付き確率の公式（Aの不良品 ÷ 全体の不良品）を計算する。<br><strong>0.012 / 0.032 ＝ 12 / 32 ＝ 3/8（正解はB）</strong>`
-                ]
-            };
-        }
+    const target = f * x - b * (n - x);
+    const ways = nCrProb(n, x);
+    const totalWays = Math.pow(2, n);
+    const [num, den] = reduceFractionProb(ways, totalWays);
+
+    // 誤答パターン：表裏を取り違える／2^nの指数を間違える／組み合わせ数を1つずらす
+    const wrongX = n - x;
+    const rawCandidates = [
+        [nCrProb(n, wrongX), totalWays],
+        [ways, Math.pow(2, n - 1)],
+        [ways + 1, totalWays],
+        [ways > 1 ? ways - 1 : ways + 2, totalWays]
+    ];
+    const customChoices = buildFractionChoicesProb(num, den, rawCandidates);
+    const targetLabel = target >= 0 ? `+${target}` : `${target}`;
+
+    return {
+        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・反復試行と数直線上の動点',
+        text: `数直線上の原点（0）に点Pがある。コインを1回投げて表が出たら右へ${f}（+${f}）、裏が出たら左へ${b}（-${b}）進む。コインを${n}回投げた。`,
+        prompt: `点Pが最終的に「${targetLabel}」の位置にいる確率はいくらか。`,
+        customChoices,
+        steps: [
+            `ステップ1：表が出た回数を x 回（裏は ${n} - x 回）として、${n}回後の位置を表す式を立てる。<br><strong>位置 ＝ ${f}x - ${b}(${n} - x) ＝ ${f + b}x - ${b * n}</strong>`,
+            `ステップ2：位置が「${targetLabel}」になる表の回数 x を求める。<br><strong>${f + b}x - ${b * n} ＝ ${target}  ⇒  x ＝ ${x}（表が${x}回、裏が${n - x}回）</strong>`,
+            `ステップ3：反復試行の公式を用いて確率を計算する。<br>全事象：<strong>2^${n} ＝ ${totalWays}通り</strong><br>表が${x}回出る出方：<strong>${n}C${x} ＝ ${ways}通り</strong><br>確率は <strong>${ways} / ${totalWays} ＝ ${num}/${den}</strong>`
+        ]
+    };
+}
+
+function genProbability6() {
+    // 条件付き確率（原因の探求）：各工場の生産割合・不良品発生率をすべて可変にする
+    const pAOptions = [30, 40, 50, 60, 70, 80];
+    const pA = pAOptions[getRandomInt(0, pAOptions.length - 1)];
+    const pB = 100 - pA;
+    const rA = getRandomInt(1, 8);
+    let rB = getRandomInt(1, 8);
+    while (rB === rA) rB = getRandomInt(1, 8); // 2工場の不良率を異なる値にして問題として自然にする
+
+    // 実際の確率は pA/100×rA/100 だが、比を取る際に /10000 は約分で消えるため、
+    // pA×rA の「比例値」だけで正確に計算できる（浮動小数点誤差も避けられる）。
+    const partA = pA * rA;
+    const partB = pB * rB;
+    const totalDefect = partA + partB;
+    const [num, den] = reduceFractionProb(partA, totalDefect);
+
+    const rawCandidates = [
+        [partB, totalDefect],       // 誤り: 工場Bの確率を答えてしまう
+        [pA, 100],                  // 誤り: 不良率を無視して生産割合だけ答えてしまう
+        [rA, rA + rB],               // 誤り: 生産割合を無視して不良率だけの比で計算してしまう
+        [partA, totalDefect + partB] // 誤り: 分母の計算を誤る
+    ];
+    const customChoices = buildFractionChoicesProb(num, den, rawCandidates);
+
+    return {
+        unit: '場合の数・確率', level: 3, badge: 'Lv.3 高難度', title: '確率・条件付き確率（原因の探求）',
+        text: `ある製品を工場Aで ${pA}%、工場Bで ${pB}% 生産している。不良品の発生率は、工場Aが ${rA}%、工場Bが ${rB}% である。<br>出荷された製品の中からランダムに1個取り出したところ、不良品であった。`,
+        prompt: 'その不良品が「工場A」で生産されたものである確率はいくらか。',
+        customChoices,
+        steps: [
+            `ステップ1：全体の中から「Aの不良品」と「Bの不良品」が発生する比率をそれぞれ計算する（生産割合×不良率）。<br>Aの不良品の比率：<strong>${pA} × ${rA} ＝ ${partA}</strong><br>Bの不良品の比率：<strong>${pB} × ${rB} ＝ ${partB}</strong>`,
+            `ステップ2：取り出した製品が不良品である全体の比率（分母）を求める。<br><strong>${partA} + ${partB} ＝ ${totalDefect}</strong>`,
+            `ステップ3：条件付き確率の公式（Aの不良品 ÷ 全体の不良品）を計算する。<br><strong>${partA} / ${totalDefect} ＝ ${num}/${den}</strong>`
+        ]
+    };
+}
