@@ -245,7 +245,7 @@ function genTimetable3() {
     return {
         unit: '速さ(時刻表)', level: 3, badge: 'Lv.3 高難度', title: '全区間の平均速度（停車時間を含む）',
         text: `P地点を出発し、Q地点・R地点を経由して、同じ道を通って再びP地点に戻った。その間、Q地点とR地点ではそれぞれ一定時間停車している。その時の時刻は次の通りであった。PQ間の距離は${t.distPQ}km、QR間の距離は${t.distQR}kmであった。${tableHtml}`,
-        prompt: 'P地点を出発してから再びP地点に戻るまでの、停車時間も含めた全区間の平均時速はいくらか。',
+        prompt: 'P地点を出発してから再びP地点に戻るまでの、全区間の平均時速はいくらか。',
         customChoices: appendNoneChoiceFixed(choices, isFCorrect),
         steps: [
             `ステップ1：移動した総距離を求める（P→Q→R→Q→Pの合計）。<br><strong>(${t.distPQ} + ${t.distQR}) × 2 = ${totalDistance}km</strong>`,
