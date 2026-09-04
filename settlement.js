@@ -72,6 +72,7 @@ function genSettlement1() {
 
 /**
 * Lv.2（応用）：負担額が等しくない割り勘（割合を可変生成）
+*/
 function genSettlement2() {
     const isVar2 = getRand() < 0.5;
 
