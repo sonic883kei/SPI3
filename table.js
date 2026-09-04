@@ -130,7 +130,7 @@
                     unit: '表の読み取り', level: 3,
                     badge: 'Lv.3 高難度', title: '複数区間の合成割合計算',
                     text: `下の表はある学年のテストの得点を男女別に整理したものであり、男子生徒は ${maleTotal}名、女子生徒は ${femaleTotal}名 である。<br>${tableHtml}`,
-                    prompt: '51点以上（76点以上＋51〜75点）の生徒全員を合わせた人数は学年全体の何%か。（小数点以下第2位を四捨五入）',
+                    prompt: '51点以上の生徒全員を合わせた人数は学年全体の何%か。（小数点以下第2位を四捨五入）',
                     customChoices: choices,
                     steps: [
                         `ステップ1：男子・女子それぞれの「51点以上」の割合を合算します。<br>・男子：${maleDist[0]}% + ${maleDist[1]}% = <strong>${maleDist[0]+maleDist[1]}%</strong><br>・女子：${femaleDist[0]}% + ${femaleDist[1]}% = <strong>${femaleDist[0]+femaleDist[1]}%</strong>`,
