@@ -71,60 +71,75 @@ function genSettlement1() {
 }
 
 /**
- * Lv.2（応用）：負担額が等しくない割り勘（不均等割り勘）
- */
+* Lv.2（応用）：負担額が等しくない割り勘（割合を可変生成）
 function genSettlement2() {
     const isVar2 = getRand() < 0.5;
 
     if (!isVar2) {
-        // バリエーションA：例題3形式（主催者Pが半額負担、残り2人で均等負担）
-        const paidP = getRandomInt(80, 120) * 100;
-        const paidQ = getRandomInt(20, 40) * 100;
-        const paidR = getRandomInt(15, 30) * 100;
-        const total = paidP + paidQ + paidR;
+        // バリエーションA：Pの負担率（50%以外）を指定し、残りをQとRで折半
+        // Pの負担率候補: 20%, 30%, 40%, 60%（50%を除外し、残りが2で割り切れる偶数%に限定）
+        const pctCandidates = [20, 30, 40, 60];
+        const pctP = pctCandidates[getRandomInt(0, pctCandidates.length - 1)];
+        const pctQR = (100 - pctP) / 2; // QとR各自の負担率
 
-        const costP = total / 2;
-        const costQR = (total - costP) / 2;
+        const total = getRandomInt(8, 20) * 1000; // 総額 (8,000円〜20,000円)
+        
+        // P, Q, R の立替額（合計がtotalになるように生成）
+        const paidP = Math.round(total * (getRandomInt(50, 70) / 100) / 100) * 100;
+        const remaining = total - paidP;
+        const paidQ = Math.round(remaining * (getRandomInt(40, 60) / 100) / 100) * 100;
+        const paidR = total - paidP - paidQ;
+
+        // 本来の負担額（100円単位で割り切れる）
+        const costP = (total * pctP) / 100;
+        const costR = (total * pctQR) / 100;
+
+        // Pの払い過ぎ額（受給額）、またはRの不足額
         const pReceive = paidP - costP;
 
         return {
-            unit: '代金清算', level: 2, badge: 'Lv.2 応用', title: '負担額が等しくない清算（半額負担）',
+            unit: '代金清算', level: 2, badge: 'Lv.2 応用', title: '負担額が等しくない清算（割合指定）',
             text: `P, Q, Rの3人で遊園地に行った。パスポート代としてPが ${paidP.toLocaleString()}円、電車賃としてQが ${paidQ.toLocaleString()}円、レストラン代としてRが ${paidR.toLocaleString()}円 支払った。<br>` +
-                  `本日はPが誘ったのでPが全体の半額を負担し、残りをQとRで均等に支払うこととした。`,
+                  `本日はPが誘ったのでPが全体の ${pctP}％ を負担し、残りをQとRで均等に支払うこととした。`,
             prompt: 'RがPに支払う金額はいくらか。',
             correctAnswer: pReceive,
             unitSuffix: '円',
-            step: 50,
+            step: 100,
             steps: [
                 `ステップ1：全額の合計を求める。<br><strong>${paidP.toLocaleString()} + ${paidQ.toLocaleString()} + ${paidR.toLocaleString()} = ${total.toLocaleString()}円</strong>`,
                 `ステップ2：各自の本来負担額を求める。<br>` +
-                `・Pの負担額：${total.toLocaleString()} ÷ 2 = <strong>${costP.toLocaleString()}円</strong><br>` +
-                `・Q, Rの負担額：(${total.toLocaleString()} - ${costP.toLocaleString()}) ÷ 2 = <strong>${costQR.toLocaleString()}円</strong>`,
-                `ステップ3：Pの支払い超過額（受給額）を求める。<br>Pは ${paidP.toLocaleString()}円 支払っているので、<strong>${paidP.toLocaleString()} - ${costP.toLocaleString()} = ${pReceive.toLocaleString()}円</strong> 払い過ぎている。<br>` +
+                `・Pの負担額：${total.toLocaleString()}円 × ${pctP}％ = <strong>${costP.toLocaleString()}円</strong><br>` +
+                `・Q, Rの負担額：(${total.toLocaleString()}円 - ${costP.toLocaleString()}円) ÷ 2 = <strong>${costR.toLocaleString()}円</strong> (各${pctQR}％)`,
+                `ステップ3：Pの支払い超過額（受給額）を求める。<br>Pは ${paidP.toLocaleString()}円 支払っているので、<strong>${paidP.toLocaleString()}円 - ${costP.toLocaleString()}円 = ${pReceive.toLocaleString()}円</strong> 払い過ぎている。<br>` +
                 `したがって、RからPへ支払う金額は <strong>${pReceive.toLocaleString()}円</strong> となる。`
             ]
         };
     } else {
-        // バリエーションB：比率指定の傾斜割り勘（割合指定）
-        const perShare = getRandomInt(10, 20) * 100;
-        const total = perShare * 10;
-        const paidP = Math.round(total * 0.6);
-        const paidQ = Math.round(total * 0.3);
+        // バリエーションB：P, Q, R各自の負担割合を個別に明示
+        const pctCandidates = [20, 30, 40, 60];
+        const pctP = pctCandidates[getRandomInt(0, pctCandidates.length - 1)];
+        const pctQR = (100 - pctP) / 2;
+
+        const total = getRandomInt(10, 25) * 1000;
+        
+        // Pが多めに立替え
+        const paidP = Math.round(total * 0.6 / 100) * 100;
+        const paidQ = Math.round(total * 0.25 / 100) * 100;
         const paidR = total - paidP - paidQ;
 
-        const costR = total * 0.3;
-        const rDiff = costR - paidR;
+        const costR = (total * pctQR) / 100;
+        const rDiff = costR - paidR; // Rの不足額
 
         return {
             unit: '代金清算', level: 2, badge: 'Lv.2 応用', title: '負担額が等しくない清算（割合指定）',
             text: `P, Q, Rの3人で旅行に行き、費用総額は ${total.toLocaleString()}円 であった。立替額はPが ${paidP.toLocaleString()}円、Qが ${paidQ.toLocaleString()}円、Rが ${paidR.toLocaleString()}円 であった。<br>` +
-                  `費用はPが全体の 40％、QとRがそれぞれ 30％ ずつ負担することとした。`,
+                  `費用はPが全体の ${pctP}％、QとRがそれぞれ ${pctQR}％ ずつ負担することとした。`,
             prompt: 'Rの精算に必要な支払額（不足額）はいくらか。',
             correctAnswer: rDiff,
             unitSuffix: '円',
             step: 100,
             steps: [
-                `ステップ1：Rの本来負担すべき額を計算する。<br><strong>${total.toLocaleString()}円 × 30％ = ${costR.toLocaleString()}円</strong>`,
+                `ステップ1：Rの本来負担すべき額を計算する。<br><strong>${total.toLocaleString()}円 × ${pctQR}％ = ${costR.toLocaleString()}円</strong>`,
                 `ステップ2：Rの実際の立替額との差額を計算する。<br><strong>${costR.toLocaleString()}円 - ${paidR.toLocaleString()}円 = ${rDiff.toLocaleString()}円</strong>`
             ]
         };
